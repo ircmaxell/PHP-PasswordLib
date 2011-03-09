@@ -17,7 +17,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Random\Strength\Medium as MediumStrength;
+use CryptLib\Strength\Medium as MediumStrength;
 
 /**
  * The Capicom Random Number Source

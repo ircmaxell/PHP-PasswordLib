@@ -18,7 +18,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Random\Strength\Low as LowStrength;
+use CryptLib\Strength\Low as LowStrength;
 
 /**
  * The UniqID Random Number Source

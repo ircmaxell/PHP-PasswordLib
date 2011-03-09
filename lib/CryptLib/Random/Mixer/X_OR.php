@@ -20,7 +20,7 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Random\Strength\Low as LowStrength;
+use \CryptLib\Strength\Low as LowStrength;
 
 /**
  * The XOR low strength mixer class

@@ -1,9 +1,8 @@
 <?php
 /**
- * The Low Strength representitive class
+ * The Very Low Strength representitive class
  *
- * Low is used to describe boarderline cryptographic strengths.  It is useful
- * for generating salts.
+ * This class is used to describe non-cryptographic strengths.
  *
  * PHP version 5.3
  *
@@ -19,20 +18,19 @@ namespace CryptLib\Strength;
 
 
 /**
- * The Low Strength representitive class
+ * The Very Low Strength representitive class
  *
- * Low is used to describe boarderline cryptographic strengths.  It is useful
- * for generating salts.
+ * This class is used to describe non-cryptographic strengths.
  *
  * @category   PHPCryptLib
  * @package    Strength
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Low extends \CryptLib\Strength {
+class VeryLow extends \CryptLib\Strength {
 
     /**
      * @var int The current value of the instance
      */
-    protected $value = 3;
+    protected $value = 1;
 
 }

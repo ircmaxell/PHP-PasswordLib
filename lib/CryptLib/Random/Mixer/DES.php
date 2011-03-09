@@ -19,9 +19,8 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Encryption\Factory   as EncryptionFactory;
-use \CryptLib\Key\Symmetric\Raw    as RawKey;
-use \CryptLib\Random\Strength\High as HighStrength;
+use \CryptLib\Cipher\Factory as CipherFactory;
+use \CryptLib\Strength\High  as HighStrength;
 
 /**
  * The DES high strength mixer class
@@ -38,9 +37,11 @@ use \CryptLib\Random\Strength\High as HighStrength;
 class DES implements \Cryptography\Random\Mixer {
 
     /**
-     * An instance of a DES symmetric encryption class
+     * An instance of a DES symmetric encryption cipher
+     *
+     * @var Cipher The DES cipher instance
      */
-    protected $encryption = null;
+    protected $cipher = null;
 
     /**
      * Return an instance of Strength indicating the strength of the source
@@ -67,11 +68,11 @@ class DES implements \Cryptography\Random\Mixer {
      *
      * @return void
      */
-    public function __construct(\CryptLib\Encryption\Factory $factory = null) {
+    public function __construct(\CryptLib\Cipher\Factory $factory = null) {
         if (is_null($factory)) {
-            $factory = new EncryptionFactory();
+            $factory = new CipherFactory();
         }
-        $this->encryption = $factory->getSymmetric('des', 'ecb');
+        $this->cipher = $factory->getCipher('des');
     }
 
     /**
@@ -86,7 +87,7 @@ class DES implements \Cryptography\Random\Mixer {
     public function mix(array $parts) {
         if (empty($parts)) return '';
         $len = strlen($parts[0]);
-        $blockSize = $this->encryption->getCipher()->getBlockSize();
+        $blockSize = $this->cipher->getBlockSize();
         foreach ($parts as &$part) {
             $part = str_split($part, $blockSize - 1);
         }
@@ -98,12 +99,12 @@ class DES implements \Cryptography\Random\Mixer {
         for ($i = 0; $i < $stringSize; $i++) {
             $stub = $parts[$offset][$i];
             for ($j = 1; $j < $partsSize; $j++) {
-                $newKey = new RawKey($parts[($j + $offset) % $partsSize][$i]);
+                $newKey = $parts[($j + $offset) % $partsSize][$i];
                 //Alternately encrypt and decrypt the output for each source
                 if ($i % 2 == 1) {
-                    $stub ^= $this->encryption->encrypt($stub, $newKey);
+                    $stub ^= $this->cipher->encryptBlock($stub, $newKey);
                 } else {
-                    $stub ^= $this->encryption->decrypt($stub, $newKey);
+                    $stub ^= $this->cipher->encryptBlock($stub, $newKey);
                 }
             }
             $hash .= $stub;

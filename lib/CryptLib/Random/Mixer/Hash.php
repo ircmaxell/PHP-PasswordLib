@@ -19,9 +19,9 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Hash\Factory           as HashFactory;
-use \CryptLib\Key\Symmetric\Raw      as RawKey;
-use \CryptLib\Random\Strength\Medium as MediumStrength;
+use \CryptLib\Hash\Factory      as HashFactory;
+use \CryptLib\Key\Symmetric\Raw as RawKey;
+use \CryptLib\Strength\Medium   as MediumStrength;
 
 /**
  * The Hash medium strength mixer class

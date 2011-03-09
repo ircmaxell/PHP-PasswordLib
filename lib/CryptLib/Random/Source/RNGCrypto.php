@@ -17,7 +17,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Random\Strength\High as HighStrength;
+use CryptLib\Strength\High as HighStrength;
 
 /**
  * The RNGCrypto Random Number Source

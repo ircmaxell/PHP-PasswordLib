@@ -19,7 +19,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Random\Strength\Low as LowStrength;
+use CryptLib\Strength\Low as LowStrength;
 
 /**
  * The MTRand Random Number Source
