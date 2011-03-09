@@ -86,18 +86,19 @@ class DES implements \Cryptography\Random\Mixer {
     public function mix(array $parts) {
         if (empty($parts)) return '';
         $len = strlen($parts[0]);
+        $blockSize = $this->encryption->getCipher()->getBlockSize();
         foreach ($parts as &$part) {
-            $part = str_split($part, 7);
+            $part = str_split($part, $blockSize - 1);
         }
-        $c = count($part);
-        $d = count($parts);
+        $stringSize = count($part);
+        $partsSize = count($parts);
         unset($part);
         $hash = '';
         $offset = 0;
-        for ($i = 0; $i < $c; $i++) {
+        for ($i = 0; $i < $stringSize; $i++) {
             $stub = $parts[$offset][$i];
-            for ($j = 1; $j < $d; $j++) {
-                $newKey = new RawKey($parts[($j + $offset) % $d][$i]);
+            for ($j = 1; $j < $partsSize; $j++) {
+                $newKey = new RawKey($parts[($j + $offset) % $partsSize][$i]);
                 //Alternately encrypt and decrypt the output for each source
                 if ($i % 2 == 1) {
                     $stub ^= $this->encryption->encrypt($stub, $newKey);
@@ -106,7 +107,7 @@ class DES implements \Cryptography\Random\Mixer {
                 }
             }
             $hash .= $stub;
-            $offset = $offset + 1 % $d;
+            $offset = $offset + 1 % $partsSize;
         }
         return substr($hash, 0, $len);
     }
