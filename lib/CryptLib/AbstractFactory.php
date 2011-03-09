@@ -56,8 +56,7 @@ abstract class AbstractFactory {
             $class = new $class;
         }
 
-        // Dirty hack since PHP doesn't support $this->$type[] = $name
-        $this->$type += array($name => $class);
+        $this->{$type}[$name] = $class;
     }
 
     /**
@@ -70,8 +69,7 @@ abstract class AbstractFactory {
      * @return void
      */
     protected function loadFiles($directory, $namespace, $method) {
-        $it = new \DirectoryIterator($directory);
-        foreach ($it as $file) {
+        foreach (new \DirectoryIterator($directory) as $file) {
             $filename = $file->getBasename();
             if ($file->isFile() && preg_match('/\.php$/', $filename)) {
                 $name = strtolower(substr($filename, 0, -4));
