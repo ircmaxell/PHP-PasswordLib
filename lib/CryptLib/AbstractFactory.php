@@ -72,8 +72,8 @@ abstract class AbstractFactory {
         foreach (new \DirectoryIterator($directory) as $file) {
             $filename = $file->getBasename();
             if ($file->isFile() && preg_match('/\.php$/', $filename)) {
-                $name = strtolower(substr($filename, 0, -4));
-                $class = $namespace . ucfirst($name);
+                $name = substr($filename, 0, -4);
+                $class = $namespace . $name;
                 $this->$method($name, $class);
             }
         }
