@@ -26,14 +26,14 @@ namespace CryptLib;
  * @return void
  */
 spl_autoload_register(function ($class) {
-    if (substr($class, 0, 8) != __NAMESPACE__) {
+    if (substr($class, 0, strlen(__NAMESPACE__)) != __NAMESPACE__) {
         //Only autoload libraries from this package
         return;
     }
     $path = substr(str_replace('\\', '/', $class), 8);
     $path = __DIR__ . $path . '.php';
     if (file_exists($path)) {
-        require_once $path;
+        require $path;
     }
 });
 
