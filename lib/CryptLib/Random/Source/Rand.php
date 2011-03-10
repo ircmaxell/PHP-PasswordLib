@@ -19,7 +19,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Strength\VeryLow as VeryLowStrength;
+use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
 
 /**
  * The Rand Random Number Source

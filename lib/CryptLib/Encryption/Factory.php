@@ -25,7 +25,7 @@ use CryptLib\Cipher\Factory as CipherFactory;
  * @package    Encryption
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Factory extends \CryptLib\AbstractFactory {
+class Factory extends \CryptLib\Core\AbstractFactory {
 
     /**
      * @var Factory The Cipher Factory to use for this instance

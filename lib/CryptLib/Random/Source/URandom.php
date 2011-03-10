@@ -17,7 +17,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Strength\Medium as MediumStrength;
+use CryptLib\Core\Strength\Medium as MediumStrength;
 
 /**
  * The URandom Random Number Source

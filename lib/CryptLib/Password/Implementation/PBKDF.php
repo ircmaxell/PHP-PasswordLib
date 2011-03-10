@@ -59,7 +59,7 @@ class Password implements \CryptLib\Password\Password {
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash) {
-        return substr($hash, 0, 7) == '$pbkdf$';
+        return strncmp($hash, '$pbkdf$', 7) === 0;
     }
 
     /**

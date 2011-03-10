@@ -35,7 +35,7 @@ use CryptLib\Cipher\Block\Implementation\MCrypt;
  * @package   Cipher
  * @author    Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Factory extends \CryptLib\AbstractFactory {
+class Factory extends \CryptLib\Core\AbstractFactory {
 
     /**
      * @var array A list of available cipher implementations by name of cipher

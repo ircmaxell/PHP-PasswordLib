@@ -19,8 +19,8 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Cipher\Factory as CipherFactory;
-use \CryptLib\Strength\High  as HighStrength;
+use \CryptLib\Cipher\Factory     as CipherFactory;
+use \CryptLib\Core\Strength\High as HighStrength;
 
 /**
  * The DES high strength mixer class

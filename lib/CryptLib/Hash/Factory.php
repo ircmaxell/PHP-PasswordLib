@@ -27,7 +27,7 @@ namespace CryptLib\Hash;
  * @package    Hash
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Factory extends \CryptLib\AbstractFactory  {
+class Factory extends \CryptLib\Core\AbstractFactory  {
 
     /**
      * @var array The loaded and supported hash algorithms

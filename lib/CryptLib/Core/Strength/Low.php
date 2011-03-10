@@ -8,7 +8,8 @@
  * PHP version 5.3
  *
  * @category   PHPCryptLib
- * @package    Strength
+ * @package    Core
+ * @subpackage Strength
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
@@ -25,10 +26,11 @@ namespace CryptLib\Strength;
  * for generating salts.
  *
  * @category   PHPCryptLib
- * @package    Strength
+ * @package    Core
+ * @subpackage Strength
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Low extends \CryptLib\Strength {
+class Low extends \CryptLib\Core\Strength {
 
     /**
      * @var int The current value of the instance

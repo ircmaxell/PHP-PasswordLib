@@ -16,9 +16,9 @@
 
 namespace CryptLib\Random;
 
-use CryptLib\Strength\High   as HighStrength;
-use CryptLib\Strength\Low    as LowStrength;
-use CryptLib\Strength\Medium as MediumStrength;
+use CryptLib\Core\Strength\High   as HighStrength;
+use CryptLib\Core\Strength\Low    as LowStrength;
+use CryptLib\Core\Strength\Medium as MediumStrength;
 
 /**
  * The Random Factory
@@ -29,7 +29,7 @@ use CryptLib\Strength\Medium as MediumStrength;
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Factory extends \Cryptography\AbstractFactory {
+class Factory extends \Cryptography\Core\AbstractFactory {
 
     /**
      * @var array A list of available random number mixing strategies
@@ -59,7 +59,7 @@ class Factory extends \Cryptography\AbstractFactory {
      * @return Generator The instantiated generator
      * @throws RuntimeException If an appropriate mixing strategy isn't found
      */
-    protected function getGenerator(\CryptLib\Strength $strength) {
+    protected function getGenerator(\CryptLib\Core\Strength $strength) {
         $sources = $this->getSources();
         $newSources = array();
         foreach ($sources as $key => $source) {

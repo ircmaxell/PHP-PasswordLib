@@ -11,7 +11,7 @@ namespace CryptLib\Key;
  *
  * @author ircmaxell
  */
-class Factory extends \CryptLib\AbstractFactory {
+class Factory extends \CryptLib\Core\AbstractFactory {
 
     protected $kdf = array();
     protected $pbkdf = array();

@@ -7,14 +7,15 @@
  * PHP version 5.3
  *
  * @category   PHPCryptLib
- * @package    Strength
+ * @package    Core
+ * @subpackage Strength
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLib\Strength;
+namespace CryptLib\Core\Strength;
 
 
 /**
@@ -23,10 +24,11 @@ namespace CryptLib\Strength;
  * This class is used to describe non-cryptographic strengths.
  *
  * @category   PHPCryptLib
- * @package    Strength
+ * @package    Core
+ * @subpackage Strength
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class VeryLow extends \CryptLib\Strength {
+class VeryLow extends \CryptLib\Core\Strength {
 
     /**
      * @var int The current value of the instance

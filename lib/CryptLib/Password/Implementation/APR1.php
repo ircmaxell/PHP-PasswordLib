@@ -59,7 +59,7 @@ class APR1 implements \CryptLib\Password\Password {
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash) {
-        return substr($hash, 0, 6) == '$apr1$';
+        return strncmp($hash, '$apr1$', 6) === 0;
     }
 
     /**

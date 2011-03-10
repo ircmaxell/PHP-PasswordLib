@@ -12,7 +12,7 @@
  * @license   http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLib;
+namespace CryptLib\Core;
 
 /**
  * The base abstract factory used by all CryptLib factories
