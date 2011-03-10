@@ -5,7 +5,7 @@
  * PHP version 5.3
  *
  * @category  PHPCryptLib
- * @package   CryptLib
+ * @package   Core
  * @author    Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright 2011 The Authors
  * @license   http://opensource.org/licenses/bsd-license.php New BSD License
@@ -18,7 +18,7 @@ namespace CryptLib;
  * The base abstract factory used by all CryptLib factories
  *
  * @category PHPCryptLib
- * @package  CryptLib
+ * @package  Core
  * @author   Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
 abstract class AbstractFactory {
