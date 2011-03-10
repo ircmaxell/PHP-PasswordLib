@@ -1,15 +1,14 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * An implementation of the RFC 18033-2 KDF3 function
+ *
  */
 
 namespace CryptLib\Key\Derivation\KDF;
 
 /**
- * Description of pbkdf2
+ * An implementation of the RFC 18033-2 KDF3 function
  *
- * @author ircmaxell
  */
 class KDF3
     extends \CryptLib\Key\Derivation\AbstractDerivation

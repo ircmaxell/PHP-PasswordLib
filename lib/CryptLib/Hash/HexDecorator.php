@@ -23,6 +23,9 @@ namespace CryptLib\Hash;
  */
 class HexDecorator extends AbstractHash {
 
+    /**
+     * @var Hash The hash object to decorate
+     */
     protected $hash = null;
 
     /**

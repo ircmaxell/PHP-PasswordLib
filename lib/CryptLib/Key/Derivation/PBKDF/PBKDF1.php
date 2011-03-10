@@ -1,9 +1,10 @@
 <?php
 /**
- * An implementation of the PBKDF1 Standard key derivation function
+ * An implementation of the RFC 2898 PBKDF1 Standard key derivation function
  *
  * PHP version 5.3
  *
+ * @see        http://www.ietf.org/rfc/rfc2898.txt
  * @category   PHPCryptLib
  * @package    Key
  * @subpackage Derivation
@@ -16,8 +17,9 @@
 namespace CryptLib\Key\Derivation\PBKDF;
 
 /**
- * An implementation of the PBKDF1 Standard key derivation function
+ * An implementation of the RFC 2989 PBKDF1 Standard key derivation function
  *
+ * @see        http://www.ietf.org/rfc/rfc2898.txt
  * @category   PHPCryptLib
  * @package    Key
  * @subpackage Derivation
