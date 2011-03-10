@@ -20,6 +20,7 @@
 namespace CryptLib\Random\Source;
 
 use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
+use CryptLib\Core\Strength\Low     as LowStrength;
 
 /**
  * The Rand Random Number Source
@@ -41,7 +42,12 @@ class Rand implements \CryptLib\Random\Source {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new VeryLowStrength();
+        // Detect if Suhosin Hardened PHP patch is applied
+        if (defined('S_SQL')) {
+            return new LowStrength();
+        } else {
+            return new VeryLowStrength();
+        }
     }
 
     /**

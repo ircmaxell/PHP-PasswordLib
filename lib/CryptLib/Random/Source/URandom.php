@@ -48,7 +48,8 @@ class URandom implements \CryptLib\Random\Source {
      * @return string A string of the requested size
      */
     public function generate($size) {
-        if (!file_exists('/dev/urandom')) {
+        if (!file_exists('/dev/urandom') || defined('S_SQL')) {
+            //This source is over-used by Suhosin patch, don't use if installed
             return str_repeat(chr(0), $size);
         }
         $f = fopen('/dev/urandom', 'r');
