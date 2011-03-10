@@ -43,7 +43,7 @@ class MTRand implements \CryptLib\Random\Source {
      */
     public static function getStrength() {
         // Detect if Suhosin Hardened PHP patch is applied
-        if (defined('S_SQL')) {
+        if (defined('S_ALL')) {
             return new MediumStrength();
         } else {
             return new LowStrength();
