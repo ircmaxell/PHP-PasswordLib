@@ -17,7 +17,7 @@ class Schneier
 {
 
     public function derive($password, $salt, $iterations, $length) {
-        $size = $this->hash->getSize(true);
+        $size = $this->hash->getSize();
         if ($length > $size) {
             throw new \InvalidArgumentException('Length is too long for hash');
         }

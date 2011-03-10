@@ -22,7 +22,7 @@ class KDF3
     );
 
     public function derive($secret, $length, $other = '') {
-        $size = $this->hash->getSize(true);
+        $size = $this->hash->getSize();
         $l = ceil($length / $size);
         $t = '';
         $stub = str_repeat(chr(0), max($this->options['pAmt'], 0));

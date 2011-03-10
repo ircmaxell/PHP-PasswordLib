@@ -39,23 +39,20 @@ class MD5 extends \Cryptography\Hash\AbstractHash {
      * Evaluate the hash on the given input
      *
      * @param string  $data   The data to hash
-     * @param boolean $binary Should the result be binary or a hex string
      *
      * @return string The hashed data
      */
-    public function evaluate($data, $binary = false) {
-        return \md5($data, $binary);
+    public function evaluate($data) {
+        return \md5($data, true);
     }
 
     /**
      * Get the size of the hashed data
      *
-     * @param boolean $binary Should the result be for a binary or a hex string
-     *
      * @return int The size of the hashed string
      */
-    public function getSize($binary = false) {
-        return $binary ? 16 : 32;
+    public function getSize() {
+        return 16;
     }
 
 }

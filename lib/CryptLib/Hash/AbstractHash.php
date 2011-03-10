@@ -61,8 +61,8 @@ abstract class AbstractHash implements Hash {
      * @return string The hashed value
      */
     public function __invoke(array $args) {
-        $args = $args + array('', false);
-        return $this->evaluate($args[0], $args[1]);
+        $args = $args + array('');
+        return $this->evaluate($args[0]);
     }
 
     /**
@@ -86,12 +86,10 @@ abstract class AbstractHash implements Hash {
     /**
      * Get the size of the hashed data
      *
-     * @param boolean $binary Should the result be for a binary or a hex string
-     *
      * @return int The size of the hashed string
      */
-    public function getSize($binary = false) {
-        return strlen($this->evaluate('empty', $binary));
+    public function getSize() {
+        return strlen($this->evaluate('empty'));
     }
 
     /**
@@ -99,22 +97,21 @@ abstract class AbstractHash implements Hash {
      *
      * @param string  $data   The data to hash
      * @param string  $key    The key to hmac against
-     * @param boolean $binary Should the result be binary or a hex string
      *
      * @return string The hmac'ed data
      */
-    public function hmac($data, $key, $binary = false) {
+    public function hmac($data, $key) {
         $blockSize = $this->getBlockSize();
         if (strlen($key) > $blockSize) {
-            $key = $this->evaluate($key, true);
+            $key = $this->evaluate($key);
         }
         if (strlen($key) < $blockSize) {
             $key = str_pad($key, $blockSize, chr(0));
         }
         $okey = str_repeat(chr(0x5c), $blockSize) ^ $key;
         $ikey = str_repeat(chr(0x36), $blockSize) ^ $key;
-        $sub = $this->evaluate($ikey . $data, true);
-        return $this->evaluate($okey . $sub, $binary);
+        $sub = $this->evaluate($ikey . $data);
+        return $this->evaluate($okey . $sub);
     }
 
 }

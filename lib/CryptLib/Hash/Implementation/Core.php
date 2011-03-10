@@ -42,12 +42,11 @@ class Core extends \Cryptlib\Hash\AbstractHash {
      * Evaluate the hash on the given input
      *
      * @param string  $data   The data to hash
-     * @param boolean $binary Should the result be binary or a hex string
      *
      * @return string The hashed data
      */
-    public function evaluate($data, $binary = false) {
-        return \hash($this->algo, $data, $binary);
+    public function evaluate($data) {
+        return \hash($this->algo, $data, true);
     }
 
     /**
@@ -55,12 +54,11 @@ class Core extends \Cryptlib\Hash\AbstractHash {
      *
      * @param string  $data   The data to hash
      * @param string  $key    The key to hmac against
-     * @param boolean $binary Should the result be binary or a hex string
      *
      * @return string The hmac'ed data
      */
-    public function hmac($data, $key, $binary = false) {
-        return \hash_hmac($this->algo, $data, $key, $binary);
+    public function hmac($data, $key) {
+        return \hash_hmac($this->algo, $data, $key, true);
     }
 
 }

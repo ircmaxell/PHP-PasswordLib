@@ -17,7 +17,7 @@ class KDF2
 {
 
     public function derive($secret, $length, $other = '') {
-        $size = $this->hash->getSize(true);
+        $size = $this->hash->getSize();
         $l = ceil($length / $size);
         $t = '';
         for ($i = 1; $i <= $l; $i++) {

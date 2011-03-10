@@ -88,7 +88,7 @@ class Hash implements \Cryptography\Random\Mixer {
         if (empty($parts)) return '';
         $len = strlen($parts[0]);
         foreach ($parts as &$part) {
-            $part = str_split($part, $this->hash->getSize(true));
+            $part = str_split($part, $this->hash->getSize());
         }
         $c = count($part);
         $d = count($parts);
@@ -96,10 +96,10 @@ class Hash implements \Cryptography\Random\Mixer {
         $hash = '';
         $offset = 0;
         for ($i = 0; $i < $c; $i++) {
-            $stub = $this->hash->evaluate($parts[$offset][$i], true);
+            $stub = $this->hash->evaluate($parts[$offset][$i]);
             for ($j = 1; $j < $d; $j++) {
                 $key = $parts[($j + $offset) % $d][$i];
-                $stub ^= $this->hash->hmac($stub, $key, true);
+                $stub ^= $this->hash->hmac($stub, $key);
             }
             $hash .= $stub;
             $offset = ($offset + 1) % $d;

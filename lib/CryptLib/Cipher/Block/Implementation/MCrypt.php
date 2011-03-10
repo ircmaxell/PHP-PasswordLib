@@ -18,8 +18,6 @@
 
 namespace CryptLib\Cipher\Block\Implementation;
 
-use CryptLib\Hash\Factory as HashFactory;
-
 /**
  * The mcrypt block cipher implementation
  *

@@ -141,20 +141,20 @@ class APR1 implements \CryptLib\Password\Password {
     protected function hash($password, $salt, $iterations) {
         $len = strlen($password);
         $text = $password . '$apr1$' . $salt;
-        $bin = $this->hash->evaluate($password.$salt.$password, true);
+        $bin = $this->hash->evaluate($password.$salt.$password);
         for ($i = $len; $i > 0; $i -= 16) {
             $text .= substr($bin, 0, min(16, $i));
         }
         for ($i = $len; $i > 0; $i >>= 1) {
             $text .= ($i & 1) ? chr(0) : $password[0];
         }
-        $bin = $this->hash->evaluate($text, true);
+        $bin = $this->hash->evaluate($text);
         for ($i = 0; $i < $iterations; $i++) {
             $new = ($i & 1) ? $password : $bin;
             if ($i % 3) $new .= $salt;
             if ($i % 7) $new .= $password;
             $new .= ($i & 1) ? $bin : $password;
-            $bin = $this->hash->evaluate($new, true);
+            $bin = $this->hash->evaluate($new);
         }
         $tmp = '$apr1$'.$salt.'$';;
         $tmp .= $this->to64(

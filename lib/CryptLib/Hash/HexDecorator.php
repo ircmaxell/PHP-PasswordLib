@@ -1,6 +1,6 @@
 <?php
 /**
- * The interface that all hash implementations must implement
+ * A decorator for producing Hex hash strings instead of binary ones
  *
  * PHP version 5.3
  *
@@ -15,32 +15,35 @@
 namespace CryptLib\Hash;
 
 /**
- * The interface that all hash implementations must implement
+ * A decorator for producing Hex hash strings instead of binary ones
  *
  * @category   PHPCryptLib
  * @package    Hash
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-interface Hash {
+class HexDecorator extends AbstractHash {
+
+    protected $hash = null;
 
     /**
      * Get an array of supported algorithms
      * 
      * @return array The list of supported algorithms
      */
-    public static function getAlgos();
+    public static function getAlgos() {
+        return array();
+    }
 
     /**
-     * Make the hash invokable (`$hash($data, $binary = false)`)
+     * Build the instance
      *
-     * This is a proxy for Hash::evaluate();
+     * @param Hash $hash The hash function to use for the decorator
      *
-     * @param array $args The arguments for the invoked method
-     *
-     * @see Hash::evaluate()
-     * @return string The hashed value
+     * @return void
      */
-    public function __invoke(array $args);
+    public function __construct(Hash $hash) {
+        $this->hash = $hash;
+    }
 
     /**
      * Evaluate the hash on the given input
@@ -49,28 +52,37 @@ interface Hash {
      *
      * @return string The hashed data
      */
-    public function evaluate($data);
+    public function evaluate($data) {
+        $data = $this->hash->evaluate($data);
+        return bin2hex($data);
+    }
 
     /**
      * Get the block size used by the algorithm
      *
      * @return int The block size of the hash algorithm
      */
-    public function getBlockSize();
+    public function getBlockSize() {
+        return $this->hash->getBlockSize();
+    }
 
     /**
      * Get the name of the current hash algorithm
      *
      * @return string The name of the current hash algorithm
      */
-    public function getName();
+    public function getName() {
+        return $this->hash->getName();
+    }
 
     /**
      * Get the size of the hashed data
      *
      * @return int The size of the hashed string
      */
-    public function getSize();
+    public function getSize() {
+        return $this->hash->getSize() * 2;
+    }
 
     /**
      * Get an HMAC of the requested data with the requested key
@@ -80,6 +92,9 @@ interface Hash {
      *
      * @return string The hmac'ed data
      */
-    public function hmac($data, $key);
+    public function hmac($data, $key) {
+        $data = $this->hash->hmac($data, $key);
+        return bin2hex($data);
+    }
 
 }

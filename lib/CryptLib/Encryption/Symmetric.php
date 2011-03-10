@@ -170,9 +170,9 @@ class Symmetric {
         $rawdata = $data;
         $rawdata = $this->packingMode->strip($rawdata);
         if (!$rawdata) return false;
-        $hmac = substr($rawdata, -1 * $this->hash->getSize(true));
+        $hmac = substr($rawdata, -1 * $this->hash->getSize());
         $rawdata = substr($rawdata, 0, strlen($rawdata) - strlen($hmac));
-        if ($hmac !== $this->hash->hmac($rawdata, $key, true)) {
+        if ($hmac !== $this->hash->hmac($rawdata, $key)) {
             return false;
         }
         return $rawdata;
@@ -188,7 +188,7 @@ class Symmetric {
      */
     protected function prepareEncrypt($data, $key) {
         $newData = $data;
-        $newData .= $this->hash->hmac($data, $key, true);
+        $newData .= $this->hash->hmac($data, $key);
         $size = $this->cipher->getBlockSize($key);
 
         return $this->packingMode->pad($newData, $size);
