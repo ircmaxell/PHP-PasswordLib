@@ -25,14 +25,15 @@ namespace CryptLib;
  *
  * @return void
  */
-$autoload = function ($class) {
-        if (substr($class, 0, 8) != 'CryptLib') return;
-        $path = substr(str_replace('\\', '/', $class), 8);
-        $path = __DIR__ . $path . '.php';
-        if (file_exists($path)) {
-                require_once $path;
-        }
-};
+spl_autoload_register(function ($class) {
+    if (substr($class, 0, 8) != __NAMESPACE__) {
+        //Only autoload libraries from this package
+        return;
+    }
+    $path = substr(str_replace('\\', '/', $class), 8);
+    $path = __DIR__ . $path . '.php';
+    if (file_exists($path)) {
+        require_once $path;
+    }
+});
 
-//Register the autoloader with spl
-\spl_autoload_register($autoload);
