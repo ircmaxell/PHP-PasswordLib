@@ -8,14 +8,14 @@
  *
  * @see        http://httpd.apache.org/docs/2.2/misc/password_encryptions.html
  * @category   PHPCryptLib
- * @package    Hash
+ * @package    Password
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLib\Hash;
+namespace CryptLib\Password;
 
 /**
  * The core password key interface

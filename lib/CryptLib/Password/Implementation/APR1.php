@@ -9,15 +9,15 @@
  *
  * @see        http://httpd.apache.org/docs/2.2/misc/password_encryptions.html
  * @category   PHPCryptLib
- * @package    Hash
- * @subpackage Password
+ * @package    Password
+ * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLib\Hash\Password;
+namespace CryptLib\Password\Implmentation;
 
 use CryptLib\Random\Factory as RandomFactory;
 use CryptLib\Hash\Factory   as HashFactory;
@@ -30,11 +30,11 @@ use CryptLib\Hash\Factory   as HashFactory;
  *
  * @see        http://httpd.apache.org/docs/2.2/misc/password_encryptions.html
  * @category   PHPCryptLib
- * @package    Hash
- * @subpackage Password
+ * @package    Password
+ * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class APR1 implements \CryptLib\Hash\Password {
+class APR1 implements \CryptLib\Password\Password {
 
     /**
      * @var Generator The random generator to use for seeds

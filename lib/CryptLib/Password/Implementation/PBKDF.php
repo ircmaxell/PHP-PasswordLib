@@ -8,15 +8,15 @@
  *
  * @see        http://httpd.apache.org/docs/2.2/misc/password_encryptions.html
  * @category   PHPCryptLib
- * @package    Hash
- * @subpackage Password
+ * @package    Password
+ * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLib\Hash\Password;
+namespace CryptLib\Password\Implementation;
 
 use CryptLib\Random\Factory              as RandomFactory;
 use CryptLib\Key\Derivation\PBKDF\PBKDF2 as PBKDF2;
@@ -30,11 +30,11 @@ use CryptLib\Key\Derivation\PBKDF\PBKDF2 as PBKDF2;
  *
  * @see        http://httpd.apache.org/docs/2.2/misc/password_encryptions.html
  * @category   PHPCryptLib
- * @package    Hash
- * @subpackage Password
+ * @package    Password
+ * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Password implements \CryptLib\Hash\Password {
+class Password implements \CryptLib\Password\Password {
 
     /**
      * @var PBKDF The PBKDF derivation implementation to use for this instance
