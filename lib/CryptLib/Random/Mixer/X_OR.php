@@ -20,7 +20,7 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Strength\Low as LowStrength;
+use \CryptLib\Strength\VeryLow as VeryLowStrength;
 
 /**
  * The XOR low strength mixer class
@@ -43,7 +43,7 @@ class X_OR implements \CryptLib\Random\Mixer {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new LowStrength();
+        return new VeryLowStrength();
     }
 
     /**
