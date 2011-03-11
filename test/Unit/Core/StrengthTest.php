@@ -1,7 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 use CryptLibTest\Mocks\Core\Strength;
 
 class Unit_Core_StrengthTest extends PHPUnit_Framework_TestCase {
@@ -20,6 +18,7 @@ class Unit_Core_StrengthTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Core\Strength::compare
      * @dataProvider provideTestCompare
      */
     public function testCompare(Strength $from, Strength $to, $expected) {

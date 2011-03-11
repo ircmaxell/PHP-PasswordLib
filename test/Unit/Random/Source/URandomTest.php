@@ -3,6 +3,8 @@
 require_once 'PHPUnit/Framework.php';
 
 use CryptLib\Random\Source\URandom;
+
+use CryptLib\Core\Strength\Low    as LowStrength;
 use CryptLib\Core\Strength\Medium as MediumStrength;
 
 
@@ -19,7 +21,11 @@ class Unit_Random_Source_URandomTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetStrength() {
-        $strength = new MediumStrength;
+        if (defined('S_ALL')) {
+            $strength = new LowStrength;
+        } else {
+            $strength = new MediumStrength;
+        }
         $actual = URandom::getStrength();
         $this->assertEquals($actual, $strength);
     }

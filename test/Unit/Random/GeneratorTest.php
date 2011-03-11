@@ -1,7 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 use CryptLibTest\Mocks\Random\Mixer;
 use CryptLibTest\Mocks\Random\Source;
 
@@ -78,11 +76,16 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         $this->generator = new Generator($sources, $mixer);
     }
 
+    /**
+     */
     public function testConstruct() {
         $obj = new Generator(array(new Source), new Mixer);
         $this->assertTrue($obj instanceof \CryptLib\Random\Generator);
     }
 
+    /**
+     * @covers CryptLib\Random\Generator::addSource
+     */
     public function testAddSource() {
         $obj = new Generator(array(), new Mixer);
         $r = new ReflectionObject($obj);
