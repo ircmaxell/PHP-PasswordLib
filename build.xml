@@ -91,16 +91,6 @@
         <exec command="phpuml ${libdir} -f htmlnew -n CryptLib --no-deployment-view -o ${builddir}/api" os="Linux" />
     </target>
 
-    <target name="moveDocs" depends="document">
-        <delete dir="${docsdir}/api" />
-        <mkdir dir="${docsdir}/api" />
-        <copy todir="${docsdir}/api">
-            <fileset dir="${builddir}/api">
-                <include name="**/**" />
-            </fileset>
-        </copy>
-    </target>
-
     <target name="package" depends="prepare">
         <zip destfile="${builddir}/package/CryptLib.zip">
             <fileset dir="${libdir}">

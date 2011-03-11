@@ -77,4 +77,33 @@ class Generator {
         return $this->mixer->mix($seeds);
     }
 
+    /**
+     * Generate a random integer with the given range
+     *
+     * @param int $min The lower bound of the range to generate
+     * @param int $max The upper bound of the range to generate
+     *
+     * @return int The generated random number within the range
+     */
+    public function generateInt($min = 0, $max = \PHP_INT_MAX) {
+        $tmp   = (int)max($max, $min);
+        $min   = (int)min($max, $min);
+        $max   = $tmp;
+        $range = $max - $min;
+        if ($range == 0) {
+            return $max;
+        }
+        $bytes = 1;
+        while (0 < ($range >>= 8)) {
+            $bytes++;
+        }
+        $rand   = $this->generate($bytes);
+        $number = 0;
+        for ($i = 0; $i < $bytes; $i++) {
+            $number += (ord($rand[$i]) << (8 * $i));
+        }
+        $scale  = $range / pow(2, 8 * $bytes);
+        $number = round($scale * $number);
+        return $min + $number;
+    }
 }
