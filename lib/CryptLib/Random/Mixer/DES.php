@@ -34,7 +34,7 @@ use \CryptLib\Core\Strength\High as HighStrength;
  * @subpackage Mixer
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class DES implements \Cryptography\Random\Mixer {
+class DES implements \CryptLib\Random\Mixer {
 
     /**
      * An instance of a DES symmetric encryption cipher

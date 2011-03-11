@@ -2,27 +2,37 @@
 <project name="PHP-CryptLib" default="" basedir=".">
     <property name="libdir" value="${project.basedir}/lib" override="true" />
     <property name="builddir" value="${project.basedir}/build" override="true" />
-    <property name="resultsdir" value="${project.basedir}/build/results" override="true" />
+    <property name="logdir" value="${project.basedir}/build/logs" override="true" />
     <property name="testdir" value="${project.basedir}/test" />
 
     <target name="clean">
         <delete dir="build" />
-        <delete dir="docs/api" />
     </target>
     <target name="prepare">
-        <mkdir dir="build/results/unit" />
-        <mkdir dir="docs/api" />
+        <mkdir dir="build/api" />
+        <mkdir dir="build/code-browser" />
+        <mkdir dir="build/coverage" />
+        <mkdir dir="build/logs" />
+      
     </target>
-    <target name="build" depends="clean,prepare,cs,cpd,pmd" />
+    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend" />
+
+    <target name="lint">
+        <phplint haltonfailure="true" deprecatedAsError="true">
+            <fileset dir="${libdir}">
+                <include name="**/*.php" />
+            </fileset>
+        </phplint>
+    </target>
 
     <target name="cs" depends="prepare">
         <exec
-            command="phpcs --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
+            command="phpcs --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
             os="Linux" 
             passthru="true"
             checkreturn="true" />
         <exec
-            command="phpcs.bat  --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
+            command="phpcs.bat  --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
             os="WIN" checkreturn="true" />
     </target>
     <target name="cpd" depends="prepare">
@@ -30,7 +40,7 @@
             <fileset dir="${libdir}">
                 <include name="**/*.php" />
             </fileset>
-            <formatter type="pmd" outfile="${resultsdir}/php-cpd.xml" />
+            <formatter type="pmd" outfile="${logdir}/php-cpd.xml" />
         </phpcpd>
     </target>
     <target name="pmd" depends="prepare">
@@ -38,8 +48,15 @@
             <fileset dir="${libdir}">
                 <include name="**/*.php" />
             </fileset>
-            <formatter type="xml" outfile="${resultsdir}/pmd.xml" />
+            <formatter type="xml" outfile="${logdir}/pmd.xml" />
         </phpmd>
+    </target>
+    <target name="pdepend" depends="unit">
+        <phpdepend file="${libdir}">
+            <logger type="phpunit-xml" outfile="${logdir}/metrics.xml" />
+            <logger type="jdepend-xml" outfile="${logdir}/jdepend.xml" />
+            <analyzer type="coderank-mode" value="method" />
+        </phpdepend>
     </target>
     <target name="unit" depends="prepare">
         <coverage-setup database="${builddir}/coverage.db">
@@ -47,8 +64,8 @@
                 <include name="**/*.php" />
             </fileset>
         </coverage-setup>
-        <phpunit bootstrap="${libdir}/CryptLib/bootstrap.php" codecoverage="true" haltonfailure="true" haltonerror="true">
-            <formatter type="xml" todir="${resultsdir}" />
+        <phpunit bootstrap="${testdir}/bootstrap.php" codecoverage="true" haltonfailure="true" haltonerror="true">
+            <formatter type="xml" todir="${logdir}" />
             <formatter type="plain" usefile="false" />
             <batchtest>
                 <fileset dir="${testdir}/unit">
@@ -56,9 +73,12 @@
                 </fileset>
             </batchtest>
         </phpunit>
-        <phpunitreport infile="${resultsdir}/testsuites.xml"
+        <phpunitreport infile="${logdir}/testsuites.xml"
             format="frames"
-            todir="${resultsdir}/unit"
+            todir="${logdir}"
             />
+        <coverage-report outfile="${builddir}/coverage.db">
+            <report todir="${builddir}/coverage" styledir="${testdir}/coverage/" />
+        </coverage-report>
     </target>
 </project>

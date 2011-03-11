@@ -29,7 +29,7 @@ use CryptLib\Core\Strength\Medium as MediumStrength;
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Factory extends \Cryptography\Core\AbstractFactory {
+class Factory extends \CryptLib\Core\AbstractFactory {
 
     /**
      * @var array A list of available random number mixing strategies

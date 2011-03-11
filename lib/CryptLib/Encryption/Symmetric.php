@@ -101,7 +101,7 @@ class Symmetric {
      *
      * @return string The decrypted data
      */
-    public function decrypt($data, \Cryptography\Key\Symmetric $key) {
+    public function decrypt($data, \CryptLib\Key\Symmetric $key) {
         $key  = $key->getKey();
         $size = $this->cipher->getBlockSize($key);
         $iv   = \substr($data, 0, $size);
@@ -118,7 +118,7 @@ class Symmetric {
      *
      * @return string The encrypted data
      */
-    public function encrypt($data, \Cryptography\Key\Symmetric $key) {
+    public function encrypt($data, \CryptLib\Key\Symmetric $key) {
         $key     = $key->getKey();
         $newData = $this->prepareEncrypt($data, $key);
         $iv      = $this->makeIv($this->cipher->getBlockSize($key));

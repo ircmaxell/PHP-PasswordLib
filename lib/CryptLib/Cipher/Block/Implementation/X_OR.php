@@ -29,7 +29,7 @@ namespace CryptLib\Cipher\Block\Implementation;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class X_OR extends \Cryptography\Cipher\Block\AbstractBlock {
+class X_OR implements \CryptLib\Cipher\Block\BlockCipher {
 
     /**
      * Get a list of supported ciphers for this class implementation

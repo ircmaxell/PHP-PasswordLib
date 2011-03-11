@@ -21,19 +21,24 @@ class Internal implements \CryptLib\Key\Generator {
 
     protected $random = null;
 
-    public function __construct(
-        \CryptLib\Key\Derivation\KDF $kdf = null,
-        \CryptLib\Random\Factory $random = null
-    ) {
-        if (is_null($kdf)) {
-            $factory = new KeyFactory();
-            $kdf     = $factory->getKdf('kdf3');
+    public static function test() {
+        return true;
+    }
+
+    public function __construct(array $options = array()) {
+        $options += array('kdf' => null, 'random' => null);
+        if (is_null($options['kdf'])) {
+            $factory        = new KeyFactory();
+            $options['kdf'] = $factory->getKdf('kdf3');
         }
-        $this->kdf = $kdf;
-        if (is_null($random)) {
-            $random = new RandomFactory();
+        $this->kdf = $options['kdf'];
+        if (is_null($options['random'])) {
+            $options['random'] = new RandomFactory();
         }
-        $this->random = $random;
+        $this->random = $options['random'];
+    }
+
+    public function __toString() {
     }
 
     public function generate($strength, $size, $passphrase = '') {
@@ -43,4 +48,7 @@ class Internal implements \CryptLib\Key\Generator {
         return new Raw(substr($key, 0, $size));
     }
 
+    public function getType() {
+        return static::TYPE_SYMMETRIC;
+    }
 }

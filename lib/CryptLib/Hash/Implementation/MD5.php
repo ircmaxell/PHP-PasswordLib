@@ -24,7 +24,7 @@ namespace CryptLib\Hash\Implementation;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class MD5 extends \Cryptography\Hash\AbstractHash {
+class MD5 extends \CryptLib\Hash\AbstractHash {
 
     /**
      * Get an array of supported algorithms

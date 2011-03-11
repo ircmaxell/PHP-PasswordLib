@@ -23,7 +23,7 @@ namespace CryptLib\Cipher\Block\Mode;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class CFB implements \Cryptography\Cipher\Block\Mode {
+class CFB implements \CryptLib\Cipher\Block\Mode {
 
 
     /**

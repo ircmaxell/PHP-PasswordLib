@@ -23,7 +23,7 @@ namespace CryptLib\Cipher\Block\Mode;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class NOFB implements \Cryptography\Cipher\Block\Mode {
+class NOFB implements \CryptLib\Cipher\Block\Mode {
 
     /**
      * Decrypt the data using the supplied key, cipher and initialization vector

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-namespace Cryptography\Key\Derivation\PBKDF;
+namespace CryptLib\Key\Derivation\PBKDF;
 
 /**
  * Description of pbkdf2
@@ -12,8 +12,8 @@ namespace Cryptography\Key\Derivation\PBKDF;
  * @author ircmaxell
  */
 class Schneier
-    extends \Cryptography\Key\Derivation\AbstractDerivation
-    implements \Cryptography\Key\Derivation\PBKDF
+    extends \CryptLib\Key\Derivation\AbstractDerivation
+    implements \CryptLib\Key\Derivation\PBKDF
 {
 
     public function derive($password, $salt, $iterations, $length) {

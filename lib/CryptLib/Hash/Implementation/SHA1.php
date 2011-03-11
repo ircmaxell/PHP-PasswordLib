@@ -24,7 +24,7 @@ namespace CryptLib\Hash\Implementation;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class SHA1 extends \Cryptography\Hash\AbstractHash {
+class SHA1 extends \CryptLib\Hash\AbstractHash {
 
     /**
      * Get an array of supported algorithms

@@ -24,7 +24,7 @@ namespace CryptLib\Cipher\Block\Mode;
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
 
-class CBC implements \Cryptography\Cipher\Block\Mode {
+class CBC implements \CryptLib\Cipher\Block\Mode {
 
     /**
      * Decrypt the data using the supplied key, cipher and initialization vector

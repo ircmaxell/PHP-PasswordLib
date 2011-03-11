@@ -35,7 +35,7 @@ use \CryptLib\Core\Strength\Medium as MediumStrength;
  * @subpackage Mixer
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Hash implements \Cryptography\Random\Mixer {
+class Hash implements \CryptLib\Random\Mixer {
 
     /**
      * @var Hash The hash instance to use
