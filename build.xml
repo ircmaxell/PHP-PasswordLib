@@ -12,6 +12,8 @@
         <mkdir dir="build/results" />
         <mkdir dir="docs/api" />
     </target>
+    <target name="build" depends="clean,prepare,cs,cpd,pmd" />
+
     <target name="cs" depends="prepare">
         <exec
             command="phpcs --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=test/CS/ruleset.xml lib"
@@ -22,5 +24,20 @@
             command="phpcs.bat  --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=test/CS/ruleset.xml lib"
             os="WIN" checkreturn="true" />
     </target>
-
+    <target name="cpd" depends="prepare">
+        <phpcpd>
+            <fileset dir="${libdir}">
+                <include name="**/*.php" />
+            </fileset>
+            <formatter type="pmd" outfile="${resultsdir}/php-cpd.xml" />
+        </phpcpd>
+    </target>
+    <target name="pmd" depends="prepare">
+        <phpmd>
+            <fileset dir="${libdir}">
+                <include name="**/*.php" />
+            </fileset>
+            <formatter type="xml" outfile="${resultsdir}/pmd.xml" />
+        </phpmd>
+    </target>
 </project>

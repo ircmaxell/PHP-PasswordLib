@@ -61,6 +61,7 @@ class RNGCrypto implements \CryptLib\Random\Source {
             $util->GetBytes($varient);
             return implode('', (array)$varient);
         } catch (Exception $e) {
+            unset($e);
             return str_repate(chr(0), $size);
         }
     }
