@@ -1,7 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 use CryptLib\Random\Source\MicroTime;
 use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
 

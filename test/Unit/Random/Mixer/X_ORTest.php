@@ -1,7 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 use CryptLib\Random\Mixer\X_OR;
 use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
 

@@ -28,6 +28,9 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
             array(0, 65535, 257),
             array(65535, 131070, 65792),
             array(0, 16777215, (2<<16) + 2),
+            array(-10, 0, -10),
+            array(-655, -400, -655),
+            array(-131070, -65535, -130813),
         ); 
     }
 

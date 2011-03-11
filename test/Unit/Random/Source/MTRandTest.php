@@ -1,7 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 use CryptLib\Random\Source\MTRand;
 use CryptLib\Core\Strength\Medium as MediumStrength;
 use CryptLib\Core\Strength\Low    as LowStrength;

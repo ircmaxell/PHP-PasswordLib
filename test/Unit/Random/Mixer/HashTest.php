@@ -1,7 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 use CryptLib\Random\Mixer\Hash;
 use CryptLib\Core\Strength\Medium as MediumStrength;
 use CryptLibTest\Mocks\Hash\Hash as MockHash;

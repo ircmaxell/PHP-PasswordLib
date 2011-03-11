@@ -72,7 +72,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         foreach ($this->getMixers() as $mixer) {
             if ($strength->compare($mixer::getStrength()) == 0) {
                 $newMixer = new $mixer;
-            } elseif ($strength->compare($mixer::getStrength()) > 1) {
+            } elseif ($strength->compare($mixer::getStrength()) == 1) {
                 $fallback = new $mixer;
             }
         }
@@ -187,7 +187,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      */
     protected function loadMixers() {
         $this->loadFiles(
-            __DIR__ . '/mixer',
+            __DIR__ . '/Mixer',
             __NAMESPACE__ . '\\Mixer\\',
             'registerMixer'
         );
@@ -200,7 +200,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      */
     protected function loadSources() {
         $this->loadFiles(
-            __DIR__ . '/source',
+            __DIR__ . '/Source',
             __NAMESPACE__ . '\\Source\\',
             'registerSource'
         );

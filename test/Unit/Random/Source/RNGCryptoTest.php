@@ -1,11 +1,7 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 use CryptLib\Random\Source\RNGCrypto;
 use CryptLib\Core\Strength\High as HighStrength;
-
-
 
 class Unit_Random_Source_RNGCryptoTest extends PHPUnit_Framework_TestCase {
 

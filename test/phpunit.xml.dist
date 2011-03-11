@@ -21,4 +21,9 @@
             <directory>Unit</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../lib/</directory>
+        </whitelist>
+    </filter>
 </phpunit>

@@ -1,7 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 use CryptLib\Random\Mixer\DES;
 use CryptLib\Core\Strength\High as HighStrength;
 use CryptLibTest\Mocks\Cipher\Block\BlockCipher;

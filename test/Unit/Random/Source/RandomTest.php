@@ -1,7 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 use CryptLib\Random\Source\Random;
 use CryptLib\Core\Strength\High as HighStrength;
 
