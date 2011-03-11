@@ -24,4 +24,4 @@ $factory = new CryptLib\Random\Factory;
  */
 $generator = $factory->getLowStrengthGenerator();
 
-var_dump(BaseConverter::convertFromBinary(chr(1), '0123456789ABCDEF'));
+var_dump(BaseConverter::convertFromBinary(chr(1).chr(1), '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz./'));

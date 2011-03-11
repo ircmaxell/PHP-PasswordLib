@@ -39,20 +39,24 @@ class BaseConverter {
      * @return string The converted string
      */
     public static function convertFromBinary($string, $characters) {
+        if (empty($string) || empty($characters)) {
+            return '';
+        }
         $nchars    = strlen($characters);
-        $nparts    = ceil(log(256, $nchars));
-        $shiftBits = floor(8 / $nparts);
-        // Split the string into 4 byte parts (for a 32 bit integer)
-        $parts  = str_split($string, 1);
-        $result = '';
-        foreach ($parts as $part) {
-            $len = strlen($part);
-            $n = 0;
-            $n = ord($part[0]);
-            // Convert the single integer into the result string
-            for ($i = 0; $i < $nparts; $i++) {
-                $result .= $characters[$n % $nchars];
-                $n     >>= $shiftBits;
+        $shiftBits = (int)floor(log($nchars, 2));
+        $result    = '';
+        $seed      = ord($string[0]);
+        $string    = substr($string, 1);
+        $added     = 8;
+        $shifted   = 0;
+        while ($added - $shifted > 0) {
+            $result  .= $characters[$seed % $nchars];
+            $seed   >>= $shiftBits;
+            $shifted += $shiftBits;
+            if ($added - $shifted <= $shiftBits && isset($string[0])) {
+                $seed |= (ord($string[0]) << ($added - $shifted ));
+                $string = substr($string, 1);
+                $added += 8;
             }
         }
         return $result;
@@ -67,7 +71,6 @@ class BaseConverter {
      * @return string The converted string
      */
     public static function convertToBinary($string, $characters) {
-
     }
 
 }
