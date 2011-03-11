@@ -65,7 +65,9 @@ class X_OR implements \CryptLib\Random\Mixer {
      * @return string The mixed result
      */
     public function mix(array $parts) {
-        if (empty($parts)) return '';
+        if (empty($parts)) {
+            return '';
+        }
         $bits = array_pop($parts);
         foreach ($parts as $part) {
             $bits ^= $part;

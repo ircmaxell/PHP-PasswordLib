@@ -1,5 +1,5 @@
 <?php
-/* 
+/**
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -31,7 +31,7 @@ class Schneier
     /**
      * Get the signature for this implementation
      *
-     * This should include all information needed to build the same isntance
+     * This should include all information needed to build the same instance
      * later.
      *
      * @return string The signature for this instance
@@ -41,4 +41,3 @@ class Schneier
     }
 
 }
-

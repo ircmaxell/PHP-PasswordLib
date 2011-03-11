@@ -47,7 +47,7 @@ abstract class AbstractFactory {
         $instantiate = false
     ) {
         $name = strtolower($name);
-        $r = new \ReflectionClass($class);
+        $r    = new \ReflectionClass($class);
         if (!$r->implementsInterface($implements)) {
             $message = sprintf('Class must implement %s', $implements);
             throw new \InvalidArgumentException($message);
@@ -72,7 +72,7 @@ abstract class AbstractFactory {
         foreach (new \DirectoryIterator($directory) as $file) {
             $filename = $file->getBasename();
             if ($file->isFile() && preg_match('/\.php$/', $filename)) {
-                $name = substr($filename, 0, -4);
+                $name  = substr($filename, 0, -4);
                 $class = $namespace . $name;
                 $this->$method($name, $class);
             }

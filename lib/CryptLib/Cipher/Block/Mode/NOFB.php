@@ -60,13 +60,13 @@ class NOFB implements \Cryptography\Cipher\Block\Mode {
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $iv
     ) {
-        $size = $cipher->getBlockSize($key);
-        $blocks = str_split($data, $size);
+        $size       = $cipher->getBlockSize($key);
+        $blocks     = str_split($data, $size);
         $ciphertext = '';
-        $feedback = $iv;
+        $feedback   = $iv;
         foreach ($blocks as $block) {
-            $block = str_pad($block, $size, chr(0));
-            $feedback = $cipher->encryptBlock($feedback, $key);
+            $block       = str_pad($block, $size, chr(0));
+            $feedback    = $cipher->encryptBlock($feedback, $key);
             $ciphertext .= $feedback ^ $block;
         }
         return $ciphertext;

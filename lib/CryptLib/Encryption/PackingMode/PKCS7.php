@@ -50,9 +50,9 @@ class PKCS7 implements \CryptLib\Encryption\PackingMode {
      * @return string The unpadded string
      */
     public function strip($string) {
-        $c = substr($string, -1);
+        $c    = substr($string, -1);
         $last = ord($c);
-        $len = strlen($string) - $last;
+        $len  = strlen($string) - $last;
         if (substr($string, $len) == str_repeat($c, $last)) {
             return substr($string, 0, $len);
         }

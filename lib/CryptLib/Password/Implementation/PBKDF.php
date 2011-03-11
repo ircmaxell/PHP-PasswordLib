@@ -78,11 +78,11 @@ class Password implements \CryptLib\Password\Password {
         if (count($parts) != 7) {
             throw new \InvalidArgumentException('Hash Not Created Here');
         }
-        $signature = $parts[2];
-        $factory = new KeyFactory();
-        $hash = $factory->getPBKDFFromSignature($signature);
+        $signature  = $parts[2];
+        $factory    = new KeyFactory();
+        $hash       = $factory->getPBKDFFromSignature($signature);
         $iterations = $parts[3];
-        $size = $parts[4];
+        $size       = $parts[4];
         return new static($hash, $size, $iterations);
     }
 
@@ -104,8 +104,8 @@ class Password implements \CryptLib\Password\Password {
             $derivation = new PBKDF2();
         }
         $this->derivation = $derivation;
-        $this->size = $size < 40 ? 40 : (int) $size;;
-        $this->iterations = $iterations > 0 ? (int) $iterations : 1;
+        $this->size       = $size < 40 ? 40 : (int)$size;
+        $this->iterations = $iterations > 0 ? (int)$iterations : 1;
     }
 
     /**
@@ -116,12 +116,12 @@ class Password implements \CryptLib\Password\Password {
      * @return string The formatted password hash
      */
     public function create($password) {
-        $size = $this->size - 8; // remove size of stored bits
-        $saltSize = floor($size / 5);  //Use 20% of the size for the salt
-        $hashSize = $size - $saltSize;
-        $factory = new RandomFactory();
+        $size      = $this->size - 8; // remove size of stored bits
+        $saltSize  = floor($size / 5);  //Use 20% of the size for the salt
+        $hashSize  = $size - $saltSize;
+        $factory   = new RandomFactory();
         $generator = $factory->getGenerator();
-        $salt = $generator->generate($saltSize);
+        $salt      = $generator->generate($saltSize);
         return $this->hash($password, $salt, $this->iterations, $hashSize);
     }
 
@@ -144,8 +144,8 @@ class Password implements \CryptLib\Password\Password {
             return false;
         }
         $iterations = $parts[3];
-        $size = $parts[4];
-        $salt = base64_decode($parts[5]);
+        $size       = $parts[4];
+        $salt       = base64_decode($parts[5]);
         return $this->hash($password, $salt, $iterations, $size) == $hash;
     }
 

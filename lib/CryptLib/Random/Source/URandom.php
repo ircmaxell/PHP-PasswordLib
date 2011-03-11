@@ -65,5 +65,5 @@ class URandom implements \CryptLib\Random\Source {
         fclose($f);
         return $result;
     }
-    
+
 }

@@ -19,7 +19,7 @@
  <rule ref="Generic.Formatting.MultipleStatementAlignment"/>
  <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
 
- <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+ <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
  <rule ref="PEAR.Functions.ValidDefaultValue"/>
 
  <rule ref="Generic.NamingConventions.ConstructorName"/>
@@ -28,7 +28,7 @@
 
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
  <rule ref="Generic.PHP.NoSilencedErrors"/>
- <rule ref="Generic.PHP.UpperCaseConstant"/>
+ <rule ref="Generic.PHP.LowerCaseConstant"/>
 
  <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
  <rule ref="Generic.WhiteSpace.ScopeIndent"/>

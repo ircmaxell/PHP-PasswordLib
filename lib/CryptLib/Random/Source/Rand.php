@@ -64,5 +64,5 @@ class Rand implements \CryptLib\Random\Source {
         }
         return $result;
     }
-    
+
 }

@@ -76,10 +76,10 @@ class Symmetric {
         \CryptLib\Random\Factory $random = null
     ) {
         $this->cipher = $cipher;
-        $this->mode = $mode;
+        $this->mode   = $mode;
         if (is_null($hash)) {
             $factory = new HashFactory();
-            $hash = $factory->getHash('sha256');
+            $hash    = $factory->getHash('sha256');
         }
         $this->hash = $hash;
         if (is_null($random)) {
@@ -87,7 +87,7 @@ class Symmetric {
         }
         $this->randomFactory = $random;
         if (is_null($packingMode)) {
-            $encFactory = new Factory();
+            $encFactory  = new Factory();
             $packingMode = $encFactory->getPackingMode('pkcs7');
         }
         $this->packingMode = $packingMode;
@@ -102,11 +102,11 @@ class Symmetric {
      * @return string The decrypted data
      */
     public function decrypt($data, \Cryptography\Key\Symmetric $key) {
-        $key = $key->getKey();
+        $key  = $key->getKey();
         $size = $this->cipher->getBlockSize($key);
-        $iv = \substr($data, 0, $size);
+        $iv   = \substr($data, 0, $size);
         $data = \substr($data, $size);
-        $dec = $this->mode->decrypt($data, $key, $this->cipher, $iv);
+        $dec  = $this->mode->decrypt($data, $key, $this->cipher, $iv);
         return $this->postDecrypt($dec, $key);
     }
 
@@ -119,10 +119,10 @@ class Symmetric {
      * @return string The encrypted data
      */
     public function encrypt($data, \Cryptography\Key\Symmetric $key) {
-        $key = $key->getKey();
+        $key     = $key->getKey();
         $newData = $this->prepareEncrypt($data, $key);
-        $iv = $this->makeIv($this->cipher->getBlockSize($key));
-        $enc = $this->mode->encrypt($newData, $key, $this->cipher, $iv);
+        $iv      = $this->makeIv($this->cipher->getBlockSize($key));
+        $enc     = $this->mode->encrypt($newData, $key, $this->cipher, $iv);
         return $iv . $enc;
     }
 
@@ -152,7 +152,9 @@ class Symmetric {
      * @return string An initialization vector of the specified size
      */
     protected function makeIv($size) {
-        if ($size == 0) return '';
+        if ($size == 0) {
+            return '';
+        }
         $generator = $this->randomFactory->getMediumStrengthGenerator();
         return $generator->generate($size);
     }
@@ -166,11 +168,15 @@ class Symmetric {
      * @return string|false The decrypted data, or false if not valid
      */
     protected function postDecrypt($data, $key) {
-        if (empty($data)) return false;
+        if (empty($data)) {
+            return false;
+        }
         $rawdata = $data;
         $rawdata = $this->packingMode->strip($rawdata);
-        if (!$rawdata) return false;
-        $hmac = substr($rawdata, -1 * $this->hash->getSize());
+        if (!$rawdata) {
+            return false;
+        }
+        $hmac    = substr($rawdata, -1 * $this->hash->getSize());
         $rawdata = substr($rawdata, 0, strlen($rawdata) - strlen($hmac));
         if ($hmac !== $this->hash->hmac($rawdata, $key)) {
             return false;
@@ -187,9 +193,9 @@ class Symmetric {
      * @return string $the prepared encrypted data
      */
     protected function prepareEncrypt($data, $key) {
-        $newData = $data;
+        $newData  = $data;
         $newData .= $this->hash->hmac($data, $key);
-        $size = $this->cipher->getBlockSize($key);
+        $size     = $this->cipher->getBlockSize($key);
 
         return $this->packingMode->pad($newData, $size);
     }

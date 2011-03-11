@@ -36,7 +36,7 @@ class ISO10126 implements \CryptLib\Encryption\PackingMode {
      * @return string The padded string
      */
     public function pad($string, $blockSize = 32) {
-        $pad = $blockSize - (strlen($string) % $blockSize);
+        $pad    = $blockSize - (strlen($string) % $blockSize);
         $padstr = '';
         for ($i = 1; $i < $pad; $i++) {
             $padstr .= chr(mt_rand(0, 255));
@@ -52,7 +52,7 @@ class ISO10126 implements \CryptLib\Encryption\PackingMode {
      * @return string The unpadded string
      */
     public function strip($string) {
-        $c = ord(substr($string, -1));
+        $c   = ord(substr($string, -1));
         $len = strlen($string) - $c;
         return substr($string, 0, $len);
     }

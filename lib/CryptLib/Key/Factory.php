@@ -1,5 +1,5 @@
 <?php
-/* 
+/**
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -13,14 +13,14 @@ namespace CryptLib\Key;
  */
 class Factory extends \CryptLib\Core\AbstractFactory {
 
-    protected $kdf = array();
-    protected $pbkdf = array();
+    protected $kdf                 = array();
+    protected $pbkdf               = array();
     protected $symmetricGenerators = array();
 
     public function __construct() {
         $this->loadPBKDF();
-//        $this->loadKDF();
-//        $this->loadSymmetricGenerators();
+        //$this->loadKDF();
+        //$this->loadSymmetricGenerators();
     }
 
     public function getKDF($name = 'kdf3', array $options = array()) {
@@ -40,7 +40,6 @@ class Factory extends \CryptLib\Core\AbstractFactory {
     }
 
     public function getSymmetricKeyGenerator() {
-        
     }
 
     public function registerKDF($name, $class) {
@@ -68,7 +67,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
             'registerKDF'
         );
     }
- 
+
     protected function loadPBKDF() {
         $this->loadFiles(
             __DIR__ . '/derivation/pbkdf',
@@ -76,6 +75,5 @@ class Factory extends \CryptLib\Core\AbstractFactory {
             'registerPBKDF'
         );
     }
-            
 
 }

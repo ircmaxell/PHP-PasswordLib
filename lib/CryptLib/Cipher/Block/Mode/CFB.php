@@ -42,14 +42,14 @@ class CFB implements \Cryptography\Cipher\Block\Mode {
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $iv
     ) {
-        $size = $cipher->getBlockSize($key);
-        $blocks = str_split($data, $size);
+        $size       = $cipher->getBlockSize($key);
+        $blocks     = str_split($data, $size);
         $ciphertext = '';
-        $feedback = $iv;
+        $feedback   = $iv;
         foreach ($blocks as $block) {
-            $stub = $cipher->encryptBlock($feedback, $key);
+            $stub        = $cipher->encryptBlock($feedback, $key);
             $ciphertext .= $stub ^ $block;
-            $feedback = $block;
+            $feedback    = $block;
         }
         return $ciphertext;
     }
@@ -70,14 +70,14 @@ class CFB implements \Cryptography\Cipher\Block\Mode {
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $iv
     ) {
-        $size = $cipher->getBlockSize($key);
-        $blocks = str_split($data, $size);
+        $size       = $cipher->getBlockSize($key);
+        $blocks     = str_split($data, $size);
         $ciphertext = '';
-        $feedback = $iv;
+        $feedback   = $iv;
         foreach ($blocks as $block) {
-            $block = str_pad($block, $size, chr(0));
-            $stub = $cipher->encryptBlock($feedback, $key);
-            $feedback = $stub ^ $block;
+            $block       = str_pad($block, $size, chr(0));
+            $stub        = $cipher->encryptBlock($feedback, $key);
+            $feedback    = $stub ^ $block;
             $ciphertext .= $feedback;
         }
         return $ciphertext;

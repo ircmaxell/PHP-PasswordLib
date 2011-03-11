@@ -59,5 +59,5 @@ class MicroTime implements \CryptLib\Random\Source {
         }
         return $result;
     }
-    
+
 }

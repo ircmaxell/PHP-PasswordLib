@@ -106,14 +106,14 @@ class Factory extends \CryptLib\Core\AbstractFactory  {
      * @return Factory $this The current factory instance
      */
     public function registerAlgo($name, $class) {
-        $r = new \ReflectionClass($class);
+        $r         = new \ReflectionClass($class);
         $interface = '\\'. __NAMESPACE__ . '\\Hash';
         if (!$r->implementsInterface($interface)) {
             $message = sprintf('Class must implement %s', $interface);
             throw new \InvalidArgumentException($message);
         }
         foreach ($class::getAlgos() as $algo){
-            $algo = strtolower($algo);
+            $algo               = strtolower($algo);
             $this->algos[$algo] = $class;
         }
         return $this;
@@ -144,8 +144,8 @@ class Factory extends \CryptLib\Core\AbstractFactory  {
      */
     protected function loadImplementations() {
         $this->loadFiles(
-            __DIR__ . '/implementation', 
-            __NAMESPACE__ . '\\Implementation\\', 
+            __DIR__ . '/implementation',
+            __NAMESPACE__ . '\\Implementation\\',
             'registerAlgo'
         );
     }

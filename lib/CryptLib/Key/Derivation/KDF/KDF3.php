@@ -15,18 +15,18 @@ class KDF3
     implements \CryptLib\Key\Derivation\KDF
 {
     protected $options = array(
-        'hash' => 'sha512',
+        'hash'        => 'sha512',
         'hashfactory' => null,
-        'pAmt' => 4,
+        'pAmt'        => 4,
     );
 
     public function derive($secret, $length, $other = '') {
         $size = $this->hash->getSize();
-        $l = ceil($length / $size);
-        $t = '';
+        $l    = ceil($length / $size);
+        $t    = '';
         $stub = str_repeat(chr(0), max($this->options['pAmt'], 0));
         for ($i = 0; $i < $l; $i++) {
-            $p = $stub . pack('N', $i);
+            $p  = $stub . pack('N', $i);
             $t .= $this->hash->evaluate($p . $secret . $other);
         }
         return substr($t, 0, $length);

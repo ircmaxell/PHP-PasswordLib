@@ -52,16 +52,17 @@ class RNGCrypto implements \CryptLib\Random\Source {
             return str_repeat(chr(0), $size);
         }
         try {
-            $util = new \DOTNET(
+            $util    = new \DOTNET(
                 'mscorlib',
                 'System.Security.Cryptography.RNGCryptoServiceProvider'
             );
-            $varient = new \VARIENT(array_fill(0, $size, chr(0)), VT_UT1 | VT_ARRAY | VT_BYREF);
+            $opts    = VT_UT1 | VT_ARRAY | VT_BYREF;
+            $varient = new \VARIENT(array_fill(0, $size, chr(0)), $opts);
             $util->GetBytes($varient);
-            return implode('', (array) $varient);
+            return implode('', (array)$varient);
         } catch (Exception $e) {
             return str_repate(chr(0), $size);
         }
     }
-    
+
 }

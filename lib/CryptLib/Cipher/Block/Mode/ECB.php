@@ -41,8 +41,8 @@ class ECB implements \Cryptography\Cipher\Block\Mode {
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $iv
     ) {
-        $size = $cipher->getBlockSize($key);
-        $blocks = str_split($data, $size);
+        $size       = $cipher->getBlockSize($key);
+        $blocks     = str_split($data, $size);
         $ciphertext = '';
         foreach ($blocks as $block) {
             $ciphertext .= $cipher->decryptBlock($block, $key);
@@ -66,11 +66,11 @@ class ECB implements \Cryptography\Cipher\Block\Mode {
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $iv
     ) {
-        $size = $cipher->getBlockSize($key);
-        $blocks = str_split($data, $size);
+        $size       = $cipher->getBlockSize($key);
+        $blocks     = str_split($data, $size);
         $ciphertext = '';
         foreach ($blocks as $block) {
-            $block = str_pad($block, $size, chr(0));
+            $block       = str_pad($block, $size, chr(0));
             $ciphertext .= $cipher->encryptBlock($block, $key);
         }
         return $ciphertext;

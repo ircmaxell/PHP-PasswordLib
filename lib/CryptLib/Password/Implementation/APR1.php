@@ -94,7 +94,7 @@ class APR1 implements \CryptLib\Password\Password {
         }
         $this->hash = $factory->getHash('md5');
         if (is_null($generator)) {
-            $random = new RandomFactory();
+            $random    = new RandomFactory();
             $generator = $random->getMediumStrengthGenerator();
         }
         $this->generator = $generator;
@@ -139,9 +139,9 @@ class APR1 implements \CryptLib\Password\Password {
      * @return string The hashed password
      */
     protected function hash($password, $salt, $iterations) {
-        $len = strlen($password);
+        $len  = strlen($password);
         $text = $password . '$apr1$' . $salt;
-        $bin = $this->hash->evaluate($password.$salt.$password);
+        $bin  = $this->hash->evaluate($password.$salt.$password);
         for ($i = $len; $i > 0; $i -= 16) {
             $text .= substr($bin, 0, min(16, $i));
         }
@@ -151,12 +151,16 @@ class APR1 implements \CryptLib\Password\Password {
         $bin = $this->hash->evaluate($text);
         for ($i = 0; $i < $iterations; $i++) {
             $new = ($i & 1) ? $password : $bin;
-            if ($i % 3) $new .= $salt;
-            if ($i % 7) $new .= $password;
+            if ($i % 3) {
+                $new .= $salt;
+            }
+            if ($i % 7) {
+                $new .= $password;
+            }
             $new .= ($i & 1) ? $bin : $password;
-            $bin = $this->hash->evaluate($new);
+            $bin  = $this->hash->evaluate($new);
         }
-        $tmp = '$apr1$'.$salt.'$';;
+        $tmp  = '$apr1$'.$salt.'$';
         $tmp .= $this->to64(
             (ord($bin[0])<<16) | (ord($bin[6])<<8) | ord($bin[12]),
             4
@@ -195,12 +199,12 @@ class APR1 implements \CryptLib\Password\Password {
      * @return string The encoded string
      */
     protected function base64($str, $size) {
-        $str = str_split($str, 3);
+        $str    = str_split($str, 3);
         $result = '';
         foreach ($str as $chr) {
-            $c0 = ord($chr[0]);
-            $c1 = isset($chr[1]) ? ord($chr[1]) : 0;
-            $c2 = isset($chr[2]) ? ord($chr[2]) : 0;
+            $c0      = ord($chr[0]);
+            $c1      = isset($chr[1]) ? ord($chr[1]) : 0;
+            $c2      = isset($chr[2]) ? ord($chr[2]) : 0;
             $result .= $this->to64(($c2 << 16) | ($c1<<8) | $c0, 4);
         }
         return substr($result, 0, $size);
@@ -223,7 +227,7 @@ class APR1 implements \CryptLib\Password\Password {
         $result = '';
         while (--$size >= 0) {
             $result .= $seed[$num & 0x3f];
-            $num >>= 6;
+            $num   >>= 6;
         }
         return $result;
     }

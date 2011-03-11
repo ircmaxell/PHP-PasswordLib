@@ -35,7 +35,6 @@ class ANSIx923 implements \CryptLib\Encryption\PackingMode {
      */
     public function pad($string, $blockSize = 32) {
         $pad = $blockSize - (strlen($string) % $blockSize);
-        
         return $string . str_repeat(chr(0), $pad - 1) . chr($pad);
     }
 
@@ -47,11 +46,11 @@ class ANSIx923 implements \CryptLib\Encryption\PackingMode {
      * @return string The unpadded string
      */
     public function strip($string) {
-        $c = ord(substr($string, -1));
+        $c   = ord(substr($string, -1));
         $len = strlen($string) - $c;
         if (substr($string, $len) == str_repeat(chr(0), $c - 1) . chr($c)) {
             return substr($string, 0, $len);
-        } 
+        }
         return false;
     }
 

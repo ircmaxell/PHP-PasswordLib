@@ -66,4 +66,4 @@ interface Password {
      */
     public function verify($hash, $password);
 
-} 
+}

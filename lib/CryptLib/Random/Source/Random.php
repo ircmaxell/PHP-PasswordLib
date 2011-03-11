@@ -59,5 +59,5 @@ class Random implements \Cryptography\Random\Source {
         fclose($f);
         return str_pad($result, $size, chr(0));
     }
-    
+
 }

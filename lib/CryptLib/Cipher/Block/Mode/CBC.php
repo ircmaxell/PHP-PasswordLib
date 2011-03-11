@@ -42,14 +42,15 @@ class CBC implements \Cryptography\Cipher\Block\Mode {
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $iv
     ) {
-        $size = $cipher->getBlockSize($key);
-        $blocks = str_split($data, $size);
+        $size       = $cipher->getBlockSize($key);
+        $blocks     = str_split($data, $size);
         $ciphertext = '';
-        $feedback = $iv;
+        $feedback   = $iv;
+
         foreach ($blocks as $block) {
-            $stub = $cipher->decryptBlock($block, $key);
+            $stub        = $cipher->decryptBlock($block, $key);
             $ciphertext .= $stub ^ $feedback;
-            $feedback = $block;
+            $feedback    = $block;
         }
         return $ciphertext;
     }
@@ -70,16 +71,17 @@ class CBC implements \Cryptography\Cipher\Block\Mode {
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $iv
     ) {
-        $size = $cipher->getBlockSize($key);
-        $blocks = str_split($data, $size);
+        $size       = $cipher->getBlockSize($key);
+        $blocks     = str_split($data, $size);
         $ciphertext = '';
-        $feedback = $iv;
+        $feedback   = $iv;
+
         foreach ($blocks as $block) {
-            $block = str_pad($block, $size, chr(0));
-            $block ^= $feedback;
-            $stub = $cipher->encryptBlock($block, $key);
+            $block       = str_pad($block, $size, chr(0));
+            $block      ^= $feedback;
+            $stub        = $cipher->encryptBlock($block, $key);
             $ciphertext .= $stub;
-            $feedback = $stub;
+            $feedback    = $stub;
         }
         return $ciphertext;
     }

@@ -35,7 +35,9 @@ class Zeros implements \CryptLib\Encryption\PackingMode {
      */
     public function pad($string, $blockSize = 32) {
         $pad = $blockSize - (strlen($string) % $blockSize);
-        if ($pad == $blockSize) return $string;
+        if ($pad == $blockSize) {
+            return $string;
+        }
         return $string . str_repeat(chr(0), $pad);
     }
 

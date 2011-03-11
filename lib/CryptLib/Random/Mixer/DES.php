@@ -85,16 +85,18 @@ class DES implements \Cryptography\Random\Mixer {
      * @return string The mixed result
      */
     public function mix(array $parts) {
-        if (empty($parts)) return '';
-        $len = strlen($parts[0]);
+        if (empty($parts)) {
+            return '';
+        }
+        $len       = strlen($parts[0]);
         $blockSize = $this->cipher->getBlockSize();
         foreach ($parts as &$part) {
             $part = str_split($part, $blockSize - 1);
         }
         $stringSize = count($part);
-        $partsSize = count($parts);
+        $partsSize  = count($parts);
         unset($part);
-        $hash = '';
+        $hash   = '';
         $offset = 0;
         for ($i = 0; $i < $stringSize; $i++) {
             $stub = $parts[$offset][$i];
@@ -107,7 +109,7 @@ class DES implements \Cryptography\Random\Mixer {
                     $stub ^= $this->cipher->encryptBlock($stub, $newKey);
                 }
             }
-            $hash .= $stub;
+            $hash  .= $stub;
             $offset = $offset + 1 % $partsSize;
         }
         return substr($hash, 0, $len);

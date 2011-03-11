@@ -56,5 +56,5 @@ class UniqID implements \CryptLib\Random\Source {
         }
         return substr($result, 0, $size);
     }
-    
+
 }

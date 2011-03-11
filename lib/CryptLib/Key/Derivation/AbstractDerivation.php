@@ -1,5 +1,5 @@
 <?php
-/* 
+/** 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -16,7 +16,7 @@ use CryptLib\Hash\Factory as HashFactory;
 abstract class AbstractDerivation {
 
     protected $hash = null;
-    
+
     protected $options = array(
         'hash' => 'sha512',
         'hashfactory' => null,
@@ -27,7 +27,8 @@ abstract class AbstractDerivation {
         if (!is_object($this->options['hashfactory'])) {
             $this->options['hashfactory'] = new HashFactory();
         }
-        $this->hash = $this->options['hashfactory']->getHash($this->options['hash']);
+        $factory    = $this->options['hashfactory'];
+        $this->hash = $$factory->getHash($this->options['hash']);
     }
 
 }

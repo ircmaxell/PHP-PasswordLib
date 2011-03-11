@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="PHP-CryptLib" default="" basedir=".">
+    <property name="libdir" value="${project.basedir}/lib" override="true" />
+    <property name="builddir" value="${project.basedir}/build" override="true" />
+    <property name="resultsdir" value="${project.basedir}/build/results" override="true" />
+
     <target name="clean">
         <delete dir="build" />
         <delete dir="docs/api" />
@@ -10,15 +14,13 @@
     </target>
     <target name="cs" depends="prepare">
         <exec
-            command="phpcs --report=summary --report-checkstyle=./build/results/checkstyle.xml --standard=test/CS/ruleset.xml lib"
+            command="phpcs --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=test/CS/ruleset.xml lib"
             os="Linux" 
             passthru="true"
             checkreturn="true" />
         <exec
-            command="phpcs.bat --standard=test/CS/ruleset.xml lib"
+            command="phpcs.bat  --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=test/CS/ruleset.xml lib"
             os="WIN" checkreturn="true" />
     </target>
-    <target name="doc">
-        <exec command="phpdoctor.php phpdoctor.ini" />
-    </target>
+
 </project>

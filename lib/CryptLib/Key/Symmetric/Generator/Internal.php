@@ -1,5 +1,5 @@
 <?php
-/* 
+/**
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -16,7 +16,7 @@ use CryptLib\Key\Symmetric\Raw as Raw;
  * @author ircmaxell
  */
 class Internal implements \CryptLib\Key\Generator {
- 
+
     protected $kdf = null;
 
     protected $random = null;
@@ -27,19 +27,19 @@ class Internal implements \CryptLib\Key\Generator {
     ) {
         if (is_null($kdf)) {
             $factory = new KeyFactory();
-            $kdf = $factory->getKdf('kdf3');
+            $kdf     = $factory->getKdf('kdf3');
         }
         $this->kdf = $kdf;
         if (is_null($random)) {
             $random = new RandomFactory();
         }
         $this->random = $random;
-        
     }
 
     public function generate($strength, $size, $passphrase = '') {
         $generator = $this->random->getGenerator($strength);
-        $key = $this->kdf->derive($generator->generate($size), $size, $passphrase);
+        $seed      = $generator->generate($size);
+        $key       = $this->kdf->derive($seed, $size, $passphrase);
         return new Raw(substr($key, 0, $size));
     }
 

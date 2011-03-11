@@ -59,5 +59,5 @@ class CAPICOM implements \CryptLib\Random\Source {
             return str_repate(chr(0), $size);
         }
     }
-    
+
 }

@@ -52,7 +52,7 @@ class Hash implements \Cryptography\Random\Mixer {
     public function __construct(\CryptLib\Hash\Hash $hash = null) {
         if (is_null($hash)) {
             $factory = new HashFactory();
-            $hash = $factory->getHash('sha512');
+            $hash    = $factory->getHash('sha512');
         }
         $this->hash = $hash;
     }
@@ -85,7 +85,9 @@ class Hash implements \Cryptography\Random\Mixer {
      * @return string The mixed result
      */
     public function mix(array $parts) {
-        if (empty($parts)) return '';
+        if (empty($parts)) {
+            return '';
+        }
         $len = strlen($parts[0]);
         foreach ($parts as &$part) {
             $part = str_split($part, $this->hash->getSize());
@@ -93,15 +95,15 @@ class Hash implements \Cryptography\Random\Mixer {
         $c = count($part);
         $d = count($parts);
         unset($part);
-        $hash = '';
+        $hash   = '';
         $offset = 0;
         for ($i = 0; $i < $c; $i++) {
             $stub = $this->hash->evaluate($parts[$offset][$i]);
             for ($j = 1; $j < $d; $j++) {
-                $key = $parts[($j + $offset) % $d][$i];
+                $key   = $parts[($j + $offset) % $d][$i];
                 $stub ^= $this->hash->hmac($stub, $key);
             }
-            $hash .= $stub;
+            $hash  .= $stub;
             $offset = ($offset + 1) % $d;
         }
         return substr($hash, 0, $len);

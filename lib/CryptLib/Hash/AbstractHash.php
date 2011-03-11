@@ -110,7 +110,7 @@ abstract class AbstractHash implements Hash {
         }
         $okey = str_repeat(chr(0x5c), $blockSize) ^ $key;
         $ikey = str_repeat(chr(0x36), $blockSize) ^ $key;
-        $sub = $this->evaluate($ikey . $data);
+        $sub  = $this->evaluate($ikey . $data);
         return $this->evaluate($okey . $sub);
     }
 

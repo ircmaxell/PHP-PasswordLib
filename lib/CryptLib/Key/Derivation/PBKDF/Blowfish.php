@@ -23,7 +23,7 @@ namespace CryptLib\Key\Derivation\PBKDF;
  * @subpackage Derivation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Blowfish 
+class Blowfish
     extends \CryptLib\Key\Derivation\AbstractDerivation
     implements \CryptLib\Key\Derivation\PBKDF
 {
@@ -40,11 +40,15 @@ class Blowfish
      */
     public function derive($password, $salt, $iterations, $length) {
         $salt = $this->encode64($salt);
-        $salt = strlen($salt) > 22 ? substr($salt, 22) : str_pad($salt, 22, '0');
+        if (strlen($salt) > 22) {
+            $salt = substr($salt, 0, 22);
+        } elseif (strlen($salt) < 22) {
+            $salt = str_pad($salt, '0');
+        }
         $expense = ceil(log($iterations, 2));
         $expense = $expense < 4 ? 4 : $expense;
         $expense = $expense > 31 ? 31 : $expense;
-        $salt = '$2a$'.str_pad($expense, 2, '0', STR_PAD_LEFT).'$'.$salt;
+        $salt    = '$2a$'.str_pad($expense, 2, '0', STR_PAD_LEFT).'$'.$salt;
         return crypt($password, $salt);
     }
 

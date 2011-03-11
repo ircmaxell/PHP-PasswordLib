@@ -60,7 +60,7 @@ class Factory extends \Cryptography\Core\AbstractFactory {
      * @throws RuntimeException If an appropriate mixing strategy isn't found
      */
     protected function getGenerator(\CryptLib\Core\Strength $strength) {
-        $sources = $this->getSources();
+        $sources    = $this->getSources();
         $newSources = array();
         foreach ($sources as $key => $source) {
             if ($strength->compare($source::getStrength()) <= 0) {
@@ -205,8 +205,6 @@ class Factory extends \Cryptography\Core\AbstractFactory {
             'registerSource'
         );
     }
-
-    
 
 }
 
