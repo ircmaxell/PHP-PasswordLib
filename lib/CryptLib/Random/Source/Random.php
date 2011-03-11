@@ -29,7 +29,7 @@ use CryptLib\Core\Strength\High as HighStrength;
  * @subpackage Source
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Random implements \Cryptography\Random\Source {
+class Random implements \CryptLib\Random\Source {
 
     /**
      * Return an instance of Strength indicating the strength of the source
@@ -48,6 +48,9 @@ class Random implements \Cryptography\Random\Source {
      * @return string A string of the requested size
      */
     public function generate($size) {
+        if ($size == 0) {
+            return '';
+        }
         if (!file_exists('/dev/random')) {
             return str_repeat(chr(0), $size);
         }

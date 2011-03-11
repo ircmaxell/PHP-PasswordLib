@@ -3,25 +3,26 @@
     <property name="libdir" value="${project.basedir}/lib" override="true" />
     <property name="builddir" value="${project.basedir}/build" override="true" />
     <property name="resultsdir" value="${project.basedir}/build/results" override="true" />
+    <property name="testdir" value="${project.basedir}/test" />
 
     <target name="clean">
         <delete dir="build" />
         <delete dir="docs/api" />
     </target>
     <target name="prepare">
-        <mkdir dir="build/results" />
+        <mkdir dir="build/results/unit" />
         <mkdir dir="docs/api" />
     </target>
     <target name="build" depends="clean,prepare,cs,cpd,pmd" />
 
     <target name="cs" depends="prepare">
         <exec
-            command="phpcs --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=test/CS/ruleset.xml lib"
+            command="phpcs --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
             os="Linux" 
             passthru="true"
             checkreturn="true" />
         <exec
-            command="phpcs.bat  --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=test/CS/ruleset.xml lib"
+            command="phpcs.bat  --report=summary --report-checkstyle=${resultsdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
             os="WIN" checkreturn="true" />
     </target>
     <target name="cpd" depends="prepare">
@@ -39,5 +40,25 @@
             </fileset>
             <formatter type="xml" outfile="${resultsdir}/pmd.xml" />
         </phpmd>
+    </target>
+    <target name="unit" depends="prepare">
+        <coverage-setup database="${builddir}/coverage.db">
+            <fileset dir="${libdir}">
+                <include name="**/*.php" />
+            </fileset>
+        </coverage-setup>
+        <phpunit bootstrap="${libdir}/CryptLib/bootstrap.php" codecoverage="true" haltonfailure="true" haltonerror="true">
+            <formatter type="xml" todir="${resultsdir}" />
+            <formatter type="plain" usefile="false" />
+            <batchtest>
+                <fileset dir="${testdir}/unit">
+                    <include name="**/*Test.php" />
+                </fileset>
+            </batchtest>
+        </phpunit>
+        <phpunitreport infile="${resultsdir}/testsuites.xml"
+            format="frames"
+            todir="${resultsdir}/unit"
+            />
     </target>
 </project>

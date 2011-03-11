@@ -16,7 +16,7 @@
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLib\Strength;
+namespace CryptLib\Core\Strength;
 
 
 /**

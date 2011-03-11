@@ -54,6 +54,9 @@ class URandom implements \CryptLib\Random\Source {
      * @return string A string of the requested size
      */
     public function generate($size) {
+        if ($size == 0) {
+            return '';
+        }
         if (!file_exists('/dev/urandom')) {
             return str_repeat(chr(0), $size);
         }
