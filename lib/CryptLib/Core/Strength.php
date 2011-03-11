@@ -27,6 +27,7 @@ namespace CryptLib\Core;
 abstract class Strength {
 
     /**
+     * @internal
      * @var int The current value of the instance
      */
     protected $value = 1;

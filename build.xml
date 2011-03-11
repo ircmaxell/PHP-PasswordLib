@@ -4,6 +4,7 @@
     <property name="builddir" value="${project.basedir}/build" override="true" />
     <property name="logdir" value="${project.basedir}/build/logs" override="true" />
     <property name="testdir" value="${project.basedir}/test" />
+    <property name="docsdir" value="${project.basedir}/docs" />
 
     <target name="clean">
         <delete dir="build" />
@@ -15,7 +16,7 @@
         <mkdir dir="build/logs" />
         <mkdir dir="build/package" /> 
     </target>
-    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,package" />
+    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,document,package" />
 
     <target name="lint">
         <phplint haltonfailure="true" deprecatedAsError="true">
@@ -84,6 +85,20 @@
         <coverage-report outfile="${builddir}/coverage.db">
             <report todir="${builddir}/coverage" styledir="${testdir}/coverage/" />
         </coverage-report>
+    </target>
+
+    <target name="document" depends="prepare">
+        <exec command="phpuml ${libdir} -f htmlnew -n CryptLib --no-deployment-view -o ${builddir}/api" os="Linux" />
+    </target>
+
+    <target name="moveDocs" depends="document">
+        <delete dir="${docsdir}/api" />
+        <mkdir dir="${docsdir}/api" />
+        <copy todir="${docsdir}/api">
+            <fileset dir="${builddir}/api">
+                <include name="**/**" />
+            </fileset>
+        </copy>
     </target>
 
     <target name="package" depends="prepare">

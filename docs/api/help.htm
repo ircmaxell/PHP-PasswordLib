@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+	<title>API Help</title>
+	<link type="text/css" rel="stylesheet" href="$resources/style.css"/>
+	<script type="text/javascript" language="javascript" src="$resources/treeview.js"></script>
+</head>
+<body>
+
+<h1 class="help">How this API document is organized</h1>
+
+<div class="description">
+
+<h2>Menu</h2>
+<p>The menu in the left panel provides a treeview of all packages, classes and interfaces.
+It also contains the procedural functions and global constants (defined with the <i>define</i> keyword).
+Click on a item to display its detailed page in the right panel.</p>
+
+<h2>Package</h2>
+
+<p>Each package has a page that contains a list of its classes, interfaces, with a summary for each.</p> 
+
+<p>Even if packages don't exist by themselves in PHP, PHP_UML reconstitutes them using the PHP namespaces (from PHP 5.3),
+or by using the docblock @package (if the source code has some).<br/>
+The top package is showed like a UML Model, and matches the "global namespace" of PHP.</p>
+
+<p>From version 1.5, PHP_UML can display non strictly object-oriented elements, like procedural functions and global
+constants. The former appear under "Functions" and the latter under "Properties", inside the Package page that matches the
+namespace that these elements belong to.</p> 
+
+<h2>Class/Interface</h2>
+<p>Each class and interface has its own separate page. Each of these pages starts with a description block.</p>
+<p>The description block displays the content of the comment just preceding the class/interface definition in the source code,
+followed by a list of the docblocks, as well the source file name.<br/>
+It also lists : all inherited classes, all subclasses, all known subinterfaces, and all known implementing classes.</p>
+
+<p>Then the following elements appear:</p>
+<ul>
+	<li>Class inheritance diagram</li>
+	<li>Function Summary (all the methods of the class/interface)</li>
+	<li>Property Summary (all the constants and properties of the class)</li>
+</ul>
+<p>Click on a function/property title to expand it down, and see more detailed information about it (comment, docblocks).</p>
+<p>All elements are in the order they appear in the source code.</p>
+
+<h2>Index</h2>
+<p>The Index contains an alphabetic list of all classes, interfaces, functions, properties and constants.</p>
+
+<h2>Prev/Next</h2>
+<p>These links take you to the next or previous class, interface, package, or related page.</p>
+
+<h2>Expand/Collapse all</h2>
+<p>In a class/interface/package page, click on "Expand all" to expand the detailed information about all members (functions, properties...).
+The state of the button "Expand all / Collapse all" is preserved between page requests (unless you have cookies disabled in your browser).</p>
+
+<h2>PHP and types</h2>
+<p>Even though PHP is not a strong typed language, PHP_UML relies on a set of predefined types (integer, float, string, mixed, etc.)
+and tries to use them as much as it can guess. When it had not been able to resolve a type/class/interface
+(for example, a class implements an interface whose source code had not been provided), the type is displayed, but is not clickable.</p>
+
+<p>PHP_UML is also aware of a couple of internal PHP classifiers, such as Exception or Iterator.</p>
+
+</div>
+
+</body>
+</html>

@@ -31,6 +31,7 @@ namespace CryptLib\Core\Strength;
 class VeryLow extends \CryptLib\Core\Strength {
 
     /**
+     * @internal
      * @var int The current value of the instance
      */
     protected $value = 1;

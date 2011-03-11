@@ -33,6 +33,7 @@ namespace CryptLib\Core\Strength;
 class Medium extends \CryptLib\Core\Strength {
 
     /**
+     * @internal
      * @var int The current value of the instance
      */
     protected $value = 5;

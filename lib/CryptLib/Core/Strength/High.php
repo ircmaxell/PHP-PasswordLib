@@ -35,6 +35,7 @@ namespace CryptLib\Core\Strength;
 class High extends \CryptLib\Core\Strength {
 
     /**
+     * @internal
      * @var int The current value of the instance
      */
     protected $value = 7;
