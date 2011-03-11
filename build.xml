@@ -2,17 +2,23 @@
 <project name="PHP-CryptLib" default="" basedir=".">
     <target name="clean">
         <delete dir="build" />
+        <delete dir="docs/api" />
     </target>
     <target name="prepare">
         <mkdir dir="build/results" />
+        <mkdir dir="docs/api" />
     </target>
-    <target name="cs">
-        <phpcodesniffer standard="Squiz">
-            <formatter type="default" usefile="false" />
-            <formatter type="checkstyle" outfile="build/results/checkstyle.xml" />
-            <fileset dir="lib">
-                <include name="**/*.php" />
-            </fileset>
-        </phpcodesniffer>
+    <target name="cs" depends="prepare">
+        <exec
+            command="phpcs --report=summary --report-checkstyle=./build/results/checkstyle.xml --standard=test/CS/ruleset.xml lib"
+            os="Linux" 
+            passthru="true"
+            checkreturn="true" />
+        <exec
+            command="phpcs.bat --standard=test/CS/ruleset.xml lib"
+            os="WIN" checkreturn="true" />
+    </target>
+    <target name="doc">
+        <exec command="phpdoctor.php phpdoctor.ini" />
     </target>
 </project>
