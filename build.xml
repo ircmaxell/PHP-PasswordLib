@@ -13,9 +13,9 @@
         <mkdir dir="build/code-browser" />
         <mkdir dir="build/coverage" />
         <mkdir dir="build/logs" />
-      
+        <mkdir dir="build/package" /> 
     </target>
-    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend" />
+    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,package" />
 
     <target name="lint">
         <phplint haltonfailure="true" deprecatedAsError="true">
@@ -35,6 +35,7 @@
             command="phpcs.bat  --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
             os="WIN" checkreturn="true" />
     </target>
+
     <target name="cpd" depends="prepare">
         <phpcpd>
             <fileset dir="${libdir}">
@@ -43,6 +44,7 @@
             <formatter type="pmd" outfile="${logdir}/php-cpd.xml" />
         </phpcpd>
     </target>
+
     <target name="pmd" depends="prepare">
         <phpmd>
             <fileset dir="${libdir}">
@@ -51,6 +53,7 @@
             <formatter type="xml" outfile="${logdir}/pmd.xml" />
         </phpmd>
     </target>
+
     <target name="pdepend" depends="unit">
         <phpdepend file="${libdir}">
             <logger type="phpunit-xml" outfile="${logdir}/metrics.xml" />
@@ -58,6 +61,7 @@
             <analyzer type="coderank-mode" value="method" />
         </phpdepend>
     </target>
+
     <target name="unit" depends="prepare">
         <coverage-setup database="${builddir}/coverage.db">
             <fileset dir="${libdir}">
@@ -80,5 +84,39 @@
         <coverage-report outfile="${builddir}/coverage.db">
             <report todir="${builddir}/coverage" styledir="${testdir}/coverage/" />
         </coverage-report>
+    </target>
+
+    <target name="package" depends="prepare">
+        <zip destfile="${builddir}/package/CryptLib.zip">
+            <fileset dir="${libdir}">
+                <include name="**/**" />
+            </fileset>
+        </zip>
+        <filehash file="${builddir}/package/CryptLib.zip" hashtype="0" propertyname="filehash" />
+        <echo message="${filehash}" file="${builddir}/package/CryptLib.zip.md5" />
+        <filehash file="${builddir}/package/CryptLib.zip" hashtype="1" propertyname="filehash" />
+        <echo message="${filehash}" file="${builddir}/package/CryptLib.zip.sha1" />
+
+        <tar destfile="${builddir}/package/CryptLib.tar.gz" compression="gzip">
+            <fileset dir="${libdir}">
+                <include name="**/**" />
+            </fileset>
+        </tar>
+        <filehash file="${builddir}/package/CryptLib.tar.gz" hashtype="0" propertyname="filehash" />
+        <echo message="${filehash}" file="${builddir}/package/CryptLib.tar.gz.md5" />
+        <filehash file="${builddir}/package/CryptLib.tar.gz" hashtype="1" propertyname="filehash" />
+        <echo message="${filehash}" file="${builddir}/package/CryptLib.tar.gz.sha1" />
+
+        <tar destfile="${builddir}/package/CryptLib.tar.bz2" compression="bzip2">
+            <fileset dir="${libdir}">
+                <include name="**/**" />
+            </fileset>
+        </tar>
+        <filehash file="${builddir}/package/CryptLib.tar.bz2" hashtype="0" propertyname="filehash" />
+        <echo message="${filehash}" file="${builddir}/package/CryptLib.tar.bz2.md5" />
+        <filehash file="${builddir}/package/CryptLib.tar.bz2" hashtype="1" propertyname="filehash" />
+        <echo message="${filehash}" file="${builddir}/package/CryptLib.tar.bz2.sha1" />
+
+
     </target>
 </project>
