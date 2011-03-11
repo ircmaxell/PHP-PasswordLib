@@ -94,7 +94,7 @@ class Generator {
             return $max;
         }
         $bytes = 1;
-        while (0 < ($range >>= 8)) {
+        while ($range >>= 8) {
             $bytes++;
         }
         $rand   = $this->generate($bytes);
@@ -102,8 +102,8 @@ class Generator {
         for ($i = 0; $i < $bytes; $i++) {
             $number += (ord($rand[$i]) << (8 * $i));
         }
-        $scale  = $range / pow(2, 8 * $bytes);
-        $number = round($scale * $number);
-        return $min + $number;
+        $scale  = ($max - $min) / (pow(2, 8 * $bytes) - 1);
+        $number = floor($scale * $number);
+        return (int)($min + $number);
     }
 }

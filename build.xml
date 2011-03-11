@@ -73,7 +73,7 @@
             <formatter type="xml" todir="${logdir}" />
             <formatter type="plain" usefile="false" />
             <batchtest>
-                <fileset dir="${testdir}/unit">
+                <fileset dir="${testdir}/Unit">
                     <include name="**/*Test.php" />
                 </fileset>
             </batchtest>

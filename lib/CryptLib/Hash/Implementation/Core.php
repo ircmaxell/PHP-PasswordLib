@@ -24,7 +24,7 @@ namespace CryptLib\Hash\Implementation;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Core extends \Cryptlib\Hash\AbstractHash {
+class Core extends \CryptLib\Hash\AbstractHash {
 
     /**
      * Get an array of supported algorithms

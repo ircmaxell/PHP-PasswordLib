@@ -162,7 +162,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      */
     protected function loadCiphers() {
         $this->loadFiles(
-            __DIR__ . '/block/implementation',
+            __DIR__ . '/Block/Implementation',
             __NAMESPACE__ . '\\Block\\Implementation\\',
             'registerCipher'
         );
@@ -175,7 +175,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      */
     protected function loadModes() {
         $this->loadFiles(
-            __DIR__ . '/block/mode',
+            __DIR__ . '/Block/Mode',
             __NAMESPACE__ . '\\Block\\Mode\\',
             'registerMode'
         );

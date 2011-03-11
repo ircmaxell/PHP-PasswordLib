@@ -17,6 +17,8 @@
 
 namespace CryptLib\Hash;
 
+use CryptLib\Hash\Implementation\Core;
+
 /**
  * The Hash Factory
  *
@@ -34,10 +36,6 @@ class Factory extends \CryptLib\Core\AbstractFactory  {
      */
     protected $algos = array();
 
-    /**
-     * @var array The loaded and supported password hashing algorithms
-     */
-    protected $passwords = array();
 
     /**
      * Instantiate the factory
@@ -48,7 +46,6 @@ class Factory extends \CryptLib\Core\AbstractFactory  {
      */
     public function __construct() {
         $this->loadImplementations();
-        $this->loadPasswords();
     }
 
     /**
@@ -120,47 +117,17 @@ class Factory extends \CryptLib\Core\AbstractFactory  {
     }
 
     /**
-     * Register a password implementation for this factory to use for creating
-     * and verifying passwords
-     *
-     * @param string $name  The name of the algorithm
-     * @param string $class The class name of the implementation
-     *
-     * @return Factory $this The current factory instance
-     */
-    public function registerPassword($name, $class) {
-        $this->registerType(
-            'passwords',
-            __NAMESPACE__ . '\\Password',
-            $name,
-            $class
-        );
-    }
-
-    /**
      * Load all core hash implementations
      *
      * @return void
      */
     protected function loadImplementations() {
         $this->loadFiles(
-            __DIR__ . '/implementation',
+            __DIR__ . '/Implementation',
             __NAMESPACE__ . '\\Implementation\\',
             'registerAlgo'
         );
     }
 
-    /**
-     * Load all core password implementations
-     *
-     * @return void
-     */
-    protected function loadPassword() {
-        $this->loadFiles(
-            __DIR__ . '/password',
-            __NAMESPACE__ . '\\Password\\',
-            'registerPassword'
-        );
-    }
 
 }

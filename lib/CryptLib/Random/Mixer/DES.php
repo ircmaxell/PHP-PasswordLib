@@ -37,6 +37,13 @@ use \CryptLib\Core\Strength\High as HighStrength;
 class DES implements \CryptLib\Random\Mixer {
 
     /**
+     * The DES blocksize
+     *
+     * @internal
+     */
+    const BLOCKSIZE = 8;
+
+    /**
      * An instance of a DES symmetric encryption cipher
      *
      * @var Cipher The DES cipher instance
@@ -72,7 +79,7 @@ class DES implements \CryptLib\Random\Mixer {
         if (is_null($factory)) {
             $factory = new CipherFactory();
         }
-        $this->cipher = $factory->getCipher('des');
+        $this->cipher = $factory->getBlockCipher('des');
     }
 
     /**
@@ -89,7 +96,7 @@ class DES implements \CryptLib\Random\Mixer {
             return '';
         }
         $len       = strlen($parts[0]);
-        $blockSize = $this->cipher->getBlockSize();
+        $blockSize = static::BLOCKSIZE;
         foreach ($parts as &$part) {
             $part = str_split($part, $blockSize - 1);
         }

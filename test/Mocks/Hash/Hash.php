@@ -21,11 +21,9 @@ namespace CryptLibTest\Mocks\Hash;
  * @package    Hash
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Hash implements \CryptLib\Hash\Hash {
+class Hash extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\Hash\Hash {
 
     public static $algos = array();
-
-    protected $callbacks = array();
 
     /**
      * Get an array of supported algorithms
@@ -34,17 +32,6 @@ class Hash implements \CryptLib\Hash\Hash {
      */
     public static function getAlgos() {
         return static::$algos;
-    }
-
-    public function __construct(array $callbacks = array()) {
-        $this->callbacks = $callbacks;
-    }
-
-    public function __call($name, array $args = array()) {
-        if (isset($this->callbacks[$name])) {
-            return call_user_func_array($this->callbacks[$name], $args);
-        }
-        return null;
     }
 
     /**
