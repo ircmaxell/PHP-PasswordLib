@@ -45,7 +45,7 @@ printf("\nHere's a base64 encoded random string: %s\n", base64_encode($number));
  */
 $number = $generator->generate(8);
 
-printf("\n Here's a UUEncoded random string: %s\n", convert_uuencode($number));
+printf("\nHere's a UUEncoded random string: %s\n", convert_uuencode($number));
 
 /**
  * Now, let's define a string of allowable characters to use for token
@@ -73,4 +73,4 @@ $converted = BaseConverter::convertFromBinary($number, $characters);
 
 $converted = str_pad($converted, 16, '0', STR_PAD_LEFT);
 
-printf("\n Here's our token: %s\n", $converted);
+printf("\nHere's our token: %s\n", $converted);

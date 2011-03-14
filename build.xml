@@ -31,7 +31,7 @@
             command="phpcs --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
             os="Linux" 
             passthru="true"
-            checkreturn="true" />
+            checkreturn="false" />
         <exec
             command="phpcs.bat  --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
             os="WIN" checkreturn="true" />

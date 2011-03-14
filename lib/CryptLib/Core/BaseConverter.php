@@ -16,11 +16,6 @@
 namespace CryptLib\Core;
 
 /**
- * The number of bytes in a 32 bit int
- */
-define('BYTES8', 1);
-
-/**
  * A Utility class for converting between raw binary strings and a given
  * list of characters
  *
@@ -42,10 +37,13 @@ class BaseConverter {
         if (empty($string) || empty($characters)) {
             return '';
         }
-        $string = str_split($string);
-        $string = array_map(function($str) { return ord($str);}, $string);
+        $string   = str_split($string);
+        $callback = function($str) {
+            return ord($str);
+        };
+        $string    = array_map($callback, $string);
         $converted = static::baseConvert($string, 256, strlen($characters));
-        $callback = function ($num) use ($characters) {
+        $callback  = function ($num) use ($characters) {
             return $characters[$num];
         };
         return implode('', array_map($callback, $converted));
@@ -63,32 +61,40 @@ class BaseConverter {
         if (empty($string) || empty($characters)) {
             return '';
         }
-        $string = str_split($string);
+        $string   = str_split($string);
         $callback = function($str) use ($characters) {
             return $characters[$str];
         };
-        $string = array_map($callback, $string);
+        $string    = array_map($callback, $string, $characters);
         $converted = static::baseConvert($string, 256, strlen($characters));
-        $callback = function ($num) {
+        $callback  = function ($num) {
             return chr($num);
         };
-        return implode('', array_map($callback, $converted));
+        return implode('', array_map($callback));
 
     }
 
+    /**
+     * Convert an array of input blocks to another numeric base
+     *
+     * This function was modified from an implementation found on StackOverflow.
+     * Special Thanks to @KeithRandall for supplying the implementation.
+     *
+     * @param int[] $source  The source number, as an array
+     * @param int   $srcBase The source base as an integer
+     * @param int   $dstBase The destination base as an integer
+     *
+     * @see http://codegolf.stackexchange.com/questions/1620/arbitrary-base-conversion/1626#1626
+     * @return int[] An array of integers in the encoded base
+     */
     public static function baseConvert(array $source, $srcBase, $dstBase) {
         $result = array();
-        $divmod = function($a, $b) {
-            return array(
-                floor($a / $b),
-                $a % $b
-            );
-        };
-        $callback = function($source, $src, $dst) use ($divmod) {
-            $div = array();
+        $callback = function($source, $src, $dst) {
+            $div       = array();
             $remainder = 0;
             foreach ($source as $n) {
-                list ($e, $remainder) = $divmod($n + $remainder * $src, $dst);
+                $e         = floor(($n + $remainder * $src) / $dst);
+                $remainder = ($n + $remainder * $src) % $dst;
                 if ($div || $e) {
                     $div[] = $e;
                 }
@@ -97,7 +103,7 @@ class BaseConverter {
         };
         while ($source) {
             list ($source, $remainder) = $callback($source, $srcBase, $dstBase);
-            $result[] = $remainder;
+            $result[]                  = $remainder;
         }
         return $result;
     }
