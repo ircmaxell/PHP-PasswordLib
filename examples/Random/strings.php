@@ -24,4 +24,53 @@ $factory = new CryptLib\Random\Factory;
  */
 $generator = $factory->getLowStrengthGenerator();
 
-var_dump(BaseConverter::convertFromBinary(chr(1).chr(1), '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz./'));
+/**
+ * We can now start generating our random strings.  The generator by default
+ * outputs full-byte strings (character 0 - 255), so it's not safe to display
+ * them directly.  Instead, let's convert them to hex to show the string.
+ */
+$number = $generator->generate(8);
+
+printf("\nHere's our first random string: %s\n", bin2hex($number));
+
+/**
+ * We can also base64 encode it to display the string
+ */
+$number = $generator->generate(8);
+
+printf("\nHere's a base64 encoded random string: %s\n", base64_encode($number));
+
+/**
+ * We also can UUEncode the string to display it
+ */
+$number = $generator->generate(8);
+
+printf("\n Here's a UUEncoded random string: %s\n", convert_uuencode($number));
+
+/**
+ * Now, let's define a string of allowable characters to use for token
+ * generation (this can be for one-time-use passwords, CRSF tokens, etc)
+ */
+$characters = '0123456789abcdefghijklmnopqrstuvwxyz' .
+              'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&;<>?';
+
+/**
+ * After that, we can generate the number.  Remember that each character is
+ * 0 - 256 (base 256).  So if we're going to convert to base 72 such as with
+ * the above characters, it's going to take approximately 4/3 the space (8 bits
+ * per character for base 256 and about 6 bits per character for base 72).  So
+ * to generate a 16 character token, we need to generate 12 random bytes
+ */
+
+$number = $generator->generate(12);
+
+$converted = BaseConverter::convertFromBinary($number, $characters);
+
+/**
+ * Now, since we want to be sure we use 16 characters, we need to pad it out
+ * since we really are dealing with a number which could be less than 16 chars.
+ */
+
+$converted = str_pad($converted, 16, '0', STR_PAD_LEFT);
+
+printf("\n Here's our token: %s\n", $converted);

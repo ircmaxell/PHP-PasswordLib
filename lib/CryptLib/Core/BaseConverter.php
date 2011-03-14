@@ -42,24 +42,13 @@ class BaseConverter {
         if (empty($string) || empty($characters)) {
             return '';
         }
-        $nchars    = strlen($characters);
-        $shiftBits = (int)floor(log($nchars, 2));
-        $result    = '';
-        $seed      = ord($string[0]);
-        $string    = substr($string, 1);
-        $added     = 8;
-        $shifted   = 0;
-        while ($added - $shifted > 0) {
-            $result  .= $characters[$seed % $nchars];
-            $seed   >>= $shiftBits;
-            $shifted += $shiftBits;
-            if ($added - $shifted <= $shiftBits && isset($string[0])) {
-                $seed |= (ord($string[0]) << ($added - $shifted ));
-                $string = substr($string, 1);
-                $added += 8;
-            }
-        }
-        return $result;
+        $string = str_split($string);
+        $string = array_map(function($str) { return ord($str);}, $string);
+        $converted = static::baseConvert($string, 256, strlen($characters));
+        $callback = function ($num) use ($characters) {
+            return $characters[$num];
+        };
+        return implode('', array_map($callback, $converted));
     }
 
     /**
@@ -71,6 +60,46 @@ class BaseConverter {
      * @return string The converted string
      */
     public static function convertToBinary($string, $characters) {
+        if (empty($string) || empty($characters)) {
+            return '';
+        }
+        $string = str_split($string);
+        $callback = function($str) use ($characters) {
+            return $characters[$str];
+        };
+        $string = array_map($callback, $string);
+        $converted = static::baseConvert($string, 256, strlen($characters));
+        $callback = function ($num) {
+            return chr($num);
+        };
+        return implode('', array_map($callback, $converted));
+
+    }
+
+    public static function baseConvert(array $source, $srcBase, $dstBase) {
+        $result = array();
+        $divmod = function($a, $b) {
+            return array(
+                floor($a / $b),
+                $a % $b
+            );
+        };
+        $callback = function($source, $src, $dst) use ($divmod) {
+            $div = array();
+            $remainder = 0;
+            foreach ($source as $n) {
+                list ($e, $remainder) = $divmod($n + $remainder * $src, $dst);
+                if ($div || $e) {
+                    $div[] = $e;
+                }
+            }
+            return array($div, $remainder);
+        };
+        while ($source) {
+            list ($source, $remainder) = $callback($source, $srcBase, $dstBase);
+            $result[] = $remainder;
+        }
+        return $result;
     }
 
 }
