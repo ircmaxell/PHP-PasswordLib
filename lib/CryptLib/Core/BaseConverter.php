@@ -63,14 +63,14 @@ class BaseConverter {
         }
         $string   = str_split($string);
         $callback = function($str) use ($characters) {
-            return $characters[$str];
+            return strpos($characters, $str);
         };
-        $string    = array_map($callback, $string, $characters);
-        $converted = static::baseConvert($string, 256, strlen($characters));
+        $string    = array_map($callback, $string);
+        $converted = static::baseConvert($string, strlen($characters), 256);
         $callback  = function ($num) {
             return chr($num);
         };
-        return implode('', array_map($callback));
+        return implode('', array_map($callback, $converted));
 
     }
 

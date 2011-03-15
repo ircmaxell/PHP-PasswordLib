@@ -26,12 +26,42 @@ class Unit_Core_BaseConverterTest extends PHPUnit_Framework_TestCase {
         return $return;
     }
 
+    public static function provideConvertToFromBinary() {
+        $return = array();
+        $str = chr(1) . chr(0);
+        for ($i = 2; $i < 256; $i++) {
+             $str .= chr($i);
+             $return[] = array($str, strrev($str));
+        }
+        return $return;
+    }
+
     /**
      * @dataProvider provideConvertFromBinary
      */
     public function testConvertFromBinary($from, $to, $expect) {
-        $result = BaseConverter::convertFromBinary($from, $to, $expect);
+        $result = BaseConverter::convertFromBinary($from, $to);
         $this->assertEquals($expect, $result);
+    }
+
+    /**
+     * @dataProvider provideConvertFromBinary
+     */
+    public function testConvertToBinary($expect, $from, $str) {
+        $result = BaseConverter::convertToBinary($str, $from);
+        $result = ltrim($result, chr(0));
+        $expect = ltrim($expect, chr(0));
+        $this->assertEquals($expect, $result);
+    }
+
+    /**
+     * @dataProvider provideConvertToFromBinary
+     */
+    public function testConvertToAndFromBinary($str, $from) {
+return false;
+        $result1 = BaseConverter::convertFromBinary($str, $from);
+        $result = BaseConverter::convertToBinary($result1, $from);
+        $this->assertEquals($str, $result);
     }
 
     /**
