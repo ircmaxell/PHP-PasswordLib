@@ -27,7 +27,7 @@ class KDF3
     extends \CryptLib\Key\Derivation\AbstractDerivation
     implements \CryptLib\Key\Derivation\KDF
 {
-    
+
     /**
      * @var array An array of options for the key derivation function 
      */

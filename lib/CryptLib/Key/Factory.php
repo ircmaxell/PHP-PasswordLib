@@ -26,12 +26,12 @@ class Factory extends \CryptLib\Core\AbstractFactory {
     /**
      * @var array An array of KDF class implementations
      */
-    protected $kdf                 = array();
+    protected $kdf = array();
 
     /**
      * @var array An array of PBKDF class implementations
      */
-    protected $pbkdf               = array();
+    protected $pbkdf = array();
 
     /**
      * @var array An array of symmetric key generator implementations
