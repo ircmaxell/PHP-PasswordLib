@@ -1,4 +1,20 @@
 <?php
+/**
+ * An example file demonstrating the generation of random numbers.
+ *
+ * PHP version 5.3
+ *
+ * @category   PHPCryptLib-Examples
+ * @package    Random
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
+ */
+
+namespace CryptLibExamples\Random;
+
+use CryptLib\Random\Factory;
 
 /**
  * Let's generate some random integers!  For this, we'll use the 
@@ -10,7 +26,7 @@
 require_once dirname(dirname(__DIR__)) . '/lib/CryptLib/bootstrap.php';
 
 //Now, let's get a random number factory
-$factory = new CryptLib\Random\Factory;
+$factory = new Factory;
 
 /**
  * Now, since we want a low strength random number, let's get a low strength 

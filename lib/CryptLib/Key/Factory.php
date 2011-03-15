@@ -1,22 +1,48 @@
 <?php
 /**
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The core Key Factory
+ *
+ * PHP version 5.3
+ *
+ * @category   PHPCryptLib
+ * @package    Key
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
 namespace CryptLib\Key;
 
 /**
- * Description of factory
+ * The core Key Factory
  *
- * @author ircmaxell
+ * @category   PHPCryptLib
+ * @package    Key
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
 class Factory extends \CryptLib\Core\AbstractFactory {
 
+    /**
+     * @var array An array of KDF class implementations
+     */
     protected $kdf                 = array();
+
+    /**
+     * @var array An array of PBKDF class implementations
+     */
     protected $pbkdf               = array();
+
+    /**
+     * @var array An array of symmetric key generator implementations
+     */
     protected $symmetricGenerators = array();
 
+    /**
+     * Construct the instance, loading the core implementations
+     *
+     * @return void
+     */
     public function __construct() {
         $this->loadPBKDF();
         //$this->loadKDF();

@@ -101,15 +101,15 @@ class Generator {
             return $max;
         }
         $bytes = 1;
-        while ($range >>= 8) {
+        while ($range >>= BITS_PER_BYTE) {
             $bytes++;
         }
         $rand   = $this->generate($bytes);
         $number = 0;
         for ($i = 0; $i < $bytes; $i++) {
-            $number += (ord($rand[$i]) << (8 * $i));
+            $number += (ord($rand[$i]) << (BITS_PER_BYTE * $i));
         }
-        $scale  = ($max - $min) / (pow(2, 8 * $bytes) - 1);
+        $scale  = ($max - $min) / (pow(2, BITS_PER_BYTE * $bytes) - 1);
         $number = floor($scale * $number);
         return (int)($min + $number);
     }

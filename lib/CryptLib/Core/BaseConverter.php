@@ -88,6 +88,10 @@ class BaseConverter {
      * @return int[] An array of integers in the encoded base
      */
     public static function baseConvert(array $source, $srcBase, $dstBase) {
+        if ($dstBase < 2) {
+            $message = sprintf('Invalid Destination Base: %d', $dstBase);
+            throw new \InvalidArgumentException($message);
+        }
         $result = array();
         $callback = function($source, $src, $dst) {
             $div       = array();
@@ -105,7 +109,7 @@ class BaseConverter {
             list ($source, $remainder) = $callback($source, $srcBase, $dstBase);
             $result[]                  = $remainder;
         }
-        return $result;
+        return array_reverse($result);
     }
 
 }
