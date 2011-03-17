@@ -52,7 +52,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
             array(3, 'abc', 'aaa'),
             array(8, '0123456789abcdef', '03030303'),
             array(16, '0123456789abcdef', '0707070707070707'),
-  
+            array(16, '', '2MIb2Mc30Mcb2MIb'),
         );
     }
 
