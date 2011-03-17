@@ -79,6 +79,7 @@
             </fileset>
         </coverage-setup>
         <phpunit bootstrap="${testdir}/bootstrap.php" codecoverage="true" haltonfailure="true" haltonerror="true">
+            <formatter type="clover" todir="${logdir}" outfile="clover.xml" />
             <formatter type="xml" todir="${logdir}" />
             <formatter type="plain" usefile="false" />
             <batchtest>
