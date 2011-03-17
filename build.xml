@@ -16,7 +16,7 @@
         <mkdir dir="build/logs" />
         <mkdir dir="build/package" /> 
     </target>
-    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,cb,document,package" />
+    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,cb,loc,document,package" />
 
     <target name="lint">
         <phplint haltonfailure="true" deprecatedAsError="true">
@@ -53,7 +53,12 @@
             <formatter type="pmd" outfile="${logdir}/php-cpd.xml" />
         </phpcpd>
     </target>
-
+    <target name="loc" depends="prepare">
+        <exec 
+            command="phploc --log-csv ${logdir}/phploc.csv ${libdir}"
+            os="Linux"
+        />
+    </target>
     <target name="pmd" depends="prepare">
         <phpmd rulesets="test/PHPMD/ruleset.xml">
             <fileset dir="${libdir}">
