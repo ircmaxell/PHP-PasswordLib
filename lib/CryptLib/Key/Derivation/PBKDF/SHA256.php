@@ -41,7 +41,7 @@ class SHA256
      * @return string The derived key
      */
     public function derive($password, $salt, $iterations, $length) {
-        $salt = strlen($salt) > 16 ? substr($salt, 16) : str_pad($salt, 16, chr(0));
+        $salt = substr(str_pad($salt, 16, chr(0)), 0, 16);
         $salt = '$5$rounds='.$iterations.'$'.$salt;
         return crypt($password, $salt);
     }

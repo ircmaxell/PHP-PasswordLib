@@ -102,11 +102,16 @@ class Symmetric {
      * @return string The decrypted data
      */
     public function decrypt($data, \CryptLib\Key\Symmetric $key) {
-        $key  = $key->getKey();
-        $size = $this->cipher->getBlockSize($key);
-        $iv   = \substr($data, 0, $size);
-        $data = \substr($data, $size);
-        $dec  = $this->mode->decrypt($data, $key, $this->cipher, $iv);
+        $key   = $key->getKey();
+        $size  = $this->cipher->getBlockSize($key);
+        $initv = \substr($data, 0, $size);
+        $data  = \substr($data, $size);
+        $dec   = $this->mode->decrypt(
+            $data,
+            $key,
+            $this->cipher,
+            $initv
+        );
         return $this->postDecrypt($dec, $key);
     }
 
@@ -121,9 +126,14 @@ class Symmetric {
     public function encrypt($data, \CryptLib\Key\Symmetric $key) {
         $key     = $key->getKey();
         $newData = $this->prepareEncrypt($data, $key);
-        $iv      = $this->makeIv($this->cipher->getBlockSize($key));
-        $enc     = $this->mode->encrypt($newData, $key, $this->cipher, $iv);
-        return $iv . $enc;
+        $initv   = $this->makeIv($this->cipher->getBlockSize($key));
+        $enc     = $this->mode->encrypt(
+            $newData,
+            $key,
+            $this->cipher,
+            $initv
+        );
+        return $initv . $enc;
     }
 
     /**

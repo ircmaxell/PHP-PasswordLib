@@ -41,20 +41,19 @@ class PBKDF2
      * @return string The derived key
      */
     public function derive($password, $salt, $iterations, $length) {
-        $size = $this->hash->getSize();
-        $l    = ceil($length / $size);
-        $r    = $length - ($l - 1) * $size;
-        $t    = '';
-        for ($i = 1; $i <= $l; $i++) {
-            $u   = $this->hash->hmac($salt . pack('N', $i), $password);
-            $res = $u;
+        $size   = $this->hash->getSize();
+        $len    = ceil($length / $size);
+        $result = '';
+        for ($i = 1; $i <= $len; $i++) {
+            $tmp = $this->hash->hmac($salt . pack('N', $i), $password);
+            $res = $tmp;
             for ($j = 1; $j < $iterations; $j++) {
-                $u    = $this->hash->hmac($u, $password);
-                $res ^= $u;
+                $tmp  = $this->hash->hmac($tmp, $password);
+                $res ^= $tmp;
             }
-            $t .= $res;
+            $result .= $res;
         }
-        return substr($t, 0, $length);
+        return substr($result, 0, $length);
     }
 
     /**

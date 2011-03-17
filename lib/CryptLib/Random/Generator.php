@@ -93,8 +93,8 @@ class Generator {
      * @return int The generated random number within the range
      */
     public function generateInt($min = 0, $max = \PHP_INT_MAX) {
-        $tmp   = (int)max($max, $min);
-        $min   = (int)min($max, $min);
+        $tmp   = (int) max($max, $min);
+        $min   = (int) min($max, $min);
         $max   = $tmp;
         $range = $max - $min;
         if ($range == 0) {
@@ -111,7 +111,7 @@ class Generator {
         }
         $scale  = ($max - $min) / (pow(2, BITS_PER_BYTE * $bytes) - 1);
         $number = floor($scale * $number);
-        return (int)($min + $number);
+        return (int) ($min + $number);
     }
 
     /**

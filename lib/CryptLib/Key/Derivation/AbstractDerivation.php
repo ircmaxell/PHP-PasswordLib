@@ -36,7 +36,7 @@ abstract class AbstractDerivation {
      * @var array An array of options for the key derivation function
      */
     protected $options = array(
-        'hash' => 'sha512',
+        'hash'        => 'sha512',
         'hashfactory' => null,
     );
 

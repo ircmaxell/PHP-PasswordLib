@@ -123,9 +123,9 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      * @throws InvalidArgumentException If the class is not a block cipher
      */
     public function registerCipher($name, $class) {
-        $r         = new \ReflectionClass($class);
+        $refl      = new \ReflectionClass($class);
         $interface = '\\'. __NAMESPACE__ . '\\Block\\BlockCipher';
-        if (!$r->implementsInterface($interface)) {
+        if (!$refl->implementsInterface($interface)) {
             $message = sprintf('Class must implement %s', $interface);
             throw new \InvalidArgumentException($message);
         }
@@ -145,8 +145,9 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      * @throws InvalidArgumentException If the class is not a valid mode
      */
     public function registerMode($name, $class) {
-        $r = new \ReflectionClass($class);
-        if (!$r->implementsInterface('\\'. __NAMESPACE__ . '\\Block\\Mode')) {
+        $refl      = new \ReflectionClass($class);
+        $interface = '\\'. __NAMESPACE__ . '\\Block\\Mode';
+        if (!$refl->implementsInterface($interface)) {
             throw new \InvalidArgumentException('Class must implement Mode');
         }
         $obj = new $class;

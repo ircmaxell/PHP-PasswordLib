@@ -26,14 +26,14 @@ namespace CryptLib\Cipher\Block;
 interface BlockCipher {
 
     /**
-     * Get a list of supported ciphers by this cipher
+     * Get a list of supported ciphers by this cipher.
      *
      * @return array An array of supported cipher names (strings)
      */
     public static function getSupportedCiphers();
 
     /**
-     * Decrypt a block of data using the supplied string key
+     * Decrypt a block of data using the supplied string key.
      *
      * Note that the supplied data should be the same size as the block size of
      * the cipher being used.
@@ -46,7 +46,7 @@ interface BlockCipher {
     public function decryptBlock($data, $key);
 
     /**
-     * Encrypt a block of data using the supplied string key
+     * Encrypt a block of data using the supplied string key.
      *
      * Note that the supplied data should be the same size as the block size of
      * the cipher being used.
@@ -59,7 +59,7 @@ interface BlockCipher {
     public function encryptBlock($data, $key);
 
     /**
-     * Get the block size for the current initialized cipher
+     * Get the block size for the current initialized cipher.
      *
      * @param string $key The key the data will be encrypted with
      *
@@ -68,7 +68,7 @@ interface BlockCipher {
     public function getBlockSize($key);
 
     /**
-     * Get the string name of the current cipher instance
+     * Get the string name of the current cipher instance.
      *
      * @return string The current instantiated cipher
      */

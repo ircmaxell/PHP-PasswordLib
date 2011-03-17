@@ -59,7 +59,7 @@ class RNGCrypto implements \CryptLib\Random\Source {
             $opts    = VT_UT1 | VT_ARRAY | VT_BYREF;
             $varient = new \VARIENT(array_fill(0, $size, chr(0)), $opts);
             $util->GetBytes($varient);
-            return implode('', (array)$varient);
+            return implode('', (array) $varient);
         } catch (Exception $e) {
             unset($e);
             return str_repate(chr(0), $size);

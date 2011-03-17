@@ -40,12 +40,12 @@ class CBC implements \CryptLib\Cipher\Block\Mode {
         $data,
         $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
-        $iv
+        $initv
     ) {
         $size       = $cipher->getBlockSize($key);
         $blocks     = str_split($data, $size);
         $ciphertext = '';
-        $feedback   = $iv;
+        $feedback   = $initv;
 
         foreach ($blocks as $block) {
             $stub        = $cipher->decryptBlock($block, $key);
@@ -69,12 +69,12 @@ class CBC implements \CryptLib\Cipher\Block\Mode {
         $data,
         $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
-        $iv
+        $initv
     ) {
         $size       = $cipher->getBlockSize($key);
         $blocks     = str_split($data, $size);
         $ciphertext = '';
-        $feedback   = $iv;
+        $feedback   = $initv;
 
         foreach ($blocks as $block) {
             $block       = str_pad($block, $size, chr(0));

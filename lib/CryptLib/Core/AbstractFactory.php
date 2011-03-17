@@ -47,8 +47,8 @@ abstract class AbstractFactory {
         $instantiate = false
     ) {
         $name = strtolower($name);
-        $r    = new \ReflectionClass($class);
-        if (!$r->implementsInterface($implements)) {
+        $refl = new \ReflectionClass($class);
+        if (!$refl->implementsInterface($implements)) {
             $message = sprintf('Class must implement %s', $implements);
             throw new \InvalidArgumentException($message);
         }

@@ -148,6 +148,11 @@ class APR1 implements \CryptLib\Password\Password {
         for ($i = $len; $i > 0; $i >>= 1) {
             $text .= ($i & 1) ? chr(0) : $password[0];
         }
+        $bin = $this->iterate($text, $iterations, $salt, $password);
+        return $this->convertToHash($bin, $salt);
+    }
+
+    protected function iterate($text, $iterations, $salt, $password) {
         $bin = $this->hash->evaluate($text);
         for ($i = 0; $i < $iterations; $i++) {
             $new = ($i & 1) ? $password : $bin;
@@ -160,6 +165,32 @@ class APR1 implements \CryptLib\Password\Password {
             $new .= ($i & 1) ? $bin : $password;
             $bin  = $this->hash->evaluate($new);
         }
+        return $bin;
+    }
+
+    /**
+     * Base64 encode the input string, and truncate to the specified size
+     *
+     * This implmentation uses a different mapping than the core base64_encode.
+     *
+     * @param string $str  The source string to encode
+     * @param int    $size The size of the result string to return
+     *
+     * @return string The encoded string
+     */
+    protected function base64($str, $size) {
+        $str    = str_split($str, 3);
+        $result = '';
+        foreach ($str as $chr) {
+            $c0      = ord($chr[0]);
+            $c1      = isset($chr[1]) ? ord($chr[1]) : 0;
+            $c2      = isset($chr[2]) ? ord($chr[2]) : 0;
+            $result .= $this->to64(($c2 << 16) | ($c1<<8) | $c0, 4);
+        }
+        return substr($result, 0, $size);
+    }
+
+    protected function convertToHash($bin, $salt) {
         $tmp  = '$apr1$'.$salt.'$';
         $tmp .= $this->to64(
             (ord($bin[0])<<16) | (ord($bin[6])<<8) | ord($bin[12]),
@@ -186,28 +217,6 @@ class APR1 implements \CryptLib\Password\Password {
             2
         );
         return $tmp;
-    }
-
-    /**
-     * Base64 encode the input string, and truncate to the specified size
-     *
-     * This implmentation uses a different mapping than the core base64_encode.
-     *
-     * @param string $str  The source string to encode
-     * @param int    $size The size of the result string to return
-     *
-     * @return string The encoded string
-     */
-    protected function base64($str, $size) {
-        $str    = str_split($str, 3);
-        $result = '';
-        foreach ($str as $chr) {
-            $c0      = ord($chr[0]);
-            $c1      = isset($chr[1]) ? ord($chr[1]) : 0;
-            $c2      = isset($chr[2]) ? ord($chr[2]) : 0;
-            $result .= $this->to64(($c2 << 16) | ($c1<<8) | $c0, 4);
-        }
-        return substr($result, 0, $size);
     }
 
     /**

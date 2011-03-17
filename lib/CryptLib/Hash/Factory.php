@@ -84,7 +84,7 @@ class Factory extends \CryptLib\Core\AbstractFactory  {
     }
 
     public function verifyPassword($hash, $password) {
-        foreach ($this->passwords as $name => $class) {
+        foreach ($this->passwords as $class) {
             if ($class::detect($hash)) {
                 $impl = $class::loadFromHash($hash);
                 return $impl->verify($hash, $password);
@@ -103,9 +103,9 @@ class Factory extends \CryptLib\Core\AbstractFactory  {
      * @return Factory $this The current factory instance
      */
     public function registerAlgo($name, $class) {
-        $r         = new \ReflectionClass($class);
+        $refl      = new \ReflectionClass($class);
         $interface = '\\'. __NAMESPACE__ . '\\Hash';
-        if (!$r->implementsInterface($interface)) {
+        if (!$refl->implementsInterface($interface)) {
             $message = sprintf('Class must implement %s', $interface);
             throw new \InvalidArgumentException($message);
         }

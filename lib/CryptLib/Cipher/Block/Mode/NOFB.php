@@ -31,7 +31,7 @@ class NOFB implements \CryptLib\Cipher\Block\Mode {
      * @param string      $data   The data to decrypt
      * @param string      $key    The key to use for decrypting the data
      * @param BlockCipher $cipher The cipher to use for decrypting the data
-     * @param string      $iv     The initialization vector to use
+     * @param string      $initv  The initialization vector to use
      *
      * @return string The decrypted data
      */
@@ -39,9 +39,9 @@ class NOFB implements \CryptLib\Cipher\Block\Mode {
         $data,
         $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
-        $iv
+        $initv
     ) {
-        return $this->encrypt($data, $key, $cipher, $iv);
+        return $this->encrypt($data, $key, $cipher, $initv);
     }
 
     /**
@@ -50,7 +50,7 @@ class NOFB implements \CryptLib\Cipher\Block\Mode {
      * @param string      $data   The data to encrypt
      * @param string      $key    The key to use for encrypting the data
      * @param BlockCipher $cipher The cipher to use for encrypting the data
-     * @param string      $iv     The initialization vector to use
+     * @param string      $initv  The initialization vector to use
      *
      * @return string The encrypted data
      */
@@ -58,12 +58,12 @@ class NOFB implements \CryptLib\Cipher\Block\Mode {
         $data,
         $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
-        $iv
+        $initv
     ) {
         $size       = $cipher->getBlockSize($key);
         $blocks     = str_split($data, $size);
         $ciphertext = '';
-        $feedback   = $iv;
+        $feedback   = $initv;
         foreach ($blocks as $block) {
             $block       = str_pad($block, $size, chr(0));
             $feedback    = $cipher->encryptBlock($feedback, $key);

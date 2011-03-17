@@ -84,7 +84,7 @@ class BaseConverter {
      * @param int   $srcBase The source base as an integer
      * @param int   $dstBase The destination base as an integer
      *
-     * @see http://codegolf.stackexchange.com/questions/1620/arbitrary-base-conversion/1626#1626
+     * @see http://codegolf.stackexchange.com/questions/1620/arb/1626#1626
      * @return int[] An array of integers in the encoded base
      */
     public static function baseConvert(array $source, $srcBase, $dstBase) {
@@ -103,7 +103,10 @@ class BaseConverter {
                     $div[] = $e;
                 }
             }
-            return array($div, $remainder);
+            return array(
+                $div,
+                $remainder
+            );
         };
         while ($source) {
             list ($source, $remainder) = $callback($source, $srcBase, $dstBase);

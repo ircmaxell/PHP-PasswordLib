@@ -92,19 +92,19 @@ class Hash implements \CryptLib\Random\Mixer {
         foreach ($parts as &$part) {
             $part = str_split($part, $this->hash->getSize());
         }
-        $c = count($part);
-        $d = count($parts);
+        $bits   = count($part);
+        $nparts = count($parts);
         unset($part);
         $hash   = '';
         $offset = 0;
-        for ($i = 0; $i < $c; $i++) {
+        for ($i = 0; $i < $bits; $i++) {
             $stub = $this->hash->evaluate($parts[$offset][$i]);
-            for ($j = 1; $j < $d; $j++) {
-                $key   = $parts[($j + $offset) % $d][$i];
+            for ($j = 1; $j < $nparts; $j++) {
+                $key   = $parts[($j + $offset) % $nparts][$i];
                 $stub ^= $this->hash->hmac($stub, $key);
             }
             $hash  .= $stub;
-            $offset = ($offset + 1) % $d;
+            $offset = ($offset + 1) % $nparts;
         }
         return substr($hash, 0, $len);
     }

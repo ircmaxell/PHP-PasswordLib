@@ -4,7 +4,6 @@
  *
  * PHP version 5.3
  * 
- * @see        http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=18114
  * @category   PHPCryptLib
  * @package    Encryption
  * @subpackage PackingMode
@@ -19,7 +18,6 @@ namespace CryptLib\Encryption\PackingMode;
 /**
  * A Packing Mode implementation of the ISO 10126 standard
  *
- * @see        http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=18114
  * @category   PHPCryptLib
  * @package    Encryption
  * @subpackage PackingMode
@@ -52,8 +50,8 @@ class ISO10126 implements \CryptLib\Encryption\PackingMode {
      * @return string The unpadded string
      */
     public function strip($string) {
-        $c   = ord(substr($string, -1));
-        $len = strlen($string) - $c;
+        $end = ord(substr($string, -1));
+        $len = strlen($string) - $end;
         return substr($string, 0, $len);
     }
 

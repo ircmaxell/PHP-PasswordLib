@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="PHP-CryptLib" default="" basedir=".">
+<project name="PHP-CryptLib" default="build" basedir=".">
     <property name="libdir" value="${project.basedir}/lib" override="true" />
     <property name="builddir" value="${project.basedir}/build" override="true" />
     <property name="logdir" value="${project.basedir}/build/logs" override="true" />
@@ -16,7 +16,7 @@
         <mkdir dir="build/logs" />
         <mkdir dir="build/package" /> 
     </target>
-    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,document,package" />
+    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,cb,document,package" />
 
     <target name="lint">
         <phplint haltonfailure="true" deprecatedAsError="true">
@@ -26,14 +26,22 @@
         </phplint>
     </target>
 
+    <target name="cb" depends="prepare">
+        <exec
+            command="phpcb --source ${libdir} --output ${builddir}/code-browser/ --log ${logdir}"
+            passthru="true"
+            os="Linux"
+            checkreturn="false" />
+    </target>
+
     <target name="cs" depends="prepare">
         <exec
-            command="phpcs --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
+            command="phpcs --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${testdir}/PHPCS/ruleset.xml lib"
             os="Linux" 
             passthru="true"
-            checkreturn="false" />
+            checkreturn="true" />
         <exec
-            command="phpcs.bat  --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${testdir}/CS/ruleset.xml lib"
+            command="phpcs.bat  --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${testdir}/PHPCS/ruleset.xml lib"
             os="WIN" checkreturn="true" />
     </target>
 
@@ -47,11 +55,12 @@
     </target>
 
     <target name="pmd" depends="prepare">
-        <phpmd>
+        <phpmd rulesets="test/PHPMD/ruleset.xml">
             <fileset dir="${libdir}">
                 <include name="**/*.php" />
             </fileset>
             <formatter type="xml" outfile="${logdir}/pmd.xml" />
+            <formatter type="text" usefile="false" />
         </phpmd>
     </target>
 
@@ -78,10 +87,6 @@
                 </fileset>
             </batchtest>
         </phpunit>
-        <phpunitreport infile="${logdir}/testsuites.xml"
-            format="frames"
-            todir="${logdir}"
-            />
         <coverage-report outfile="${builddir}/coverage.db">
             <report todir="${builddir}/coverage" styledir="${testdir}/coverage/" />
         </coverage-report>

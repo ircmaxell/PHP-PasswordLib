@@ -104,8 +104,8 @@ class Password implements \CryptLib\Password\Password {
             $derivation = new PBKDF2();
         }
         $this->derivation = $derivation;
-        $this->size       = $size < 40 ? 40 : (int)$size;
-        $this->iterations = $iterations > 0 ? (int)$iterations : 1;
+        $this->size       = $size < 40 ? 40 : (int) $size;
+        $this->iterations = $iterations > 0 ? (int) $iterations : 1;
     }
 
     /**

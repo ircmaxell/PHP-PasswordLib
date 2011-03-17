@@ -54,8 +54,8 @@ class MicroTime implements \CryptLib\Random\Source {
     public function generate($size) {
         $result = '';
         for ($i = 0; $i < $size; $i++) {
-            $result .= chr((microtime(true) * mt_rand(100,10000)) % 256);
-            usleep(mt_rand(1,100));
+            $result .= chr((microtime(true) * mt_rand(100, 10000)) % 256);
+            usleep(mt_rand(1, 100));
         }
         return $result;
     }

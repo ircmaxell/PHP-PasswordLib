@@ -39,13 +39,13 @@ class KDF2
      */
     public function derive($secret, $length, $other = '') {
         $size = $this->hash->getSize();
-        $l    = ceil($length / $size);
-        $t    = '';
-        for ($i = 1; $i <= $l; $i++) {
-            $p  = pack('N', $i);
-            $t .= $this->hash->evaluate($secret . $p . $other);
+        $len  = ceil($length / $size);
+        $res  = '';
+        for ($i = 1; $i <= $len; $i++) {
+            $tmp  = pack('N', $i);
+            $res .= $this->hash->evaluate($secret . $tmp . $other);
         }
-        return substr($t, 0, $length);
+        return substr($res, 0, $length);
     }
 
 }

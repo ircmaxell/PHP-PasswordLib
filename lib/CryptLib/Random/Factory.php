@@ -62,27 +62,13 @@ class Factory extends \CryptLib\Core\AbstractFactory {
     protected function getGenerator(\CryptLib\Core\Strength $strength) {
         $sources    = $this->getSources();
         $newSources = array();
-        foreach ($sources as $key => $source) {
+        foreach ($sources as $source) {
             if ($strength->compare($source::getStrength()) <= 0) {
                 $newSources[] = new $source;
             }
         }
-        $newMixer = null;
-        $fallback = null;
-        foreach ($this->getMixers() as $mixer) {
-            if ($strength->compare($mixer::getStrength()) == 0) {
-                $newMixer = new $mixer;
-            } elseif ($strength->compare($mixer::getStrength()) == 1) {
-                $fallback = new $mixer;
-            }
-        }
-        if (is_null($newMixer)) {
-            if (is_null($fallback)) {
-                throw new \RuntimeException('Could not find mixer');
-            }
-            $newMixer = $fallback;
-        }
-        return new Generator($newSources, $newMixer);
+        $mixer = $this->findMixer($strength);
+        return new Generator($newSources, $mixer);
     }
 
     /**
@@ -178,6 +164,33 @@ class Factory extends \CryptLib\Core\AbstractFactory {
             $class
         );
         return $this;
+    }
+
+    /**
+     * Find a mixer based upon the requested strength
+     *
+     * @param Strength $strength The strength mixer to find
+     *
+     * @return Mixer The found mixer
+     * @throws RuntimeException if a valid mixer cannot be found
+     */
+    protected function findMixer(\CryptLib\Core\Strength $strength) {
+        $newMixer = null;
+        $fallback = null;
+        foreach ($this->getMixers() as $mixer) {
+            if ($strength->compare($mixer::getStrength()) == 0) {
+                $newMixer = new $mixer;
+            } elseif ($strength->compare($mixer::getStrength()) == 1) {
+                $fallback = new $mixer;
+            }
+        }
+        if (is_null($newMixer)) {
+            if (is_null($fallback)) {
+                throw new \RuntimeException('Could not find mixer');
+            }
+            return $fallback;
+        }
+        return $newMixer;
     }
 
     /**

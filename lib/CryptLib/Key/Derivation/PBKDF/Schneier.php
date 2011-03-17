@@ -21,11 +21,11 @@ class Schneier
         if ($length > $size) {
             throw new \InvalidArgumentException('Length is too long for hash');
         }
-        $t = $this->hash->evaluate($password . $salt);
+        $tmp = $this->hash->evaluate($password . $salt);
         for ($i = 2; $i <= $iterations; $i++) {
-            $t = $this->hash->evaluate($t . $password . $salt);
+            $tmp = $this->hash->evaluate($tmp . $password . $salt);
         }
-        return substr($t, 0, $length);
+        return substr($tmp, 0, $length);
     }
 
     /**

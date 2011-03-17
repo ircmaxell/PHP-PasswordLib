@@ -31,7 +31,7 @@ interface Mode {
      * @param string      $data   The data to decrypt
      * @param string      $key    The key to use for decrypting the data
      * @param BlockCipher $cipher The cipher to use for decrypting the data
-     * @param string      $iv     The initialization vector to use
+     * @param string      $initv  The initialization vector to use
      *
      * @return string The decrypted data
      */
@@ -39,7 +39,7 @@ interface Mode {
         $data,
         $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
-        $iv
+        $initv
     );
 
     /**
@@ -48,7 +48,7 @@ interface Mode {
      * @param string      $data   The data to encrypt
      * @param string      $key    The key to use for encrypting the data
      * @param BlockCipher $cipher The cipher to use for encrypting the data
-     * @param string      $iv     The initialization vector to use
+     * @param string      $initv  The initialization vector to use
      *
      * @return string The encrypted data
      */
@@ -56,7 +56,7 @@ interface Mode {
         $data,
         $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
-        $iv
+        $initv
     );
 
     /**

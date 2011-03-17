@@ -46,9 +46,10 @@ class ANSIx923 implements \CryptLib\Encryption\PackingMode {
      * @return string The unpadded string
      */
     public function strip($string) {
-        $c   = ord(substr($string, -1));
-        $len = strlen($string) - $c;
-        if (substr($string, $len) == str_repeat(chr(0), $c - 1) . chr($c)) {
+        $end = ord(substr($string, -1));
+        $len = strlen($string) - $end;
+        $tmp = str_repeat(chr(0), $end - 1) . chr($end);
+        if (substr($string, $len) == $tmp) {
             return substr($string, 0, $len);
         }
         return false;

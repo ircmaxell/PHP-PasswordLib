@@ -43,13 +43,14 @@ class PBKDF1
     public function derive($password, $salt, $iterations, $length) {
         $size = $this->hash->getSize();
         if ($length > $size) {
-            throw new \InvalidArgumentException('Length is too long for hash');
+            $message = 'Length is too long for hash';
+            throw new \InvalidArgumentException($message);
         }
-        $t = $this->hash->evaluate($password . $salt);
+        $tmp = $this->hash->evaluate($password . $salt);
         for ($i = 2; $i <= $iterations; $i++) {
-            $t = $this->hash->evaluate($t);
+            $tmp = $this->hash->evaluate($tmp);
         }
-        return substr($t, 0, $length);
+        return substr($tmp, 0, $length);
     }
 
     /**
