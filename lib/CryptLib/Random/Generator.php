@@ -126,10 +126,9 @@ class Generator {
      * @return string The generated random string
      */
     public function generateString($length, $characters = '') {
-        if ($length == 0) {
+        if ($length == 0 || strlen($characters) == 1) {
             return '';
-        }
-        if (empty($characters)) {
+        } elseif (empty($characters)) {
             // Default to base 64
             $characters = '0123456789abcdefghijklmnopqrstuvwxyz' .
                           'ABCDEFGHIJKLMNOPQRSTUVWXYZ./';

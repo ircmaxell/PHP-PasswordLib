@@ -34,12 +34,25 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         ); 
     }
 
-    public function provideGenerateIntRangeTest() {
+    public static function provideGenerateIntRangeTest() {
         return array(
             array(0, 0),
             array(0, 1),
             array(1, 10000),
             array(100000, \PHP_INT_MAX),
+        );
+    }
+
+    public static function provideGenerateStringTest() {
+        return array(
+            array(0, 'ab', ''),
+            array(1, 'ab', 'a'),
+            array(1, 'a', ''),
+            array(2, 'ab', 'aa'),
+            array(3, 'abc', 'aaa'),
+            array(8, '0123456789abcdef', '03030303'),
+            array(16, '0123456789abcdef', '0707070707070707'),
+  
         );
     }
 
@@ -121,5 +134,13 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         $n = $this->generator->generateInt($min, $max);
         $this->assertTrue($min <= $n);
         $this->assertTrue($max >= $n);
+    }
+
+    /**
+     * @dataProvider provideGenerateStringTest
+     */
+    public function testGenerateString($length, $chars, $expected) {
+        $n = $this->generator->generateString($length, $chars);
+        $this->assertEquals($expected, $n);
     }
 }
