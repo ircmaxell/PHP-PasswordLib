@@ -14,9 +14,6 @@
 
 namespace CryptLibExamples\Random;
 
-use CryptLib\Core\BaseConverter;
-use CryptLib\Random\Factory;
-
 /**
  * Let's generate some random strings!  For this, we'll use the 
  * CryptLib\Random\Factory class to build a random number generator to suit
@@ -27,7 +24,7 @@ use CryptLib\Random\Factory;
 require_once dirname(dirname(__DIR__)) . '/lib/CryptLib/bootstrap.php';
 
 //Now, let's get a random number factory
-$factory = new Factory;
+$factory = new \CryptLib\Random\Factory;
 
 /**
  * Now, since we want a low strength random number, let's get a low strength 
