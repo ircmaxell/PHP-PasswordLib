@@ -17,6 +17,8 @@
         <mkdir dir="${resultsdir}/coverage" />
         <mkdir dir="${resultsdir}/logs" />
         <mkdir dir="${resultsdir}/package" /> 
+        <mkdir dir="${resultsdir}/lib" />
+        <version releasetype="Bugfix" file="${project.basedir}/VERSION" property="version.number" />
     </target>
 
     <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,cb,loc,document,package" />
@@ -106,8 +108,37 @@
     </target>
 
     <target name="package" depends="prepare">
-        <zip destfile="${resultsdir}/package/CryptLib.zip">
+        <copy todir="${resultsdir}/lib">
+            <filterchain>
+                <replacetokens begintoken="@@" endtoken="@@">
+                    <token key="version" value="${version.number}" />
+                </replacetokens>
+            </filterchain>
             <fileset dir="${libdir}">
+                <include name="**/**" />
+            </fileset>
+        </copy>
+        <pearpkg name="CryptLib" dir="${resultsdir}/lib" destfile="${resultsdir}/lib/package.xml">
+            <fileset dir="${resultsdir}/lib">
+                <include name="**/**" />
+            </fileset>
+            <option name="notes">Release Notes</option>
+            <option name="description">A Cryptography Library for PHP</option>
+            <option name="summary">A Cryptography Library for PHP</option>
+            <option name="version" value="${version.number}" />
+            <option name="state" value="alpha" />
+            <mapping name="maintainers">
+                <element>
+                    <element key="handle" value="ircmaxell" />
+                    <element key="name" value="Anthony Ferrara" />
+                    <element key="email" value="ircmaxell@ircmaxell.com" />
+                    <element key="role" value="lead" />
+                </element>
+            </mapping>
+        </pearpkg>
+
+        <zip destfile="${resultsdir}/package/CryptLib.zip">
+            <fileset dir="${resultsdir}/lib">
                 <include name="**/**" />
             </fileset>
         </zip>
@@ -117,7 +148,7 @@
         <echo message="${filehash}" file="${resultsdir}/package/CryptLib.zip.sha1" />
 
         <tar destfile="${resultsdir}/package/CryptLib.tar.gz" compression="gzip">
-            <fileset dir="${libdir}">
+            <fileset dir="${resultsdir}/lib">
                 <include name="**/**" />
             </fileset>
         </tar>
@@ -127,7 +158,7 @@
         <echo message="${filehash}" file="${resultsdir}/package/CryptLib.tar.gz.sha1" />
 
         <tar destfile="${resultsdir}/package/CryptLib.tar.bz2" compression="bzip2">
-            <fileset dir="${libdir}">
+            <fileset dir="${resultsdir}/lib">
                 <include name="**/**" />
             </fileset>
         </tar>
@@ -136,6 +167,19 @@
         <filehash file="${resultsdir}/package/CryptLib.tar.bz2" hashtype="1" propertyname="filehash" />
         <echo message="${filehash}" file="${resultsdir}/package/CryptLib.tar.bz2.sha1" />
 
-
+        <pharpackage
+            destfile="${resultsdir}/package/CryptLib.phar"
+            basedir="${libdir}"
+            stub="${builddir}/phar.stub.php"
+            signature="sha256"
+            >
+            <fileset dir="${resultsdir}/lib">
+                <include name="**/**" />
+            </fileset>
+            <metadata>
+                <element name="version" value="${version.number}" />
+            </metadata>
+            
+        </pharpackage>
     </target>
 </project>

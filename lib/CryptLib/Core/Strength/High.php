@@ -15,6 +15,7 @@
  * @copyright  2011 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
+ * @version    Build @@version@@
  */
 
 namespace CryptLib\Core\Strength;
