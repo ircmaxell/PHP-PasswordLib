@@ -6,6 +6,7 @@
     <property name="logdir" value="${resultsdir}/logs" override="true" />
     <property name="testdir" value="${project.basedir}/test" />
     <property name="docsdir" value="${project.basedir}/docs" />
+    <property name="packagedir" value="${project.basedir}/package" />
 
     <target name="clean">
         <delete dir="$resultsdir" />
@@ -16,7 +17,6 @@
         <mkdir dir="${resultsdir}/code-browser" />
         <mkdir dir="${resultsdir}/coverage" />
         <mkdir dir="${resultsdir}/logs" />
-        <mkdir dir="${resultsdir}/package" /> 
         <mkdir dir="${resultsdir}/lib" />
         <version releasetype="Bugfix" file="${project.basedir}/VERSION" property="version.number" />
     </target>
@@ -137,38 +137,38 @@
             </mapping>
         </pearpkg>
 
-        <zip destfile="${resultsdir}/package/CryptLib.zip">
+        <zip destfile="${packagedir}/CryptLib.zip">
             <fileset dir="${resultsdir}/lib">
                 <include name="**/**" />
             </fileset>
         </zip>
-        <filehash file="${resultsdir}/package/CryptLib.zip" hashtype="0" propertyname="filehash" />
-        <echo message="${filehash}" file="${resultsdir}/package/CryptLib.zip.md5" />
-        <filehash file="${resultsdir}/package/CryptLib.zip" hashtype="1" propertyname="filehash" />
-        <echo message="${filehash}" file="${resultsdir}/package/CryptLib.zip.sha1" />
+        <filehash file="${packagedir}/CryptLib.zip" hashtype="0" propertyname="filehash" />
+        <echo message="${filehash}" file="${packagedir}/CryptLib.zip.md5" />
+        <filehash file="${packagedir}/CryptLib.zip" hashtype="1" propertyname="filehash" />
+        <echo message="${filehash}" file="${packagedir}/CryptLib.zip.sha1" />
 
-        <tar destfile="${resultsdir}/package/CryptLib.tar.gz" compression="gzip">
+        <tar destfile="${packagedir}/CryptLib.tar.gz" compression="gzip">
             <fileset dir="${resultsdir}/lib">
                 <include name="**/**" />
             </fileset>
         </tar>
-        <filehash file="${resultsdir}/package/CryptLib.tar.gz" hashtype="0" propertyname="filehash" />
-        <echo message="${filehash}" file="${resultsdir}/package/CryptLib.tar.gz.md5" />
-        <filehash file="${resultsdir}/package/CryptLib.tar.gz" hashtype="1" propertyname="filehash" />
-        <echo message="${filehash}" file="${resultsdir}/package/CryptLib.tar.gz.sha1" />
+        <filehash file="${packagedir}/CryptLib.tar.gz" hashtype="0" propertyname="filehash" />
+        <echo message="${filehash}" file="${packagedir}/CryptLib.tar.gz.md5" />
+        <filehash file="${packagedir}/CryptLib.tar.gz" hashtype="1" propertyname="filehash" />
+        <echo message="${filehash}" file="${packagedir}/CryptLib.tar.gz.sha1" />
 
-        <tar destfile="${resultsdir}/package/CryptLib.tar.bz2" compression="bzip2">
+        <tar destfile="${packagedir}/CryptLib.tar.bz2" compression="bzip2">
             <fileset dir="${resultsdir}/lib">
                 <include name="**/**" />
             </fileset>
         </tar>
-        <filehash file="${resultsdir}/package/CryptLib.tar.bz2" hashtype="0" propertyname="filehash" />
-        <echo message="${filehash}" file="${resultsdir}/package/CryptLib.tar.bz2.md5" />
-        <filehash file="${resultsdir}/package/CryptLib.tar.bz2" hashtype="1" propertyname="filehash" />
-        <echo message="${filehash}" file="${resultsdir}/package/CryptLib.tar.bz2.sha1" />
+        <filehash file="${packagedir}/CryptLib.tar.bz2" hashtype="0" propertyname="filehash" />
+        <echo message="${filehash}" file="${packagedir}/CryptLib.tar.bz2.md5" />
+        <filehash file="${packagedir}/CryptLib.tar.bz2" hashtype="1" propertyname="filehash" />
+        <echo message="${filehash}" file="${packagedir}/CryptLib.tar.bz2.sha1" />
 
         <pharpackage
-            destfile="${resultsdir}/package/CryptLib.phar"
+            destfile="${packagedir}/CryptLib.phar"
             basedir="${libdir}"
             stub="${builddir}/phar.stub.php"
             signature="sha256"
