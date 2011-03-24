@@ -74,6 +74,10 @@ class Unit_Hash_Implementation_SHA1Test extends PHPUnit_Framework_TestCase {
      * @dataProvider provideTestHMAC
      */
     public function testHMAC($data, $key) {
+        if (!function_exists('hash')) {
+            $this->markTestSkipped('Hash Extension Is Required To Test HMAC');
+            return false;
+        }
         $hash = new SHA1('sha1');
         $expect = hash_hmac('sha1', $data, $key, true);
         $this->assertEquals($expect, $hash->hmac($data, $key));

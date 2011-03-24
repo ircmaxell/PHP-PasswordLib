@@ -5,6 +5,9 @@ use CryptLib\Hash\Implementation\Core;
 class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
 
     public static function provideGetAlgos() {
+        if (!function_exists('hash')) {
+            return array();
+        }
         $algos = hash_algos();
         $result = array();
         foreach ($algos as $algo) {
@@ -14,6 +17,9 @@ class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
     }
 
     public static function provideTestEvaluate() {
+        if (!function_exists('hash')) {
+            return array();
+        }
         $algos = hash_algos();
         $result = array();
         foreach ($algos as $algo) {
@@ -25,6 +31,9 @@ class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
     }
 
     public static function provideTestHMAC() {
+        if (!function_exists('hash')) {
+            return array();
+        }
         $algos = hash_algos();
         $result = array();
         foreach ($algos as $algo) {
@@ -34,6 +43,12 @@ class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
             $result[] = array($algo, 'abcdefghijlmnop', 'qrstuvwxyz0123456789');
         }
         return $result;
+    }
+
+    protected function setUp() {
+        if (!function_exists('hash')) {
+            $this->markTestSkipped('Hash Extension is not loaded');
+        }
     }
 
     public function testGetAlgos() {

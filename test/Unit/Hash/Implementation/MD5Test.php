@@ -74,6 +74,10 @@ class Unit_Hash_Implementation_MD5Test extends PHPUnit_Framework_TestCase {
      * @dataProvider provideTestHMAC
      */
     public function testHMAC($data, $key) {
+        if (!function_exists('hash')) {
+            $this->markTestSkipped('Hash Extension Is Required To Test HMAC');
+            return false;
+        }
         $hash = new MD5('md5');
         $expect = hash_hmac('md5', $data, $key, true);
         $this->assertEquals($expect, $hash->hmac($data, $key));
