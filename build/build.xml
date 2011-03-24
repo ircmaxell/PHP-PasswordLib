@@ -171,7 +171,7 @@
             destfile="${packagedir}/CryptLib.phar"
             basedir="${libdir}"
             stub="${builddir}/phar.stub.php"
-            signature="sha256"
+            signature="sha1"
             >
             <fileset dir="${resultsdir}/lib">
                 <include name="**/**" />
