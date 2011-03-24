@@ -49,6 +49,10 @@ class Factory extends \CryptLib\Core\AbstractFactory  {
         $this->loadImplementations();
     }
 
+    public function getAlgos() {
+        return $this->algos;
+    }
+
     /**
      * Get an instance of the Hash interface by algorithm name
      *

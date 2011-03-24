@@ -25,6 +25,12 @@ class Hash extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\Hash\Ha
 
     public static $algos = array();
 
+    public function __construct($arg = null) {
+        if (is_array($arg)) {
+            return parent::__construct($arg);
+        }
+    }
+
     /**
      * Get an array of supported algorithms
      * 
