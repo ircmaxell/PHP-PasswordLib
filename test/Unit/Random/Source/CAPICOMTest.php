@@ -16,6 +16,9 @@ class Unit_Random_Source_CAPICOMTest extends PHPUnit_Framework_TestCase {
         return $data;
     }
 
+    /**
+     * @covers CryptLib\Random\Source\CAPICOM::getStrength
+     */
     public function testGetStrength() {
         $strength = new MediumStrength;
         $actual = CAPICOM::getStrength();
@@ -23,6 +26,7 @@ class Unit_Random_Source_CAPICOMTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Source\CAPICOM::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {

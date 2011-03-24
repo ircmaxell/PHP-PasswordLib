@@ -93,6 +93,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Generator::__construct
      */
     public function testConstruct() {
         $obj = new Generator(array(new Source), new Mixer);
@@ -114,6 +115,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Generator::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($size, $expect) {
@@ -121,6 +123,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Generator::generateInt
      * @dataProvider provideGenerateInt
      */
     public function testGenerateInt($min, $max, $expect) {
@@ -128,6 +131,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Generator::generateInt
      * @dataProvider provideGenerateIntRangeTest
      */
     public function testGenerateIntRange($min, $max) {
@@ -137,6 +141,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Generator::generateString
      * @dataProvider provideGenerateStringTest
      */
     public function testGenerateString($length, $chars, $expected) {

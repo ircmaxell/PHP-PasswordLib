@@ -16,6 +16,9 @@ class Unit_Random_Source_MicroTimeTest extends PHPUnit_Framework_TestCase {
         return $data;
     }
 
+    /**
+     * @covers CryptLib\Random\Source\MicroTime::getStrength
+     */
     public function testGetStrength() {
         $strength = new VeryLowStrength;
         $actual = MicroTime::getStrength();
@@ -23,6 +26,7 @@ class Unit_Random_Source_MicroTimeTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Source\MicroTime::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {

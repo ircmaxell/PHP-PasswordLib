@@ -16,18 +16,25 @@ class Unit_Random_Mixer_X_ORTest extends PHPUnit_Framework_TestCase {
         return $data;
     }
 
+    /**
+     * @covers CryptLib\Random\Mixer\X_OR::getStrength
+     */
     public function testGetStrength() {
         $strength = new VeryLowStrength;
         $actual = X_OR::getStrength();
         $this->assertEquals($actual, $strength);
     }
 
+    /**
+     * @covers CryptLib\Random\Mixer\X_OR::test
+     */
     public function testTest() {
         $actual = X_OR::test();
         $this->assertTrue($actual);
     }
 
     /**
+     * @covers CryptLib\Random\Mixer\X_OR::mix
      * @dataProvider provideMix
      */
     public function testMix($parts, $result) {

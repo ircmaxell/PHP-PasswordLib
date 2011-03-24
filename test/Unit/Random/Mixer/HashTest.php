@@ -22,23 +22,33 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
         return $data;
     }
 
+    /**
+     * @covers CryptLib\Random\Mixer\Hash::__construct
+     */
     public function testConstructWithoutArgument() {
         $hash = new Hash;
         $this->assertTrue($hash instanceof \CryptLib\Random\Mixer);
     }
 
+    /**
+     * @covers CryptLib\Random\Mixer\Hash::getStrength
+     */
     public function testGetStrength() {
         $strength = new MediumStrength;
         $actual = Hash::getStrength();
         $this->assertEquals($actual, $strength);
     }
 
+    /**
+     * @covers CryptLib\Random\Mixer\Hash::test
+     */
     public function testTest() {
         $actual = Hash::test();
         $this->assertTrue($actual);
     }
 
     /**
+     * @covers CryptLib\Random\Mixer\Hash::mix
      * @dataProvider provideMix
      */
     public function testMix($parts, $result) {

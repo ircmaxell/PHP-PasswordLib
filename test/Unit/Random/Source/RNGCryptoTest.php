@@ -14,6 +14,9 @@ class Unit_Random_Source_RNGCryptoTest extends PHPUnit_Framework_TestCase {
         return $data;
     }
 
+    /**
+     * @covers CryptLib\Random\Source\RNGCrypto::getStrength
+     */
     public function testGetStrength() {
         $strength = new HighStrength;
         $actual = RNGCrypto::getStrength();
@@ -21,6 +24,7 @@ class Unit_Random_Source_RNGCryptoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Source\RNGCrypto::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {

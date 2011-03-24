@@ -21,28 +21,39 @@ class Unit_Hash_Implementation_MD5Test extends PHPUnit_Framework_TestCase {
         );
     }
 
+    /**
+     * @covers CryptLib\Hash\Implementation\MD5::getAlgos
+     */
     public function testGetAlgos() {
         $this->assertEquals(array('md5'), MD5::getAlgos());
     }
 
+    /**
+     * @covers CryptLib\Hash\Implementation\MD5::__construct
+     */
     public function testConstruct() {
         $hash = new MD5('md5');
         $this->assertTrue($hash instanceof MD5);
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\MD5::__construct
      * @expectedException \InvalidArgumentException
      */
     public function testConstructFailure() {
         $hash = new MD5('foo');
     }
 
+    /**
+     * @covers CryptLib\Hash\Implementation\MD5::getSize
+     */
     public function testGetSize() {
         $hash = new MD5('md5');
         $this->assertEquals(16, $hash->getSize());
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\MD5::evaluate
      * @dataProvider provideTestEvaluate
      */
     public function testEvaluate($data) {
@@ -52,6 +63,7 @@ class Unit_Hash_Implementation_MD5Test extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\MD5::__invoke
      * @dataProvider provideTestEvaluate
      */
     public function testInvoke($data) {
@@ -60,17 +72,24 @@ class Unit_Hash_Implementation_MD5Test extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expect, $hash($data));
     }
 
+    /**
+     * @covers CryptLib\Hash\Implementation\MD5::getBlockSize
+     */
     public function testGetBlockSize() {
         $hash = new MD5('md5');
         $this->assertEquals(64, $hash->getBlockSize());
     }
 
+    /**
+     * @covers CryptLib\Hash\Implementation\MD5::getName
+     */
     public function testGetName() {
         $hash = new MD5('md5');
         $this->assertEquals('md5', $hash->getName());
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\MD5::hmac
      * @dataProvider provideTestHMAC
      */
     public function testHMAC($data, $key) {

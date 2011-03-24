@@ -47,29 +47,40 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Password\Implementation\APR1::detect
      * @dataProvider provideTestDetect
      */
     public function testDetect($from, $expect) {
         $this->assertEquals($expect, APR1::detect($from));
     }
 
+    /**
+     * @covers CryptLib\Password\Implementation\APR1::loadFromHash
+     */
     public function testLoadFromHash() {
         $test = APR1::loadFromHash('$apr1$foo');
         $this->assertTrue($test instanceof APR1);
     }
 
     /**
+     * @covers CryptLib\Password\Implementation\APR1::loadFromHash
      * @expectedException InvalidArgumentException
      */
     public function testLoadFromHashFail() {
         APR1::loadFromHash('foo');
     }
 
+    /**
+     * @covers CryptLib\Password\Implementation\APR1::__construct
+     */
     public function testConstruct() {
         $apr = new APR1();
         $this->assertTrue($apr instanceof APR1);
     }
 
+    /**
+     * @covers CryptLib\Password\Implementation\APR1::__construct
+     */
     public function testConstructArgs() {
         $gen = $this->getRandomGenerator(function($size) {});
         $fac = $this->getHashFactory(function() {}, function() {});
@@ -78,6 +89,11 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Password\Implementation\APR1::create
+     * @covers CryptLib\Password\Implementation\APR1::to64
+     * @covers CryptLib\Password\Implementation\APR1::hash
+     * @covers CryptLib\Password\Implementation\APR1::iterate
+     * @covers CryptLib\Password\Implementation\APR1::convertToHash
      * @dataProvider provideTestCreate
      */
     public function testCreate($pass, $expect) {
@@ -86,6 +102,11 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Password\Implementation\APR1::verify
+     * @covers CryptLib\Password\Implementation\APR1::to64
+     * @covers CryptLib\Password\Implementation\APR1::hash
+     * @covers CryptLib\Password\Implementation\APR1::iterate
+     * @covers CryptLib\Password\Implementation\APR1::convertToHash
      * @dataProvider provideTestVerify
      */
     public function testVerify($pass, $expect) {
@@ -94,6 +115,7 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Password\Implementation\APR1::verify
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($pass, $expect) {

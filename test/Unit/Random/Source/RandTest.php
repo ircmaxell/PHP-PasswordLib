@@ -15,6 +15,9 @@ class Unit_Random_Source_RandTest extends PHPUnit_Framework_TestCase {
         return $data;
     }
 
+    /**
+     * @covers CryptLib\Random\Source\Rand::getStrength
+     */
     public function testGetStrength() {
         if (defined('S_ALL')) {
             $strength = new LowStrength;
@@ -26,6 +29,7 @@ class Unit_Random_Source_RandTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Source\Rand::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {

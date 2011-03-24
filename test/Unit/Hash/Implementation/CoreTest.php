@@ -51,12 +51,16 @@ class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    /**
+     * @covers CryptLib\Hash\Implementation\Core::getAlgos
+     */
     public function testGetAlgos() {
         $expect = hash_algos();
         $this->assertEquals($expect, Core::getAlgos());
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\Core::__construct
      * @dataProvider provideGetAlgos
      */
     public function testConstruct($algo) {
@@ -65,18 +69,23 @@ class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\Core::__construct
      * @expectedException \InvalidArgumentException
      */
     public function testConstructFailure() {
         $hash = new Core('foo');
     }
 
+    /**
+     * @covers CryptLib\Hash\Implementation\Core::getSize
+     */
     public function testGetSize() {
         $hash = new Core('md5');
         $this->assertEquals(16, $hash->getSize());
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\Core::evaluate
      * @dataProvider provideTestEvaluate
      */
     public function testEvaluate($algo, $data) {
@@ -86,6 +95,7 @@ class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\Core::__invoke
      * @dataProvider provideTestEvaluate
      */
     public function testInvoke($algo, $data) {
@@ -95,6 +105,7 @@ class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\Core::getBlockSize
      * @dataProvider provideGetAlgos
      */
     public function testGetBlockSize($algo) {
@@ -103,6 +114,7 @@ class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\Core::getName
      * @dataProvider provideGetAlgos
      */
     public function testGetName($algo) {
@@ -111,6 +123,7 @@ class Unit_Hash_Implementation_CoreTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Hash\Implementation\Core::hmac
      * @dataProvider provideTestHMAC
      */
     public function testHMAC($algo, $data, $key) {

@@ -16,6 +16,9 @@ class Unit_Random_Source_UniqIDTest extends PHPUnit_Framework_TestCase {
         return $data;
     }
 
+    /**
+     * @covers CryptLib\Random\Source\UniqID::getStrength
+     */
     public function testGetStrength() {
         $strength = new LowStrength;
         $actual = UniqID::getStrength();
@@ -23,6 +26,7 @@ class Unit_Random_Source_UniqIDTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Source\UniqID::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {

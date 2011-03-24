@@ -16,6 +16,9 @@ class Unit_Random_Source_RandomTest extends PHPUnit_Framework_TestCase {
         return $data;
     }
 
+    /**
+     * @covers CryptLib\Random\Source\Random::getStrength
+     */
     public function testGetStrength() {
         $strength = new HighStrength;
         $actual = Random::getStrength();
@@ -23,6 +26,7 @@ class Unit_Random_Source_RandomTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Source\Random::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {

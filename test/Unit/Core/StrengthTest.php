@@ -12,6 +12,8 @@ class Unit_Core_StrengthTest extends PHPUnit_Framework_TestCase {
         );
     }
 
+    /**
+     */
     public function testConstruct() {
         $obj = new Strength;
         $this->assertTrue($obj instanceof \CryptLib\Core\Strength);

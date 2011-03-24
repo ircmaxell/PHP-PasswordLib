@@ -39,23 +39,33 @@ class Unit_Random_Mixer_DESTest extends PHPUnit_Framework_TestCase {
         return $factory;
     }
 
+    /**
+     * @covers CryptLib\Random\Mixer\DES::__construct
+     */
     public function testConstructWithoutArgument() {
         $hash = new DES;
         $this->assertTrue($hash instanceof \CryptLib\Random\Mixer);
     }
 
+    /**
+     * @covers CryptLib\Random\Mixer\DES::getStrength
+     */
     public function testGetStrength() {
         $strength = new HighStrength;
         $actual = DES::getStrength();
         $this->assertEquals($actual, $strength);
     }
 
+    /**
+     * @covers CryptLib\Random\Mixer\DES::test
+     */
     public function testTest() {
         $actual = DES::test();
         $this->assertTrue($actual);
     }
 
     /**
+     * @covers CryptLib\Random\Mixer\DES::mix
      * @dataProvider provideMix
      */
     public function testMix($parts, $result) {

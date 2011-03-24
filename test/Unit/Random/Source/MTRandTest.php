@@ -17,6 +17,9 @@ class Unit_Random_Source_MTRandTest extends PHPUnit_Framework_TestCase {
         return $data;
     }
 
+    /**
+     * @covers CryptLib\Random\Source\MTRand::getStrength
+     */
     public function testGetStrength() {
         if (defined('S_ALL')) {
             $strength = new MediumStrength;
@@ -28,6 +31,7 @@ class Unit_Random_Source_MTRandTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Source\MTRand::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {
