@@ -56,14 +56,13 @@ abstract class AbstractHash implements Hash {
      *
      * This is a proxy for Hash::evaluate();
      *
-     * @param array $args The arguments for the invoked method
+     * @param string $data The data to be hashed
      *
      * @see Hash::evaluate()
      * @return string The hashed value
      */
-    public function __invoke(array $args) {
-        $args = $args + array('');
-        return $this->evaluate($args[0]);
+    public function __invoke($data) {
+        return $this->evaluate($data);
     }
 
     /**

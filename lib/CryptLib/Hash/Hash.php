@@ -36,12 +36,12 @@ interface Hash {
      *
      * This is a proxy for Hash::evaluate();
      *
-     * @param array $args The arguments for the invoked method
+     * @param string $data The data to be hashed
      *
      * @see Hash::evaluate()
      * @return string The hashed value
      */
-    public function __invoke(array $args);
+    public function __invoke($data);
 
     /**
      * Evaluate the hash on the given input
