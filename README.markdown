@@ -45,3 +45,5 @@ These dependencies are necessary to build the project for your environment (incl
    - MCrypt
    - Hash (usually enabled)
    - Phar
+   - Zip (For Packaging)
+   - XSL (For Documentation)
