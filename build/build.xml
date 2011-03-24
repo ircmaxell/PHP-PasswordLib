@@ -7,19 +7,25 @@
     <property name="testdir" value="${project.basedir}/test" />
     <property name="docsdir" value="${project.basedir}/docs" />
     <property name="packagedir" value="${resultsdir}/package" />
+    <property name="version.string" value="0.0.1a1" />
 
     <target name="clean">
-        <delete dir="$resultsdir" />
+        <delete dir="${resultsdir}" />
     </target>
 
-    <target name="prepare">
+    <target name="prepare" depends="lint">
         <mkdir dir="${resultsdir}/api" />
         <mkdir dir="${resultsdir}/code-browser" />
         <mkdir dir="${resultsdir}/coverage" />
         <mkdir dir="${resultsdir}/logs" />
         <mkdir dir="${resultsdir}/lib" />
         <mkdir dir="${packagedir}" />
-        <version releasetype="Bugfix" file="${project.basedir}/VERSION" property="version.number" />
+        <exec
+            os="Linux"
+            outputProperty="version.number"
+            command="git rev-parse HEAD"
+            dir="${project.basedir}"
+            />
     </target>
 
     <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,cb,loc,document,package" />
@@ -126,7 +132,7 @@
             <option name="notes">Release Notes</option>
             <option name="description">A Cryptography Library for PHP</option>
             <option name="summary">A Cryptography Library for PHP</option>
-            <option name="version" value="${version.number}" />
+            <option name="version" value="${version.string}" />
             <option name="state" value="alpha" />
             <mapping name="maintainers">
                 <element>
