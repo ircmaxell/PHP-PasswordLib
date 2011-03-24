@@ -46,4 +46,6 @@ These dependencies are necessary to build the project for your environment (incl
    - Hash (usually enabled)
    - Phar
    - Zip (For Packaging)
+   - BZ2 (For Packaging)
    - XSL (For Documentation)
+
