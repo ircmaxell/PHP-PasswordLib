@@ -13,7 +13,7 @@
         <delete dir="${resultsdir}" />
     </target>
 
-    <target name="prepare" depends="lint">
+    <target name="prepare">
         <mkdir dir="${resultsdir}/api" />
         <mkdir dir="${resultsdir}/code-browser" />
         <mkdir dir="${resultsdir}/coverage" />
@@ -90,24 +90,15 @@
     </target>
 
     <target name="unit" depends="prepare">
-        <coverage-setup database="${resultsdir}/coverage.db">
-            <fileset dir="${libdir}">
-                <include name="**/*.php" />
-            </fileset>
-        </coverage-setup>
-        <phpunit bootstrap="${testdir}/bootstrap.php" codecoverage="true" haltonfailure="true" haltonerror="true">
-            <formatter type="clover" todir="${logdir}" outfile="clover.xml" />
-            <formatter type="xml" todir="${logdir}" />
-            <formatter type="plain" usefile="false" />
-            <batchtest>
-                <fileset dir="${testdir}/Unit">
-                    <include name="**/*Test.php" />
-                </fileset>
-            </batchtest>
-        </phpunit>
-        <coverage-report outfile="${resultsdir}/coverage.db">
-            <report todir="${resultsdir}/coverage" styledir="${builddir}/Coverage/" />
-        </coverage-report>
+        <exec 
+            os="Linux"
+            passthru="true"
+            checkreturn="true"
+            command="phpunit --log-junit ${logdir}/junit.xml
+                       --coverage-clover ${logdir}/clover.xml
+                       --coverage-html ${resultsdir}/coverage
+                       --configuration ${testdir}/phpunit.xml.dist"
+        />
     </target>
 
     <target name="document" depends="prepare">
