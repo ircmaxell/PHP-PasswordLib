@@ -18,7 +18,7 @@
  * @version    Build @@version@@
  */
 
-namespace CryptLib\Password\Implmentation;
+namespace CryptLib\Password\Implementation;
 
 use CryptLib\Random\Factory as RandomFactory;
 use CryptLib\Hash\Factory   as HashFactory;
@@ -109,7 +109,7 @@ class APR1 implements \CryptLib\Password\Password {
      * @return string The formatted password hash
      */
     public function create($password) {
-        $salt = $this->to64($this->generator->generate(8), 8);
+        $salt = $this->to64($this->generator->generateInt(0, PHP_INT_MAX), 8);
         return $this->hash($password, $salt, $this->iterations);
     }
 
@@ -167,28 +167,6 @@ class APR1 implements \CryptLib\Password\Password {
             $bin  = $this->hash->evaluate($new);
         }
         return $bin;
-    }
-
-    /**
-     * Base64 encode the input string, and truncate to the specified size
-     *
-     * This implmentation uses a different mapping than the core base64_encode.
-     *
-     * @param string $str  The source string to encode
-     * @param int    $size The size of the result string to return
-     *
-     * @return string The encoded string
-     */
-    protected function base64($str, $size) {
-        $str    = str_split($str, 3);
-        $result = '';
-        foreach ($str as $chr) {
-            $c0      = ord($chr[0]);
-            $c1      = isset($chr[1]) ? ord($chr[1]) : 0;
-            $c2      = isset($chr[2]) ? ord($chr[2]) : 0;
-            $result .= $this->to64(($c2 << 16) | ($c1<<8) | $c0, 4);
-        }
-        return substr($result, 0, $size);
     }
 
     protected function convertToHash($bin, $salt) {
