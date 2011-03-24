@@ -60,7 +60,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      * @return Generator The instantiated generator
      * @throws RuntimeException If an appropriate mixing strategy isn't found
      */
-    protected function getGenerator(\CryptLib\Core\Strength $strength) {
+    public function getGenerator(\CryptLib\Core\Strength $strength) {
         $sources    = $this->getSources();
         $newSources = array();
         foreach ($sources as $source) {

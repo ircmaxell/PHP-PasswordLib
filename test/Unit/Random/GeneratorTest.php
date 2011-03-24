@@ -101,6 +101,25 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Generator::getMixer
+     */
+    public function testGetMixer() {
+        $mixer = new Mixer();
+        $obj = new Generator(array(new Source), $mixer);
+        $this->assertSame($mixer, $obj->getMixer());
+    }
+
+    /**
+     * @covers CryptLib\Random\Generator::getSources
+     */
+    public function testGetSources() {
+        $sources = array(new Source);
+        $obj = new Generator($sources, new Mixer);
+        $this->assertSame($sources, $obj->getSources());
+    }
+
+
+    /**
      * @covers CryptLib\Random\Generator::addSource
      */
     public function testAddSource() {

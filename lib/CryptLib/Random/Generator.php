@@ -143,4 +143,23 @@ class Generator {
         }
         return $result;
     }
+
+    /**
+     * Get the Mixer used for this instance
+     *
+     * @return Mixer the current mixer
+     */
+    public function getMixer() {
+        return $this->mixer;
+    }
+
+    /**
+     * Get the Sources used for this instance
+     *
+     * @return Source[] the current mixer
+     */
+    public function getSources() {
+        return $this->sources;
+    }
+
 }
