@@ -33,10 +33,7 @@ class Core extends \CryptLib\Hash\AbstractHash {
      * @return array The list of supported algorithms
      */
     public static function getAlgos() {
-        if (!function_exists('hash')) {
-            return array();
-        }
-        return \hash_algos();
+        return function_exists('hash') ? \hash_algos() : array();
     }
 
     /**
