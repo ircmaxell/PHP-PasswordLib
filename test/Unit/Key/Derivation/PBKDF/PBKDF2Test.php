@@ -1,5 +1,6 @@
 <?php
 
+use CryptLibTest\Mocks\Hash\Hash as MockHash;
 use CryptLib\Key\Derivation\PBKDF\PBKDF2;
 
 class Unit_Key_Derivation_PBKDF_PBKDF2Test extends PHPUnit_Framework_TestCase {
@@ -48,4 +49,12 @@ class Unit_Key_Derivation_PBKDF_PBKDF2Test extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expect, $actual);
     }
 
+    /**
+     * @covers CryptLib\Key\Derivation\PBKDF\PBKDF2::getSignature
+     */
+    public function testGetSignature() {
+        $hash = new MockHash(array('getName' => function() { return 'test'; }));
+        $pb = new PBKDF2(array('hash' => $hash));
+        $this->assertEquals('pbkdf2-test', $pb->getSignature());
+    }
 }
