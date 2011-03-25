@@ -31,6 +31,8 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
             array('foo', str_repeat('c', 32)),
             //Still Invalid
             array('foo', '$$$$$$$$$$$$$'),
+            //Still Invalid
+            array('foo', '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'),
             //Wrong Derivation
             array('foo', '$pbkdf$testing$50$26$AAECAwQF$AAECAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA='),
             //Salt Change
