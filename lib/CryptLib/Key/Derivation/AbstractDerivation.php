@@ -54,7 +54,7 @@ abstract class AbstractDerivation {
             $this->options['hashfactory'] = new HashFactory();
         }
         $factory    = $this->options['hashfactory'];
-        $this->hash = $$factory->getHash($this->options['hash']);
+        $this->hash = $factory->getHash($this->options['hash']);
     }
 
 }

@@ -35,12 +35,17 @@ use CryptLib\Key\Derivation\PBKDF\PBKDF2 as PBKDF2;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Password implements \CryptLib\Password\Password {
+class PBKDF implements \CryptLib\Password\Password {
 
     /**
      * @var PBKDF The PBKDF derivation implementation to use for this instance
      */
     protected $derivation = null;
+
+    /**
+     * @var Generator The Random Number Generator to use for making salts
+     */
+    protected $generator = null;
 
     /**
      * @var int The number of iterations to perform on the password
@@ -90,16 +95,18 @@ class Password implements \CryptLib\Password\Password {
     /**
      * Build a new instance of the PBKDF password class
      *
-     * @param PBKDF $derivation The derivation class to use
-     * @param int   $size       The size of hash to generate
-     * @param int   $iterations The number of iterations to perform
+     * @param PBKDF     $derivation The derivation class to use
+     * @param int       $size       The size of hash to generate
+     * @param int       $iterations The number of iterations to perform
+     * @param Generator $generator  The Random Generator to use
      *
      * @return void;
      */
     public function __construct(
         \CryptLib\Key\Derivation\PBKDF $derivation = null,
         $size = 40,
-        $iterations = 5000
+        $iterations = 5000,
+        \CryptLib\Random\Generator $generator = null
     ) {
         if (is_null($derivation)) {
             $derivation = new PBKDF2();
@@ -107,6 +114,11 @@ class Password implements \CryptLib\Password\Password {
         $this->derivation = $derivation;
         $this->size       = $size < 40 ? 40 : (int) $size;
         $this->iterations = $iterations > 0 ? (int) $iterations : 1;
+        if (is_null($generator)) {
+            $factory = new RandomFactory;
+            $generator = $factory->getMediumStrengthGenerator();
+        }
+        $this->generator = $generator;
     }
 
     /**
@@ -120,9 +132,7 @@ class Password implements \CryptLib\Password\Password {
         $size      = $this->size - 8; // remove size of stored bits
         $saltSize  = floor($size / 5);  //Use 20% of the size for the salt
         $hashSize  = $size - $saltSize;
-        $factory   = new RandomFactory();
-        $generator = $factory->getGenerator();
-        $salt      = $generator->generate($saltSize);
+        $salt      = $this->generator->generate($saltSize);
         return $this->hash($password, $salt, $this->iterations, $hashSize);
     }
 
