@@ -115,7 +115,7 @@ class PBKDF implements \CryptLib\Password\Password {
         $this->size       = $size < 40 ? 40 : (int) $size;
         $this->iterations = $iterations > 0 ? (int) $iterations : 1;
         if (is_null($generator)) {
-            $factory = new RandomFactory;
+            $factory   = new RandomFactory;
             $generator = $factory->getMediumStrengthGenerator();
         }
         $this->generator = $generator;
@@ -129,10 +129,10 @@ class PBKDF implements \CryptLib\Password\Password {
      * @return string The formatted password hash
      */
     public function create($password) {
-        $size      = $this->size - 8; // remove size of stored bits
-        $saltSize  = floor($size / 5);  //Use 20% of the size for the salt
-        $hashSize  = $size - $saltSize;
-        $salt      = $this->generator->generate($saltSize);
+        $size     = $this->size - 8; // remove size of stored bits
+        $saltSize = floor($size / 5);  //Use 20% of the size for the salt
+        $hashSize = $size - $saltSize;
+        $salt     = $this->generator->generate($saltSize);
         return $this->hash($password, $salt, $this->iterations, $hashSize);
     }
 
