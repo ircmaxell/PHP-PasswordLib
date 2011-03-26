@@ -91,7 +91,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         $this->loadFiles(
             __DIR__ . '/derivation/kdf',
             __NAMESPACE__ . '\\Derivation\\KDF\\',
-            'registerKDF'
+            array($this, 'registerKDF')
         );
     }
 
@@ -99,7 +99,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         $this->loadFiles(
             __DIR__ . '/derivation/pbkdf',
             __NAMESPACE__ . '\\Derivation\\PBKDF\\',
-            'registerPBKDF'
+            array($this, 'registerPBKDF')
         );
     }
 

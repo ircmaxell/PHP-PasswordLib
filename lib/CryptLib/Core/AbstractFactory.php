@@ -65,17 +65,17 @@ abstract class AbstractFactory {
      *
      * @param string $directory The directory to search for classes in
      * @param string $namespace The namespace prefix for any found classes
-     * @param string $method    The method with witch to register the class
+     * @param string $callback  The callback with which to register the class
      *
      * @return void
      */
-    protected function loadFiles($directory, $namespace, $method) {
+    protected function loadFiles($directory, $namespace, $callback) {
         foreach (new \DirectoryIterator($directory) as $file) {
             $filename = $file->getBasename();
             if ($file->isFile() && preg_match('/\.php$/', $filename)) {
                 $name  = substr($filename, 0, -4);
                 $class = $namespace . $name;
-                $this->$method($name, $class);
+                call_user_func($callback, $name, $class);
             }
         }
     }

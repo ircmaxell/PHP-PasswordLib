@@ -203,7 +203,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         $this->loadFiles(
             __DIR__ . '/Mixer',
             __NAMESPACE__ . '\\Mixer\\',
-            'registerMixer'
+            array($this, 'registerMixer')
         );
     }
 
@@ -216,7 +216,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         $this->loadFiles(
             __DIR__ . '/Source',
             __NAMESPACE__ . '\\Source\\',
-            'registerSource'
+            array($this, 'registerSource')
         );
     }
 

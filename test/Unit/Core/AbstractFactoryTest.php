@@ -46,8 +46,11 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
     public function testLoadFiles() {
         $dir = vfsStream::url('CryptLibTest/Core/AbstractFactory');
         $result = array();
-        $factory = new Factory(array('storeResult' => function($name, $class) use (&$result) { $result[$name] = $class; }));
-        $factory->loadFiles($dir, 'foo\\', 'storeResult');
+        $factory = new Factory();
+        $callback = function($name, $class) use (&$result) {
+            $result[$name] = $class;
+        };
+        $factory->loadFiles($dir, 'foo\\', $callback);
         $this->assertEquals(array('test' => 'foo\\test', 'Some234Foo234Bar98Name' => 'foo\\Some234Foo234Bar98Name'), $result);
     }
 

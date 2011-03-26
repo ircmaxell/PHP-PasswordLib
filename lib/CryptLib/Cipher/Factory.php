@@ -166,7 +166,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         $this->loadFiles(
             __DIR__ . '/Block/Implementation',
             __NAMESPACE__ . '\\Block\\Implementation\\',
-            'registerCipher'
+            array($this, 'registerCipher')
         );
     }
 
@@ -179,7 +179,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         $this->loadFiles(
             __DIR__ . '/Block/Mode',
             __NAMESPACE__ . '\\Block\\Mode\\',
-            'registerMode'
+            array($this, 'registerMode')
         );
     }
 

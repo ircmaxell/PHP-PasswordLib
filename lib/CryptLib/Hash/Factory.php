@@ -130,7 +130,7 @@ class Factory extends \CryptLib\Core\AbstractFactory  {
         $this->loadFiles(
             __DIR__ . '/Implementation',
             __NAMESPACE__ . '\\Implementation\\',
-            'registerAlgo'
+            array($this, 'registerAlgo')
         );
     }
 
