@@ -8,14 +8,18 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
         vfsStreamWrapper::register();
+
+        // Create Folders
         $root = new vfsStreamDirectory('CryptLibTest');
+        vfsStreamWrapper::setRoot($root);
         $core = vfsStream::newDirectory('Core')->at($root);
         $af = vfsStream::newDirectory('AbstractFactory')->at($core);
+
+        // Create Files
         vfsStream::newFile('test.php')->at($af);
         vfsStream::newFile('Some234Foo234Bar98Name.php')->at($af);
         vfsStream::newFile('Invalid.csv')->at($af);
         vfsStream::newFile('badlocation.php')->at($core);
-        vfsStreamWrapper::setRoot($root);
     }
 
     /**
