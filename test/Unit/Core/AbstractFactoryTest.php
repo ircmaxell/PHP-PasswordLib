@@ -14,7 +14,7 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
         vfsStream::newFile('test.php')->at($af);
         vfsStream::newFile('Some234Foo234Bar98Name.php')->at($af);
         vfsStream::newFile('Invalid.csv')->at($af);
-
+        vfsStream::newFile('badlocation.php')->at($core);
         vfsStreamWrapper::setRoot($root);
     }
 
@@ -45,13 +45,21 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 
     public function testLoadFiles() {
         $dir = vfsStream::url('CryptLibTest/Core/AbstractFactory');
+
         $result = array();
-        $factory = new Factory();
         $callback = function($name, $class) use (&$result) {
             $result[$name] = $class;
         };
+
+        $factory = new Factory();
         $factory->loadFiles($dir, 'foo\\', $callback);
-        $this->assertEquals(array('test' => 'foo\\test', 'Some234Foo234Bar98Name' => 'foo\\Some234Foo234Bar98Name'), $result);
+
+        $expect = array(
+            'test' => 'foo\\test', 
+            'Some234Foo234Bar98Name' => 'foo\\Some234Foo234Bar98Name'
+        );
+
+        $this->assertEquals($expect, $result);
     }
 
 
