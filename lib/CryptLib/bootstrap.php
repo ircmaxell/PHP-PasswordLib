@@ -27,13 +27,17 @@ namespace CryptLib;
  * @return void
  */
 spl_autoload_register(function ($class) {
-    if (substr($class, 0, strlen(__NAMESPACE__)) != __NAMESPACE__) {
-        //Only autoload libraries from this package
-        return;
+    $path = '';
+    if (substr($class, 0, strlen(__NAMESPACE__)) == __NAMESPACE__) {
+        $class = substr($class, strlen(__NAMESPACE__) + 1);
+        $path  = str_replace('\\', '/', $class);
+        $path  = __DIR__ . '/' . $path . '.php';
+    } elseif (strpos($class, '\\') === false) {
+        //Attempt to load PEAR classes
+        $path = '/../Pear/' . str_replace('_', '/', $class);
+        $path = __DIR__ . '/' . $path . '.php';
     }
-    $path = substr(str_replace('\\', '/', $class), 8);
-    $path = __DIR__ . $path . '.php';
-    if (file_exists($path)) {
+    if ($path && file_exists($path)) {
         require $path;
     }
 });

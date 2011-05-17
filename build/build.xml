@@ -40,7 +40,7 @@
 
     <target name="cb" depends="prepare">
         <exec
-            command="phpcb --source ${libdir} --output ${resultsdir}/code-browser/ --log ${logdir}"
+            command="phpcb --source ${libdir} --output ${resultsdir}/code-browser/ --log ${logdir}/CryptLib"
             passthru="true"
             os="Linux"
             checkreturn="false" />
@@ -48,12 +48,12 @@
 
     <target name="cs" depends="prepare">
         <exec
-            command="phpcs --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${builddir}/PHPCS/ruleset.xml ${libdir}"
+            command="phpcs --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${builddir}/PHPCS/ruleset.xml ${libdir}/CryptLib"
             os="Linux" 
             passthru="true"
             checkreturn="true" />
         <exec
-            command="phpcs.bat  --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${builddir}/PHPCS/ruleset.xml ${libdir}"
+            command="phpcs.bat  --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${builddir}/PHPCS/ruleset.xml ${libdir}/CryptLib"
             os="WIN" checkreturn="true" />
     </target>
 
@@ -67,13 +67,13 @@
     </target>
     <target name="loc" depends="prepare">
         <exec 
-            command="phploc --log-csv ${logdir}/phploc.csv ${libdir}"
+            command="phploc --log-csv ${logdir}/phploc.csv ${libdir}/CryptLib"
             os="Linux"
         />
     </target>
     <target name="pmd" depends="prepare">
         <phpmd rulesets="${builddir}/PHPMD/ruleset.xml">
-            <fileset dir="${libdir}">
+            <fileset dir="${libdir}/CryptLib">
                 <include name="**/*.php" />
             </fileset>
             <formatter type="xml" outfile="${logdir}/pmd.xml" />
@@ -82,7 +82,7 @@
     </target>
 
     <target name="pdepend" depends="unit">
-        <phpdepend file="${libdir}">
+        <phpdepend file="${libdir}/CryptLib">
             <logger type="phpunit-xml" outfile="${logdir}/metrics.xml" />
             <logger type="jdepend-xml" outfile="${logdir}/jdepend.xml" />
             <logger type="jdepend-chart" outfile="${logdir}/dependencies.svg" />
@@ -104,7 +104,7 @@
     </target>
 
     <target name="document" depends="prepare">
-        <exec command="phpuml ${libdir} -f htmlnew -n CryptLib --no-deployment-view -o ${resultsdir}/api" os="Linux" />
+        <exec command="phpuml ${libdir}/CryptLib -f htmlnew -n CryptLib --no-deployment-view -o ${resultsdir}/api" os="Linux" />
     </target>
 
     <target name="package" depends="prepare">

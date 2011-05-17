@@ -102,15 +102,19 @@ class Generator {
             return $max;
         }
         $bytes = 1;
+        // Determine how many bytes to generate
         while ($range >>= BITS_PER_BYTE) {
             $bytes++;
         }
         $rand   = $this->generate($bytes);
         $number = 0;
+        // Build the number with the appropriate range
         for ($i = 0; $i < $bytes; $i++) {
             $number += (ord($rand[$i]) << (BITS_PER_BYTE * $i));
         }
-        $scale  = ($max - $min) / (pow(2, BITS_PER_BYTE * $bytes) - 1);
+        $scale = ($max - $min) / (pow(2, BITS_PER_BYTE * $bytes) - 1);
+
+        //Scale the result appropriately (this is dirty)
         $number = floor($scale * $number);
         return (int) ($min + $number);
     }
@@ -122,7 +126,7 @@ class Generator {
      * string.
      *
      * @param int    $length     The length of the generated string
-     * @param string $characters An optional list of characters to generate with
+     * @param string $characters An optional list of characters to use
      *
      * @return string The generated random string
      */
@@ -139,7 +143,7 @@ class Generator {
         $rand   = $this->generate($bytes);
         $result = BaseConverter::convertFromBinary($rand, $characters);
         if (strlen($result) < $length) {
-            $result = str_pad($result, $length, $characters[0], \STR_PAD_LEFT);
+            $result = str_pad($result, $length, $characters[0], STR_PAD_LEFT);
         }
         return $result;
     }
