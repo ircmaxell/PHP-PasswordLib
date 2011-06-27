@@ -4,6 +4,12 @@ use CryptLib\Core\BitString;
 
 class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
 
+    /**
+     * These vectors were taken directly from RFC 3610
+     * 
+     * @see http://tools.ietf.org/html/rfc3610
+     * @return array The test vectors
+     */
     public static function provideTestEncryptVectors() {
         $ret = array(
             1 => array(
@@ -315,7 +321,6 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testDecrypt() {
-        return;
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
         $mode = new CryptLib\Cipher\Block\Mode\CCM;
@@ -339,6 +344,38 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
             $adata
         );
         $this->assertEquals($data, $dec);
+    }
+    
+    public function testSetAuthField() {
+        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $mode->setAuthFieldSize(14);
+        $ref = new ReflectionProperty('CryptLib\Cipher\Block\Mode\CCM', 'authFieldSize');
+        $ref->setAccessible(true);
+        $this->assertEquals(14, $ref->getValue($mode));
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetAuthFieldFailure() {
+        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $mode->setAuthFieldSize(13);
+    }
+    
+    public function testSetLSize() {
+        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $mode->setLSize(5);
+        $ref = new ReflectionProperty('CryptLib\Cipher\Block\Mode\CCM', 'lSize');
+        $ref->setAccessible(true);
+        $this->assertEquals(5, $ref->getValue($mode));
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetLSizeFailure() {
+        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $mode->setLSize(13);
     }
 
 }

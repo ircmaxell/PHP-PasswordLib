@@ -32,8 +32,8 @@ class ECB implements \CryptLib\Cipher\Block\Mode {
      * @param string      $data   The data to decrypt
      * @param string      $key    The key to use for decrypting the data
      * @param BlockCipher $cipher The cipher to use for decrypting the data
-     * @param string      $initv  The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to encrypt/decrypt with
+     * @param string      $initv  Not Used
+     * @param string      $adata  Not Used
      *
      * @return string The decrypted data
      */
@@ -59,8 +59,8 @@ class ECB implements \CryptLib\Cipher\Block\Mode {
      * @param string      $data   The data to encrypt
      * @param string      $key    The key to use for encrypting the data
      * @param BlockCipher $cipher The cipher to use for encrypting the data
-     * @param string      $initv  The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to encrypt/decrypt with
+     * @param string      $initv  Not Used
+     * @param string      $adata  Not Used
      *
      * @return string The encrypted data
      */

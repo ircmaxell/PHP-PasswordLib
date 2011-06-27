@@ -33,7 +33,7 @@ class NOFB implements \CryptLib\Cipher\Block\Mode {
      * @param string      $key    The key to use for decrypting the data
      * @param BlockCipher $cipher The cipher to use for decrypting the data
      * @param string      $initv  The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to encrypt/decrypt with
+     * @param string      $adata  Not Used
      *
      * @return string The decrypted data
      */
@@ -44,7 +44,7 @@ class NOFB implements \CryptLib\Cipher\Block\Mode {
         $initv,
         $adata = ''
     ) {
-        return $this->encrypt($data, $key, $cipher, $initv);
+        return $this->encrypt($data, $key, $cipher, $initv, $adata);
     }
 
     /**
@@ -54,7 +54,7 @@ class NOFB implements \CryptLib\Cipher\Block\Mode {
      * @param string      $key    The key to use for encrypting the data
      * @param BlockCipher $cipher The cipher to use for encrypting the data
      * @param string      $initv  The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to encrypt/decrypt with
+     * @param string      $adata  Not Used
      *
      * @return string The encrypted data
      */

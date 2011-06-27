@@ -32,12 +32,12 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      * @var int The number of octets in the length field
      */
     protected $lSize = 4;
-    
+
     /**
      * @var int The number of octets in the Authentication field
      */
     protected $authFieldSize = 8;
-    
+
     /**
      * Set the auth field size to a different value.  
      * 
@@ -59,7 +59,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         }
         $this->authFieldSize = (int) $new;
     }
-    
+
     /**
      * Set the size of the length field.  This is a tradeoff between the maximum 
      * message size and the size of the initialization vector
@@ -79,7 +79,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         }
         $this->lSize = (int) $new;
     }
-    
+
     /**
      * Decrypt the data using the supplied key, cipher and initialization vector
      *
@@ -144,7 +144,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
     public function getMode() {
         return 'ccm';
     }
-    
+
     /**
      * Compute the authentication field
      *
@@ -176,22 +176,8 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         if (strlen($data) % $blockSize != 0) {
             $data .= str_repeat(chr(0), $blockSize - (strlen($data) % $blockSize));
         }
-        if (!empty($adata)) {
-            if (strlen($adata) < ((1 << 16) - (1 << 8))) {
-                $len = pack('n', strlen($adata));
-            } else {
-                $len = chr(0xff) . chr(0xfe) . pack('N', strlen($adata));
-            }
-            $temp = $len . $adata;
-            if (strlen($temp) % $blockSize != 0) {
-                //Pad the string to exactly mod16
-                $temp .= str_repeat(
-                    chr(0), 
-                    $blockSize - (strlen($temp) % $blockSize)
-                );
-            }
-            $blocks = array_merge($blocks, str_split($temp, $blockSize));
-        }
+
+        $blocks = array_merge($blocks, $this->processAData($adata, $blockSize));
         $blocks = array_merge($blocks, str_split($data, $blockSize));
         $crypted = array(
             1 => $cipher->encryptBlock($blocks[0], $key)
@@ -205,7 +191,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         }
         return substr(end($crypted), 0, $this->authFieldSize);
     }
-    
+
     /**
      * Encrypt the data using the supplied method
      *
@@ -246,7 +232,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         $uValue = $authValue ^ $sValue;
         return $encrypted . $uValue;
     }
-    
+
     /**
      * Extract the nonce from the initialization vector
      *
@@ -266,7 +252,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         }
         return substr($initv, 0, $initSize);
     }
-    
+
     /**
      * Get a packing string related to the instance lSize variable
      *
@@ -291,6 +277,34 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
                 return 'xxxxN';
         }
         return 'x';
+    }
+
+    /**
+     * Process the Authentication data for authenticating
+     *
+     * @param string $adata     The data to authenticate with
+     * @param int    $blockSize The block size for the cipher
+     * 
+     * @return array An array of strings bound by the supplied blocksize
+     */
+    protected function processAData($adata, $blockSize) {
+        if (!empty($adata)) {
+            if (strlen($adata) < ((1 << 16) - (1 << 8))) {
+                $len = pack('n', strlen($adata));
+            } else {
+                $len = chr(0xff) . chr(0xfe) . pack('N', strlen($adata));
+            }
+            $temp = $len . $adata;
+            if (strlen($temp) % $blockSize != 0) {
+                //Pad the string to exactly mod16
+                $temp .= str_repeat(
+                    chr(0), 
+                    $blockSize - (strlen($temp) % $blockSize)
+                );
+            }
+            return str_split($temp, $blockSize);
+        }
+        return array();
     }
 
 }
