@@ -1,8 +1,8 @@
 <?php
 /**
- * The RNGCrypto Random Number Source
+ * The MCrypt Random Number Source
  *
- * This uses the Windows RNGCrypt .NET class to generate high strength numbers
+ * This uses the OS's secure generator to generate high strength numbers
  *
  * PHP version 5.3
  *
@@ -21,16 +21,16 @@ namespace CryptLib\Random\Source;
 use CryptLib\Core\Strength\High as HighStrength;
 
 /**
- * The RNGCrypto Random Number Source
+ * The MCrypt Random Number Source
  *
- * This uses the Windows RNGCrypt .NET class to generate high strength numbers
+ * This uses the OS's secure generator to generate high strength numbers
  *
  * @category   PHPCryptLib
  * @package    Random
  * @subpackage Source
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class RNGCrypto implements \CryptLib\Random\Source {
+class MCrypt implements \CryptLib\Random\Source {
 
     /**
      * Return an instance of Strength indicating the strength of the source
@@ -49,22 +49,15 @@ class RNGCrypto implements \CryptLib\Random\Source {
      * @return string A string of the requested size
      */
     public function generate($size) {
-        if (!class_exists('\\DOTNET', false)) {
+        if (!function_exists('mcrypt_create_iv') || $size < 1) {
             return str_repeat(chr(0), $size);
         }
-        try {
-            $util    = new \DOTNET(
-                'mscorlib',
-                'System.Security.Cryptography.RNGCryptoServiceProvider'
-            );
-            $opts    = VT_UT1 | VT_ARRAY | VT_BYREF;
-            $varient = new \VARIENT(array_fill(0, $size, chr(0)), $opts);
-            $util->GetBytes($varient);
-            return implode('', (array) $varient);
-        } catch (Exception $e) {
-            unset($e);
-            return str_repate(chr(0), $size);
-        }
+        /**
+         * Note, The mcrypt_create_iv method internally calls the function 
+         * CryptGenRandom on the Win32 API which is basically the same as 
+         * using RNGCrypto on Windows
+         */
+        return mcrypt_create_iv($size, MCRYPT_DEV_URANDOM);
     }
 
 }

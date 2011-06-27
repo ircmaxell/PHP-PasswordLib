@@ -71,7 +71,6 @@ class Unit_Core_BitStringTest extends PHPUnit_Framework_TestCase {
     public function testRotateLeft($value, $bits, $size, $expect) {
         $obj = new BitString($value);
         $actual = (string) $obj->rotateLeft($bits, $size);
-        var_dump(bin2hex($expect), bin2hex($actual));
         $this->assertEquals($expect, $actual);
     }
 }

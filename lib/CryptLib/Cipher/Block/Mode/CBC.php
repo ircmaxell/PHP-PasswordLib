@@ -34,6 +34,7 @@ class CBC implements \CryptLib\Cipher\Block\Mode {
      * @param string      $key    The key to use for decrypting the data
      * @param BlockCipher $cipher The cipher to use for decrypting the data
      * @param string      $iv     The initialization vector to use
+     * @param string      $adata  Any additional authenticated data to encrypt/decrypt with
      *
      * @return string The decrypted data
      */
@@ -41,7 +42,8 @@ class CBC implements \CryptLib\Cipher\Block\Mode {
         $data,
         $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
-        $initv
+        $initv,
+        $adata = ''
     ) {
         $size       = $cipher->getBlockSize($key);
         $blocks     = str_split($data, $size);
@@ -63,6 +65,7 @@ class CBC implements \CryptLib\Cipher\Block\Mode {
      * @param string      $key    The key to use for encrypting the data
      * @param BlockCipher $cipher The cipher to use for encrypting the data
      * @param string      $iv     The initialization vector to use
+     * @param string      $adata  Any additional authenticated data to encrypt/decrypt with
      *
      * @return string The encrypted data
      */
@@ -70,7 +73,8 @@ class CBC implements \CryptLib\Cipher\Block\Mode {
         $data,
         $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
-        $initv
+        $initv,
+        $adata = ''
     ) {
         $size       = $cipher->getBlockSize($key);
         $blocks     = str_split($data, $size);

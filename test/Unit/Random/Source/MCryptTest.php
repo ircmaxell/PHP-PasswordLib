@@ -1,9 +1,9 @@
 <?php
 
-use CryptLib\Random\Source\RNGCrypto;
+use CryptLib\Random\Source\MCrypt;
 use CryptLib\Core\Strength\High as HighStrength;
 
-class Unit_Random_Source_RNGCryptoTest extends PHPUnit_Framework_TestCase {
+class Unit_Random_Source_MCryptTest extends PHPUnit_Framework_TestCase {
 
     public static function provideGenerate() {
         $data = array();
@@ -15,23 +15,23 @@ class Unit_Random_Source_RNGCryptoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\RNGCrypto::getStrength
+     * @covers CryptLib\Random\Source\MCrypt::getStrength
      */
     public function testGetStrength() {
         $strength = new HighStrength;
-        $actual = RNGCrypto::getStrength();
+        $actual = MCrypt::getStrength();
         $this->assertEquals($actual, $strength);
     }
 
     /**
-     * @covers CryptLib\Random\Source\RNGCrypto::generate
+     * @covers CryptLib\Random\Source\MCrypt::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {
-        $rand = new RNGCrypto;
+        $rand = new MCrypt;
         $stub = $rand->generate($length);
         $this->assertEquals($length, strlen($stub));
-        if (strncasecmp(PHP_OS, 'Win', 3) === 0) {
+        if (function_exists('mcrypt_create_iv')) {
             $this->assertNotEquals($not, $stub);
         } else {
             $this->assertEquals(str_repeat(chr(0), $length), $stub);
