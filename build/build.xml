@@ -49,12 +49,8 @@
     <target name="cs" depends="prepare">
         <exec
             command="phpcs --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${builddir}/PHPCS/ruleset.xml ${libdir}/CryptLib"
-            os="Linux" 
             passthru="true"
             checkreturn="true" />
-        <exec
-            command="phpcs.bat  --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${builddir}/PHPCS/ruleset.xml ${libdir}/CryptLib"
-            os="WIN" checkreturn="true" />
     </target>
 
     <target name="cpd" depends="prepare">

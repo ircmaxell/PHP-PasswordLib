@@ -33,7 +33,7 @@ interface Mode {
      * @param string      $key    The key to use for decrypting the data
      * @param BlockCipher $cipher The cipher to use for decrypting the data
      * @param string      $initv  The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to encrypt/decrypt with
+     * @param string      $adata  Any additional authenticated data to decrypt with
      *
      * @return string The decrypted data
      */
@@ -52,7 +52,7 @@ interface Mode {
      * @param string      $key    The key to use for encrypting the data
      * @param BlockCipher $cipher The cipher to use for encrypting the data
      * @param string      $initv  The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to encrypt/decrypt with
+     * @param string      $adata  Any additional authenticated data to encrypt with
      *
      * @return string The encrypted data
      */

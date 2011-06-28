@@ -61,7 +61,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
     }
 
     /**
-     * Set the size of the length field.  This is a tradeoff between the maximum 
+     * Set the size of the length field.  This is a tradeoff between the maximum
      * message size and the size of the initialization vector
      *
      * Valid values are 2, 3, 4, 5, 6, 7, 8
@@ -98,12 +98,18 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         $initv,
         $adata = ''
     ) {
-        $initv = $this->extractInitv($initv, $cipher->getBlockSize($key));
-        $message = substr($data, 0, -1 * $this->authFieldSize);
-        $uValue = substr($data, -1 * $this->authFieldSize);
-        $data = $this->encryptMessage($initv, $key, $message, $uValue, $cipher);
-        $computedT = substr($data, -1 * $this->authFieldSize);
-        $data = substr($data, 0, -1 * $this->authFieldSize);
+        $initv      = $this->extractInitv($initv, $cipher->getBlockSize($key));
+        $message    = substr($data, 0, -1 * $this->authFieldSize);
+        $uValue     = substr($data, -1 * $this->authFieldSize);
+        $data       = $this->encryptMessage(
+            $initv,
+            $key,
+            $message,
+            $uValue,
+            $cipher
+        );
+        $computedT  = substr($data, -1 * $this->authFieldSize);
+        $data       = substr($data, 0, -1 * $this->authFieldSize);
         $authFieldT = $this->computeAuthField($initv, $key, $data, $adata, $cipher);
         if ($authFieldT != $computedT) {
             return false;
@@ -129,10 +135,16 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         $initv,
         $adata = ''
     ) {
-        $blockSize = $cipher->getBlockSize($key);
-        $initv = $this->extractInitv($initv, $blockSize);
+        $blockSize  = $cipher->getBlockSize($key);
+        $initv      = $this->extractInitv($initv, $blockSize);
         $authFieldT = $this->computeAuthField($initv, $key, $data, $adata, $cipher);
-        $data = $this->encryptMessage($initv, $key, $data, $authFieldT, $cipher);
+        $data       = $this->encryptMessage(
+            $initv,
+            $key,
+            $data,
+            $authFieldT,
+            $cipher
+        );
         return $data;
     }
 
@@ -157,35 +169,35 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      * @return string The computed MAC Authentication Code 
      */
     protected function computeAuthField(
-        $initv, 
-        $key, 
-        $data, 
-        $adata, 
+        $initv,
+        $key,
+        $data,
+        $adata,
         \CryptLib\Cipher\Block\BlockCipher $cipher
     ) {
         $blockSize = $cipher->getBlockSize($key);
-        $flags = pack(
-            'C', 
-            64 * (empty($adata) ? 0 : 1) 
-                + 8 * (($this->authFieldSize - 2) / 2) 
+        $flags     = pack(
+            'C',
+            64 * (empty($adata) ? 0 : 1)
+                + 8 * (($this->authFieldSize - 2) / 2)
                 + ($this->lSize - 1)
         );
-        $blocks = array(
+        $blocks    = array(
             $flags . $initv . pack($this->getLPackString(), strlen($data))
         );
         if (strlen($data) % $blockSize != 0) {
             $data .= str_repeat(chr(0), $blockSize - (strlen($data) % $blockSize));
         }
 
-        $blocks = array_merge($blocks, $this->processAData($adata, $blockSize));
-        $blocks = array_merge($blocks, str_split($data, $blockSize));
-        $crypted = array(
+        $blocks   = array_merge($blocks, $this->processAData($adata, $blockSize));
+        $blocks   = array_merge($blocks, str_split($data, $blockSize));
+        $crypted  = array(
             1 => $cipher->encryptBlock($blocks[0], $key)
         );
         $blockLen = count($blocks);
         for ($i = 1; $i < $blockLen; $i++) {
             $crypted[$i + 1] = $cipher->encryptBlock(
-                $crypted[$i] ^ $blocks[$i], 
+                $crypted[$i] ^ $blocks[$i],
                 $key
             );
         }
@@ -204,20 +216,20 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      * @return string The encrypted data with authfield payload
      */
     protected function encryptMessage(
-        $initv, 
-        $key, 
-        $data, 
+        $initv,
+        $key,
+        $data,
         $authValue,
         \CryptLib\Cipher\Block\BlockCipher $cipher
     ) {
         $blockSize = $cipher->getBlockSize($key);
-        $flags = pack('C', ($this->lSize - 1));
-        $blocks = str_split($data, $blockSize);
-        $sblocks = array();
-        $blockLen = count($blocks);
+        $flags     = pack('C', ($this->lSize - 1));
+        $blocks    = str_split($data, $blockSize);
+        $sblocks   = array();
+        $blockLen  = count($blocks);
         for ($i = 0; $i <= $blockLen; $i++) {
             $sblocks[] = $cipher->encryptBlock(
-                $flags . $initv . pack($this->getLPackString(), $i), 
+                $flags . $initv . pack($this->getLPackString(), $i),
                 $key
             );
         }
@@ -262,7 +274,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
     protected function getLPackString() {
         if ($this->lSize <= 3) {
             return str_repeat('x', $this->lSize - 2) . 'n';
-        } 
+        }
         return str_repeat('x', $this->lSize - 4) . 'N';
     }
 
@@ -285,7 +297,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
             if (strlen($temp) % $blockSize != 0) {
                 //Pad the string to exactly mod16
                 $temp .= str_repeat(
-                    chr(0), 
+                    chr(0),
                     $blockSize - (strlen($temp) % $blockSize)
                 );
             }
