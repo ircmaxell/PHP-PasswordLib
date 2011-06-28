@@ -1,179 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="PHP-CryptLib" default="build" basedir="../">
-    <property name="libdir" value="${project.basedir}/lib" override="true" />
-    <property name="builddir" value="${project.basedir}/build" override="true" />
-    <property name="resultsdir" value="${builddir}/results" override="true" />
-    <property name="logdir" value="${resultsdir}/logs" override="true" />
-    <property name="testdir" value="${project.basedir}/test" />
-    <property name="docsdir" value="${project.basedir}/docs" />
-    <property name="packagedir" value="${resultsdir}/package" />
-    <property name="version.string" value="0.0.1a1" />
+    <property file="build/build.properties" />
+	<import file="${path.build}/phing/document.xml" />
+	<import file="${path.build}/phing/package.xml" />
+	<import file="${path.build}/phing/quality.xml" />
+	<import file="${path.build}/phing/test.xml" />
 
     <target name="clean">
-        <delete dir="${resultsdir}" />
+        <delete dir="${path.results}" />
+		<mkdir dir="${path.results}" />
+        <mkdir dir="${path.results}/logs" />
     </target>
 
-    <target name="prepare">
-        <mkdir dir="${resultsdir}/api" />
-        <mkdir dir="${resultsdir}/code-browser" />
-        <mkdir dir="${resultsdir}/coverage" />
-        <mkdir dir="${resultsdir}/logs" />
-        <mkdir dir="${resultsdir}/lib" />
-        <mkdir dir="${packagedir}" />
-        <exec
-            os="Linux"
-            outputProperty="version.number"
-            command="git rev-parse HEAD"
-            dir="${project.basedir}"
-            />
-    </target>
+    <target name="build">
+		<phingcall target="clean" />
+		<phingcall target="test" />
+		<phingcall target="quality" />
+		<phingcall target="document" />
+		<phingcall target="package" />
+	</target>
 
-    <target name="build" depends="clean,prepare,lint,unit,cs,cpd,pmd,pdepend,cb,loc,document,package" />
-
-    <target name="lint">
-        <phplint haltonfailure="true" deprecatedAsError="true">
-            <fileset dir="${libdir}">
-                <include name="**/*.php" />
-            </fileset>
-        </phplint>
-    </target>
-
-    <target name="cb" depends="prepare">
-        <exec
-            command="phpcb --source ${libdir} --output ${resultsdir}/code-browser/ --log ${logdir}"
-            passthru="true"
-            checkreturn="false" />
-    </target>
-
-    <target name="cs" depends="prepare">
-        <exec
-            command="phpcs --report=summary --report-checkstyle=${logdir}/checkstyle.xml --standard=${builddir}/PHPCS/ruleset.xml ${libdir}/CryptLib"
-            passthru="true"
-            checkreturn="true" />
-    </target>
-
-    <target name="cpd" depends="prepare">
-        <phpcpd>
-            <fileset dir="${libdir}">
-                <include name="**/*.php" />
-            </fileset>
-            <formatter type="pmd" outfile="${logdir}/php-cpd.xml" />
-        </phpcpd>
-    </target>
-    <target name="loc" depends="prepare">
-        <exec 
-            command="phploc --log-csv ${logdir}/phploc.csv ${libdir}/CryptLib"
-            os="Linux"
-        />
-    </target>
-    <target name="pmd" depends="prepare">
-        <phpmd rulesets="${builddir}/PHPMD/ruleset.xml">
-            <fileset dir="${libdir}/CryptLib">
-                <include name="**/*.php" />
-            </fileset>
-            <formatter type="xml" outfile="${logdir}/pmd.xml" />
-            <formatter type="text" usefile="false" />
-        </phpmd>
-    </target>
-
-    <target name="pdepend" depends="unit">
-        <phpdepend file="${libdir}/CryptLib">
-            <logger type="phpunit-xml" outfile="${logdir}/metrics.xml" />
-            <logger type="jdepend-xml" outfile="${logdir}/jdepend.xml" />
-            <logger type="jdepend-chart" outfile="${logdir}/dependencies.svg" />
-            <logger type="overview-pyramid" outfile="${logdir}/overview-pyramid.svg" />
-            <analyzer type="coderank-mode" value="method" />
-        </phpdepend>
-    </target>
-
-    <target name="unit" depends="prepare">
-        <exec 
-            passthru="true"
-            checkreturn="true"
-            command="phpunit --log-junit ${logdir}/junit.xml
-                       --coverage-clover ${logdir}/clover.xml
-                       --coverage-html ${resultsdir}/coverage
-                       --configuration ${testdir}/phpunit.xml.dist"
-        />
-    </target>
-
-    <target name="document" depends="prepare">
-        <exec command="phpuml ${libdir}/CryptLib -f htmlnew -n CryptLib --no-deployment-view -o ${resultsdir}/api" os="Linux" />
-    </target>
-
-    <target name="package" depends="prepare">
-        <copy todir="${resultsdir}/lib">
-            <filterchain>
-                <replacetokens begintoken="@@" endtoken="@@">
-                    <token key="version" value="${version.number}" />
-                </replacetokens>
-            </filterchain>
-            <fileset dir="${libdir}">
-                <include name="**/**" />
-            </fileset>
-        </copy>
-        <pearpkg name="CryptLib" dir="${resultsdir}/lib" destfile="${resultsdir}/lib/package.xml">
-            <fileset dir="${resultsdir}/lib">
-                <include name="**/**" />
-            </fileset>
-            <option name="notes">Release Notes</option>
-            <option name="description">A Cryptography Library for PHP</option>
-            <option name="summary">A Cryptography Library for PHP</option>
-            <option name="version" value="${version.string}" />
-            <option name="state" value="alpha" />
-            <mapping name="maintainers">
-                <element>
-                    <element key="handle" value="ircmaxell" />
-                    <element key="name" value="Anthony Ferrara" />
-                    <element key="email" value="ircmaxell@ircmaxell.com" />
-                    <element key="role" value="lead" />
-                </element>
-            </mapping>
-        </pearpkg>
-
-        <zip destfile="${packagedir}/CryptLib.zip">
-            <fileset dir="${resultsdir}/lib">
-                <include name="**/**" />
-            </fileset>
-        </zip>
-        <filehash file="${packagedir}/CryptLib.zip" hashtype="0" propertyname="filehash" />
-        <echo message="${filehash}" file="${packagedir}/CryptLib.zip.md5" />
-        <filehash file="${packagedir}/CryptLib.zip" hashtype="1" propertyname="filehash" />
-        <echo message="${filehash}" file="${packagedir}/CryptLib.zip.sha1" />
-
-        <tar destfile="${packagedir}/CryptLib.tar.gz" compression="gzip">
-            <fileset dir="${resultsdir}/lib">
-                <include name="**/**" />
-            </fileset>
-        </tar>
-        <filehash file="${packagedir}/CryptLib.tar.gz" hashtype="0" propertyname="filehash" />
-        <echo message="${filehash}" file="${packagedir}/CryptLib.tar.gz.md5" />
-        <filehash file="${packagedir}/CryptLib.tar.gz" hashtype="1" propertyname="filehash" />
-        <echo message="${filehash}" file="${packagedir}/CryptLib.tar.gz.sha1" />
-
-        <tar destfile="${packagedir}/CryptLib.tar.bz2" compression="bzip2">
-            <fileset dir="${resultsdir}/lib">
-                <include name="**/**" />
-            </fileset>
-        </tar>
-        <filehash file="${packagedir}/CryptLib.tar.bz2" hashtype="0" propertyname="filehash" />
-        <echo message="${filehash}" file="${packagedir}/CryptLib.tar.bz2.md5" />
-        <filehash file="${packagedir}/CryptLib.tar.bz2" hashtype="1" propertyname="filehash" />
-        <echo message="${filehash}" file="${packagedir}/CryptLib.tar.bz2.sha1" />
-
-        <pharpackage
-            destfile="${packagedir}/CryptLib.phar"
-            basedir="${libdir}"
-            stub="${builddir}/phar.stub.php"
-            signature="sha1"
-            >
-            <fileset dir="${resultsdir}/lib">
-                <include name="**/**" />
-            </fileset>
-            <metadata>
-                <element name="version" value="${version.number}" />
-            </metadata>
-            
-        </pharpackage>
-    </target>
 </project>
