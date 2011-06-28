@@ -24,7 +24,7 @@ namespace CryptLib\Key\Derivation\PBKDF;
  * @subpackage Derivation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Blowfish
+class BCrypt
     extends \CryptLib\Key\Derivation\AbstractDerivation
     implements \CryptLib\Key\Derivation\PBKDF
 {
@@ -62,7 +62,7 @@ class Blowfish
      * @return string The signature for this instance
      */
     public function getSignature() {
-        return 'blowfish';
+        return 'bcrypt';
     }
 
     /**
