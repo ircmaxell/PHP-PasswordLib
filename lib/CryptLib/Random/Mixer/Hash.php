@@ -20,9 +20,8 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Hash\Factory         as HashFactory;
-use \CryptLib\Key\Symmetric\Raw    as RawKey;
-use \CryptLib\Core\Strength\Medium as MediumStrength;
+use \CryptLib\Hash\Factory      as HashFactory;
+use \CryptLib\Core\Strength\Low as LowStrength;
 
 /**
  * The Hash medium strength mixer class
@@ -36,7 +35,7 @@ use \CryptLib\Core\Strength\Medium as MediumStrength;
  * @subpackage Mixer
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Hash implements \CryptLib\Random\Mixer {
+class Hash extends \CryptLib\Random\AbstractMixer {
 
     /**
      * @var Hash The hash instance to use
@@ -64,7 +63,7 @@ class Hash implements \CryptLib\Random\Mixer {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new MediumStrength();
+        return new LowStrength();
     }
 
     /**
@@ -77,37 +76,36 @@ class Hash implements \CryptLib\Random\Mixer {
     }
 
     /**
-     * Mix the provided array of strings into a single output of the same size
-     *
-     * All elements of the array should be the same size.
-     *
-     * @param array $parts The parts to be mixed
-     *
-     * @return string The mixed result
+     * Get the block size (the size of the individual blocks used for the mixing)
+     * 
+     * @return int The block size
      */
-    public function mix(array $parts) {
-        if (empty($parts)) {
-            return '';
-        }
-        $len = strlen($parts[0]);
-        foreach ($parts as &$part) {
-            $part = str_split($part, $this->hash->getSize());
-        }
-        $bits   = count($part);
-        $nparts = count($parts);
-        unset($part);
-        $hash   = '';
-        $offset = 0;
-        for ($i = 0; $i < $bits; $i++) {
-            $stub = $this->hash->evaluate($parts[$offset][$i]);
-            for ($j = 1; $j < $nparts; $j++) {
-                $key   = $parts[($j + $offset) % $nparts][$i];
-                $stub ^= $this->hash->hmac($stub, $key);
-            }
-            $hash  .= $stub;
-            $offset = ($offset + 1) % $nparts;
-        }
-        return substr($hash, 0, $len);
+    protected function getPartSize() {
+        return $this->hash->getSize();
+    }
+
+    /**
+     * Mix 2 parts together using one method
+     *
+     * @param string $part1 The first part to mix
+     * @param string $part2 The second part to mix
+     * 
+     * @return string The mixed data
+     */
+    protected function mixParts1($part1, $part2) {
+        return $this->hash->hmac($part1, $part2);
+    }
+
+    /**
+     * Mix 2 parts together using another different method
+     *
+     * @param string $part1 The first part to mix
+     * @param string $part2 The second part to mix
+     * 
+     * @return string The mixed data
+     */
+    protected function mixParts2($part1, $part2) {
+        return $this->hash->hmac($part2, $part1);
     }
 
 }

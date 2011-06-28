@@ -35,14 +35,7 @@ use \CryptLib\Core\Strength\High as HighStrength;
  * @subpackage Mixer
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class DES implements \CryptLib\Random\Mixer {
-
-    /**
-     * The DES blocksize
-     *
-     * @internal
-     */
-    const BLOCKSIZE = 8;
+class DES extends \CryptLib\Random\AbstractMixer {
 
     /**
      * An instance of a DES symmetric encryption cipher
@@ -84,43 +77,36 @@ class DES implements \CryptLib\Random\Mixer {
     }
 
     /**
-     * Mix the provided array of strings into a single output of the same size
-     *
-     * All elements of the array should be the same size.
-     *
-     * @param array $parts The parts to be mixed
-     *
-     * @return string The mixed result
+     * Get the block size (the size of the individual blocks used for the mixing)
+     * 
+     * @return int The block size
      */
-    public function mix(array $parts) {
-        if (empty($parts)) {
-            return '';
-        }
-        $len       = strlen($parts[0]);
-        $blockSize = static::BLOCKSIZE;
-        foreach ($parts as &$part) {
-            $part = str_split($part, $blockSize - 1);
-        }
-        $stringSize = count($part);
-        $partsSize  = count($parts);
-        unset($part);
-        $hash   = '';
-        $offset = 0;
-        for ($i = 0; $i < $stringSize; $i++) {
-            $stub = $parts[$offset][$i];
-            for ($j = 1; $j < $partsSize; $j++) {
-                $newKey = $parts[($j + $offset) % $partsSize][$i];
-                //Alternately encrypt and decrypt the output for each source
-                if ($i % 2 == 1) {
-                    $stub ^= $this->cipher->encryptBlock($stub, $newKey);
-                } else {
-                    $stub ^= $this->cipher->encryptBlock($stub, $newKey);
-                }
-            }
-            $hash  .= $stub;
-            $offset = $offset + 1 % $partsSize;
-        }
-        return substr($hash, 0, $len);
+    protected function getPartSize() {
+        return $this->cipher->getBlockSize(str_repeat(chr(0), 8)) - 1;
+    }
+
+    /**
+     * Mix 2 parts together using one method
+     *
+     * @param string $part1 The first part to mix
+     * @param string $part2 The second part to mix
+     * 
+     * @return string The mixed data
+     */
+    protected function mixParts1($part1, $part2) {
+        return $this->cipher->encryptBlock($part1, $part2);
+    }
+
+    /**
+     * Mix 2 parts together using another different method
+     *
+     * @param string $part1 The first part to mix
+     * @param string $part2 The second part to mix
+     * 
+     * @return string The mixed data
+     */
+    protected function mixParts2($part1, $part2) {
+        return $this->cipher->decryptBlock($part1, $part2);
     }
 
 }

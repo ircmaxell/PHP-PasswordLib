@@ -14,24 +14,27 @@ class Unit_Random_Mixer_DESTest extends PHPUnit_Framework_TestCase {
             array(array('a'), 'a'),
             // This expects 'b' because of how the mock hmac function works
             array(array('a', 'b'), 'b'),
-            array(array('aa', 'b'), 'b'),
+            array(array('aa', 'b'), 'ba'),
             array(array('a', 'bb'), 'b'),
-            array(array('aa', 'bb'), 'bb'),
-            array(array('aa', 'bb', 'cc'), 'cc'),
-            array(array('aabbcc', 'bbccdd', 'ccddee'), 'ccddee'),
-            array(array('aabbccd', 'bbccdde', 'ccddeef'), 'ccddeef'),
-            array(array('aabbccdd', 'bbccddee', 'ccddeeff'), 'ccddeefd'),
-            array(array('aabbccddeeffgghh', 'bbccddeeffgghhii', 'ccddeeffgghhiijj'), 'ccddeefdeeffggii'),
+            array(array('aa', 'bb'), 'ba'),
+            array(array('aa', 'bb', 'cc'), 'ca'),
+            array(array('aabbcc', 'bbccdd', 'ccddee'), 'cacdcd'),
+            array(array('aabbccd', 'bbccdde', 'ccddeef'), 'cacdcdf'),
+            array(array('aabbccdd', 'bbccddee', 'ccddeeff'), 'cacdcdfd'),
+            array(array('aabbccddeeffgghh', 'bbccddeeffgghhii', 'ccddeeffgghhiijj'), 'cacdcdfdfgfgigij'),
         );
         return $data;
     }
 
     protected function getMockFactory() {
         $cipher = new BlockCipher(array(
-            'getBlockSize' => function() { return 8; },
+            'getBlockSize' => function() { return 2; },
             'encryptBlock' => function($data, $key) {
                 return $data ^ $key;
-            }
+            },
+            'decryptBlock' => function($data, $key) {
+                return $data ^ $key;
+            },
         ));
         $factory = new CipherFactory(array(
             'getBlockCipher' => function ($algo) use ($cipher) { return $cipher; },

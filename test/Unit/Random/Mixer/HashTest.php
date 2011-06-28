@@ -1,7 +1,7 @@
 <?php
 
 use CryptLib\Random\Mixer\Hash;
-use CryptLib\Core\Strength\Medium as MediumStrength;
+use CryptLib\Core\Strength\Low   as LowStrength;
 use CryptLibTest\Mocks\Hash\Hash as MockHash;
 
 class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
@@ -13,8 +13,8 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
             array(array('a'), 'a'),
             // This expects 'b' because of how the mock hmac function works
             array(array('a', 'b'), 'b'),
-            array(array('aa', 'b'), 'b'),
-            array(array('a', 'bb'), 'b'),
+            array(array('aa', 'ba'), 'ba'),
+            array(array('ab', 'bb'), 'bb'),
             array(array('aa', 'bb'), 'bb'),
             array(array('aa', 'bb', 'cc'), 'cc'),
             array(array('aabbcc', 'bbccdd', 'ccddee'), 'ccbbdd'),
@@ -34,7 +34,7 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\Mixer\Hash::getStrength
      */
     public function testGetStrength() {
-        $strength = new MediumStrength;
+        $strength = new LowStrength;
         $actual = Hash::getStrength();
         $this->assertEquals($actual, $strength);
     }
