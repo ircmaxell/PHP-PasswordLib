@@ -34,7 +34,11 @@
         </properties>
     </rule>
     <rule ref="rulesets/codesize.xml/TooManyFields" />
-    <rule ref="rulesets/codesize.xml/TooManyMethods" />
+    <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="maxmethods" value="20" />
+        </properties>
+    </rule>
     <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity" />
     <rule ref="rulesets/design.xml" />
     <rule ref="rulesets/naming.xml" />

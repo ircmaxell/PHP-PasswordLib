@@ -38,7 +38,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         return null;
     }
 
-    public function registerType($a1, $a2, $a3, $a4, $a5) {
+    public function registerType($a1, $a2, $a3, $a4, $a5 = false) {
         return parent::registerType($a1, $a2, $a3, $a4, $a5);
     }
 

@@ -62,11 +62,11 @@ class BitString {
         return new static($result, true);
     }
     public function logicalAnd(BitString $stream) {
-        $p1  = $this->bits;
-        $p2  = $stream->bits;
-        $new = '';
+        $part1 = $this->bits;
+        $part2 = $stream->bits;
+        $new   = '';
         for ($i = 0; $i < 64; $i++) {
-            $new .= $p1[$i] == '1' && $p2[$i] == '1' ? '1' : '0';
+            $new .= $part1[$i] == '1' && $part2[$i] == '1' ? '1' : '0';
         }
         return new static($new, true);
     }
@@ -79,21 +79,21 @@ class BitString {
     }
 
     public function logicalOr(BitString $stream) {
-        $p1  = $this->bits;
-        $p2  = $stream->bits;
-        $new = '';
+        $part1 = $this->bits;
+        $part2 = $stream->bits;
+        $new   = '';
         for ($i = 0; $i < 64; $i++) {
-            $new .= $p1[$i] == '1' || $p2[$i] == '1' ? '1' : '0';
+            $new .= $part1[$i] == '1' || $part2[$i] == '1' ? '1' : '0';
         }
         return new static($new, true);
     }
 
     public function logicalXOR(BitString $stream) {
-        $p1  = $this->bits;
-        $p2  = $stream->bits;
-        $new = '';
+        $part1 = $this->bits;
+        $part2 = $stream->bits;
+        $new   = '';
         for ($i = 0; $i < 64; $i++) {
-            $new .= $p1[$i] == $p2[$i] ? '1' : '0';
+            $new .= $part1[$i] == $part2[$i] ? '1' : '0';
         }
         return new static($new, true);
     }

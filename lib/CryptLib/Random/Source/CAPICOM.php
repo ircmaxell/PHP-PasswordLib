@@ -56,9 +56,10 @@ class CAPICOM implements \CryptLib\Random\Source {
             $util = new \COM('CAPICOM.Utilities.1');
             $data = base64_decode($util->GetRandom($size, 0));
             return str_pad($data, $size, chr(0));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            echo($e->getMessage());
             unset($e);
-            return str_repate(chr(0), $size);
+            return str_repeat(chr(0), $size);
         }
     }
 

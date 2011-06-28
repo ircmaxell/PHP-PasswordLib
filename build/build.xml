@@ -93,7 +93,6 @@
 
     <target name="unit" depends="prepare">
         <exec 
-            os="Linux"
             passthru="true"
             checkreturn="true"
             command="phpunit --log-junit ${logdir}/junit.xml

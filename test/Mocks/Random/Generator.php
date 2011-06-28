@@ -42,7 +42,7 @@ class Generator extends \CryptLib\Random\Generator {
         return null;
     }
 
-    public function addSource(Source $source) {
+    public function addSource(\CryptLib\Random\Source $source) {
         return $this->__call('addSource', array($source));
     }
 
@@ -50,11 +50,11 @@ class Generator extends \CryptLib\Random\Generator {
         return $this->__call('generate', array($size));
     }
 
-    public function generateInt($min, $max) {
+    public function generateInt($min = 0, $max = \PHP_INT_MAX) {
         return $this->__call('generateInt', array($min, $max));
     }
 
-    public function generateString($length, $chars) {
+    public function generateString($length, $chars = '') {
         return $this->__call('generateString', array($length, $chars));
     }
 

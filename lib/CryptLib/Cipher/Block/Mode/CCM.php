@@ -260,23 +260,10 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      * @see pack()
      */
     protected function getLPackString() {
-        switch ($this->lSize) {
-            case 2:
-                return 'n';
-            case 3:
-                return 'xn';
-            case 4:
-                return 'N';
-            case 5:
-                return 'xN';
-            case 6:
-                return 'xxN';
-            case 7:
-                return 'xxxN';
-            case 8:
-                return 'xxxxN';
-        }
-        return 'x';
+        if ($this->lSize <= 3) {
+            return str_repeat('x', $this->lSize - 2) . 'n';
+        } 
+        return str_repeat('x', $this->lSize - 4) . 'N';
     }
 
     /**
