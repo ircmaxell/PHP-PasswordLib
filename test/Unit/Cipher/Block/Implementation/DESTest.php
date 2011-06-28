@@ -84,5 +84,15 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
         $enc = $cipher->decryptBlock(base64_decode($data), base64_decode($key));
         $this->assertEquals($expected, base64_encode($enc));
     }
+    
+    public function testBlockSize() {
+        $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
+        $this->assertEquals(8, $cipher->getBlockSize('foo'));
+    }
+    
+    public function testGetCipher() {
+        $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
+        $this->assertEquals('des', $cipher->getCipher());
+    }
 
 }
