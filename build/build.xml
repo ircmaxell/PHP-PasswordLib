@@ -40,9 +40,8 @@
 
     <target name="cb" depends="prepare">
         <exec
-            command="phpcb --source ${libdir} --output ${resultsdir}/code-browser/ --log ${logdir}/CryptLib"
+            command="phpcb --source ${libdir} --output ${resultsdir}/code-browser/ --log ${logdir}"
             passthru="true"
-            os="Linux"
             checkreturn="false" />
     </target>
 
