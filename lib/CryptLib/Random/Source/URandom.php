@@ -61,7 +61,7 @@ class URandom implements \CryptLib\Random\Source {
         if (!file_exists('/dev/urandom')) {
             return str_repeat(chr(0), $size);
         }
-        $file = @fopen('/dev/urandom', 'rb');
+        $file = fopen('/dev/urandom', 'rb');
         if (!$file) {
             return str_repeat(chr(0), $size);
         }

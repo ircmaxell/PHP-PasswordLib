@@ -55,7 +55,7 @@ class Random implements \CryptLib\Random\Source {
         if (!file_exists('/dev/random')) {
             return str_repeat(chr(0), $size);
         }
-        $file = @fopen('/dev/random', 'rb');
+        $file = fopen('/dev/random', 'rb');
         if (!$file) {
             return str_repeat(chr(0), $size);
         }
