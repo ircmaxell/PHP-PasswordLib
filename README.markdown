@@ -2,7 +2,7 @@ Library Dependencies:
 --------------------
 The only dependency PHP-CryptLib has to use as a library is the PHP version.  It is made to be completely indepedent of extensions, implementing functionality natively where possible.
 
- - PHP >= 5.3.2
+ - PHP >= 5.3.3
 
 Build Dependencies:
 ------------------
