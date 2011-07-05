@@ -101,22 +101,11 @@ class Generator {
         if ($range == 0) {
             return $max;
         }
-        $bytes = 1;
-        // Determine how many bytes to generate
-        while ($range >>= BITS_PER_BYTE) {
-            $bytes++;
-        }
+        $bytes  = max(ceil(log($range, 2) / 8), 1);
         $rand   = $this->generate($bytes);
-        $number = 0;
-        // Build the number with the appropriate range
-        for ($i = 0; $i < $bytes; $i++) {
-            $number += (ord($rand[$i]) << (BITS_PER_BYTE * $i));
-        }
-        $scale = ($max - $min) / (pow(2, BITS_PER_BYTE * $bytes) - 1);
-
-        //Scale the result appropriately (this is dirty)
-        $number = floor($scale * $number);
-        return (int) ($min + $number);
+        $number = hexdec(bin2hex($rand));
+        $numRange = pow(2, $bytes * 8) - 1;
+        return (int) ($min + (($number * $range) / $numRange));
     }
 
     /**
