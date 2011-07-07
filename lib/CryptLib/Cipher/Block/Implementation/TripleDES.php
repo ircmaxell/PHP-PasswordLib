@@ -1,9 +1,8 @@
 <?php
 /**
- * The mcrypt block cipher implementation
- *
- * This class is used above all other implementations since it uses a core PHP
- * library if it is available.
+ * An implementation of the TripleDES cipher
+ * 
+ * This was forked from phpseclib and modified to use CryptLib conventions
  *
  * PHP version 5.3
  *
@@ -11,6 +10,7 @@
  * @package    Cipher
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @author     Jim Wigginton <terrafrost@php.net>
  * @copyright  2011 The Authors
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version    Build @@version@@
@@ -19,33 +19,22 @@
 namespace CryptLib\Cipher\Block\Implementation;
 
 /**
- * The mcrypt block cipher implementation
- *
- * This class is used above all other implementations since it uses a core PHP
- * library if it is available.
+ * An implementation of the TripleDES Cipher
  *
  * @category   PHPCryptLib
  * @package    Cipher
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
-
-    /**
-     * @var string $cipher The Cipher name for this instance
-     */
-    protected $cipher = '';
+class TripleDES extends DES {
 
     /**
      * Get a list of supported ciphers for this class implementation
-     * 
+     *
      * @return array A list of supported ciphers
      */
     public static function getSupportedCiphers() {
-        if (!function_exists('mcrypt_list_algorithms')) {
-            return array();
-        }
-        return \mcrypt_list_algorithms();
+        return array('tripledes');
     }
 
     /**
@@ -57,12 +46,11 @@ class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
      * @throws InvalidArgumentException if the cipher is not supported
      */
     public function __construct($cipher) {
-        $ciphers = static::getSupportedCiphers();
-        if (in_array($cipher, $ciphers)) {
-            $this->cipher = $cipher;
-        } else {
-            throw new \InvalidArgumentException('Unsupported Cipher Supplied');
+        if ($cipher != 'tripledes') {
+            $message = sprintf('Unsupported Cipher: %s', $cipher);
+            throw new \InvalidArgumentException($message);
         }
+        $this->cipher = $cipher;
     }
 
     /**
@@ -77,12 +65,12 @@ class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
      * @return string The result decrypted data
      */
     public function decryptBlock($data, $key) {
-        return \mcrypt_decrypt(
-            $this->cipher,
-            $key,
-            $data,
-            \MCRYPT_MODE_ECB
-        );
+        $key = str_pad($key, 24, chr(0));
+        for ($i = 2; $i >= 0; $i--) {
+            $stubKey = substr($key, $i * 8, 8);
+            $data    = parent::decryptBlock($data, $stubKey);
+        }
+        return $data;
     }
 
     /**
@@ -97,23 +85,12 @@ class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
      * @return string The result encrypted data
      */
     public function encryptBlock($data, $key) {
-        return \mcrypt_encrypt(
-            $this->cipher,
-            $key,
-            $data,
-            \MCRYPT_MODE_ECB
-        );
-    }
-
-    /**
-     * Get the block size for the current initialized cipher
-     *
-     * @param string $key The key the data will be encrypted with
-     *
-     * @return int The block size for the current cipher
-     */
-    public function getBlockSize($key) {
-        return \mcrypt_get_block_size($this->cipher, \MCRYPT_MODE_ECB);
+        $key = str_pad($key, 24, chr(0));
+        for ($i = 0; $i < 3; $i++) {
+            $stubKey = substr($key, $i * 8, 8);
+            $data    = parent::encryptBlock($data, $stubKey);
+        }
+        return $data;
     }
 
     /**
@@ -122,7 +99,7 @@ class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
      * @return string The current instantiated cipher
      */
     public function getCipher() {
-        return $this->cipher;
+        return 'tripledes';
     }
 
 }

@@ -1,8 +1,5 @@
 <?php
 
-//Test the PHP implementation, since that's the only one we'll use
-class_exists('Crypt_DES') && define('CRYPT_DES_MODE', CRYPT_DES_MODE_INTERNAL);
-
 class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -26,19 +23,6 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
             array('0131D9619DC1376E', '5CD54CA83DEF57DA', '7A389D10354BD271'), 
             array('07A1133E4A0B2686', '0248D43806F67172', '868EBB51CAB4599A'),
         );
-        foreach ($ret as &$case) {
-            foreach ($case as &$row) {
-                if (empty($row) || is_int($row)) continue;
-                $temp = preg_replace('/\s/', '', $row);
-                $temp = str_split($temp, 2);
-                $row = '';
-                foreach ($temp as $val) {
-                    $chr = chr(hexdec($val));
-                    $row .= $chr;
-                }
-                $row = base64_encode($row);
-            }
-        }
         return $ret;
     }
     
@@ -51,19 +35,6 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
             array('4001010101010101', '0EEC1487DD8C26D5', '0000000000000000'),
             array('2001010101010101', '7AD16FFB79C45926', '0000000000000000'),
         );
-        foreach ($ret as &$case) {
-            foreach ($case as &$row) {
-                if (empty($row) || is_int($row)) continue;
-                $temp = preg_replace('/\s/', '', $row);
-                $temp = str_split($temp, 2);
-                $row = '';
-                foreach ($temp as $val) {
-                    $chr = chr(hexdec($val));
-                    $row .= $chr;
-                }
-                $row = base64_encode($row);
-            }
-        }
         return $ret;
     }
     
@@ -72,8 +43,8 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
      */
     public function testEncrypt($key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
-        $enc = $cipher->encryptBlock(base64_decode($data), base64_decode($key));
-        $this->assertEquals($expected, base64_encode($enc));
+        $enc = $cipher->encryptBlock(pack('H*', $data), pack('H*', $key));
+        $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
     /**
@@ -81,8 +52,8 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
      */
     public function testDecrypt($key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
-        $enc = $cipher->decryptBlock(base64_decode($data), base64_decode($key));
-        $this->assertEquals($expected, base64_encode($enc));
+        $enc = $cipher->decryptBlock(pack('H*', $data), pack('H*', $key));
+        $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
     public function testBlockSize() {

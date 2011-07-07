@@ -8,8 +8,7 @@
  * @package    Key
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
- * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version    Build @@version@@
  */
 

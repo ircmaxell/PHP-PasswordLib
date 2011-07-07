@@ -10,8 +10,7 @@
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
- * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version    Build @@version@@
  */
 
@@ -101,9 +100,9 @@ class Generator {
         if ($range == 0) {
             return $max;
         }
-        $bytes  = max(ceil(log($range, 2) / 8), 1);
-        $rand   = $this->generate($bytes);
-        $number = hexdec(bin2hex($rand));
+        $bytes    = max(ceil(log($range, 2) / 8), 1);
+        $rand     = $this->generate($bytes);
+        $number   = hexdec(bin2hex($rand));
         $numRange = pow(2, $bytes * 8) - 1;
         return (int) ($min + (($number * $range) / $numRange));
     }
