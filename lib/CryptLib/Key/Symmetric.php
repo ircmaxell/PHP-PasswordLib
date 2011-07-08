@@ -10,6 +10,7 @@ namespace CryptLib\Key;
 /**
  *
  * @author ircmaxell
+ * @codeCoverageIgnore
  */
 interface Symmetric extends Key {
 

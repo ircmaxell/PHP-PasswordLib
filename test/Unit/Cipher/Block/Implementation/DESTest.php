@@ -65,5 +65,12 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
         $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
         $this->assertEquals('des', $cipher->getCipher());
     }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructFailure() {
+        $cipher = new \CryptLib\Cipher\Block\Implementation\DES('something');
+    }
 
 }

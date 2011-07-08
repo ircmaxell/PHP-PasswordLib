@@ -68,5 +68,12 @@ class Unit_Cipher_Block_Implementation_AESTest extends PHPUnit_Framework_TestCas
         $cipher = new \CryptLib\Cipher\Block\Implementation\AES('aes-128');
         $this->assertEquals('aes-128', $cipher->getCipher());
     }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructFailure() {
+        $cipher = new \CryptLib\Cipher\Block\Implementation\AES('rijndael-128');
+    }
 
 }

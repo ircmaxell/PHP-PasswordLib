@@ -28,6 +28,7 @@ namespace CryptLib\Key\Derivation;
  * @package    Key
  * @subpackage Derivation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @codeCoverageIgnore
  */
 interface PBKDF {
 

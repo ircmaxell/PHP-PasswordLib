@@ -22,6 +22,7 @@ namespace CryptLib\Cipher\Block;
  * @package    Cipher
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @codeCoverageIgnore
  */
 interface Mode {
 

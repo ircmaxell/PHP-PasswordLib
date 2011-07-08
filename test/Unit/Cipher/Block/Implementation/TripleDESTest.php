@@ -51,5 +51,12 @@ class Unit_Cipher_Block_Implementation_TripleDESTest extends PHPUnit_Framework_T
         $cipher = new \CryptLib\Cipher\Block\Implementation\TripleDES('tripledes');
         $this->assertEquals('tripledes', $cipher->getCipher());
     }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructFailure() {
+        $cipher = new \CryptLib\Cipher\Block\Implementation\TripleDES('des');
+    }
 
 }

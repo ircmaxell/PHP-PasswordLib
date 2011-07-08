@@ -23,7 +23,8 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\Hash::__construct
+     * @covers CryptLib\Random\Mixer\Hash
+     * @covers CryptLib\Random\AbstractMixer
      */
     public function testConstructWithoutArgument() {
         $hash = new Hash;
@@ -31,7 +32,8 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\Hash::getStrength
+     * @covers CryptLib\Random\Mixer\Hash
+     * @covers CryptLib\Random\AbstractMixer
      */
     public function testGetStrength() {
         $strength = new LowStrength;
@@ -40,7 +42,8 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\Hash::test
+     * @covers CryptLib\Random\Mixer\Hash
+     * @covers CryptLib\Random\AbstractMixer
      */
     public function testTest() {
         $actual = Hash::test();
@@ -48,7 +51,8 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\Hash::mix
+     * @covers CryptLib\Random\Mixer\Hash
+     * @covers CryptLib\Random\AbstractMixer
      * @dataProvider provideMix
      */
     public function testMix($parts, $result) {

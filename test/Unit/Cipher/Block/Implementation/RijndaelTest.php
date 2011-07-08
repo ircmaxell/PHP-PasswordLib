@@ -307,6 +307,36 @@ class Unit_Cipher_Block_Implementation_RijndaelTest extends PHPUnit_Framework_Te
                 'EA024714AD5C4D84EA024714AD5C4D84EA024714AD5C4D84EA024714AD5C4D84',
                 '9FBB6A7A59A42DA9B5B807A618A73BADFDC89AE3C80AB53ED6C0723918443A62',
             ),
+            array(
+                'rijndael-224',
+                '2B7E151628AED2A6ABF7158809CF4F3C',
+                '3243F6A8885A308D313198A2E03707344A4093822299F31D0082EFA9',
+                'B0A8F78F6B3C66213F792FFD2A61631F79331407A5E5C8D3793ACEB1',
+            ),
+            array(
+                'rijndael-224',
+                '2B7E151628AED2A6ABF7158809CF4F3C762E7160',
+                '3243F6A8885A308D313198A2E03707344A4093822299F31D0082EFA9',
+                '08B99944EDFCE33A2ACB131183AB0168446B2D15E958480010F545E3',
+            ),
+            array(
+                'rijndael-224',
+                '2B7E151628AED2A6ABF7158809CF4F3C762E7160F38B4DA5',
+                '3243F6A8885A308D313198A2E03707344A4093822299F31D0082EFA9',
+                'BE4C597D8F7EFE22A2F7E5B1938E2564D452A5BFE72399C7AF1101E2',
+            ),
+            array(
+                'rijndael-224',
+                '2B7E151628AED2A6ABF7158809CF4F3C762E7160F38B4DA56A784D90',
+                '3243F6A8885A308D313198A2E03707344A4093822299F31D0082EFA9',
+                'EF529598ECBCE297811B49BBED2C33BBE1241D6E1A833DBE119569E8',
+            ),
+            array(
+                'rijndael-224',
+                '2B7E151628AED2A6ABF7158809CF4F3C762E7160F38B4DA56A784D9045190CFE',
+                '3243F6A8885A308D313198A2E03707344A4093822299F31D0082EFA9',
+                '02FAFC200176ED05DEB8EDB82A3555B0B10D47A388DFD59CAB2F6C11',
+            ),
         );
         return $ret;
     }
@@ -349,6 +379,13 @@ class Unit_Cipher_Block_Implementation_RijndaelTest extends PHPUnit_Framework_Te
     public function testGetCipher() {
         $cipher = new \CryptLib\Cipher\Block\Implementation\Rijndael('rijndael-128');
         $this->assertEquals('rijndael-128', $cipher->getCipher());
+    }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructFailure() {
+        $cipher = new \CryptLib\Cipher\Block\Implementation\Rijndael('aes-128');
     }
 
 }

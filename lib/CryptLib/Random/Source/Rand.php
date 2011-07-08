@@ -33,6 +33,7 @@ use CryptLib\Core\Strength\Low     as LowStrength;
  * @package    Random
  * @subpackage Source
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @codeCoverageIgnore
  */
 class Rand implements \CryptLib\Random\Source {
 

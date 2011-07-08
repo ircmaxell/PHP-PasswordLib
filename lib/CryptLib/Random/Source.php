@@ -24,6 +24,7 @@ namespace CryptLib\Random;
  * @category   PHPCryptLib
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @codeCoverageIgnore
  */
 interface Source {
 

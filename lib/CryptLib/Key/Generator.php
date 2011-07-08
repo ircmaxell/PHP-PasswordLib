@@ -11,6 +11,7 @@ namespace CryptLib\Key;
  * Description of generator
  *
  * @author ircmaxell
+ * @codeCoverageIgnore
  */
 interface Generator extends Key {
 

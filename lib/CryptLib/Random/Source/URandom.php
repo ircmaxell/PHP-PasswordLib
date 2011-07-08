@@ -29,6 +29,7 @@ use CryptLib\Core\Strength\Medium as MediumStrength;
  * @package    Random
  * @subpackage Source
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @codeCoverageIgnore
  */
 class URandom implements \CryptLib\Random\Source {
 

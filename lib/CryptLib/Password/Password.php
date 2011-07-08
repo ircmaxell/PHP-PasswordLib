@@ -26,6 +26,7 @@ namespace CryptLib\Password;
  * @category   PHPCryptLib
  * @package    Hash
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @codeCoverageIgnore
  */
 interface Password {
 

@@ -42,9 +42,11 @@ class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
      * @return array A list of supported ciphers
      */
     public static function getSupportedCiphers() {
+        // @codeCoverageIgnoreStart
         if (!function_exists('mcrypt_list_algorithms')) {
             return array();
         }
+        // @codeCoverageIgnoreEnd
         return \mcrypt_list_algorithms();
     }
 

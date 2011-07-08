@@ -43,7 +43,8 @@ class Unit_Random_Mixer_DESTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\DES::__construct
+     * @covers CryptLib\Random\Mixer\DES
+     * @covers CryptLib\Random\AbstractMixer
      */
     public function testConstructWithoutArgument() {
         $hash = new DES;
@@ -51,7 +52,8 @@ class Unit_Random_Mixer_DESTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\DES::getStrength
+     * @covers CryptLib\Random\Mixer\DES
+     * @covers CryptLib\Random\AbstractMixer
      */
     public function testGetStrength() {
         $strength = new HighStrength;
@@ -60,7 +62,8 @@ class Unit_Random_Mixer_DESTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\DES::test
+     * @covers CryptLib\Random\Mixer\DES
+     * @covers CryptLib\Random\AbstractMixer
      */
     public function testTest() {
         $actual = DES::test();
@@ -68,7 +71,8 @@ class Unit_Random_Mixer_DESTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\DES::mix
+     * @covers CryptLib\Random\Mixer\DES
+     * @covers CryptLib\Random\AbstractMixer
      * @dataProvider provideMix
      */
     public function testMix($parts, $result) {
@@ -78,5 +82,5 @@ class Unit_Random_Mixer_DESTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($result, $actual);
     }
 
-
+    
 }

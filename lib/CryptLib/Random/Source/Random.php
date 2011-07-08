@@ -28,6 +28,7 @@ use CryptLib\Core\Strength\High as HighStrength;
  * @package    Random
  * @subpackage Source
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @codeCoverageIgnore
  */
 class Random implements \CryptLib\Random\Source {
 

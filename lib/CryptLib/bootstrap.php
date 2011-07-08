@@ -26,17 +26,12 @@ namespace CryptLib;
  * @return void
  */
 spl_autoload_register(function ($class) {
-    $path = '';
     if (substr($class, 0, strlen(__NAMESPACE__)) == __NAMESPACE__) {
         $class = substr($class, strlen(__NAMESPACE__) + 1);
         $path  = str_replace('\\', '/', $class);
         $path  = __DIR__ . '/' . $path . '.php';
-    } elseif (strpos($class, '\\') === false) {
-        //Attempt to load PEAR classes
-        $path = '/../Pear/' . str_replace('_', '/', $class);
-        $path = __DIR__ . '/' . $path . '.php';
-    }
-    if ($path && file_exists($path)) {
-        require $path;
+        if (file_exists($path)) {
+            require $path;
+        }
     }
 });

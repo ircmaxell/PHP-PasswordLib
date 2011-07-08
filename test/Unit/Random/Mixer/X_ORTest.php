@@ -18,6 +18,7 @@ class Unit_Random_Mixer_X_ORTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers CryptLib\Random\Mixer\X_OR::getStrength
+     * @covers CryptLib\Random\AbstractMixer
      */
     public function testGetStrength() {
         $strength = new VeryLowStrength;
@@ -26,7 +27,8 @@ class Unit_Random_Mixer_X_ORTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\X_OR::test
+     * @covers CryptLib\Random\Mixer\X_OR
+     * @covers CryptLib\Random\AbstractMixer
      */
     public function testTest() {
         $actual = X_OR::test();
@@ -34,7 +36,8 @@ class Unit_Random_Mixer_X_ORTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\X_OR::mix
+     * @covers CryptLib\Random\Mixer\X_OR
+     * @covers CryptLib\Random\AbstractMixer
      * @dataProvider provideMix
      */
     public function testMix($parts, $result) {

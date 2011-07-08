@@ -32,6 +32,7 @@ use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
  * @package    Random
  * @subpackage Source
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @codeCoverageIgnore
  */
 class MicroTime implements \CryptLib\Random\Source {
 

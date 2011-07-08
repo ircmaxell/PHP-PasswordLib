@@ -28,6 +28,7 @@ namespace CryptLib\Encryption;
  * @category   PHPCryptLib
  * @package    Encryption
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @codeCoverageIgnore
  */
 interface PackingMode {
 
