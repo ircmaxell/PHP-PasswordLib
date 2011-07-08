@@ -44,6 +44,10 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
         );
     }
 
+    public function testGetPrefix() {
+        $this->assertEquals('$pbkdf$', PBKDF::getPrefix());
+    }
+    
     /**
      * @covers CryptLib\Password\Implementation\PBKDF::detect
      * @dataProvider provideTestDetect

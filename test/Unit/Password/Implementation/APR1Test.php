@@ -46,6 +46,10 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
         );
     }
 
+    public function testGetPrefix() {
+        $this->assertEquals('$apr1$', APR1::getPrefix());
+    }
+    
     /**
      * @covers CryptLib\Password\Implementation\APR1::detect
      * @dataProvider provideTestDetect

@@ -79,6 +79,15 @@ class PHPASS implements \CryptLib\Password\Password {
     }
 
     /**
+     * Return the prefix used by this hashing method
+     * 
+     * @return string The prefix used
+     */
+    public static function getPrefix() {
+        return '$P$';
+    }
+
+    /**
      * Initialize the password hasher by replacing away spaces in the itoa var
      * 
      * @return void
@@ -235,10 +244,9 @@ class PHPASS implements \CryptLib\Password\Password {
                 $value |= ord($input[$ictr]) << 16;
             }
             $output .= static::$itoa[($value >> 12) & 0x3f];
-            if ($ictr++ >= $count) {
-                break;
+            if ($ictr++ < $count) {
+                $output .= static::$itoa[($value >> 18) & 0x3f];
             }
-            $output .= static::$itoa[($value >> 18) & 0x3f];
         } while ($ictr < $count);
         return $output;
     }

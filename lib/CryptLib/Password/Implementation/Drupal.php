@@ -56,4 +56,13 @@ class Drupal extends PHPASS {
         return 1 == preg_match('/^\$(S)\$[a-zA-Z0-9.\/]{95}$/', $hash);
     }
 
+    /**
+     * Return the prefix used by this hashing method
+     * 
+     * @return string The prefix used
+     */
+    public static function getPrefix() {
+        return '$S$';
+    }
+
 }

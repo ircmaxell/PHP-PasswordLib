@@ -71,6 +71,13 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers CryptLib\Password\Implementation\Drupal
      */
+    public function testGetPrefix() {
+        $this->assertEquals('$S$', Drupal::getPrefix());
+    }
+    
+    /**
+     * @covers CryptLib\Password\Implementation\Drupal
+     */
     public function testConstruct() {
         $hash = new Drupal();
         $this->assertTrue($hash instanceof Drupal);

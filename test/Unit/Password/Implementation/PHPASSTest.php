@@ -93,6 +93,10 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
         $hash = new PHPASS(40);
     }
 
+    public function testGetPrefix() {
+        $this->assertEquals('$P$', PHPASS::getPrefix());
+    }
+    
     /**
      * @covers CryptLib\Password\Implementation\PHPASS
      * @dataProvider provideTestCreate
@@ -101,6 +105,8 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
         $apr = $this->getPHPASSMockInstance($iterations);
         $this->assertEquals($expect, $apr->create($pass));
     }
+    
+    
 
     /**
      * @covers CryptLib\Password\Implementation\PHPASS

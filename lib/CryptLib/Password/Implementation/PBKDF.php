@@ -68,6 +68,15 @@ class PBKDF implements \CryptLib\Password\Password {
     }
 
     /**
+     * Return the prefix used by this hashing method
+     * 
+     * @return string The prefix used
+     */
+    public static function getPrefix() {
+        return '$pbkdf$';
+    }
+
+    /**
      * Load an instance of the class based upon the supplied hash
      *
      * @param string $hash The hash to load from

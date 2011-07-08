@@ -6,7 +6,6 @@
  *
  * PHP version 5.3
  *
- * @see        http://httpd.apache.org/docs/2.2/misc/password_encryptions.html
  * @category   PHPCryptLib
  * @package    Password
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
@@ -22,9 +21,8 @@ namespace CryptLib\Password;
  *
  * All pasword implementations must implement this interface
  *
- * @see        http://httpd.apache.org/docs/2.2/misc/password_encryptions.html
  * @category   PHPCryptLib
- * @package    Hash
+ * @package    Password
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @codeCoverageIgnore
  */
@@ -38,6 +36,13 @@ interface Password {
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash);
+
+    /**
+     * Return the prefix used by this hashing method
+     * 
+     * @return string The prefix used
+     */
+    public static function getPrefix();
 
     /**
      * Load an instance of the class based upon the supplied hash
