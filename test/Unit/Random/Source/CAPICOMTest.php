@@ -28,6 +28,7 @@ class Unit_Random_Source_CAPICOMTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers CryptLib\Random\Source\CAPICOM::generate
      * @dataProvider provideGenerate
+     * @group slow
      */
     public function testGenerate($length, $not) {
         $rand = new CAPICOM;

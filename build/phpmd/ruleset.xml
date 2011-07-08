@@ -20,7 +20,7 @@
 	<rule ref="rulesets/codesize.xml/NPathComplexity" />
 	<rule ref="rulesets/codesize.xml/ExcessiveClassLength">
 		<properties>
-			<property name="minimum" value="400" />
+			<property name="minimum" value="700" />
 		</properties>
 	</rule>
 	<rule ref="rulesets/codesize.xml/ExcessiveParameterList">

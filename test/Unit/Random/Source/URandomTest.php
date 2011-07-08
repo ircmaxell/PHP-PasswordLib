@@ -34,6 +34,7 @@ class Unit_Random_Source_URandomTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers CryptLib\Random\Source\URandom::generate
      * @dataProvider provideGenerate
+     * @group slow
      */
     public function testGenerate($length, $not) {
         $rand = new URandom;

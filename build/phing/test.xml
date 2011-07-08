@@ -4,10 +4,23 @@
 	
 	<target name="test">
 		<phingcall target="lint" />
-		<phingcall target="unit" />
+		<phingcall target="unit-all" />
 	</target>
 	
 	<target name="unit">
+		<delete dir="${path.results}/coverage" />
+		<mkdir dir="${path.results}/coverage" />
+		<mkdir dir="${path.results}/logs" />
+        <exec 
+            passthru="true"
+            checkreturn="true"
+            command="phpunit --log-junit &quot;${path.logs}/junit.xml&quot;
+			           --exclude-group slow
+                       --configuration &quot;${path.tests}/phpunit.xml.dist&quot;"
+        />
+    </target>
+	
+	<target name="unit-all">
 		<delete dir="${path.results}/coverage" />
 		<mkdir dir="${path.results}/coverage" />
 		<mkdir dir="${path.results}/logs" />

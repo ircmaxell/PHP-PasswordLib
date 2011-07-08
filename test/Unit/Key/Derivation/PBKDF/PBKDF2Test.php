@@ -42,6 +42,7 @@ class Unit_Key_Derivation_PBKDF_PBKDF2Test extends PHPUnit_Framework_TestCase {
     /**
      * @covers CryptLib\Key\Derivation\PBKDF\PBKDF2::derive
      * @dataProvider provideTestDerive
+     * @group slow
      */
     public function testDerive($p, $s, $c, $len, $hash, $expect) {
         $pb = new PBKDF2(array('hash'=>$hash));

@@ -28,6 +28,7 @@ class Unit_Random_Source_RandomTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers CryptLib\Random\Source\Random::generate
      * @dataProvider provideGenerate
+     * @group slow
      */
     public function testGenerate($length, $not) {
         $rand = new Random;

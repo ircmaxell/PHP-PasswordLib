@@ -26,6 +26,7 @@ class Unit_Random_Source_OpenSSLTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers CryptLib\Random\Source\MCrypt::generate
      * @dataProvider provideGenerate
+     * @group slow
      */
     public function testGenerate($length, $not) {
         $rand = new OpenSSL;
