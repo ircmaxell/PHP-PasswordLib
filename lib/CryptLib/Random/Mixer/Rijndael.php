@@ -1,6 +1,6 @@
 <?php
 /**
- * The DES medium strength mixer class
+ * The Rijndael-128 based high strength mixer class
  *
  * This class implements a mixer based upon the recommendations in RFC 4086
  * section 5.2
@@ -19,11 +19,11 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Cipher\Factory       as CipherFactory;
-use \CryptLib\Core\Strength\Medium as MediumStrength;
+use \CryptLib\Cipher\Factory     as CipherFactory;
+use \CryptLib\Core\Strength\High as HighStrength;
 
 /**
- * The DES medium strength mixer class
+ * The Rijndael-128 based high strength mixer class
  *
  * This class implements a mixer based upon the recommendations in RFC 4086
  * section 5.2
@@ -34,12 +34,12 @@ use \CryptLib\Core\Strength\Medium as MediumStrength;
  * @subpackage Mixer
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class DES extends \CryptLib\Random\AbstractMixer {
+class Rijndael extends \CryptLib\Random\AbstractMixer {
 
     /**
-     * An instance of a DES symmetric encryption cipher
+     * An instance of a Rijndael symmetric encryption cipher
      *
-     * @var Cipher The DES cipher instance
+     * @var Cipher The Rijndael cipher instance
      */
     protected $cipher = null;
 
@@ -49,7 +49,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new MediumStrength();
+        return new HighStrength();
     }
 
     /**
@@ -62,7 +62,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
     }
 
     /**
-     * Build a new instance of the DES mixing function
+     * Build a new instance of the Rijndael mixing function
      *
      * @param Factory $factory The optional encryption factory to use
      *
@@ -72,7 +72,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
         if (is_null($factory)) {
             $factory = new CipherFactory();
         }
-        $this->cipher = $factory->getBlockCipher('des');
+        $this->cipher = $factory->getBlockCipher('rijndael-128');
     }
 
     /**
@@ -81,7 +81,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
      * @return int The block size
      */
     protected function getPartSize() {
-        return $this->cipher->getBlockSize(str_repeat(chr(0), 8)) - 1;
+        return $this->cipher->getBlockSize(str_repeat(chr(0), 16));
     }
 
     /**
