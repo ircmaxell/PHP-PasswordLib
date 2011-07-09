@@ -15,7 +15,7 @@ class Unit_Random_Source_OpenSSLTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\MCrypt::getStrength
+     * @covers CryptLib\Random\Source\OpenSSL::getStrength
      */
     public function testGetStrength() {
         $strength = new HighStrength;
@@ -24,7 +24,7 @@ class Unit_Random_Source_OpenSSLTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\MCrypt::generate
+     * @covers CryptLib\Random\Source\OpenSSL::generate
      * @dataProvider provideGenerate
      * @group slow
      */
