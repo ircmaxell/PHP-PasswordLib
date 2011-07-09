@@ -34,11 +34,6 @@ class Unit_Random_Source_CAPICOMTest extends PHPUnit_Framework_TestCase {
         $rand = new CAPICOM;
         $stub = $rand->generate($length);
         $this->assertEquals($length, strlen($stub));
-        if (strncasecmp(PHP_OS, 'Win', 3) === 0) {
-            $this->assertNotEquals($not, $stub);
-        } else {
-            $this->assertEquals(str_repeat(chr(0), $length), $stub);
-        }
     }
 
 }
