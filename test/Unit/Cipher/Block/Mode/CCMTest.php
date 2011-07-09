@@ -284,6 +284,26 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
                 2,
                 10
             ),
+            101 => array(
+                'AB F2 1C 0B 02 FE B8 8F 85 6D F4 A3 73 81 BC E3
+                 CC 12 85 17 D4',
+                'D7 82 8D 13 B2 B0 BD C3 25 A7 62 36 DF 93 CC 6B',
+                '00 8D 49 3B 30 AE 8B 3C 96 96 76 6C  FA',
+                str_repeat('04', 1<<16),
+                'f32905b88a641b04b9c9ffb58cc390900f3da12ab185418946ea96eeff5ae2',
+                2,
+                10
+            ),
+            102 => array(
+                'AB F2 1C 0B 02 FE B8 8F 85 6D F4 A3 73 81 BC E3
+                 CC 12 85 17 D4',
+                'D7 82 8D 13 B2 B0 BD C3 25 A7 62 36 DF 93 CC 6B',
+                '00 8D 49 3B 30 AE 8B 3C 96 96 76 6C  FA',
+                '',
+                'f32905b88a641b04b9c9ffb58cc390900f3da12ab1c83cce6715cdfe8f25be',
+                2,
+                10
+            ),
         );
         foreach ($ret as &$case) {
             foreach ($case as &$row) {
@@ -303,6 +323,7 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
     
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group slow
      */
     public function testEncrypt($data, $key, $initv, $adata, $expected, $lSize, $aSize) {
         $factory = new \CryptLib\Cipher\Factory();
@@ -360,6 +381,28 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
     public function testSetAuthFieldFailure() {
         $mode = new CryptLib\Cipher\Block\Mode\CCM;
         $mode->setAuthFieldSize(13);
+    }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testIVTooSmallFailure() {
+        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $factory = new \CryptLib\Cipher\Factory();
+        $aes = $factory->getBlockCipher('rijndael-128');
+        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        
+        $key = '0123456789ABCDEF';
+        $iv = 'FED';
+        $data = 'Foo Bar Baz';
+        $adata = 'Some Other Text';
+        $enc = $mode->encrypt(
+            $data,
+            $key,
+            $aes,
+            $iv,
+            $adata
+        );
     }
     
     public function testSetLSize() {
