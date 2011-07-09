@@ -138,4 +138,15 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
         $generator = $factory->getGenerator($mock);
     }
 
+    /**
+     * @covers CryptLib\Random\Factory::getGenerator
+     * @covers CryptLib\Random\Factory::findMixer
+     */
+    public function testGetGeneratorFallback() {
+        $factory = new Factory;
+        $mock = new MockStrength(4);
+        $generator = $factory->getGenerator($mock);
+        $this->assertTrue($generator instanceof \CryptLib\Random\Generator);
+    }
+    
 }
