@@ -367,6 +367,60 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($data, $dec);
     }
     
+    public function testDecryptFailure() {
+        $factory = new \CryptLib\Cipher\Factory();
+        $aes = $factory->getBlockCipher('rijndael-128');
+        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        
+        $key = '0123456789ABCDEF';
+        $iv = 'FEDCBA9876543210';
+        $data = 'Foo Bar Baz';
+        $adata = 'Some Other Text';
+        $enc = $mode->encrypt(
+            $data,
+            $key,
+            $aes,
+            $iv,
+            $adata
+        );
+        $enc = chr(255) . substr($enc, 1);
+        $dec = $mode->decrypt(
+            $enc,
+            $key,
+            $aes,
+            $iv,
+            $adata
+        );
+        $this->assertFalse($dec);
+    }
+    
+    public function testDecryptAuthFailure() {
+        $factory = new \CryptLib\Cipher\Factory();
+        $aes = $factory->getBlockCipher('rijndael-128');
+        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        
+        $key = '0123456789ABCDEF';
+        $iv = 'FEDCBA9876543210';
+        $data = 'Foo Bar Baz';
+        $adata = 'Some Other Text';
+        $enc = $mode->encrypt(
+            $data,
+            $key,
+            $aes,
+            $iv,
+            $adata
+        );
+        $enc = substr($enc, 0, -1) . chr(255);
+        $dec = $mode->decrypt(
+            $enc,
+            $key,
+            $aes,
+            $iv,
+            $adata
+        );
+        $this->assertFalse($dec);
+    }
+    
     public function testSetAuthField() {
         $mode = new CryptLib\Cipher\Block\Mode\CCM;
         $mode->setAuthFieldSize(14);
