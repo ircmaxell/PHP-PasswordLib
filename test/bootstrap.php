@@ -38,4 +38,8 @@ spl_autoload_register(function ($class) {
     }
 });
 
+function getTestDataFile($file) {
+    return __DIR__ . '/Data/' . $file;
+}
+
 require_once dirname(__DIR__) . '/lib/CryptLib/bootstrap.php';

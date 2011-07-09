@@ -2,15 +2,27 @@
 <project name="tests" default="test" basedir="../../">
     <property file="build/build.properties" />
 	
-	<target name="test">
-		<phingcall target="lint" />
-		<phingcall target="unit-all" />
-	</target>
-	
-	<target name="unit">
-		<delete dir="${path.results}/coverage" />
-		<mkdir dir="${path.results}/coverage" />
-		<mkdir dir="${path.results}/logs" />
+    <target name="test">
+        <phingcall target="lint" />
+        <phingcall target="unit-all" />
+        <phingcall target="vectors" />
+    </target>
+
+    <target name="vectors">
+        <mkdir dir="${path.results}/logs" />
+        <exec 
+            passthru="true"
+            checkreturn="true"
+            command="phpunit --log-junit &quot;${path.logs}/vectors.xml&quot;
+                       --configuration &quot;${path.tests}/phpunit.xml.dist&quot;
+                       &quot;${path.tests}/Vectors&quot;"
+            />
+    </target>
+        
+    <target name="unit">
+        <delete dir="${path.results}/coverage" />
+        <mkdir dir="${path.results}/coverage" />
+        <mkdir dir="${path.results}/logs" />
         <exec 
             passthru="true"
             checkreturn="true"
@@ -19,11 +31,11 @@
                        --configuration &quot;${path.tests}/phpunit.xml.dist&quot;"
         />
     </target>
-	
-	<target name="unit-all">
-		<delete dir="${path.results}/coverage" />
-		<mkdir dir="${path.results}/coverage" />
-		<mkdir dir="${path.results}/logs" />
+
+    <target name="unit-all">
+        <delete dir="${path.results}/coverage" />
+        <mkdir dir="${path.results}/coverage" />
+        <mkdir dir="${path.results}/logs" />
         <exec 
             passthru="true"
             checkreturn="true"
@@ -34,7 +46,7 @@
         />
     </target>
 	
-	<target name="lint">
+    <target name="lint">
         <phplint haltonfailure="true" deprecatedAsError="true">
             <fileset dir="${path.lib}">
                 <include name="**/*.php" />

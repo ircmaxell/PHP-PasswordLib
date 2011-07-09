@@ -65,11 +65,10 @@ class TripleDES extends DES {
      * @return string The result decrypted data
      */
     public function decryptBlock($data, $key) {
-        $key = str_pad($key, 24, chr(0));
-        for ($i = 2; $i >= 0; $i--) {
-            $stubKey = substr($key, $i * 8, 8);
-            $data    = parent::decryptBlock($data, $stubKey);
-        }
+        $key  = str_pad($key, 24, chr(0), STR_PAD_RIGHT);
+        $data = parent::decryptBlock($data, substr($key, 16, 8));
+        $data = parent::encryptBlock($data, substr($key, 8, 8));
+        $data = parent::decryptBlock($data, substr($key, 0, 8));
         return $data;
     }
 
@@ -85,11 +84,10 @@ class TripleDES extends DES {
      * @return string The result encrypted data
      */
     public function encryptBlock($data, $key) {
-        $key = str_pad($key, 24, chr(0));
-        for ($i = 0; $i < 3; $i++) {
-            $stubKey = substr($key, $i * 8, 8);
-            $data    = parent::encryptBlock($data, $stubKey);
-        }
+        $key  = str_pad($key, 24, chr(0), STR_PAD_RIGHT);
+        $data = parent::encryptBlock($data, substr($key, 0, 8));
+        $data = parent::decryptBlock($data, substr($key, 8, 8));
+        $data = parent::encryptBlock($data, substr($key, 16, 8));
         return $data;
     }
 
