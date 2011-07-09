@@ -65,7 +65,13 @@ class TripleDES extends DES {
      * @return string The result decrypted data
      */
     public function decryptBlock($data, $key) {
-        $key  = str_pad($key, 24, chr(0), STR_PAD_RIGHT);
+        if (!in_array(strlen($key), array(16, 24))) {
+            throw new \InvalidArgumentException(
+                'The supplied key is not a valid length'
+            );
+        } elseif (strlen($key) == 16) {
+            $key .= substr($key, 0, 8);
+        }
         $data = parent::decryptBlock($data, substr($key, 16, 8));
         $data = parent::encryptBlock($data, substr($key, 8, 8));
         $data = parent::decryptBlock($data, substr($key, 0, 8));
@@ -84,7 +90,13 @@ class TripleDES extends DES {
      * @return string The result encrypted data
      */
     public function encryptBlock($data, $key) {
-        $key  = str_pad($key, 24, chr(0), STR_PAD_RIGHT);
+        if (!in_array(strlen($key), array(16, 24))) {
+            throw new \InvalidArgumentException(
+                'The supplied key is not a valid length'
+            );
+        } elseif (strlen($key) == 16) {
+            $key .= substr($key, 0, 8);
+        }
         $data = parent::encryptBlock($data, substr($key, 0, 8));
         $data = parent::decryptBlock($data, substr($key, 8, 8));
         $data = parent::encryptBlock($data, substr($key, 16, 8));

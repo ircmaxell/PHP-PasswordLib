@@ -16,6 +16,15 @@ class Vectors_Cipher_Block_Implementation_TripleDESTest extends PHPUnit_Framewor
                 $vector['cipher'],
             );
         }
+        $file = \CryptLibTest\getTestDataFile('Vectors/triple-des-2-key-128-64.unverified.test-vectors');
+        $nessie = new CryptLibTest\lib\VectorParser\NESSIE($file);
+        foreach ($nessie->getVectors() as $vector) {
+            $results[] = array(
+                $vector['key'],
+                $vector['plain'],
+                $vector['cipher'],
+            );
+        }
         return $results;
     }
     
