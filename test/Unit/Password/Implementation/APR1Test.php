@@ -11,18 +11,12 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
     public static function provideTestCreate() {
         return array(
             array('foobar', '$apr1$6mq6m/..$n7e/M1BvwwixR9jcPrB9I.'),
-            array('foobaz', '$apr1$6mq6m/..$bsmcmj32fUcKerAIJFDFF1'),
-            array('foobarbazbizbuz1234567890', '$apr1$6mq6m/..$46tsm5uassQZB.j.Q5WTI.'),
         );
     }
 
     public static function provideTestVerify() {
         return array(
             array('foobar', '$apr1$6mq6m/..$n7e/M1BvwwixR9jcPrB9I.'),
-            array('foobaz', '$apr1$6mq6m/..$bsmcmj32fUcKerAIJFDFF1'),
-            array('foobarbazbizbuz1234567890', '$apr1$6mq6m/..$46tsm5uassQZB.j.Q5WTI.'),
-            array('foobarbizbuz', '$apr1$z/W7/...$SeG7ikf6IE1sQhd9yMjf//'),
-            array('1234', '$apr1$.O.9/...$jZe.HQ2I/ewbGCnSl0wTS.'),
         );
     }
 
@@ -31,10 +25,6 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
             array('foo', 'bar'),
             //Salt Change
             array('foobar', '$apr1$6mi6m/..$n7e/M1BvwwixR9jcPrB9I.'),
-            //Password Change
-            array('foobuz', '$apr1$6mq6m/..$n7e/M1BvwwixR9jcPrB9I.'),
-            //Hash Change
-            array('foobarbazbizbuz1234567890', '$apr1$6mq6m/..$46tsm5uAssQZB.j.Q5WTI.'),
         );
     }
 
