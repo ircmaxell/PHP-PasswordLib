@@ -22,9 +22,10 @@ class Unit_Cipher_Block_Implementation_MCryptTest extends PHPUnit_Framework_Test
     public function testEncryptDecryptBlock() {
         $cipher = new \CryptLib\Cipher\Block\Implementation\MCrypt('rijndael-128');
         $str = str_repeat(chr(0), 16);
-        $key = str_repeat(chr(0), 16);
-        $enc = $cipher->encryptBlock($str, $key);
-        $dec = $cipher->decryptBlock($enc, $key);
+        $key = str_repeat(chr(0), 32);
+        $cipher->setKey($key);
+        $enc = $cipher->encryptBlock($str);
+        $dec = $cipher->decryptBlock($enc);
         $this->assertEquals(bin2hex($str), bin2hex($dec));
     }
     

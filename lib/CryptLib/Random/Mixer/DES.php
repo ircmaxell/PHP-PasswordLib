@@ -81,7 +81,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
      * @return int The block size
      */
     protected function getPartSize() {
-        return $this->cipher->getBlockSize(str_repeat(chr(0), 8)) - 1;
+        return $this->cipher->getBlockSize();
     }
 
     /**
@@ -93,7 +93,8 @@ class DES extends \CryptLib\Random\AbstractMixer {
      * @return string The mixed data
      */
     protected function mixParts1($part1, $part2) {
-        return $this->cipher->encryptBlock($part1, $part2);
+        $this->cipher->setKey($part2);
+        return $this->cipher->encryptBlock($part1);
     }
 
     /**
@@ -105,7 +106,8 @@ class DES extends \CryptLib\Random\AbstractMixer {
      * @return string The mixed data
      */
     protected function mixParts2($part1, $part2) {
-        return $this->cipher->decryptBlock($part1, $part2);
+        $this->cipher->setKey($part1);
+        return $this->cipher->decryptBlock($part2);
     }
 
 }

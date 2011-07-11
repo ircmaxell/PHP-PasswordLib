@@ -83,7 +83,6 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      * Decrypt the data using the supplied key, cipher and initialization vector
      *
      * @param string      $data   The data to decrypt
-     * @param string      $key    The key to use for decrypting the data
      * @param BlockCipher $cipher The cipher to use for decrypting the data
      * @param string      $iv     The initialization vector to use
      * @param string      $adata  Any additional authenticated data to decrypt with
@@ -92,24 +91,22 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      */
     public function decrypt(
         $data,
-        $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $initv,
         $adata = ''
     ) {
-        $initv      = $this->extractInitv($initv, $cipher->getBlockSize($key));
+        $initv      = $this->extractInitv($initv, $cipher->getBlockSize());
         $message    = substr($data, 0, -1 * $this->authFieldSize);
         $uValue     = substr($data, -1 * $this->authFieldSize);
         $data       = $this->encryptMessage(
             $initv,
-            $key,
             $message,
             $uValue,
             $cipher
         );
         $computedT  = substr($data, -1 * $this->authFieldSize);
         $data       = substr($data, 0, -1 * $this->authFieldSize);
-        $authFieldT = $this->computeAuthField($initv, $key, $data, $adata, $cipher);
+        $authFieldT = $this->computeAuthField($initv, $data, $adata, $cipher);
         if ($authFieldT != $computedT) {
             return false;
         }
@@ -120,7 +117,6 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      * Encrypt the data using the supplied key, cipher and initialization vector
      *
      * @param string      $data   The data to encrypt
-     * @param string      $key    The key to use for encrypting the data
      * @param BlockCipher $cipher The cipher to use for encrypting the data
      * @param string      $iv     The initialization vector to use
      * @param string      $adata  Any additional authenticated data to encrypt with
@@ -129,17 +125,15 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      */
     public function encrypt(
         $data,
-        $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $initv,
         $adata = ''
     ) {
-        $blockSize  = $cipher->getBlockSize($key);
+        $blockSize  = $cipher->getBlockSize();
         $initv      = $this->extractInitv($initv, $blockSize);
-        $authFieldT = $this->computeAuthField($initv, $key, $data, $adata, $cipher);
+        $authFieldT = $this->computeAuthField($initv, $data, $adata, $cipher);
         $data       = $this->encryptMessage(
             $initv,
-            $key,
             $data,
             $authFieldT,
             $cipher
@@ -160,7 +154,6 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      * Compute the authentication field
      *
      * @param string      $initv  The initalization vector
-     * @param string      $key    The key to use
      * @param string      $data   The data to compute with
      * @param string      $adata  The authentication data to use
      * @param BlockCipher $cipher The cipher implementation
@@ -169,12 +162,11 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      */
     protected function computeAuthField(
         $initv,
-        $key,
         $data,
         $adata,
         \CryptLib\Cipher\Block\BlockCipher $cipher
     ) {
-        $blockSize = $cipher->getBlockSize($key);
+        $blockSize = $cipher->getBlockSize();
         $flags     = pack(
             'C',
             64 * (empty($adata) ? 0 : 1)
@@ -191,13 +183,12 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         $blocks   = array_merge($blocks, $this->processAData($adata, $blockSize));
         $blocks   = array_merge($blocks, str_split($data, $blockSize));
         $crypted  = array(
-            1 => $cipher->encryptBlock($blocks[0], $key)
+            1 => $cipher->encryptBlock($blocks[0])
         );
         $blockLen = count($blocks);
         for ($i = 1; $i < $blockLen; $i++) {
             $crypted[$i + 1] = $cipher->encryptBlock(
-                $crypted[$i] ^ $blocks[$i],
-                $key
+                $crypted[$i] ^ $blocks[$i]
             );
         }
         return substr(end($crypted), 0, $this->authFieldSize);
@@ -207,7 +198,6 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      * Encrypt the data using the supplied method
      *
      * @param string      $initv     The initialization Vector
-     * @param string      $key       The key to encrypt with
      * @param string      $data      The data to encrypt
      * @param string      $authValue The auth value field 
      * @param BlockCipher $cipher    The cipher to use
@@ -216,20 +206,18 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
      */
     protected function encryptMessage(
         $initv,
-        $key,
         $data,
         $authValue,
         \CryptLib\Cipher\Block\BlockCipher $cipher
     ) {
-        $blockSize = $cipher->getBlockSize($key);
+        $blockSize = $cipher->getBlockSize();
         $flags     = pack('C', ($this->lSize - 1));
         $blocks    = str_split($data, $blockSize);
         $sblocks   = array();
         $blockLen  = count($blocks);
         for ($i = 0; $i <= $blockLen; $i++) {
             $sblocks[] = $cipher->encryptBlock(
-                $flags . $initv . pack($this->getLPackString(), $i),
-                $key
+                $flags . $initv . pack($this->getLPackString(), $i)
             );
         }
         $encrypted = '';

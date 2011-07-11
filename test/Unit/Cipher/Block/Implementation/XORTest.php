@@ -29,7 +29,8 @@ class Unit_Cipher_Block_Implementation_X_ORTest extends PHPUnit_Framework_TestCa
      */
     public function testEncrypt($cipher, $key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR($cipher);
-        $enc = $cipher->encryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
@@ -38,7 +39,8 @@ class Unit_Cipher_Block_Implementation_X_ORTest extends PHPUnit_Framework_TestCa
      */
     public function testDecrypt($cipher, $key, $expected, $data) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR($cipher);
-        $enc = $cipher->decryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
@@ -47,14 +49,16 @@ class Unit_Cipher_Block_Implementation_X_ORTest extends PHPUnit_Framework_TestCa
      */
     public function testEncryptThenDecrypt($cipher, $key, $data) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR($cipher);
-        $enc = $cipher->encryptBlock(pack('H*', $data), pack('H*', $key));
-        $dec = $cipher->decryptBlock($enc, pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->encryptBlock(pack('H*', $data));
+        $dec = $cipher->decryptBlock($enc);
         $this->assertEquals($data, strtoupper(bin2hex($dec)));
     }
     
     public function testBlockSize() {
         $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR('xor');
-        $this->assertEquals(3, $cipher->getBlockSize('foo'));
+        $cipher->setKey('foo');
+        $this->assertEquals(3, $cipher->getBlockSize());
     }
     
     public function testGetCipher() {

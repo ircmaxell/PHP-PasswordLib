@@ -1,5 +1,4 @@
 <?php
-
 /**
  * An implementation of the AES cipher, using the phpseclib implementation
  * 
@@ -51,15 +50,10 @@ class AES extends Rijndael {
      * @throws InvalidArgumentException if the cipher is not supported
      */
     public function __construct($cipher) {
-        if (!in_array($cipher, self::getSupportedCiphers())) {
-            $message = sprintf('Unsupported Cipher: %s', $cipher);
-            throw new \InvalidArgumentException($message);
-        }
+        parent::__construct($cipher);
         list (, $bits) = explode('-', $cipher, 2);
         $this->setBlockSize(128);
         $this->setKeySize($bits);
-        $this->cipher = $cipher;
-        static::init();
     }
 
 }

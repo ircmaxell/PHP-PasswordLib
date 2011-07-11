@@ -29,7 +29,6 @@ class ECB implements \CryptLib\Cipher\Block\Mode {
      * Decrypt the data using the supplied key, cipher and initialization vector
      *
      * @param string      $data   The data to decrypt
-     * @param string      $key    The key to use for decrypting the data
      * @param BlockCipher $cipher The cipher to use for decrypting the data
      * @param string      $initv  Not Used
      * @param string      $adata  Not Used
@@ -38,16 +37,15 @@ class ECB implements \CryptLib\Cipher\Block\Mode {
      */
     public function decrypt(
         $data,
-        $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $initv,
         $adata = ''
     ) {
-        $size       = $cipher->getBlockSize($key);
+        $size       = $cipher->getBlockSize();
         $blocks     = str_split($data, $size);
         $ciphertext = '';
         foreach ($blocks as $block) {
-            $ciphertext .= $cipher->decryptBlock($block, $key);
+            $ciphertext .= $cipher->decryptBlock($block);
         }
         return $ciphertext;
     }
@@ -56,7 +54,6 @@ class ECB implements \CryptLib\Cipher\Block\Mode {
      * Encrypt the data using the supplied key, cipher and initialization vector
      *
      * @param string      $data   The data to encrypt
-     * @param string      $key    The key to use for encrypting the data
      * @param BlockCipher $cipher The cipher to use for encrypting the data
      * @param string      $initv  Not Used
      * @param string      $adata  Not Used
@@ -65,17 +62,16 @@ class ECB implements \CryptLib\Cipher\Block\Mode {
      */
     public function encrypt(
         $data,
-        $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $initv,
         $adata = ''
     ) {
-        $size       = $cipher->getBlockSize($key);
+        $size       = $cipher->getBlockSize();
         $blocks     = str_split($data, $size);
         $ciphertext = '';
         foreach ($blocks as $block) {
             $block       = str_pad($block, $size, chr(0));
-            $ciphertext .= $cipher->encryptBlock($block, $key);
+            $ciphertext .= $cipher->encryptBlock($block);
         }
         return $ciphertext;
     }

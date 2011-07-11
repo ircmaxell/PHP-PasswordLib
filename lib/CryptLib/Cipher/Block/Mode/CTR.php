@@ -30,7 +30,6 @@ class CTR implements \CryptLib\Cipher\Block\Mode {
      * Decrypt the data using the supplied key, cipher
      *
      * @param string      $data   The data to decrypt
-     * @param string      $key    The key to use for decrypting the data
      * @param BlockCipher $cipher The cipher to use for decrypting the data
      * @param string      $iv     Not Used
      * @param string      $adata  Not Used
@@ -39,18 +38,17 @@ class CTR implements \CryptLib\Cipher\Block\Mode {
      */
     public function decrypt(
         $data,
-        $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $initv,
         $adata = ''
     ) {
-        $size       = $cipher->getBlockSize($key);
+        $size       = $cipher->getBlockSize();
         $blocks     = str_split($data, $size);
         $ciphertext = '';
 
         foreach ($blocks as $numkey => $block) {
             $data        = str_pad((string) $numkey, $size, '0', STR_PAD_LEFT);
-            $stub        = $cipher->encryptBlock($data, $key);
+            $stub        = $cipher->encryptBlock($data);
             $ciphertext .= $stub ^ $block;
         }
         return $ciphertext;
@@ -60,7 +58,6 @@ class CTR implements \CryptLib\Cipher\Block\Mode {
      * Encrypt the data using the supplied key, cipher
      *
      * @param string      $data   The data to encrypt
-     * @param string      $key    The key to use for encrypting the data
      * @param BlockCipher $cipher The cipher to use for encrypting the data
      * @param string      $iv     Not Used
      * @param string      $adata  Not Used
@@ -69,19 +66,18 @@ class CTR implements \CryptLib\Cipher\Block\Mode {
      */
     public function encrypt(
         $data,
-        $key,
         \CryptLib\Cipher\Block\BlockCipher $cipher,
         $initv,
         $adata = ''
     ) {
-        $size       = $cipher->getBlockSize($key);
+        $size       = $cipher->getBlockSize();
         $blocks     = str_split($data, $size);
         $ciphertext = '';
 
         foreach ($blocks as $numkey => $block) {
             $block       = str_pad($block, $size, chr(0));
             $data        = str_pad((string) $numkey, $size, '0', STR_PAD_LEFT);
-            $stub        = $cipher->encryptBlock($data, $key);
+            $stub        = $cipher->encryptBlock($data);
             $ciphertext .= $stub ^ $block;
         }
         return $ciphertext;

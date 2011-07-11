@@ -27,13 +27,19 @@ class Unit_Random_Mixer_RijndaelTest extends PHPUnit_Framework_TestCase {
     }
 
     protected function getMockFactory() {
+        $cipherkey = str_repeat(chr(0), 2);
         $cipher = new BlockCipher(array(
-            'getBlockSize' => function() { return 2; },
-            'encryptBlock' => function($data, $key) {
-                return $data ^ $key;
+            'getBlockSize' => function() use (&$cipherkey) { 
+                return strlen($cipherkey); 
             },
-            'decryptBlock' => function($data, $key) {
-                return $data ^ $key;
+            'setKey' => function($key) use (&$cipherkey) {
+                $cipherkey = $key;
+            },
+            'encryptBlock' => function($data) use (&$cipherkey) {
+                return $data ^ $cipherkey;
+            },
+            'decryptBlock' => function($data) use (&$cipherkey) {
+                return $data ^ $cipherkey;
             },
         ));
         $factory = new CipherFactory(array(

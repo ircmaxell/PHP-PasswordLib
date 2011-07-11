@@ -14,26 +14,32 @@ class Unit_Random_Mixer_DESTest extends PHPUnit_Framework_TestCase {
             array(array('a'), 'a'),
             // This expects 'b' because of how the mock hmac function works
             array(array('a', 'b'), 'b'),
-            array(array('aa', 'b'), 'ba'),
+            array(array('aa', 'b'), 'b'.chr(0)),
             array(array('a', 'bb'), 'b'),
-            array(array('aa', 'bb'), 'ba'),
-            array(array('aa', 'bb', 'cc'), 'ca'),
-            array(array('aabbcc', 'bbccdd', 'ccddee'), 'cacdcd'),
-            array(array('aabbccd', 'bbccdde', 'ccddeef'), 'cacdcdf'),
-            array(array('aabbccdd', 'bbccddee', 'ccddeeff'), 'cacdcdfd'),
-            array(array('aabbccddeeffgghh', 'bbccddeeffgghhii', 'ccddeeffgghhiijj'), 'cacdcdfdfgfgigij'),
+            array(array('aa', 'bb'), 'bb'),
+            array(array('aa', 'bb', 'cc'), 'cc'),
+            array(array('aabbcc', 'bbccdd', 'ccddee'), 'ccbbdd'),
+            array(array('aabbccd', 'bbccdde', 'ccddeef'), 'ccbbddf'),
+            array(array('aabbccdd', 'bbccddee', 'ccddeeff'), 'ccbbddff'),
+            array(array('aabbccddeeffgghh', 'bbccddeeffgghhii', 'ccddeeffgghhiijj'), 'ccbbddffeeggiihh'),
         );
         return $data;
     }
 
     protected function getMockFactory() {
+        $cipherkey = str_repeat(chr(0), 2);
         $cipher = new BlockCipher(array(
-            'getBlockSize' => function() { return 2; },
-            'encryptBlock' => function($data, $key) {
-                return $data ^ $key;
+            'getBlockSize' => function() use (&$cipherkey) { 
+                return strlen($cipherkey); 
             },
-            'decryptBlock' => function($data, $key) {
-                return $data ^ $key;
+            'setKey' => function($key) use (&$cipherkey) {
+                $cipherkey = $key;
+            },
+            'encryptBlock' => function($data) use (&$cipherkey) {
+                return $data ^ $cipherkey;
+            },
+            'decryptBlock' => function($data) use (&$cipherkey) {
+                return $data ^ $cipherkey;
             },
         ));
         $factory = new CipherFactory(array(

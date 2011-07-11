@@ -81,31 +81,31 @@ class Rijndael extends \CryptLib\Random\AbstractMixer {
      * @return int The block size
      */
     protected function getPartSize() {
-        return $this->cipher->getBlockSize(str_repeat(chr(0), 16));
+        return $this->cipher->getBlockSize();
     }
 
     /**
      * Mix 2 parts together using one method
      *
      * @param string $part1 The first part to mix
-     * @param string $part2 The second part to mix
      * 
      * @return string The mixed data
      */
     protected function mixParts1($part1, $part2) {
-        return $this->cipher->encryptBlock($part1, $part2);
+        $this->cipher->setKey($part2);
+        return $this->cipher->encryptBlock($part1);
     }
 
     /**
      * Mix 2 parts together using another different method
      *
      * @param string $part1 The first part to mix
-     * @param string $part2 The second part to mix
      * 
      * @return string The mixed data
      */
     protected function mixParts2($part1, $part2) {
-        return $this->cipher->decryptBlock($part1, $part2);
+        $this->cipher->setKey($part2);
+        return $this->cipher->decryptBlock($part1);
     }
 
 }

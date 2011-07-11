@@ -26,7 +26,22 @@ namespace CryptLib\Cipher\Block\Implementation;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class DES implements \CryptLib\Cipher\Block\BlockCipher {
+class DES extends \CryptLib\Cipher\Block\AbstractBlockCipher {
+
+    /**
+     * @var int The block size for the cipher
+     */
+    protected $blockSize = 8;
+
+    /**
+     * @var int The key size for the cipher
+     */
+    protected $keySize = 8;
+
+    /**
+     * @var array The prepared key schedule
+     */
+    protected $preparedKeys = array();
 
     /**
      * In the official DES docs, they're described as being matrices that one 
@@ -104,40 +119,18 @@ class DES implements \CryptLib\Cipher\Block\BlockCipher {
     }
 
     /**
-     * Construct the instance for the supplied cipher name
-     *
-     * @param string $cipher The cipher to implement
-     *
-     * @return void
-     * @throws InvalidArgumentException if the cipher is not supported
-     */
-    public function __construct($cipher) {
-        if ($cipher != 'des') {
-            $message = sprintf('Unsupported Cipher: %s', $cipher);
-            throw new \InvalidArgumentException($message);
-        }
-        $this->cipher = $cipher;
-    }
-
-    /**
      * Decrypt a block of data using the supplied string key
      *
      * Note that the supplied data should be the same size as the block size of
      * the cipher being used.
      *
      * @param string $data The data to decrypt
-     * @param string $key  The key to decrypt with
      *
      * @return string The result decrypted data
      */
-    public function decryptBlock($data, $key) {
-        $plaintext = '';
-        $keys      = array_reverse($this->prepareKey($key));
-        $len       = strlen($data);
-        for ($i = 0; $i < $len; $i+=8) {
-            $plaintext .= $this->processBlock(substr($data, $i, 8), $keys);
-        }
-        return $plaintext;
+    protected function decryptBlockData($data) {
+        $keys = array_reverse($this->preparedKeys);
+        return $this->processBlock($data, $keys);
     }
 
     /**
@@ -147,38 +140,21 @@ class DES implements \CryptLib\Cipher\Block\BlockCipher {
      * the cipher being used.
      *
      * @param string $data The data to encrypt
-     * @param string $key  The key to encrypt with
      *
      * @return string The result encrypted data
      */
-    public function encryptBlock($data, $key) {
-        $ciphertext = '';
-        $keys       = $this->prepareKey($key);
-        $len        = strlen($data);
-        for ($i = 0; $i < $len; $i+=8) {
-            $ciphertext .= $this->processBlock(substr($data, $i, 8), $keys);
-        }
-        return $ciphertext;
+    protected function encryptBlockData($data) {
+        return $this->processBlock($data, $this->preparedKeys);
     }
 
     /**
-     * Get the block size for the current initialized cipher
+     * Initialize the cipher by preparing the key
      *
-     * @param string $key The key the data will be encrypted with
-     *
-     * @return int The block size for the current cipher
+     * @return boolean The status of the initialization
      */
-    public function getBlockSize($key) {
-        return 8;
-    }
-
-    /**
-     * Get the string name of the current cipher instance
-     *
-     * @return string The current instantiated cipher
-     */
-    public function getCipher() {
-        return 'des';
+    protected function initialize() {
+        $this->preparedKeys = $this->prepareKey($this->key);
+        return true;
     }
 
     /**

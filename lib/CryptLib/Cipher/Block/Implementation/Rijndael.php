@@ -27,7 +27,7 @@ namespace CryptLib\Cipher\Block\Implementation;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Rijndael implements \CryptLib\Cipher\Block\BlockCipher {
+class Rijndael extends \CryptLib\Cipher\Block\AbstractBlockCipher {
 
     /**
      * @var int The number of bytes in each block
@@ -35,9 +35,24 @@ class Rijndael implements \CryptLib\Cipher\Block\BlockCipher {
     protected $blockSize = 16;
 
     /**
+     * @var array The decryption key schedule
+     */
+    protected $decryptionSchedule = array();
+
+    /**
+     * @var array The encryption key schedule
+     */
+    protected $encryptionSchedule = array();
+
+    /**
      * @var int The number of bytes in the key
      */
     protected $keySize = 16;
+
+    /**
+     * @var array The shift offsets used by the cipher
+     */
+    protected $shiftOffsets = array(0, 1, 2, 3);
 
     /**
      * @var array The rcon static array
@@ -226,11 +241,6 @@ class Rijndael implements \CryptLib\Cipher\Block\BlockCipher {
     );
 
     /**
-     * @var array The shift offsets used by the cipher
-     */
-    protected $shiftOffsets = array(0, 1, 2, 3);
-
-    /**
      * Get a list of supported ciphers for this class implementation
      *
      * @return array A list of supported ciphers
@@ -290,15 +300,33 @@ class Rijndael implements \CryptLib\Cipher\Block\BlockCipher {
      * @throws InvalidArgumentException if the cipher is not supported
      */
     public function __construct($cipher) {
-        if (!in_array($cipher, self::getSupportedCiphers())) {
-            $message = sprintf('Unsupported Cipher: %s', $cipher);
-            throw new \InvalidArgumentException($message);
-        }
+        parent::__construct($cipher);
         list (, $bits) = explode('-', $cipher, 2);
         $this->setBlockSize($bits);
         $this->setKeySize($bits);
-        $this->cipher = $cipher;
         static::init();
+    }
+
+    /**
+     * Set the key to use for the cipher
+     *
+     * @param string $key The key to use
+     * 
+     * @throws InvalidArgumentException If the key is not the correct size
+     * @return void
+     */
+    public function setKey($key) {
+        $length = strlen($key);
+        if ($length != $this->keySize) {
+            $this->setKeySize($length << 3);
+            if ($length != $this->keySize) {
+                throw new \InvalidArgumentException(
+                    'The key is not of a supported length'
+                );
+            }
+        }
+        $this->key         = $key;
+        $this->initialized = $this->initialize();
     }
 
     /**
@@ -308,20 +336,12 @@ class Rijndael implements \CryptLib\Cipher\Block\BlockCipher {
      * the cipher being used.
      *
      * @param string $data The data to decrypt
-     * @param string $key  The key to decrypt with
      *
      * @return string The result decrypted data
      */
-    public function decryptBlock($data, $key) {
-        $schedule  = $this->getDecryptionSchedule($key);
-        $plaintext = '';
-        $len       = strlen($data);
-        for ($i = 0; $i < $len; $i+=$this->blockSize) {
-            $plaintext .= $this->decryptBlockPart(
-                    substr($data, $i, $this->blockSize), $schedule
-            );
-        }
-        return $plaintext;
+    protected function decryptBlockData($data) {
+        $schedule = $this->decryptionSchedule;
+        return $this->decryptBlockPart($data, $schedule);
     }
 
     /**
@@ -331,40 +351,23 @@ class Rijndael implements \CryptLib\Cipher\Block\BlockCipher {
      * the cipher being used.
      *
      * @param string $data The data to encrypt
-     * @param string $key  The key to encrypt with
      *
      * @return string The result encrypted data
      */
-    public function encryptBlock($data, $key) {
-        $schedule   = $this->getEncryptionSchedule($key);
-        $ciphertext = '';
-        $len        = strlen($data);
-        for ($i = 0; $i < $len; $i += $this->blockSize) {
-            $ciphertext .= $this->encryptBlockPart(
-                    substr($data, $i, $this->blockSize), $schedule
-            );
-        }
-        return $ciphertext;
+    protected function encryptBlockData($data) {
+        $schedule = $this->encryptionSchedule;
+        return $this->encryptBlockPart($data, $schedule);
     }
 
     /**
-     * Get the block size for the current initialized cipher
+     * Initialize the cipher by preparing the key
      *
-     * @param string $key The key the data will be encrypted with
-     *
-     * @return int The block size for the current cipher
+     * @return boolean The status of the initialization
      */
-    public function getBlockSize($key) {
-        return $this->blockSize;
-    }
-
-    /**
-     * Get the string name of the current cipher instance
-     *
-     * @return string The current instantiated cipher
-     */
-    public function getCipher() {
-        return $this->cipher;
+    protected function initialize() {
+        $this->encryptionSchedule = $this->getEncryptionSchedule($this->key);
+        $this->decryptionSchedule = $this->getDecryptionSchedule($this->key);
+        return true;
     }
 
     /**
@@ -437,7 +440,7 @@ class Rijndael implements \CryptLib\Cipher\Block\BlockCipher {
      * 
      * @return string The decrypted string
      */
-    public function decryptBlockPart($part, $schedule) {
+    protected function decryptBlockPart($part, $schedule) {
         $state   = array();
         $words   = unpack('N*word', $part);
         $inc     = 0;
@@ -527,11 +530,6 @@ class Rijndael implements \CryptLib\Cipher\Block\BlockCipher {
      * @return array The precomputed schedule part
      */
     protected function setup($key) {
-        $length = strlen($key);
-        if ($length != $this->keySize) {
-            $this->setKeySize($length << 3);
-        }
-        $key = str_pad(substr($key, 0, $this->keySize), $this->keySize, chr(0));
         $this->setShiftOffsets();
         $nBlocks = $this->blockSize >> 2;
         $nKeys   = $this->keySize >> 2;

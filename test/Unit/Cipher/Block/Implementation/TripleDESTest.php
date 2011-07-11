@@ -18,7 +18,8 @@ class Unit_Cipher_Block_Implementation_TripleDESTest extends PHPUnit_Framework_T
      */
     public function testEncrypt($key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\TripleDES('tripledes');
-        $enc = $cipher->encryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
@@ -27,7 +28,8 @@ class Unit_Cipher_Block_Implementation_TripleDESTest extends PHPUnit_Framework_T
      */
     public function testDecrypt($key, $expected, $data) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\TripleDES('tripledes');
-        $enc = $cipher->decryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
@@ -36,20 +38,12 @@ class Unit_Cipher_Block_Implementation_TripleDESTest extends PHPUnit_Framework_T
      */
     public function testDecryptFailure() {
         $cipher = new \CryptLib\Cipher\Block\Implementation\TripleDES('tripledes');
-        $cipher->decryptBlock(str_repeat(chr(0), 8), str_repeat(chr(0), 8));
-    }
-    
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testEncryptFailure() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\TripleDES('tripledes');
-        $cipher->encryptBlock(str_repeat(chr(0), 8), str_repeat(chr(0), 8));
+        $cipher->setKey(str_repeat(chr(0), 8));
     }
     
     public function testBlockSize() {
         $cipher = new \CryptLib\Cipher\Block\Implementation\TripleDES('tripledes');
-        $this->assertEquals(8, $cipher->getBlockSize('foo'));
+        $this->assertEquals(8, $cipher->getBlockSize());
     }
     
     public function testGetCipher() {

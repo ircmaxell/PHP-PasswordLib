@@ -52,8 +52,8 @@ class BlockCipher extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\
      *
      * @return string The result decrypted data
      */
-    public function decryptBlock($data, $key) {
-        return $this->__call('decryptBlock', array($data, $key));
+    public function decryptBlock($data) {
+        return $this->__call('decryptBlock', array($data));
     }
 
     /**
@@ -67,10 +67,15 @@ class BlockCipher extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\
      *
      * @return string The result encrypted data
      */
-    public function encryptBlock($data, $key) {
-        return $this->__call('encryptBlock', array($data, $key));
+    public function encryptBlock($data) {
+        return $this->__call('encryptBlock', array($data));
     }
 
+    
+    public function setKey($key) {
+        return $this->__call('setKey', array($key));
+    }
+    
     /**
      * Get the block size for the current initialized cipher
      *
@@ -78,8 +83,8 @@ class BlockCipher extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\
      *
      * @return int The block size for the current cipher
      */
-    public function getBlockSize($key) {
-        return $this->__call('getBlockSize', array($key));
+    public function getBlockSize() {
+        return $this->__call('getBlockSize', array());
     }
 
     /**
@@ -91,4 +96,12 @@ class BlockCipher extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\
         return $this->__call('getCipher', array());
     }
 
+    /**
+     * Get the block size for the current initialized cipher
+     *
+     * @return int The block size for the current cipher
+     */
+    public function getKeySize() {
+        return $this->__call('getKeySize', array());
+    }
 }

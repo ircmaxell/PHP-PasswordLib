@@ -29,6 +29,11 @@ namespace CryptLib\Cipher\Block\Implementation;
 class TripleDES extends DES {
 
     /**
+     * @var int The key size for the cipher
+     */
+    protected $keySize = 24;
+
+    /**
      * Get a list of supported ciphers for this class implementation
      *
      * @return array A list of supported ciphers
@@ -38,19 +43,24 @@ class TripleDES extends DES {
     }
 
     /**
-     * Construct the instance for the supplied cipher name
+     * Set the key to use for the cipher
      *
-     * @param string $cipher The cipher to implement
-     *
+     * @param string $key The key to use
+     * 
+     * @throws InvalidArgumentException If the key is not the correct size
      * @return void
-     * @throws InvalidArgumentException if the cipher is not supported
      */
-    public function __construct($cipher) {
-        if ($cipher != 'tripledes') {
-            $message = sprintf('Unsupported Cipher: %s', $cipher);
-            throw new \InvalidArgumentException($message);
+    public function setKey($key) {
+        $len = strlen($key);
+        if ($len == 16) {
+            $key .= substr($key, 0, 8);
+        } elseif ($len != 24) {
+            throw new \InvalidArgumentException(
+                'The supplied key block is not the correct size'
+            );
         }
-        $this->cipher = $cipher;
+        $this->key         = $key;
+        $this->initialized = true;
     }
 
     /**
@@ -60,21 +70,21 @@ class TripleDES extends DES {
      * the cipher being used.
      *
      * @param string $data The data to decrypt
-     * @param string $key  The key to decrypt with
      *
      * @return string The result decrypted data
      */
-    public function decryptBlock($data, $key) {
-        if (!in_array(strlen($key), array(16, 24))) {
-            throw new \InvalidArgumentException(
-                'The supplied key is not a valid length'
-            );
-        } elseif (strlen($key) == 16) {
-            $key .= substr($key, 0, 8);
-        }
-        $data = parent::decryptBlock($data, substr($key, 16, 8));
-        $data = parent::encryptBlock($data, substr($key, 8, 8));
-        $data = parent::decryptBlock($data, substr($key, 0, 8));
+    protected function decryptBlockData($data) {
+        $key       = $this->key;
+        $this->key = substr($key, 16, 8);
+        $this->initialize();
+        $data      = parent::decryptBlockData($data);
+        $this->key = substr($key, 8, 8);
+        $this->initialize();
+        $data      = parent::encryptBlockData($data);
+        $this->key = substr($key, 0, 8);
+        $this->initialize();
+        $data      = parent::decryptBlockData($data);
+        $this->key = $key;
         return $data;
     }
 
@@ -85,31 +95,22 @@ class TripleDES extends DES {
      * the cipher being used.
      *
      * @param string $data The data to encrypt
-     * @param string $key  The key to encrypt with
      *
      * @return string The result encrypted data
      */
-    public function encryptBlock($data, $key) {
-        if (!in_array(strlen($key), array(16, 24))) {
-            throw new \InvalidArgumentException(
-                'The supplied key is not a valid length'
-            );
-        } elseif (strlen($key) == 16) {
-            $key .= substr($key, 0, 8);
-        }
-        $data = parent::encryptBlock($data, substr($key, 0, 8));
-        $data = parent::decryptBlock($data, substr($key, 8, 8));
-        $data = parent::encryptBlock($data, substr($key, 16, 8));
+    protected function encryptBlockData($data) {
+        $key       = $this->key;
+        $this->key = substr($key, 0, 8);
+        $this->initialize();
+        $data      = parent::encryptBlockData($data);
+        $this->key = substr($key, 8, 8);
+        $this->initialize();
+        $data      = parent::decryptBlockData($data);
+        $this->key = substr($key, 16, 8);
+        $this->initialize();
+        $data      = parent::encryptBlockData($data);
+        $this->key = $key;
         return $data;
-    }
-
-    /**
-     * Get the string name of the current cipher instance
-     *
-     * @return string The current instantiated cipher
-     */
-    public function getCipher() {
-        return 'tripledes';
     }
 
 }

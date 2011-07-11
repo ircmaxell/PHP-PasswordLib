@@ -16,7 +16,8 @@ class Vectors_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_Test
      */
     public function testEncrypt($key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
-        $enc = $cipher->encryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
@@ -25,7 +26,8 @@ class Vectors_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_Test
      */
     public function testDecrypt($key, $expected, $data) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
-        $enc = $cipher->decryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
 

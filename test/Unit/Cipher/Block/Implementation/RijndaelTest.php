@@ -40,7 +40,8 @@ class Unit_Cipher_Block_Implementation_RijndaelTest extends PHPUnit_Framework_Te
      */
     public function testEncrypt($cipher, $key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\Rijndael($cipher);
-        $enc = $cipher->encryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
@@ -49,7 +50,8 @@ class Unit_Cipher_Block_Implementation_RijndaelTest extends PHPUnit_Framework_Te
      */
     public function testDecrypt($cipher, $key, $expected, $data) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\Rijndael($cipher);
-        $enc = $cipher->decryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
@@ -58,16 +60,17 @@ class Unit_Cipher_Block_Implementation_RijndaelTest extends PHPUnit_Framework_Te
      */
     public function testEncryptThenDecrypt($cipher, $key, $data) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\Rijndael($cipher);
-        $enc = $cipher->encryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->encryptBlock(pack('H*', $data));
         $dec = $cipher->decryptBlock($enc, pack('H*', $key));
         $this->assertEquals($data, strtoupper(bin2hex($dec)));
     }
     
     public function testBlockSize() {
         $cipher = new \CryptLib\Cipher\Block\Implementation\Rijndael('rijndael-128');
-        $this->assertEquals(16, $cipher->getBlockSize('foo'));
+        $this->assertEquals(16, $cipher->getBlockSize());
         $cipher = new \CryptLib\Cipher\Block\Implementation\Rijndael('rijndael-256');
-        $this->assertEquals(32, $cipher->getBlockSize('foo'));
+        $this->assertEquals(32, $cipher->getBlockSize());
     }
     
     public function testGetCipher() {

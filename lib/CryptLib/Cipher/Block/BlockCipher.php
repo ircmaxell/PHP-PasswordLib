@@ -40,11 +40,10 @@ interface BlockCipher {
      * the cipher being used.
      *
      * @param string $data The data to decrypt
-     * @param string $key  The key to decrypt with
      *
      * @return string The result decrypted data
      */
-    public function decryptBlock($data, $key);
+    public function decryptBlock($data);
 
     /**
      * Encrypt a block of data using the supplied string key.
@@ -53,20 +52,24 @@ interface BlockCipher {
      * the cipher being used.
      *
      * @param string $data The data to encrypt
-     * @param string $key  The key to encrypt with
      *
      * @return string The result encrypted data
      */
-    public function encryptBlock($data, $key);
+    public function encryptBlock($data);
 
     /**
      * Get the block size for the current initialized cipher.
      *
-     * @param string $key The key the data will be encrypted with
-     *
      * @return int The block size for the current cipher
      */
-    public function getBlockSize($key);
+    public function getBlockSize();
+
+    /**
+     * Get the key size for the current initialized cipher
+     * 
+     * @return int The key size for the current cipher
+     */
+    public function getKeySize();
 
     /**
      * Get the string name of the current cipher instance.
@@ -74,5 +77,14 @@ interface BlockCipher {
      * @return string The current instantiated cipher
      */
     public function getCipher();
+
+    /**
+     * Set the key to be used in this instance
+     * 
+     * @param string $key The key the data will be encrypted with
+     * 
+     * @return void
+     */
+    public function setKey($key);
 
 }

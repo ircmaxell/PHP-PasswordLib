@@ -27,7 +27,8 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
      */
     public function testEncrypt($key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
-        $enc = $cipher->encryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
@@ -36,13 +37,14 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
      */
     public function testDecrypt($key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
-        $enc = $cipher->decryptBlock(pack('H*', $data), pack('H*', $key));
+        $cipher->setKey(pack('H*', $key));
+        $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
     public function testBlockSize() {
         $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
-        $this->assertEquals(8, $cipher->getBlockSize('foo'));
+        $this->assertEquals(8, $cipher->getBlockSize());
     }
     
     public function testGetCipher() {

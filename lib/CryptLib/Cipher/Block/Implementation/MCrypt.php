@@ -29,12 +29,12 @@ namespace CryptLib\Cipher\Block\Implementation;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
+class MCrypt extends \CryptLib\Cipher\Block\AbstractBlockCipher {
 
     /**
-     * @var string $cipher The Cipher name for this instance
+     * @var resource The mcrypt resource for cipher operations
      */
-    protected $cipher = '';
+    protected $mcrypt = null;
 
     /**
      * Get a list of supported ciphers for this class implementation
@@ -47,7 +47,7 @@ class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
             return array();
         }
         // @codeCoverageIgnoreEnd
-        return \mcrypt_list_algorithms();
+        return mcrypt_list_algorithms();
     }
 
     /**
@@ -59,12 +59,9 @@ class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
      * @throws InvalidArgumentException if the cipher is not supported
      */
     public function __construct($cipher) {
-        $ciphers = static::getSupportedCiphers();
-        if (in_array($cipher, $ciphers)) {
-            $this->cipher = $cipher;
-        } else {
-            throw new \InvalidArgumentException('Unsupported Cipher Supplied');
-        }
+        parent::__construct($cipher);
+        $this->keySize   = mcrypt_get_key_size($cipher, MCRYPT_MODE_ECB);
+        $this->blockSize = mcrypt_get_block_size($cipher, MCRYPT_MODE_ECB);
     }
 
     /**
@@ -74,17 +71,11 @@ class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
      * the cipher being used.
      *
      * @param string $data The data to decrypt
-     * @param string $key  The key to decrypt with
      *
      * @return string The result decrypted data
      */
-    public function decryptBlock($data, $key) {
-        return \mcrypt_decrypt(
-            $this->cipher,
-            $key,
-            $data,
-            \MCRYPT_MODE_ECB
-        );
+    protected function decryptBlockData($data) {
+        return mdecrypt_generic($this->mcrypt, $data);
     }
 
     /**
@@ -94,37 +85,25 @@ class MCrypt implements \CryptLib\Cipher\Block\BlockCipher {
      * the cipher being used.
      *
      * @param string $data The data to encrypt
-     * @param string $key  The key to encrypt with
      *
      * @return string The result encrypted data
      */
-    public function encryptBlock($data, $key) {
-        return \mcrypt_encrypt(
-            $this->cipher,
-            $key,
-            $data,
-            \MCRYPT_MODE_ECB
-        );
+    protected function encryptBlockData($data) {
+        return mcrypt_generic($this->mcrypt, $data);
     }
 
     /**
-     * Get the block size for the current initialized cipher
+     * Initialize the cipher by preparing the key
      *
-     * @param string $key The key the data will be encrypted with
-     *
-     * @return int The block size for the current cipher
+     * @return boolean The status of the initialization
      */
-    public function getBlockSize($key) {
-        return \mcrypt_get_block_size($this->cipher, \MCRYPT_MODE_ECB);
-    }
-
-    /**
-     * Get the string name of the current cipher instance
-     *
-     * @return string The current instantiated cipher
-     */
-    public function getCipher() {
-        return $this->cipher;
+    protected function initialize() {
+        $this->mcrypt = mcrypt_module_open($this->cipher, '', MCRYPT_MODE_ECB, '');
+        if ($this->mcrypt) {
+            $initv = str_repeat(chr(0), $this->getBlockSize());
+            return false !== mcrypt_generic_init($this->mcrypt, $this->key, $initv);
+        }
+        return false;
     }
 
 }
