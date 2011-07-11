@@ -6,6 +6,12 @@ class Unit_Core_BigMath_BCMathTest extends Unit_Core_BigMathTest {
     
     protected static $mathImplementations = array();
     
+    protected function setUp() {
+        if (!extension_loaded('bcmath')) {
+            $this->markTestSkipped('BCMath is not loaded');
+        }
+    }
+    
     /**
      * @dataProvider provideAddTest
      */
