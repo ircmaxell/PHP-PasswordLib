@@ -22,7 +22,7 @@ namespace CryptLib\Cipher\Block;
  * @package    Cipher
  * @subpackage Block
  */
-abstract class AbstractBlockCipher implements \CryptLib\Cipher\Block\BlockCipher {
+abstract class AbstractCipher implements \CryptLib\Cipher\Block\Cipher {
 
     /**
      * @var int The block size for the cipher

@@ -29,16 +29,16 @@ interface Mode {
     /**
      * Decrypt the data using the supplied key, cipher and initialization vector
      *
-     * @param string      $data   The data to decrypt
-     * @param BlockCipher $cipher The cipher to use for decrypting the data
-     * @param string      $initv  The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to decrypt with
+     * @param string $data   The data to decrypt
+     * @param Cipher $cipher The cipher to use for decrypting the data
+     * @param string $initv  The initialization vector to use
+     * @param string $adata  Any additional authenticated data to decrypt with
      *
      * @return string The decrypted data
      */
     public function decrypt(
         $data,
-        \CryptLib\Cipher\Block\BlockCipher $cipher,
+        \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
         $adata = ''
     );
@@ -46,16 +46,16 @@ interface Mode {
     /**
      * Encrypt the data using the supplied key, cipher and initialization vector
      *
-     * @param string      $data   The data to encrypt
-     * @param BlockCipher $cipher The cipher to use for encrypting the data
-     * @param string      $initv  The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to encrypt with
+     * @param string $data   The data to encrypt
+     * @param Cipher $cipher The cipher to use for encrypting the data
+     * @param string $initv  The initialization vector to use
+     * @param string $adata  Any additional authenticated data to encrypt with
      *
      * @return string The encrypted data
      */
     public function encrypt(
         $data,
-        \CryptLib\Cipher\Block\BlockCipher $cipher,
+        \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
         $adata = ''
     );

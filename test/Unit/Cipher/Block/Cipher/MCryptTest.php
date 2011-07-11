@@ -1,6 +1,6 @@
 <?php
 
-class Unit_Cipher_Block_Implementation_MCryptTest extends PHPUnit_Framework_TestCase {
+class Unit_Cipher_Block_Cipher_MCryptTest extends PHPUnit_Framework_TestCase {
     
     protected function setUp() {
         if (!function_exists('mcrypt_encrypt')) {
@@ -12,15 +12,15 @@ class Unit_Cipher_Block_Implementation_MCryptTest extends PHPUnit_Framework_Test
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailure() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\MCrypt('foobarbaz');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\MCrypt('foobarbaz');
     }
     
     public function testConstruct() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\MCrypt('rijndael-128');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\MCrypt('rijndael-128');
     }
     
     public function testEncryptDecryptBlock() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\MCrypt('rijndael-128');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\MCrypt('rijndael-128');
         $str = str_repeat(chr(0), 16);
         $key = str_repeat(chr(0), 32);
         $cipher->setKey($key);
@@ -30,12 +30,12 @@ class Unit_Cipher_Block_Implementation_MCryptTest extends PHPUnit_Framework_Test
     }
     
     public function testGetBlockSize() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\MCrypt('rijndael-128');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\MCrypt('rijndael-128');
         $this->assertEquals(16, $cipher->getBlockSize('foo'));
     }
     
     public function testGetCipher() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\MCrypt('rijndael-128');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\MCrypt('rijndael-128');
         $this->assertEquals('rijndael-128', $cipher->getCipher());
     }
 

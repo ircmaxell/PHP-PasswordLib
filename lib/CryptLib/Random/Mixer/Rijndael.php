@@ -34,14 +34,14 @@ use \CryptLib\Core\Strength\High as HighStrength;
  * @subpackage Mixer
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Rijndael extends \CryptLib\Random\AbstractMixer {
+class Rijndael extends DES {
 
     /**
      * An instance of a Rijndael symmetric encryption cipher
      *
      * @var Cipher The Rijndael cipher instance
      */
-    protected $cipher = null;
+    protected $cipher = 'rijndael-128';
 
     /**
      * Return an instance of Strength indicating the strength of the source
@@ -50,62 +50,6 @@ class Rijndael extends \CryptLib\Random\AbstractMixer {
      */
     public static function getStrength() {
         return new HighStrength();
-    }
-
-    /**
-     * Test to see if the mixer is available
-     *
-     * @return boolean If the mixer is available on the system
-     */
-    public static function test() {
-        return true;
-    }
-
-    /**
-     * Build a new instance of the Rijndael mixing function
-     *
-     * @param Factory $factory The optional encryption factory to use
-     *
-     * @return void
-     */
-    public function __construct(\CryptLib\Cipher\Factory $factory = null) {
-        if (is_null($factory)) {
-            $factory = new CipherFactory();
-        }
-        $this->cipher = $factory->getBlockCipher('rijndael-128');
-    }
-
-    /**
-     * Get the block size (the size of the individual blocks used for the mixing)
-     * 
-     * @return int The block size
-     */
-    protected function getPartSize() {
-        return $this->cipher->getBlockSize();
-    }
-
-    /**
-     * Mix 2 parts together using one method
-     *
-     * @param string $part1 The first part to mix
-     * 
-     * @return string The mixed data
-     */
-    protected function mixParts1($part1, $part2) {
-        $this->cipher->setKey($part2);
-        return $this->cipher->encryptBlock($part1);
-    }
-
-    /**
-     * Mix 2 parts together using another different method
-     *
-     * @param string $part1 The first part to mix
-     * 
-     * @return string The mixed data
-     */
-    protected function mixParts2($part1, $part2) {
-        $this->cipher->setKey($part2);
-        return $this->cipher->decryptBlock($part1);
     }
 
 }

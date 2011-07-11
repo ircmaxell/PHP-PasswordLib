@@ -16,7 +16,7 @@
  * @version    Build @@version@@
  */
 
-namespace CryptLib\Cipher\Block\Implementation;
+namespace CryptLib\Cipher\Block\Cipher;
 
 /**
  * An implementation of the TripleDES Cipher

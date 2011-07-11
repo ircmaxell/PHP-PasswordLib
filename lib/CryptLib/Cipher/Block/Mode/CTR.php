@@ -29,16 +29,16 @@ class CTR implements \CryptLib\Cipher\Block\Mode {
     /**
      * Decrypt the data using the supplied key, cipher
      *
-     * @param string      $data   The data to decrypt
-     * @param BlockCipher $cipher The cipher to use for decrypting the data
-     * @param string      $iv     Not Used
-     * @param string      $adata  Not Used
+     * @param string $data   The data to decrypt
+     * @param Cipher $cipher The cipher to use for decrypting the data
+     * @param string $iv     Not Used
+     * @param string $adata  Not Used
      *
      * @return string The decrypted data
      */
     public function decrypt(
         $data,
-        \CryptLib\Cipher\Block\BlockCipher $cipher,
+        \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
         $adata = ''
     ) {
@@ -57,16 +57,16 @@ class CTR implements \CryptLib\Cipher\Block\Mode {
     /**
      * Encrypt the data using the supplied key, cipher
      *
-     * @param string      $data   The data to encrypt
-     * @param BlockCipher $cipher The cipher to use for encrypting the data
-     * @param string      $iv     Not Used
-     * @param string      $adata  Not Used
+     * @param string $data   The data to encrypt
+     * @param Cipher $cipher The cipher to use for encrypting the data
+     * @param string $iv     Not Used
+     * @param string $adata  Not Used
      *
      * @return string The encrypted data
      */
     public function encrypt(
         $data,
-        \CryptLib\Cipher\Block\BlockCipher $cipher,
+        \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
         $adata = ''
     ) {

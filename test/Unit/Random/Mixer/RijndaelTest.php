@@ -2,7 +2,7 @@
 
 use CryptLib\Random\Mixer\Rijndael;
 use CryptLib\Core\Strength\High as HighStrength;
-use CryptLibTest\Mocks\Cipher\Block\BlockCipher;
+use CryptLibTest\Mocks\Cipher\Block\Cipher;
 use CryptLibTest\Mocks\Cipher\Factory as CipherFactory;
 
 class Unit_Random_Mixer_RijndaelTest extends PHPUnit_Framework_TestCase {
@@ -28,7 +28,7 @@ class Unit_Random_Mixer_RijndaelTest extends PHPUnit_Framework_TestCase {
 
     protected function getMockFactory() {
         $cipherkey = str_repeat(chr(0), 2);
-        $cipher = new BlockCipher(array(
+        $cipher = new Cipher(array(
             'getBlockSize' => function() use (&$cipherkey) { 
                 return strlen($cipherkey); 
             },

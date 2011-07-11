@@ -1,6 +1,6 @@
 <?php
 
-class Unit_Cipher_Block_Implementation_X_ORTest extends PHPUnit_Framework_TestCase {
+class Unit_Cipher_Block_Cipher_X_ORTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @return array The test vectors
@@ -28,7 +28,7 @@ class Unit_Cipher_Block_Implementation_X_ORTest extends PHPUnit_Framework_TestCa
      * @dataProvider provideTestEncryptVectors
      */
     public function testEncrypt($cipher, $key, $data, $expected) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR($cipher);
+        $cipher = new \CryptLib\Cipher\Block\Cipher\X_OR($cipher);
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
@@ -38,7 +38,7 @@ class Unit_Cipher_Block_Implementation_X_ORTest extends PHPUnit_Framework_TestCa
      * @dataProvider provideTestEncryptVectors
      */
     public function testDecrypt($cipher, $key, $expected, $data) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR($cipher);
+        $cipher = new \CryptLib\Cipher\Block\Cipher\X_OR($cipher);
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
@@ -48,7 +48,7 @@ class Unit_Cipher_Block_Implementation_X_ORTest extends PHPUnit_Framework_TestCa
      * @dataProvider provideTestEncryptVectors
      */
     public function testEncryptThenDecrypt($cipher, $key, $data) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR($cipher);
+        $cipher = new \CryptLib\Cipher\Block\Cipher\X_OR($cipher);
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $dec = $cipher->decryptBlock($enc);
@@ -56,13 +56,13 @@ class Unit_Cipher_Block_Implementation_X_ORTest extends PHPUnit_Framework_TestCa
     }
     
     public function testBlockSize() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR('xor');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\X_OR('xor');
         $cipher->setKey('foo');
         $this->assertEquals(3, $cipher->getBlockSize());
     }
     
     public function testGetCipher() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR('xor');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\X_OR('xor');
         $this->assertEquals('xor', $cipher->getCipher());
     }
     
@@ -70,7 +70,7 @@ class Unit_Cipher_Block_Implementation_X_ORTest extends PHPUnit_Framework_TestCa
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailure() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\X_OR('rijndael-128');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\X_OR('rijndael-128');
     }
 
 }

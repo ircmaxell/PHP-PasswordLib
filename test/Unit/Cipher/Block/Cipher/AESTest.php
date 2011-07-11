@@ -1,6 +1,6 @@
 <?php
 
-class Unit_Cipher_Block_Implementation_AESTest extends PHPUnit_Framework_TestCase {
+class Unit_Cipher_Block_Cipher_AESTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @return array The test vectors
@@ -33,7 +33,7 @@ class Unit_Cipher_Block_Implementation_AESTest extends PHPUnit_Framework_TestCas
      * @dataProvider provideTestEncryptVectors
      */
     public function testEncrypt($cipher, $key, $data, $expected) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\AES($cipher);
+        $cipher = new \CryptLib\Cipher\Block\Cipher\AES($cipher);
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
@@ -43,7 +43,7 @@ class Unit_Cipher_Block_Implementation_AESTest extends PHPUnit_Framework_TestCas
      * @dataProvider provideTestEncryptVectors
      */
     public function testDecrypt($cipher, $key, $expected, $data) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\AES($cipher);
+        $cipher = new \CryptLib\Cipher\Block\Cipher\AES($cipher);
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
@@ -53,7 +53,7 @@ class Unit_Cipher_Block_Implementation_AESTest extends PHPUnit_Framework_TestCas
      * @dataProvider provideTestEncryptVectors
      */
     public function testEncryptThenDecrypt($cipher, $key, $data) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\AES($cipher);
+        $cipher = new \CryptLib\Cipher\Block\Cipher\AES($cipher);
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $dec = $cipher->decryptBlock($enc);
@@ -61,14 +61,14 @@ class Unit_Cipher_Block_Implementation_AESTest extends PHPUnit_Framework_TestCas
     }
     
     public function testBlockSize() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\AES('aes-128');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\AES('aes-128');
         $this->assertEquals(16, $cipher->getBlockSize());
-        $cipher = new \CryptLib\Cipher\Block\Implementation\AES('aes-256');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\AES('aes-256');
         $this->assertEquals(16, $cipher->getBlockSize());
     }
     
     public function testGetCipher() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\AES('aes-128');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\AES('aes-128');
         $this->assertEquals('aes-128', $cipher->getCipher());
     }
     
@@ -76,7 +76,7 @@ class Unit_Cipher_Block_Implementation_AESTest extends PHPUnit_Framework_TestCas
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailure() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\AES('rijndael-128');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\AES('rijndael-128');
     }
 
 }

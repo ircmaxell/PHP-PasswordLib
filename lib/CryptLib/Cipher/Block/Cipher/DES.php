@@ -16,7 +16,7 @@
  * @version    Build @@version@@
  */
 
-namespace CryptLib\Cipher\Block\Implementation;
+namespace CryptLib\Cipher\Block\Cipher;
 
 /**
  * An implementation of the DES cipher, using the phpseclib implementation
@@ -26,7 +26,7 @@ namespace CryptLib\Cipher\Block\Implementation;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class DES extends \CryptLib\Cipher\Block\AbstractBlockCipher {
+class DES extends \CryptLib\Cipher\Block\AbstractCipher {
 
     /**
      * @var int The block size for the cipher

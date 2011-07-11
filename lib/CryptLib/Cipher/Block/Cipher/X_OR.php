@@ -16,7 +16,7 @@
  * @version    Build @@version@@
  */
 
-namespace CryptLib\Cipher\Block\Implementation;
+namespace CryptLib\Cipher\Block\Cipher;
 
 
 
@@ -31,7 +31,7 @@ namespace CryptLib\Cipher\Block\Implementation;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class X_OR extends \CryptLib\Cipher\Block\AbstractBlockCipher {
+class X_OR extends \CryptLib\Cipher\Block\AbstractCipher {
 
     /**
      * Get a list of supported ciphers for this class implementation

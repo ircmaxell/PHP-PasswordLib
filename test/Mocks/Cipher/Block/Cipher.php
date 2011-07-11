@@ -23,7 +23,7 @@ namespace CryptLibTest\Mocks\Cipher\Block;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class BlockCipher extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\Cipher\Block\BlockCipher {
+class Cipher extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\Cipher\Block\Cipher {
 
     public static $ciphers = array();
 

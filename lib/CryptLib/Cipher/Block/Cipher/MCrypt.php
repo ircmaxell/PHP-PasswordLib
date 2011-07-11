@@ -16,7 +16,7 @@
  * @version    Build @@version@@
  */
 
-namespace CryptLib\Cipher\Block\Implementation;
+namespace CryptLib\Cipher\Block\Cipher;
 
 /**
  * The mcrypt block cipher implementation
@@ -29,7 +29,7 @@ namespace CryptLib\Cipher\Block\Implementation;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class MCrypt extends \CryptLib\Cipher\Block\AbstractBlockCipher {
+class MCrypt extends \CryptLib\Cipher\Block\AbstractCipher {
 
     /**
      * @var resource The mcrypt resource for cipher operations

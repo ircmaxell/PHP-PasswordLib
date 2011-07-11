@@ -41,7 +41,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
      *
      * @var Cipher The DES cipher instance
      */
-    protected $cipher = null;
+    protected $cipher = 'des';
 
     /**
      * Return an instance of Strength indicating the strength of the source
@@ -72,7 +72,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
         if (is_null($factory)) {
             $factory = new CipherFactory();
         }
-        $this->cipher = $factory->getBlockCipher('des');
+        $this->cipher = $factory->getBlockCipher($this->cipher);
     }
 
     /**

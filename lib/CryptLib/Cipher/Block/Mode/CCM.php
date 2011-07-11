@@ -82,16 +82,16 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
     /**
      * Decrypt the data using the supplied key, cipher and initialization vector
      *
-     * @param string      $data   The data to decrypt
-     * @param BlockCipher $cipher The cipher to use for decrypting the data
-     * @param string      $iv     The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to decrypt with
+     * @param string $data   The data to decrypt
+     * @param Cipher $cipher The cipher to use for decrypting the data
+     * @param string $iv     The initialization vector to use
+     * @param string $adata  Any additional authenticated data to decrypt with
      *
      * @return string The decrypted data
      */
     public function decrypt(
         $data,
-        \CryptLib\Cipher\Block\BlockCipher $cipher,
+        \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
         $adata = ''
     ) {
@@ -116,16 +116,16 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
     /**
      * Encrypt the data using the supplied key, cipher and initialization vector
      *
-     * @param string      $data   The data to encrypt
-     * @param BlockCipher $cipher The cipher to use for encrypting the data
-     * @param string      $iv     The initialization vector to use
-     * @param string      $adata  Any additional authenticated data to encrypt with
+     * @param string $data   The data to encrypt
+     * @param Cipher $cipher The cipher to use for encrypting the data
+     * @param string $iv     The initialization vector to use
+     * @param string $adata  Any additional authenticated data to encrypt with
      *
      * @return string The encrypted data
      */
     public function encrypt(
         $data,
-        \CryptLib\Cipher\Block\BlockCipher $cipher,
+        \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
         $adata = ''
     ) {
@@ -164,7 +164,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         $initv,
         $data,
         $adata,
-        \CryptLib\Cipher\Block\BlockCipher $cipher
+        \CryptLib\Cipher\Block\Cipher $cipher
     ) {
         $blockSize = $cipher->getBlockSize();
         $flags     = pack(
@@ -208,7 +208,7 @@ class CCM implements \CryptLib\Cipher\Block\Mode {
         $initv,
         $data,
         $authValue,
-        \CryptLib\Cipher\Block\BlockCipher $cipher
+        \CryptLib\Cipher\Block\Cipher $cipher
     ) {
         $blockSize = $cipher->getBlockSize();
         $flags     = pack('C', ($this->lSize - 1));

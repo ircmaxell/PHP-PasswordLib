@@ -24,7 +24,7 @@ namespace CryptLib\Cipher\Block;
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @codeCoverageIgnore
  */
-interface BlockCipher {
+interface Cipher {
 
     /**
      * Get a list of supported ciphers by this cipher.

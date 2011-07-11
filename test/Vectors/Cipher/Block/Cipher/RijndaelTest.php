@@ -1,6 +1,6 @@
 <?php
 
-class Vectors_Cipher_Block_Implementation_RijndaelTest extends PHPUnit_Framework_TestCase {
+class Vectors_Cipher_Block_Cipher_RijndaelTest extends PHPUnit_Framework_TestCase {
 
 
     public static function provideTestEncryptVectors() {
@@ -31,7 +31,7 @@ class Vectors_Cipher_Block_Implementation_RijndaelTest extends PHPUnit_Framework
      * @dataProvider provideTestEncryptVectors
      */
     public function testEncrypt($cipher, $key, $data, $expected) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\Rijndael($cipher);
+        $cipher = new \CryptLib\Cipher\Block\Cipher\Rijndael($cipher);
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
@@ -41,7 +41,7 @@ class Vectors_Cipher_Block_Implementation_RijndaelTest extends PHPUnit_Framework
      * @dataProvider provideTestEncryptVectors
      */
     public function testDecrypt($cipher, $key, $expected, $data) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\Rijndael($cipher);
+        $cipher = new \CryptLib\Cipher\Block\Cipher\Rijndael($cipher);
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));

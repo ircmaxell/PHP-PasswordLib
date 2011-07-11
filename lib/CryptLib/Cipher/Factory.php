@@ -20,9 +20,9 @@ namespace CryptLib\Cipher;
 /**
  * Some used classes, aliased appropriately
  */
-use CryptLib\Cipher\Block\BlockCipher as BlockCipher;
-use CryptLib\Cipher\Block\Mode        as Mode;
-use CryptLib\Cipher\Block\Implementation\MCrypt;
+use CryptLib\Cipher\Block\Cipher as Cipher;
+use CryptLib\Cipher\Block\Mode   as Mode;
+use CryptLib\Cipher\Block\Cipher\MCrypt;
 
 
 /**
@@ -68,11 +68,11 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      *
      * @param string|Block $cipher The cipher name or instance to load
      *
-     * @return Block The loaded block cipher
+     * @return Cipher The loaded block cipher
      * @throws RuntimeException if the cipher is not supported
      */
     public function getBlockCipher($cipher) {
-        if (is_object($cipher) && $cipher instanceof BlockCipher) {
+        if (is_object($cipher) && $cipher instanceof Cipher) {
             return $cipher;
         }
         $cipher = strtolower($cipher);
@@ -124,7 +124,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      */
     public function registerCipher($name, $class) {
         $refl      = new \ReflectionClass($class);
-        $interface = '\\'. __NAMESPACE__ . '\\Block\\BlockCipher';
+        $interface = '\\'. __NAMESPACE__ . '\\Block\\Cipher';
         if (!$refl->implementsInterface($interface)) {
             $message = sprintf('Class must implement %s', $interface);
             throw new \InvalidArgumentException($message);
@@ -163,8 +163,8 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      */
     protected function loadCiphers() {
         $this->loadFiles(
-            __DIR__ . '/Block/Implementation',
-            __NAMESPACE__ . '\\Block\\Implementation\\',
+            __DIR__ . '/Block/Cipher',
+            __NAMESPACE__ . '\\Block\\Cipher\\',
             array($this, 'registerCipher')
         );
     }

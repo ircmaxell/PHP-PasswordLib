@@ -1,6 +1,6 @@
 <?php
 
-class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCase {
+class Unit_Cipher_Block_Cipher_DESTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @return array The test vectors
@@ -26,7 +26,7 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
      * @dataProvider provideTestEncryptVectors
      */
     public function testEncrypt($key, $data, $expected) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
@@ -36,19 +36,19 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
      * @dataProvider provideTestDecryptVectors
      */
     public function testDecrypt($key, $data, $expected) {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
         $cipher->setKey(pack('H*', $key));
         $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
     
     public function testBlockSize() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
         $this->assertEquals(8, $cipher->getBlockSize());
     }
     
     public function testGetCipher() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\DES('des');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
         $this->assertEquals('des', $cipher->getCipher());
     }
     
@@ -56,7 +56,7 @@ class Unit_Cipher_Block_Implementation_DESTest extends PHPUnit_Framework_TestCas
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailure() {
-        $cipher = new \CryptLib\Cipher\Block\Implementation\DES('something');
+        $cipher = new \CryptLib\Cipher\Block\Cipher\DES('something');
     }
 
 }

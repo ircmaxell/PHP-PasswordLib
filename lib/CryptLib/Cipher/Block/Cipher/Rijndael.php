@@ -17,7 +17,7 @@
  * @version    Build @@version@@
  */
 
-namespace CryptLib\Cipher\Block\Implementation;
+namespace CryptLib\Cipher\Block\Cipher;
 
 /**
  * An implementation of the Rijndael cipher, using the phpseclib implementation
@@ -27,7 +27,7 @@ namespace CryptLib\Cipher\Block\Implementation;
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Rijndael extends \CryptLib\Cipher\Block\AbstractBlockCipher {
+class Rijndael extends \CryptLib\Cipher\Block\AbstractCipher {
 
     /**
      * @var int The number of bytes in each block
