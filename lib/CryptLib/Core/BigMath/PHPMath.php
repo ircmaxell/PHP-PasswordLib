@@ -34,11 +34,14 @@ class PHPMath extends \CryptLib\Core\BigMath {
      * @return A base-10 string of the sum of the two arguments
      */
     public function add($left, $right) {
-        $left     = $left ?: '0';
-        $right    = $right ?: '0';
-        $negative = false;
+        if (empty($left)) {
+            return $right;
+        } elseif (empty($right)) {
+            return $left;
+        }
+        $negative = '';
         if ($left[0] == '-' && $right[0] == '-') {
-            $negative = true;
+            $negative = '-';
             $left     = substr($left, 1);
             $right    = substr($right, 1);
         } elseif ($left[0] == '-') {
@@ -52,7 +55,7 @@ class PHPMath extends \CryptLib\Core\BigMath {
             $this->addBinary($left, $right),
             '0123456789'
         );
-        return ($negative ? '-' : '') . $result;
+        return $negative . $result;
     }
 
     /**
@@ -64,20 +67,20 @@ class PHPMath extends \CryptLib\Core\BigMath {
      * @return A base-10 string of the difference of the two arguments
      */
     public function subtract($left, $right) {
-        $left  = $left ?: '0';
-        $right = $right ?: '0';
-        if ($left[0] == '-' && $right[0] == '-') {
-            return $this->add($left, substr($right, 1));
-        } elseif ($left[0] == '-') {
-            return '-' . $this->add(substr($left, 1), $right);
+        if (empty($left)) {
+            return $right;
+        } elseif (empty($right)) {
+            return $left;
         } elseif ($right[0] == '-') {
             return $this->add($left, substr($right, 1));
+        } elseif ($left[0] == '-') {
+            return '-' . $this->add(ltrim($left, '-'), $right);
         }
         $left    = $this->normalize($left);
         $right   = $this->normalize($right);
         $results = $this->subtractBinary($left, $right);
         $result  = BaseConverter::convertFromBinary($results[1], '0123456789');
-        return ($results[0] ? '-' : '') . $result;
+        return $results[0] . $result;
     }
 
     /**
@@ -126,12 +129,12 @@ class PHPMath extends \CryptLib\Core\BigMath {
             // Positive Result
             $carry  = substr($result, 0, -1 * $len);
             $result = substr($result, strlen($carry));
-            return array(false, $this->addBinary(
-                $result,
-                $carry
-            ));
+            return array(
+                '',
+                $this->addBinary($result, $carry)
+            );
         }
-        return array(true, $this->compliment($result));
+        return array('-', $this->compliment($result));
     }
 
     /**

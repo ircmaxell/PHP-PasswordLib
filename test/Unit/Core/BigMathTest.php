@@ -15,7 +15,7 @@ class Unit_Core_BigMathTest extends PHPUnit_Framework_TestCase {
             array('-10', '10', '0'),
             array('10', '-10', '0'),
             array('-10', '-10', '-20'),
-            array('', '', '0'),
+            array('0', '0', '0'),
             array('5', '0', '5'),
         );
         return $ret;
