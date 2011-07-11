@@ -34,6 +34,8 @@ class PHPMath extends \CryptLib\Core\BigMath {
      * @return A base-10 string of the sum of the two arguments
      */
     public function add($left, $right) {
+        $left     = $left ?: '0';
+        $right    = $right ?: '0';
         $negative = false;
         if ($left[0] == '-' && $right[0] == '-') {
             $negative = true;
@@ -62,6 +64,8 @@ class PHPMath extends \CryptLib\Core\BigMath {
      * @return A base-10 string of the difference of the two arguments
      */
     public function subtract($left, $right) {
+        $left  = $left ?: '0';
+        $right = $right ?: '0';
         if ($left[0] == '-' && $right[0] == '-') {
             return $this->add($left, substr($right, 1));
         } elseif ($left[0] == '-') {
@@ -156,25 +160,11 @@ class PHPMath extends \CryptLib\Core\BigMath {
     protected function normalize($string) {
         if (empty($string)) {
             return chr(0);
-        } elseif ($string[0] == '0') {
-            if (strtoupper($string[1]) == 'X') {
-                $string = BaseConverter::convertToBinary(
-                    strtoupper(substr($string, 2)),
-                    '0123456789ABCDEF'
-                );
-            } else {
-                $string = BaseConverter::convertToBinary(
-                    $string,
-                    '01234567'
-                );
-            }
-        } else {
-            $string = BaseConverter::convertToBinary(
-                $string,
-                '0123456789'
-            );
         }
-        return $string;
+        return BaseConverter::convertToBinary(
+            $string,
+            '0123456789'
+        );
     }
 
 }
