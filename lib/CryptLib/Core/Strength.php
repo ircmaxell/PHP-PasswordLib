@@ -18,7 +18,7 @@ namespace CryptLib\Core;
 /**
  * The strength FlyweightEnum class
  *
- * All mixing strategies must implement this interface
+ * All mixing strategies must extend this class
  *
  * @category   PHPCryptLib
  * @package    Core

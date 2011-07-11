@@ -34,7 +34,7 @@ class CBC extends \CryptLib\Cipher\Block\AbstractMode {
      * @return string The decrypted data
      */
     protected function decryptBlock($data) {
-        $stub        = $cipher->decryptBlock($data);
+        $stub        = $this->cipher->decryptBlock($data);
         $result      = $stub ^ $this->state;
         $this->state = $data;
         return $result;
@@ -48,10 +48,9 @@ class CBC extends \CryptLib\Cipher\Block\AbstractMode {
      * @return string The encrypted data
      */
     protected function encryptBlock($data) {
-        $stub        = $cipher->encryptBlock($data);
-        $result      = $stub ^ $this->state;
+        $stub        = $this->cipher->encryptBlock($data ^ $this->state);
         $this->state = $stub;
-        return $result;
+        return $stub;
     }
 
 }

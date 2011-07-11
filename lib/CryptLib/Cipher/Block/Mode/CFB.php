@@ -44,7 +44,7 @@ class CFB extends \CryptLib\Cipher\Block\AbstractMode {
      * @return string The encrypted data
      */
     protected function encryptBlock($data) {
-        $stub        = $cipher->encryptBlock($this->state);
+        $stub        = $this->cipher->encryptBlock($this->state);
         $this->state = $data;
         return $stub ^ $data;
     }

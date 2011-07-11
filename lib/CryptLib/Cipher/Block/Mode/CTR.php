@@ -15,6 +15,9 @@
 
 namespace CryptLib\Cipher\Block\Mode;
 
+use CryptLib\Core\BaseConverter;
+use CryptLib\Core\BigMath;
+
 /**
  * The CTR (Counter) mode implementation
  *
@@ -27,12 +30,34 @@ namespace CryptLib\Cipher\Block\Mode;
 class CTR extends \CryptLib\Cipher\Block\AbstractMode {
 
     /**
+     * @var BigMath An instance of the BigMath library
+     */
+    protected $bigMath = null;
+
+    /**
+     * Build the instance of the cipher mode
+     * 
+     * @param Cipher $cipher The cipher to use for encryption/decryption
+     * @param string $initv  The initialization vector (empty if not needed)
+     * @param string $adata  Additional data to authenticate the ciphertext with
+     */
+    public function __construct(
+        \CryptLib\Cipher\Block\Cipher $cipher,
+        $initv,
+        $adata = ''
+    ) {
+        parent::__construct($cipher, $initv, $adata);
+        $this->bigMath = BigMath::getInstance();
+    }
+
+    /**
      * Reset the mode to start over (destroying any intermediate state)
      * 
      * @return void
      */
     public function reset() {
-        $this->state = 0;
+        $this->state = BaseConverter::ConvertFromBinary($this->initv, '0123456789');
+        $this->state = ltrim($this->state, '0');
     }
 
     /**
@@ -54,9 +79,15 @@ class CTR extends \CryptLib\Cipher\Block\AbstractMode {
      * @return string The encrypted data
      */
     protected function encryptBlock($data) {
-        $size  = $this->cipher->getBlockSize();
-        $block = str_pad((string) $this->state++, $size, chr(0), STR_PAD_LEFT);
-        $stub  = $this->cipher->encryptBlock($block);
+        $size        = $this->cipher->getBlockSize();
+        $state       = str_pad(
+            BaseConverter::convertToBinary($this->state, '0123456789'),
+            $size,
+            chr(0),
+            STR_PAD_LEFT
+        );
+        $stub        = $this->cipher->encryptBlock($state);
+        $this->state = $this->bigMath->add($this->state, 1);
         return $stub ^ $data;
     }
 

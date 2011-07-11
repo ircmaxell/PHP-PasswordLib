@@ -41,7 +41,7 @@ class NESSIE {
         foreach ($lines as $row) {
             $row = trim($row);
             if (strpos($row, '=') !== false) {
-                if ($key && $buffer) {
+                if ($key) {
                     $record[$key] = $buffer;
                 }
                 list($key, $buffer) = explode('=', $row, 2);

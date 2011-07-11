@@ -38,6 +38,8 @@ spl_autoload_register(function ($class) {
     }
 });
 
+define('PATH_ROOT', dirname(__DIR__));
+
 function getTestDataFile($file) {
     return __DIR__ . '/Data/' . $file;
 }

@@ -33,7 +33,7 @@ class ECB extends \CryptLib\Cipher\Block\AbstractMode {
      * @return string The decrypted data
      */
     protected function decryptBlock($data) {
-        return $this->cipher->decryptBlock($block);
+        return $this->cipher->decryptBlock($data);
     }
 
     /**

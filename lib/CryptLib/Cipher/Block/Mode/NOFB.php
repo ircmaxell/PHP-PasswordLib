@@ -45,7 +45,7 @@ class NOFB extends \CryptLib\Cipher\Block\AbstractMode {
      */
     protected function encryptBlock($data) {
         $this->state = $this->cipher->encryptBlock($this->state);
-        return $this->state ^ $block;
+        return $this->state ^ $data;
     }
 
 }
