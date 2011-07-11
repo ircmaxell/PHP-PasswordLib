@@ -24,72 +24,40 @@ namespace CryptLib\Cipher\Block\Mode;
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
 
-class CTR implements \CryptLib\Cipher\Block\Mode {
+class CTR extends \CryptLib\Cipher\Block\AbstractMode {
+
+    /**
+     * Reset the mode to start over (destroying any intermediate state)
+     * 
+     * @return void
+     */
+    public function reset() {
+        $this->state = 0;
+    }
 
     /**
      * Decrypt the data using the supplied key, cipher
      *
-     * @param string $data   The data to decrypt
-     * @param Cipher $cipher The cipher to use for decrypting the data
-     * @param string $iv     Not Used
-     * @param string $adata  Not Used
+     * @param string $data The data to decrypt
      *
      * @return string The decrypted data
      */
-    public function decrypt(
-        $data,
-        \CryptLib\Cipher\Block\Cipher $cipher,
-        $initv,
-        $adata = ''
-    ) {
-        $size       = $cipher->getBlockSize();
-        $blocks     = str_split($data, $size);
-        $ciphertext = '';
-
-        foreach ($blocks as $numkey => $block) {
-            $data        = str_pad((string) $numkey, $size, '0', STR_PAD_LEFT);
-            $stub        = $cipher->encryptBlock($data);
-            $ciphertext .= $stub ^ $block;
-        }
-        return $ciphertext;
+    protected function decryptBlock($data) {
+        return $this->encryptBlock($data);
     }
 
     /**
      * Encrypt the data using the supplied key, cipher
      *
-     * @param string $data   The data to encrypt
-     * @param Cipher $cipher The cipher to use for encrypting the data
-     * @param string $iv     Not Used
-     * @param string $adata  Not Used
+     * @param string $data The data to encrypt
      *
      * @return string The encrypted data
      */
-    public function encrypt(
-        $data,
-        \CryptLib\Cipher\Block\Cipher $cipher,
-        $initv,
-        $adata = ''
-    ) {
-        $size       = $cipher->getBlockSize();
-        $blocks     = str_split($data, $size);
-        $ciphertext = '';
-
-        foreach ($blocks as $numkey => $block) {
-            $block       = str_pad($block, $size, chr(0));
-            $data        = str_pad((string) $numkey, $size, '0', STR_PAD_LEFT);
-            $stub        = $cipher->encryptBlock($data);
-            $ciphertext .= $stub ^ $block;
-        }
-        return $ciphertext;
-    }
-
-    /**
-     * Get the name of the current mode implementation
-     *
-     * @return string The current mode name
-     */
-    public function getMode() {
-        return 'ctr';
+    protected function encryptBlock($data) {
+        $size  = $this->cipher->getBlockSize();
+        $block = str_pad((string) $this->state++, $size, chr(0), STR_PAD_LEFT);
+        $stub  = $this->cipher->encryptBlock($block);
+        return $stub ^ $data;
     }
 
 }

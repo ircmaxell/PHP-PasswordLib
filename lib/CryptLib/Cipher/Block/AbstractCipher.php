@@ -196,7 +196,11 @@ abstract class AbstractCipher implements \CryptLib\Cipher\Block\Cipher {
     protected function enforceProperBlockSize($data) {
         if (strlen($data) != $this->getBlockSize()) {
             throw new \InvalidArgumentException(
-                'The supplied data block is not the correct size'
+                sprintf(
+                    'The supplied data block is not the correct size [%d:%d]',
+                    strlen($data),
+                    $this->getBlockSize()
+                )
             );
         }
     }

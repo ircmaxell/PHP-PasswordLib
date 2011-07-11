@@ -57,97 +57,74 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
         $aes->setKey(pack('H*', $key));
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, pack('H*', $initv), pack('H*', $adata));
         $mode->setLSize($lSize);
         $mode->setAuthFieldSize($aSize);
-        $actual = $mode->encrypt(
-            pack('H*', $data), 
-            $aes, 
-            pack('H*', $initv), 
-            pack('H*', $adata)
-        );
+        $mode->encrypt(pack('H*', $data));
+        $actual = $mode->finish();
         $this->assertEquals($expected, strtoupper(bin2hex($actual)));
     }
     
     public function testDecrypt() {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $iv = 'FEDCBA9876543210';
+        $adata = 'Some Other Text';
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
         
         $key = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
         $aes->setKey($key);
-        $iv = 'FEDCBA9876543210';
-        $data = 'Foo Bar Baz';
-        $adata = 'Some Other Text';
-        $enc = $mode->encrypt(
-            $data,
-            $aes,
-            $iv,
-            $adata
-        );
-        $dec = $mode->decrypt(
-            $enc,
-            $aes,
-            $iv,
-            $adata
-        );
+        $data = 'Foo Bar Baz Biz ';
+        
+        $mode->encrypt($data);
+        $enc = $mode->finish();
+        $mode->reset();
+        $mode->decrypt($enc);
+        $dec = $mode->finish();
         $this->assertEquals($data, $dec);
     }
     
     public function testDecryptFailure() {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
-        
         $key = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
         $aes->setKey($key);
         $iv = 'FEDCBA9876543210';
-        $data = 'Foo Bar Baz';
+        $data = 'Foo Bar Baz Biz ';
         $adata = 'Some Other Text';
-        $enc = $mode->encrypt(
-            $data,
-            $aes,
-            $iv,
-            $adata
-        );
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
+        $mode->encrypt($data);
+        $enc = $mode->finish();
+        $mode->reset();
         $enc = chr(255) . substr($enc, 1);
-        $dec = $mode->decrypt(
-            $enc,
-            $aes,
-            $iv,
-            $adata
-        );
+        $mode->decrypt($enc);
+        $dec = $mode->finish();
         $this->assertFalse($dec);
     }
     
     public function testDecryptAuthFailure() {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
-        
         $key = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
         $aes->setKey($key);
         $iv = 'FEDCBA9876543210';
-        $data = 'Foo Bar Baz';
+        $data = 'Foo Bar Baz Biz ';
         $adata = 'Some Other Text';
-        $enc = $mode->encrypt(
-            $data,
-            $aes,
-            $iv,
-            $adata
-        );
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
+        $mode->encrypt($data);
+        $enc = $mode->finish();
+        $mode->reset();
         $enc = substr($enc, 0, -1) . chr(255);
-        $dec = $mode->decrypt(
-            $enc,
-            $aes,
-            $iv,
-            $adata
-        );
-        $this->assertFalse($dec);
+        $mode->decrypt($enc);
+        $this->assertFalse($mode->finish());
     }
     
     public function testSetAuthField() {
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $factory = new \CryptLib\Cipher\Factory();
+        $aes = $factory->getBlockCipher('rijndael-128');
+        $iv = 'FEDERATEDBLOCKDATATOOLONG';
+        $adata = 'Some Other Text';
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
         $mode->setAuthFieldSize(14);
         $ref = new ReflectionProperty('CryptLib\Cipher\Block\Mode\CCM', 'authFieldSize');
         $ref->setAccessible(true);
@@ -158,7 +135,11 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
      * @expectedException InvalidArgumentException
      */
     public function testSetAuthFieldFailure() {
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $factory = new \CryptLib\Cipher\Factory();
+        $aes = $factory->getBlockCipher('rijndael-128');
+        $iv = 'FEDERATEDBLOCKDATATOOLONG';
+        $adata = 'Some Other Text';
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
         $mode->setAuthFieldSize(13);
     }
     
@@ -166,26 +147,19 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
      * @expectedException InvalidArgumentException
      */
     public function testIVTooSmallFailure() {
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
-        
-        $key = '0123456789ABCDEFGHIJKLMNNOPQRSTUV';
-        $aes->setKey($key);
         $iv = 'FED';
-        $data = 'Foo Bar Baz';
         $adata = 'Some Other Text';
-        $enc = $mode->encrypt(
-            $data,
-            $aes,
-            $iv,
-            $adata
-        );
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
     }
     
     public function testSetLSize() {
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $factory = new \CryptLib\Cipher\Factory();
+        $aes = $factory->getBlockCipher('rijndael-128');
+        $iv = 'FEDERATEDBLOCKDATATOOLONG';
+        $adata = 'Some Other Text';
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
         $mode->setLSize(5);
         $ref = new ReflectionProperty('CryptLib\Cipher\Block\Mode\CCM', 'lSize');
         $ref->setAccessible(true);
@@ -196,7 +170,11 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
      * @expectedException InvalidArgumentException
      */
     public function testSetLSizeFailure() {
-        $mode = new CryptLib\Cipher\Block\Mode\CCM;
+        $factory = new \CryptLib\Cipher\Factory();
+        $aes = $factory->getBlockCipher('rijndael-128');
+        $iv = 'FEDERATEDBLOCKDATATOOLONG';
+        $adata = 'Some Other Text';
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
         $mode->setLSize(13);
     }
 

@@ -27,38 +27,42 @@ namespace CryptLib\Cipher\Block;
 interface Mode {
 
     /**
-     * Decrypt the data using the supplied key, cipher and initialization vector
-     *
-     * @param string $data   The data to decrypt
-     * @param Cipher $cipher The cipher to use for decrypting the data
-     * @param string $initv  The initialization vector to use
-     * @param string $adata  Any additional authenticated data to decrypt with
-     *
-     * @return string The decrypted data
+     * Build the instance of the cipher mode
+     * 
+     * @param Cipher $cipher The cipher to use for encryption/decryption
+     * @param string $initv  The initialization vector (empty if not needed)
+     * @param string $adata  Additional data to authenticate the ciphertext with
      */
-    public function decrypt(
-        $data,
+    public function __construct(
         \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
         $adata = ''
     );
 
     /**
+     * Decrypt the data using the supplied key, cipher and initialization vector
+     *
+     * @param string $data The data to decrypt
+     * 
+     * @return string The decrypted data
+     */
+    public function decrypt($data);
+
+    /**
      * Encrypt the data using the supplied key, cipher and initialization vector
      *
-     * @param string $data   The data to encrypt
-     * @param Cipher $cipher The cipher to use for encrypting the data
-     * @param string $initv  The initialization vector to use
-     * @param string $adata  Any additional authenticated data to encrypt with
-     *
+     * @param string $data The data to encrypt
+     * 
      * @return string The encrypted data
      */
-    public function encrypt(
-        $data,
-        \CryptLib\Cipher\Block\Cipher $cipher,
-        $initv,
-        $adata = ''
-    );
+    public function encrypt($data);
+
+    /**
+     * Finish the mode and append any additional data necessary
+     * 
+     * @return string Any additional data
+     */
+    public function finish();
 
     /**
      * Get the name of the current mode implementation
@@ -66,5 +70,12 @@ interface Mode {
      * @return string The current mode name
      */
     public function getMode();
+
+    /**
+     * Reset the mode to start over (destroying any intermediate state)
+     * 
+     * @return void
+     */
+    public function reset();
 
 }

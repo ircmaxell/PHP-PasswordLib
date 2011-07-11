@@ -98,13 +98,19 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      * @return Mode The loaded mode instance
      * @throws RuntimeException if the mode is not supported
      */
-    public function getMode($mode) {
+    public function getMode(
+        $mode,
+        \CryptLib\Cipher\Block\Cipher $cipher,
+        $initv,
+        $adata
+    ) {
         if (is_object($mode) && $mode instanceof Mode) {
             return $mode;
         }
         $mode = strtolower($mode);
         if (isset($this->modes[$mode])) {
-            return $this->modes[$mode];
+            $class = $this->modes[$mode];
+            return new $class($cipher, $initv, $adata);
         }
         $message = sprintf('Unsupported Mode %s', $mode);
         throw new \RuntimeException($message);
@@ -150,9 +156,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         if (!$refl->implementsInterface($interface)) {
             throw new \InvalidArgumentException('Class must implement Mode');
         }
-        $obj = new $class;
-
-        $this->modes[$obj->getMode()] = $obj;
+        $this->modes[strtolower($name)] = $class;
         return $this;
     }
 
