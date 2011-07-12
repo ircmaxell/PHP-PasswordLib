@@ -15,6 +15,8 @@
 
 namespace CryptLib\Key\Derivation\KDF;
 
+use CryptLib\Hash\Hash;
+
 /**
  * An implementation of the RFC 10833-2 KDF3 Standard key derivation function
  *
@@ -29,7 +31,7 @@ class KDF3
 {
 
     /**
-     * @var array An array of options for the key derivation function 
+     * @var array An array of options for the key derivation function
      */
     protected $options = array(
         'hash'        => 'sha512',
@@ -46,7 +48,7 @@ class KDF3
      * @return string The generated key
      */
     public function derive($secret, $length, $other = '') {
-        $size = strlen(hash($this->hash, '', true));
+        $size = Hash::getHashSize($this->hash);
         $len  = ceil($length / $size);
         $res  = '';
         $stub = str_repeat(chr(0), max($this->options['pAmt'], 0));

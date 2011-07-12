@@ -18,6 +18,7 @@
 
 namespace CryptLib\Password\Implementation;
 
+use CryptLib\Key\Factory                 as KeyFactory;
 use CryptLib\Random\Factory              as RandomFactory;
 use CryptLib\Key\Derivation\PBKDF\PBKDF2 as PBKDF2;
 
@@ -69,7 +70,7 @@ class PBKDF implements \CryptLib\Password\Password {
 
     /**
      * Return the prefix used by this hashing method
-     * 
+     *
      * @return string The prefix used
      */
     public static function getPrefix() {

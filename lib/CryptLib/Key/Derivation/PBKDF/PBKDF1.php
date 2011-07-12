@@ -16,6 +16,8 @@
 
 namespace CryptLib\Key\Derivation\PBKDF;
 
+use CryptLib\Hash\Hash;
+
 /**
  * An implementation of the RFC 2989 PBKDF1 Standard key derivation function
  *
@@ -41,7 +43,7 @@ class PBKDF1
      * @return string The derived key
      */
     public function derive($password, $salt, $iterations, $length) {
-        $size = strlen(hash($this->hash, '', true));
+        $size = Hash::getHashSize($this->hash);
         if ($length > $size) {
             $message = 'Length is too long for hash';
             throw new \InvalidArgumentException($message);

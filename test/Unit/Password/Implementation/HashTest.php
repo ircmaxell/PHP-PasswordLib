@@ -14,7 +14,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
             array('sha512'),
         );
     }
-    
+
     public static function provideTestDetect() {
         return array(
             array('$P$', false),
@@ -29,20 +29,20 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
 
     public static function provideTestVerify() {
         return array(
-            array('md5', 'foo', md5('foo', true)),
-            array('sha1', 'foo', sha1('foo', true)),
-            array('sha256', 'foo', hash('sha256', 'foo', true)),
-            array('sha512', 'foo', hash('sha512', 'foo', true))
+            array('md5', 'foo', md5('foo')),
+            array('sha1', 'foo', sha1('foo')),
+            array('sha256', 'foo', hash('sha256', 'foo')),
+            array('sha512', 'foo', hash('sha512', 'foo'))
         );
     }
-    
+
     public static function provideTestVerifyFail() {
         return array(
             array('sha1', 'foo', md5('foo')),
             array('sha1', 'bar', sha1('foo')),
         );
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Hash
      * @dataProvider provideTestDetect
@@ -83,7 +83,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse(Hash::getPrefix());
     }
 
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Hash
      */
@@ -92,7 +92,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
         $apr = new Hash('md5', $gen);
         $this->assertTrue($apr instanceof Hash);
     }
- 
+
     /**
      * @covers CryptLib\Password\Implementation\Hash
      * @expectedException BadMethodCallException
@@ -119,7 +119,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
         $apr = new Hash($func);
         $this->assertFalse($apr->verify($expect, $pass));
     }
-    
+
     protected function getRandomGenerator($generate) {
         return new MockGenerator(array(
             'generateInt' => $generate

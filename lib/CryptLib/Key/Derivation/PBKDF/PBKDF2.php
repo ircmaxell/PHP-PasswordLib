@@ -16,6 +16,8 @@
 
 namespace CryptLib\Key\Derivation\PBKDF;
 
+use CryptLib\Hash\Hash;
+
 /**
  * An implementation of the RFC 2898 PBKDF2 Standard key derivation function
  *
@@ -41,7 +43,7 @@ class PBKDF2
      * @return string The derived key
      */
     public function derive($password, $salt, $iterations, $length) {
-        $size   = strlen(hash($this->hash, '', true));
+        $size   = Hash::getHashSize($this->hash);
         $len    = ceil($length / $size);
         $result = '';
         for ($i = 1; $i <= $len; $i++) {

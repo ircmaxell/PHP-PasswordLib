@@ -1,7 +1,7 @@
 <?php
 /**
  * The basic Hash implementation.
- * 
+ *
  * It's worth noting, since there's no prefix, you cannot create a hash using
  * the factory method.
  *
@@ -22,7 +22,7 @@ use CryptLib\Random\Factory as RandomFactory;
 
 /**
  * The basic Hash implementation.
- * 
+ *
  * It's worth noting, since there's no prefix, you cannot create a hash using
  * the factory method.
  *
@@ -58,7 +58,7 @@ class Hash implements \CryptLib\Password\Password {
 
     /**
      * Return the prefix used by this hashing method
-     * 
+     *
      * @return string The prefix used
      */
     public static function getPrefix() {
@@ -138,7 +138,7 @@ class Hash implements \CryptLib\Password\Password {
      * @return boolean Does the password validate against the hash
      */
     public function verify($hash, $password) {
-        $test = hash($this->hash, $password, true);
+        $test = hash($this->hash, $password);
         return $test == $hash;
     }
 

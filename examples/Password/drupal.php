@@ -39,16 +39,16 @@ printf(
 
 /**
  * Now, we can also verify any passwords created by Drupal. First, let's load a hash.
- * 
- * This works, because it detects the iteration count that's stored in the hash, and 
+ *
+ * This works, because it detects the iteration count that's stored in the hash, and
  * pre-configures our instance for us.
  */
-$hasher = \CryptLib\Password\Implementation\Drupal::loadFromHash($hash);
+$hasher2 = \CryptLib\Password\Implementation\Drupal::loadFromHash($hash);
 
 /**
  * Next, we verify the hash with the expected password.
  */
-$test = $hasher->verify($hash, $password);
+$test = $hasher2->verify($hash, $password);
 
 /**
  * $test should now contain a boolean value as to the validity of the hash

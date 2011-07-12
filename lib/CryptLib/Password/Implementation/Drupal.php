@@ -2,7 +2,7 @@
 /**
  * The Drupal password hashing implementation
  *
- * Use this class to generate and validate Drupal password hashes. 
+ * Use this class to generate and validate Drupal password hashes.
  *
  * PHP version 5.3
  *
@@ -23,7 +23,7 @@ use CryptLib\Random\Factory as RandomFactory;
 /**
  * The PHPASS password hashing implementation
  *
- * Use this class to generate and validate PHPASS password hashes. 
+ * Use this class to generate and validate PHPASS password hashes.
  *
  * @see        http://www.openwall.com/phpass/
  * @category   PHPCryptLib
@@ -33,11 +33,10 @@ use CryptLib\Random\Factory as RandomFactory;
  */
 class Drupal extends PHPASS {
 
-
     /**
      * @var string The prefix for the generated hash
      */
-    protected $prefix = '$S$';
+    protected static $prefix = '$S$';
 
     /**
      * @var string The hash function to use for this instance
@@ -52,16 +51,8 @@ class Drupal extends PHPASS {
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash) {
-        return 1 == preg_match('/^\$(S)\$[a-zA-Z0-9.\/]{95}$/', $hash);
-    }
-
-    /**
-     * Return the prefix used by this hashing method
-     * 
-     * @return string The prefix used
-     */
-    public static function getPrefix() {
-        return '$S$';
+        $prefix = preg_quote(static::$prefix, '/');
+        return 1 == preg_match('/^'.$prefix.'[a-zA-Z0-9.\/]{95}$/', $hash);
     }
 
 }

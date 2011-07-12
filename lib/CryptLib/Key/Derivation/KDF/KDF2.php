@@ -15,6 +15,8 @@
 
 namespace CryptLib\Key\Derivation\KDF;
 
+use CryptLib\Hash\Hash;
+
 /**
  * An implementation of the RFC 10833-2 KDF2 Standard key derivation function
  *
@@ -38,7 +40,7 @@ class KDF2
      * @return string The generated key
      */
     public function derive($secret, $length, $other = '') {
-        $size = strlen(hash($this->hash, '', true));
+        $size = Hash::getHashSize($this->hash);
         $len  = ceil($length / $size);
         $res  = '';
         for ($i = 1; $i <= $len; $i++) {

@@ -43,10 +43,10 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      * Create a new password hash from the supplied password
      *
      * This defaults to using Blowfish if $prefix is not supplied
-     * 
+     *
      * @param string $password The password to hash
      * @param string $prefix   The prefix for the implementation
-     * 
+     *
      * @return string The hashed password
      * @throws DomainException if the supplied prefix is not supported
      */
@@ -68,7 +68,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      *
      * @param string $hash     The hash to verify
      * @param string $password The password to check against
-     * 
+     *
      * @return boolean True if valid, false if not
      * @throws DomainException if the supplied prefix is not supported
      */
@@ -93,7 +93,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
     public function registerImplementation($name, $class) {
         $this->registerType(
             'implementations',
-            __NAMESPACE__ . '\\Implementation',
+            __NAMESPACE__ . '\\Password',
             $name,
             $class
         );

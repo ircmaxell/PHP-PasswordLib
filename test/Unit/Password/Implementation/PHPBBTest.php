@@ -2,156 +2,156 @@
 
 use CryptLib\Core\Strength\Medium as MediumStrength;
 use CryptLibTest\Mocks\Random\Generator as MockGenerator;
-use CryptLib\Password\Implementation\PHPASS;
+use CryptLib\Password\Implementation\PHPBB;
 
-class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
+class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
 
     public static function provideTestDetect() {
         return array(
             array('$P$', false),
             array('$A$', false),
-            array('$P$ABCDEFGHIJKLMNOPQRSTUVWXYZ01234', true),
-            array('$H$ABCDEFGHIJKLMNOPQRSTUVWXYZ01234', false),
+            array('$P$ABCDEFGHIJKLMNOPQRSTUVWXYZ01234', false),
+            array('$H$ABCDEFGHIJKLMNOPQRSTUVWXYZ01234', true),
             array('$P$ABCDEFGHIJKLMNOPQ STUVWXYZ01234', false),
         );
     }
 
     public static function provideTestCreate() {
         return array(
-            array(10, 'foo', '$P$8........QBguHJ1fRNunMPB19R40y1'),
-            array(12, 'bar', '$P$A........4ZlHWmCyIurNtYcc0UUjk.'),
-            array(14, 'baz', '$P$C........36uzgma3lYa4NbdLe/RgB.'),
+            array(10, 'foo', '$H$8........QBguHJ1fRNunMPB19R40y1'),
+            array(12, 'bar', '$H$A........4ZlHWmCyIurNtYcc0UUjk.'),
+            array(14, 'baz', '$H$C........36uzgma3lYa4NbdLe/RgB.'),
         );
     }
 
     public static function provideTestVerifyFail() {
         return array(
-            array(10, 'foo', '$P$8...a....QBguHJ1fRNunMPB19R40y1'),
-            array(12, 'bar', '$P$A....f...4ZlHWmCyIurNtYcc0UUjk.'),
-            array(14, 'baz', '$P$C.....D..36uzgma3lYa4NbdLe/RgB.'),
+            array(10, 'foo', '$H$8...a....QBguHJ1fRNunMPB19R40y1'),
+            array(12, 'bar', '$H$A....f...4ZlHWmCyIurNtYcc0UUjk.'),
+            array(14, 'baz', '$H$C.....D..36uzgma3lYa4NbdLe/RgB.'),
         );
     }
 
     public static function provideTestVerifyFailException() {
         return array(
-            array(10, 'foo', '$P$A...a....QBguHJ1fRNunMPB19R40y'),
+            array(10, 'foo', '$H$A...a....QBguHJ1fRNunMPB19R40y'),
             array(12, 'bar', '$F$C....f...4ZlHWmCyIurNtYcc0UUjk.'),
-            array(14, 'baz', '$P$8.....D..36uzgma3lYa4NbdLe/RgB.'),
+            array(14, 'baz', '$H$8.....D..36uzgma3lYa4NbdLe/RgB.'),
         );
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      * @dataProvider provideTestDetect
      */
     public function testDetect($from, $expect) {
-        $this->assertEquals($expect, PHPASS::detect($from));
+        $this->assertEquals($expect, PHPBB::detect($from));
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      */
     public function testLoadFromHash() {
-        $test = PHPASS::loadFromHash('$P$MBCDEFGHIJKLMNOPQRSTUVWXYZ01234');
-        $this->assertTrue($test instanceof PHPASS);
+        $test = PHPBB::loadFromHash('$H$MBCDEFGHIJKLMNOPQRSTUVWXYZ01234');
+        $this->assertTrue($test instanceof PHPBB);
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      * @expectedException InvalidArgumentException
      */
     public function testLoadFromHashFail() {
-        PHPASS::loadFromHash('foo');
+        PHPBB::loadFromHash('foo');
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      */
     public function testConstruct() {
-        $hash = new PHPASS();
-        $this->assertTrue($hash instanceof PHPASS);
+        $hash = new PHPBB();
+        $this->assertTrue($hash instanceof PHPBB);
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      */
     public function testConstructArgs() {
         $iterations = 10;
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new PHPASS($iterations, $gen);
-        $this->assertTrue($apr instanceof PHPASS);
+        $apr = new PHPBB($iterations, $gen);
+        $this->assertTrue($apr instanceof PHPBB);
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
-        $hash = new PHPASS(40);
+        $hash = new PHPBB(40);
     }
 
     public function testGetPrefix() {
-        $this->assertEquals('$P$', PHPASS::getPrefix());
+        $this->assertEquals('$H$', PHPBB::getPrefix());
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      * @dataProvider provideTestCreate
      */
     public function testCreate($iterations, $pass, $expect) {
-        $apr = $this->getPHPASSMockInstance($iterations);
+        $apr = $this->getPHPBBMockInstance($iterations);
         $this->assertEquals($expect, $apr->create($pass));
     }
 
 
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      */
     public function testCreateAndVerify() {
-        $hash = new PHPASS(10);
+        $hash = new PHPBB(10);
         $test = $hash->create('Foobar');
         $this->assertTrue($hash->verify($test, 'Foobar'));
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      * @dataProvider provideTestCreate
      */
     public function testVerify($iterations, $pass, $expect) {
-        $apr = $this->getPHPASSMockInstance($iterations);
+        $apr = $this->getPHPBBMockInstance($iterations);
         $this->assertTrue($apr->verify($expect, $pass));
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($iterations, $pass, $expect) {
-        $apr = $this->getPHPASSMockInstance($iterations);
+        $apr = $this->getPHPBBMockInstance($iterations);
         $this->assertFalse($apr->verify($expect, $pass));
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers CryptLib\Password\Implementation\PHPBB
      * @dataProvider provideTestVerifyFailException
      * @expectedException InvalidArgumentException
      */
     public function testVerifyFailException($iterations, $pass, $expect) {
-        $apr = $this->getPHPASSMockInstance($iterations);
+        $apr = $this->getPHPBBMockInstance($iterations);
         $apr->verify($expect, $pass);
     }
 
-    protected function getPHPASSMockInstance($iterations) {
+    protected function getPHPBBMockInstance($iterations) {
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
         });
-        return new PHPASS($iterations, $gen);
+        return new PHPBB($iterations, $gen);
     }
 
-    protected function getPHPASSInstance($evaluate, $hmac, $generate) {
+    protected function getPHPBBInstance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new PHPASS($generator);
+        return new PHPBB($generator);
     }
 
     protected function getRandomGenerator($generate) {

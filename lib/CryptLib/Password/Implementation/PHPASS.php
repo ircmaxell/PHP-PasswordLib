@@ -2,7 +2,7 @@
 /**
  * The PHPASS password hashing implementation
  *
- * Use this class to generate and validate PHPASS password hashes. 
+ * Use this class to generate and validate PHPASS password hashes.
  *
  * PHP version 5.3
  *
@@ -23,7 +23,7 @@ use CryptLib\Random\Factory as RandomFactory;
 /**
  * The PHPASS password hashing implementation
  *
- * Use this class to generate and validate PHPASS password hashes. 
+ * Use this class to generate and validate PHPASS password hashes.
  *
  * @see        http://www.openwall.com/phpass/
  * @category   PHPCryptLib
@@ -46,7 +46,7 @@ class PHPASS implements \CryptLib\Password\Password {
 
     /**
      * This is the hash function to use.  To be overriden by child classes
-     * 
+     *
      * @var string The hash function to use for this instance
      */
     protected $hashFunction = 'md5';
@@ -59,7 +59,7 @@ class PHPASS implements \CryptLib\Password\Password {
     /**
      * @var string The prefix for the generated hash
      */
-    protected $prefix = '$P$';
+    protected static $prefix = '$P$';
 
     /**
      * Determine if the hash was made with this method
@@ -69,21 +69,22 @@ class PHPASS implements \CryptLib\Password\Password {
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash) {
-        return 1 == preg_match('/^\$(P|H)\$[a-zA-Z0-9.\/]{31}$/', $hash);
+        $prefix = preg_quote(static::$prefix, '/');
+        return 1 == preg_match('/^'.$prefix.'[a-zA-Z0-9.\/]{31}$/', $hash);
     }
 
     /**
      * Return the prefix used by this hashing method
-     * 
+     *
      * @return string The prefix used
      */
     public static function getPrefix() {
-        return '$P$';
+        return static::$prefix;
     }
 
     /**
      * Initialize the password hasher by replacing away spaces in the itoa var
-     * 
+     *
      * @return void
      */
     public static function init() {
@@ -110,7 +111,7 @@ class PHPASS implements \CryptLib\Password\Password {
      * Decode an ITOA encoded iteration count
      *
      * @param string $byte The character to decode
-     * 
+     *
      * @return int The decoded iteration count (base2)
      */
     protected static function decodeIterations($byte) {
@@ -121,7 +122,7 @@ class PHPASS implements \CryptLib\Password\Password {
      * Encode a base2 iteration count to a base64 character
      *
      * @param int $number
-     * 
+     *
      * @return string The encoded character
      */
     protected static function encodeIterations($number) {
@@ -162,7 +163,7 @@ class PHPASS implements \CryptLib\Password\Password {
     public function create($password) {
         $salt   = $this->to64($this->generator->generate(6));
         $prefix = static::encodeIterations($this->iterations) . $salt;
-        return $this->prefix . $prefix . $this->hash($password, $salt);
+        return static::$prefix . $prefix . $this->hash($password, $salt);
     }
 
     /**
@@ -196,7 +197,7 @@ class PHPASS implements \CryptLib\Password\Password {
      *
      * @param string $password The password to hash
      * @param string $salt     The salt to use to hash
-     * 
+     *
      * @return string The base64 encoded generated hash
      */
     protected function hash($password, $salt) {

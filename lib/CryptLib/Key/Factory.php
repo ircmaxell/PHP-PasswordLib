@@ -65,6 +65,11 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         throw new \InvalidArgumentException('Unsupported PBKDF');
     }
 
+    public function getPBKDFFromSignature($signature) {
+        list ($name, $hash) = explode('-', $signature, 2);
+        return $this->getPBKDF($name, array('hash' => $hash));
+    }
+
     public function getSymmetricKeyGenerator() {
     }
 

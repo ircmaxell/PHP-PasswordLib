@@ -7,6 +7,8 @@
 
 namespace CryptLib\Key\Derivation\PBKDF;
 
+use CryptLib\Hash\Hash;
+
 /**
  * Description of pbkdf2
  *
@@ -18,7 +20,7 @@ class Schneier
 {
 
     public function derive($password, $salt, $iterations, $length) {
-        $size = strlen(hash($this->hash, '', true));
+        $size = Hash::getHashSize($this->hash);
         if ($length > $size) {
             throw new \InvalidArgumentException('Length is too long for hash');
         }
