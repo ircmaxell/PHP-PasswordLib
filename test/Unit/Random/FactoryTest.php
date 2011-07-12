@@ -3,10 +3,7 @@
 use CryptLibTest\Mocks\Random\Mixer;
 use CryptLibTest\Mocks\Random\Source;
 
-use CryptLib\Core\Strength\Low;
-use CryptLib\Core\Strength\Medium;
-use CryptLib\Core\Strength\High;
-use CryptLibTest\Mocks\Core\Strength as MockStrength;
+use CryptLib\Core\Strength;
 
 use CryptLib\Random\Factory;
 
@@ -80,10 +77,11 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
             get_class($generator->getMixer()),
             'getStrength'
         ));
-        $this->assertTrue($mixer->compare(new Low) <= 0);
+        $this->assertTrue($mixer->compare(new Strength(Strength::LOW)) <= 0);
+        $compare = new Strength(Strength::LOW);
         foreach ($generator->getSources() as $source) {
             $strength = call_user_func(array(get_class($source), 'getStrength'));
-            $this->assertTrue($strength->compare(new Low) >= 0);
+            $this->assertTrue($strength->compare($compare) >= 0);
         }
     }
 
@@ -100,10 +98,10 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
             get_class($generator->getMixer()),
             'getStrength'
         ));
-        $this->assertTrue($mixer->compare(new Medium) <= 0);
+        $this->assertTrue($mixer->compare(new Strength(Strength::MEDIUM)) <= 0);
         foreach ($generator->getSources() as $source) {
             $strength = call_user_func(array(get_class($source), 'getStrength'));
-            $this->assertTrue($strength->compare(new Medium) >= 0);
+            $this->assertTrue($strength->compare(new Strength(Strength::MEDIUM)) >= 0);
         }
     }
 
@@ -120,33 +118,11 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
             get_class($generator->getMixer()),
             'getStrength'
         ));
-        $this->assertTrue($mixer->compare(new High) <= 0);
+        $this->assertTrue($mixer->compare(new Strength(Strength::HIGH)) <= 0);
         foreach ($generator->getSources() as $source) {
             $strength = call_user_func(array(get_class($source), 'getStrength'));
-            $this->assertTrue($strength->compare(new High) >= 0);
+            $this->assertTrue($strength->compare(new Strength(Strength::HIGH)) >= 0);
         }
     }
 
-    /**
-     * @covers CryptLib\Random\Factory::getGenerator
-     * @covers CryptLib\Random\Factory::findMixer
-     * @expectedException RuntimeException
-     */
-    public function testGetGeneratorFail() {
-        $factory = new Factory;
-        $mock = new MockStrength(99);
-        $generator = $factory->getGenerator($mock);
-    }
-
-    /**
-     * @covers CryptLib\Random\Factory::getGenerator
-     * @covers CryptLib\Random\Factory::findMixer
-     */
-    public function testGetGeneratorFallback() {
-        $factory = new Factory;
-        $mock = new MockStrength(4);
-        $generator = $factory->getGenerator($mock);
-        $this->assertTrue($generator instanceof \CryptLib\Random\Generator);
-    }
-    
 }

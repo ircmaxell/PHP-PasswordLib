@@ -1,7 +1,7 @@
 <?php
 
 use CryptLib\Random\Source\OpenSSL;
-use CryptLib\Core\Strength\High as HighStrength;
+use CryptLib\Core\Strength;
 
 class Unit_Random_Source_OpenSSLTest extends PHPUnit_Framework_TestCase {
 
@@ -18,7 +18,7 @@ class Unit_Random_Source_OpenSSLTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\Source\OpenSSL::getStrength
      */
     public function testGetStrength() {
-        $strength = new HighStrength;
+        $strength = new Strength(Strength::HIGH);
         $actual = OpenSSL::getStrength();
         $this->assertEquals($actual, $strength);
     }

@@ -14,7 +14,6 @@
 
 namespace CryptLib\Core;
 
-
 /**
  * The strength FlyweightEnum class
  *
@@ -24,33 +23,37 @@ namespace CryptLib\Core;
  * @package    Core
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-abstract class Strength {
+class Strength extends Enum {
 
     /**
-     * @internal
-     * @var int The current value of the instance
+     * We provide a default value of VeryLow so that we don't accidentally over
+     * state the strength if we forget to pass in a value...
      */
-    protected $value = 1;
+    const __DEFAULT = self::VERYLOW;
 
     /**
-     * Compare the passed in strength to the current one
-     *
-     * Returns 0 if they are equal in strength
-     * Returns 1 if the passed in argument is stronger
-     * Returns -1 if the passed in argument is weaker
-     *
-     * @param Strength $strength The strength object to compare to
-     *
-     * @return int The returned comparison
+     * This represents Non-Cryptographic strengths.  It should not be used any time
+     * that security or confidentiality is at stake
      */
-    public function compare(Strength $strength) {
-        if ($this->value == $strength->value) {
-            return 0;
-        } elseif ($this->value > $strength->value) {
-            return -1;
-        } else {
-            return 1;
-        }
-    }
+    const VERYLOW = 1;
+
+    /**
+     * This represents the bottom line of Cryptographic strengths.  It may be used
+     * for low security uses where some strength is required.
+     */
+    const LOW = 3;
+
+    /**
+     * This is the general purpose Cryptographical strength.  It should be suitable
+     * for all uses except the most sensitive.
+     */
+    const MEDIUM = 5;
+
+    /**
+     * This is the highest strength available.  It should not be used unless the
+     * high strength is needed, due to hardware constraints (and entropy
+     * limitations).
+     */
+    const HIGH = 7;
 
 }

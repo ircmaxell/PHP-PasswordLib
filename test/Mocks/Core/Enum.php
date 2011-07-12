@@ -21,9 +21,11 @@ namespace CryptLibTest\Mocks\Core;
  * @package    Hash
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Strength extends \CryptLib\Core\Strength {
+class Enum extends \CryptLib\Core\Enum {
 
-    public function __construct($value = 1) {
-        $this->value = $value;
-    }
+    const Value1 = 1;
+    const Value2 = 2;
+    const Value3 = 3;
+    const Value4 = 4;
+
 }

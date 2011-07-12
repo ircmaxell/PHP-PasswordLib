@@ -17,7 +17,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Core\Strength\Medium as MediumStrength;
+use CryptLib\Core\Strength;
 
 /**
  * The Capicom Random Number Source
@@ -38,7 +38,7 @@ class CAPICOM implements \CryptLib\Random\Source {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new MediumStrength();
+        return new Strength(Strength::MEDIUM);
     }
 
     /**

@@ -19,8 +19,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Core\Strength\Low    as LowStrength;
-use CryptLib\Core\Strength\Medium as MediumStrength;
+use CryptLib\Core\Strength;
 
 /**
  * The MTRand Random Number Source
@@ -45,9 +44,9 @@ class MTRand implements \CryptLib\Random\Source {
     public static function getStrength() {
         // Detect if Suhosin Hardened PHP patch is applied
         if (defined('S_ALL')) {
-            return new MediumStrength();
+            return new Strength(Strength::MEDIUM);
         } else {
-            return new LowStrength();
+            return new Strength(Strength::LOW);
         }
     }
 

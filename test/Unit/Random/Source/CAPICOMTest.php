@@ -1,7 +1,7 @@
 <?php
 
 use CryptLib\Random\Source\CAPICOM;
-use CryptLib\Core\Strength\Medium as MediumStrength;
+use CryptLib\Core\Strength;
 
 
 
@@ -20,7 +20,7 @@ class Unit_Random_Source_CAPICOMTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\Source\CAPICOM::getStrength
      */
     public function testGetStrength() {
-        $strength = new MediumStrength;
+        $strength = new Strength(Strength::MEDIUM);
         $actual = CAPICOM::getStrength();
         $this->assertEquals($actual, $strength);
     }

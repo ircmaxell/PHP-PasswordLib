@@ -1,8 +1,7 @@
 <?php
 
 use CryptLib\Random\Source\MTRand;
-use CryptLib\Core\Strength\Medium as MediumStrength;
-use CryptLib\Core\Strength\Low    as LowStrength;
+use CryptLib\Core\Strength;
 
 
 
@@ -22,9 +21,9 @@ class Unit_Random_Source_MTRandTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetStrength() {
         if (defined('S_ALL')) {
-            $strength = new MediumStrength;
+            $strength = new Strength(Strength::MEDIUM);
         } else {
-            $strength = new LowStrength;
+            $strength = new Strength(Strength::LOW);
         }
         $actual = MTRand::getStrength();
         $this->assertEquals($actual, $strength);

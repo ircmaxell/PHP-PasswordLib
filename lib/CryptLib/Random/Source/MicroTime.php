@@ -19,7 +19,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
+use CryptLib\Core\Strength;
 
 /**
  * The Microtime Random Number Source
@@ -42,7 +42,7 @@ class MicroTime implements \CryptLib\Random\Source {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new VeryLowStrength();
+        return new Strength(Strength::VERYLOW);
     }
 
     /**

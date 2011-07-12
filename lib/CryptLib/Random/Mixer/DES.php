@@ -20,7 +20,7 @@
 namespace CryptLib\Random\Mixer;
 
 use \CryptLib\Cipher\Factory       as CipherFactory;
-use \CryptLib\Core\Strength\Medium as MediumStrength;
+use \CryptLib\Core\Strength;
 
 /**
  * The DES medium strength mixer class
@@ -49,7 +49,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new MediumStrength();
+        return new Strength(Strength::MEDIUM);
     }
 
     /**
@@ -77,7 +77,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
 
     /**
      * Get the block size (the size of the individual blocks used for the mixing)
-     * 
+     *
      * @return int The block size
      */
     protected function getPartSize() {
@@ -89,7 +89,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
      *
      * @param string $part1 The first part to mix
      * @param string $part2 The second part to mix
-     * 
+     *
      * @return string The mixed data
      */
     protected function mixParts1($part1, $part2) {
@@ -102,7 +102,7 @@ class DES extends \CryptLib\Random\AbstractMixer {
      *
      * @param string $part1 The first part to mix
      * @param string $part2 The second part to mix
-     * 
+     *
      * @return string The mixed data
      */
     protected function mixParts2($part1, $part2) {

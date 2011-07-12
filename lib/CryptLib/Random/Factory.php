@@ -16,9 +16,7 @@
 
 namespace CryptLib\Random;
 
-use CryptLib\Core\Strength\High   as HighStrength;
-use CryptLib\Core\Strength\Low    as LowStrength;
-use CryptLib\Core\Strength\Medium as MediumStrength;
+use CryptLib\Core\Strength;
 
 /**
  * The Random Factory
@@ -77,11 +75,11 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      * High Strength keys should ONLY be used for generating extremely strong
      * cryptographic keys.  Generating them is very resource intensive and may
      * take several minutes or more depending on the requested size.
-     * 
+     *
      * @return Generator The instantiated generator
      */
     public function getHighStrengthGenerator() {
-        return $this->getGenerator(new HighStrength());
+        return $this->getGenerator(new Strength(Strength::HIGH));
     }
 
     /**
@@ -94,7 +92,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      * @return Generator The instantiated generator
      */
     public function getLowStrengthGenerator() {
-        return $this->getGenerator(new LowStrength());
+        return $this->getGenerator(new Strength(Strength::LOW));
     }
 
     /**
@@ -107,7 +105,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      * @return Generator The instantiated generator
      */
     public function getMediumStrengthGenerator() {
-        return $this->getGenerator(new MediumStrength());
+        return $this->getGenerator(new Strength(Strength::MEDIUM));
     }
 
     /**

@@ -17,8 +17,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Core\Strength\Low    as LowStrength;
-use CryptLib\Core\Strength\Medium as MediumStrength;
+use CryptLib\Core\Strength;
 
 /**
  * The URandom Random Number Source
@@ -41,9 +40,9 @@ class URandom implements \CryptLib\Random\Source {
     public static function getStrength() {
         //This source is over-used by Suhosin patch, the strength is lowered
         if (defined('S_ALL')) {
-            return new LowStrength();
+            return new Strength(Strength::LOW);
         } else {
-            return new MediumStrength();
+            return new Strength(Strength::MEDIUM);
         }
     }
 

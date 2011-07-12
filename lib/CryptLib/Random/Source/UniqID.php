@@ -18,7 +18,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Core\Strength\Low as LowStrength;
+use CryptLib\Core\Strength;
 
 /**
  * The UniqID Random Number Source
@@ -40,7 +40,7 @@ class UniqID implements \CryptLib\Random\Source {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new LowStrength();
+        return new Strength(Strength::LOW);
     }
 
     /**

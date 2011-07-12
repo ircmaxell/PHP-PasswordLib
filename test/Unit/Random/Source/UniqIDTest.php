@@ -1,7 +1,7 @@
 <?php
 
 use CryptLib\Random\Source\UniqID;
-use CryptLib\Core\Strength\Low as LowStrength;
+use CryptLib\Core\Strength;
 
 
 
@@ -20,7 +20,7 @@ class Unit_Random_Source_UniqIDTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\Source\UniqID::getStrength
      */
     public function testGetStrength() {
-        $strength = new LowStrength;
+        $strength = new Strength(Strength::LOW);
         $actual = UniqID::getStrength();
         $this->assertEquals($actual, $strength);
     }

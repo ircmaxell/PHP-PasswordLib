@@ -19,7 +19,7 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Core\Strength\Low as LowStrength;
+use \CryptLib\Core\Strength;
 
 /**
  * The Hash medium strength mixer class
@@ -57,7 +57,7 @@ class Hash extends \CryptLib\Random\AbstractMixer {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new LowStrength();
+        return new Strength(Strength::LOW);
     }
 
     /**
@@ -71,7 +71,7 @@ class Hash extends \CryptLib\Random\AbstractMixer {
 
     /**
      * Get the block size (the size of the individual blocks used for the mixing)
-     * 
+     *
      * @return int The block size
      */
     protected function getPartSize() {
@@ -83,7 +83,7 @@ class Hash extends \CryptLib\Random\AbstractMixer {
      *
      * @param string $part1 The first part to mix
      * @param string $part2 The second part to mix
-     * 
+     *
      * @return string The mixed data
      */
     protected function mixParts1($part1, $part2) {
@@ -95,7 +95,7 @@ class Hash extends \CryptLib\Random\AbstractMixer {
      *
      * @param string $part1 The first part to mix
      * @param string $part2 The second part to mix
-     * 
+     *
      * @return string The mixed data
      */
     protected function mixParts2($part1, $part2) {

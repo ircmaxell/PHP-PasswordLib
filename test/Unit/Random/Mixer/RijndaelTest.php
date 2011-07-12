@@ -1,7 +1,7 @@
 <?php
 
 use CryptLib\Random\Mixer\Rijndael;
-use CryptLib\Core\Strength\High as HighStrength;
+use CryptLib\Core\Strength;
 use CryptLibTest\Mocks\Cipher\Block\Cipher;
 use CryptLibTest\Mocks\Cipher\Factory as CipherFactory;
 
@@ -29,8 +29,8 @@ class Unit_Random_Mixer_RijndaelTest extends PHPUnit_Framework_TestCase {
     protected function getMockFactory() {
         $cipherkey = str_repeat(chr(0), 2);
         $cipher = new Cipher(array(
-            'getBlockSize' => function() use (&$cipherkey) { 
-                return strlen($cipherkey); 
+            'getBlockSize' => function() use (&$cipherkey) {
+                return strlen($cipherkey);
             },
             'setKey' => function($key) use (&$cipherkey) {
                 $cipherkey = $key;
@@ -62,7 +62,7 @@ class Unit_Random_Mixer_RijndaelTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\AbstractMixer
      */
     public function testGetStrength() {
-        $strength = new HighStrength;
+        $strength = new Strength(Strength::HIGH);
         $actual = Rijndael::getStrength();
         $this->assertEquals($actual, $strength);
     }
@@ -88,5 +88,5 @@ class Unit_Random_Mixer_RijndaelTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($result, $actual);
     }
 
-    
+
 }

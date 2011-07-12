@@ -19,8 +19,8 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Cipher\Factory     as CipherFactory;
-use \CryptLib\Core\Strength\High as HighStrength;
+use \CryptLib\Cipher\Factory as CipherFactory;
+use \CryptLib\Core\Strength;
 
 /**
  * The Rijndael-128 based high strength mixer class
@@ -49,7 +49,7 @@ class Rijndael extends DES {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new HighStrength();
+        return new Strength(Strength::HIGH);
     }
 
 }

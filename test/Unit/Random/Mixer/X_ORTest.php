@@ -1,7 +1,7 @@
 <?php
 
 use CryptLib\Random\Mixer\X_OR;
-use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
+use CryptLib\Core\Strength;
 
 class Unit_Random_Mixer_X_ORTest extends PHPUnit_Framework_TestCase {
 
@@ -21,7 +21,7 @@ class Unit_Random_Mixer_X_ORTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\AbstractMixer
      */
     public function testGetStrength() {
-        $strength = new VeryLowStrength;
+        $strength = new Strength(Strength::VERYLOW);
         $actual = X_OR::getStrength();
         $this->assertEquals($actual, $strength);
     }

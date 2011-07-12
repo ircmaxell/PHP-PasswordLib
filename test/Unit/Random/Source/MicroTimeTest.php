@@ -1,7 +1,7 @@
 <?php
 
 use CryptLib\Random\Source\MicroTime;
-use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
+use CryptLib\Core\Strength;
 
 
 
@@ -20,7 +20,7 @@ class Unit_Random_Source_MicroTimeTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\Source\MicroTime::getStrength
      */
     public function testGetStrength() {
-        $strength = new VeryLowStrength;
+        $strength = new Strength(Strength::VERYLOW);
         $actual = MicroTime::getStrength();
         $this->assertEquals($actual, $strength);
     }

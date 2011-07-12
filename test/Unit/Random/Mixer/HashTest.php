@@ -1,7 +1,7 @@
 <?php
 
 use CryptLib\Random\Mixer\Hash;
-use CryptLib\Core\Strength\Low   as LowStrength;
+use CryptLib\Core\Strength;
 
 class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
 
@@ -35,7 +35,7 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\AbstractMixer
      */
     public function testGetStrength() {
-        $strength = new LowStrength;
+        $strength = new Strength(Strength::LOW);
         $actual = Hash::getStrength();
         $this->assertEquals($actual, $strength);
     }

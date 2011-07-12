@@ -1,7 +1,7 @@
 <?php
 
 use CryptLib\Random\Source\Random;
-use CryptLib\Core\Strength\High as HighStrength;
+use CryptLib\Core\Strength;
 
 
 
@@ -20,7 +20,7 @@ class Unit_Random_Source_RandomTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\Source\Random::getStrength
      */
     public function testGetStrength() {
-        $strength = new HighStrength;
+        $strength = new Strength(Strength::HIGH);
         $actual = Random::getStrength();
         $this->assertEquals($actual, $strength);
     }

@@ -17,7 +17,7 @@
 
 namespace CryptLib\Random\Source;
 
-use CryptLib\Core\Strength\High as HighStrength;
+use CryptLib\Core\Strength;
 
 /**
  * The Random Random Number Source
@@ -38,7 +38,7 @@ class Random implements \CryptLib\Random\Source {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new HighStrength();
+        return new Strength(Strength::HIGH);
     }
 
     /**

@@ -1,8 +1,7 @@
 <?php
 
 use CryptLib\Random\Source\Rand;
-use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
-use CryptLib\Core\Strength\Low     as LowStrength;
+use CryptLib\Core\Strength;
 
 class Unit_Random_Source_RandTest extends PHPUnit_Framework_TestCase {
 
@@ -20,9 +19,9 @@ class Unit_Random_Source_RandTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetStrength() {
         if (defined('S_ALL')) {
-            $strength = new LowStrength;
+            $strength = new Strength(Strength::LOW);
         } else {
-            $strength = new VeryLowStrength;
+            $strength = new Strength(Strength::VERYLOW);
         }
         $actual = Rand::getStrength();
         $this->assertEquals($actual, $strength);
