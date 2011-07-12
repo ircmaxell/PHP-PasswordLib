@@ -10,9 +10,10 @@ class Vectors_Cipher_Block_Cipher_DESTest extends PHPUnit_Framework_TestCase {
         $nessie = new CryptLibTest\lib\VectorParser\SSV($file);
         return $nessie->getVectors();
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testEncrypt($key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
@@ -20,9 +21,10 @@ class Vectors_Cipher_Block_Cipher_DESTest extends PHPUnit_Framework_TestCase {
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testDecrypt($key, $expected, $data) {
         $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');

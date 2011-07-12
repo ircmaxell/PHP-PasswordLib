@@ -21,6 +21,7 @@ class Vectors_Password_Implementation_PHPBBTest extends PHPUnit_Framework_TestCa
     /**
      * @covers CryptLib\Password\Implementation\PHPBB::verify
      * @dataProvider provideTestVerify
+     * @group Vectors
      */
     public function testVerify($pass, $expect, $value) {
         $apr = new PHPBB();

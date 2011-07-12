@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="quality" default="quality" basedir="../../">
     <property file="build/build.properties" />
-	
+
 	<target name="quality">
 		<phingcall target="cs" />
 		<phingcall target="cpd" />
@@ -9,14 +9,20 @@
 		<phingcall target="pmd" />
 		<phingcall target="pdepend" />
 	</target>
-	
+
+    <target name="quality-lite">
+		<phingcall target="cs" />
+		<phingcall target="cpd" />
+		<phingcall target="pmd" />
+	</target>
+
 	<target name="cs">
 		<mkdir dir="${path.results}/logs" />
         <exec
-            command="phpcs 
-						--report=summary 
-						--report-checkstyle=&quot;${path.logs}/checkstyle.xml&quot; 
-						--standard=&quot;${path.build}/phpcs/ruleset.xml&quot; 
+            command="phpcs
+						--report=summary
+						--report-checkstyle=&quot;${path.logs}/checkstyle.xml&quot;
+						--standard=&quot;${path.build}/phpcs/ruleset.xml&quot;
 						&quot;${path.lib}/CryptLib&quot;"
             passthru="true"
             checkreturn="true" />
@@ -31,16 +37,16 @@
             <formatter type="pmd" outfile="${path.logs}/php-cpd.xml" />
         </phpcpd>
     </target>
-	
+
     <target name="loc">
 		<mkdir dir="${path.results}/logs" />
-        <exec 
-            command="phploc 
+        <exec
+            command="phploc
 						--log-csv &quot;${path.logs}/phploc.csv&quot;
 						&quot;${path.lib}/CryptLib&quot;"
 	        />
     </target>
-	
+
     <target name="pmd">
 		<mkdir dir="${path.results}/logs" />
         <phpmd rulesets="${path.build}/phpmd/ruleset.xml">

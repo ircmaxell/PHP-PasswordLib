@@ -21,6 +21,7 @@ class Vectors_Password_Implementation_PBKDFTest extends PHPUnit_Framework_TestCa
     /**
      * @covers CryptLib\Password\Implementation\PBKDF::verify
      * @dataProvider provideTestVerify
+     * @group Vectors
      */
     public function testVerify($pass, $expect, $value) {
         $apr = new PBKDF();

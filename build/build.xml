@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="PHP-CryptLib" default="build" basedir="../">
+<project name="PHP-CryptLib" default="build-lite" basedir="../">
     <property file="build/build.properties" />
 	<import file="${path.build}/phing/document.xml" />
 	<import file="${path.build}/phing/package.xml" />
@@ -18,6 +18,12 @@
 		<phingcall target="quality" />
 		<phingcall target="document" />
 		<phingcall target="package" />
+	</target>
+
+    <target name="build-lite">
+		<phingcall target="clean" />
+		<phingcall target="test-lite" />
+		<phingcall target="quality-lite" />
 	</target>
 
 </project>

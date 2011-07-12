@@ -24,9 +24,10 @@ class Vectors_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         }
         return $results;
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testEncrypt($cipher, $key, $initv, $data, $adata, $expected, $lSize, $tSize) {
         $cipher = new \CryptLib\Cipher\Block\Cipher\AES($cipher);

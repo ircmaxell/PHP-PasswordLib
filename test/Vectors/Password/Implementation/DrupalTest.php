@@ -21,6 +21,7 @@ class Vectors_Password_Implementation_DrupalTest extends PHPUnit_Framework_TestC
     /**
      * @covers CryptLib\Password\Implementation\Drupal::verify
      * @dataProvider provideTestVerify
+     * @group Vectors
      */
     public function testVerify($pass, $expect, $value) {
         $apr = new Drupal();

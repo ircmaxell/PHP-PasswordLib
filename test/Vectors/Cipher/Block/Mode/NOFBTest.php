@@ -18,9 +18,10 @@ class Vectors_Cipher_Block_Mode_NOFBTest extends PHPUnit_Framework_TestCase {
         }
         return $results;
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testEncrypt($cipher, $key, $iv, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Cipher\AES($cipher);
@@ -30,9 +31,10 @@ class Vectors_Cipher_Block_Mode_NOFBTest extends PHPUnit_Framework_TestCase {
         $enc .= $mode->finish();
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testDecrypt($cipher, $key, $iv, $expected, $data) {
         $cipher = new \CryptLib\Cipher\Block\Cipher\AES($cipher);
@@ -42,6 +44,6 @@ class Vectors_Cipher_Block_Mode_NOFBTest extends PHPUnit_Framework_TestCase {
         $dec .= $mode->finish();
         $this->assertEquals($expected, strtoupper(bin2hex($dec)));
     }
-    
+
 
 }

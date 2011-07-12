@@ -26,9 +26,10 @@ class Vectors_Cipher_Block_Cipher_RijndaelTest extends PHPUnit_Framework_TestCas
         }
         return $results;
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testEncrypt($cipher, $key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Cipher\Rijndael($cipher);
@@ -36,9 +37,10 @@ class Vectors_Cipher_Block_Cipher_RijndaelTest extends PHPUnit_Framework_TestCas
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testDecrypt($cipher, $key, $expected, $data) {
         $cipher = new \CryptLib\Cipher\Block\Cipher\Rijndael($cipher);
@@ -46,6 +48,6 @@ class Vectors_Cipher_Block_Cipher_RijndaelTest extends PHPUnit_Framework_TestCas
         $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
-    
+
 
 }

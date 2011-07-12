@@ -22,13 +22,14 @@ class Vectors_Cipher_Block_Mode_CTRTest extends PHPUnit_Framework_TestCase {
         }
         return $ciphers;
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testEncrypt(array $vectors) {
         list ($cipher, $key, $iv) = $vectors[0];
-       
+
         $cipher = new \CryptLib\Cipher\Block\Cipher\AES($cipher);
         $cipher->setKey(pack('H*', $key));
         $mode = new \CryptLib\Cipher\Block\Mode\CTR($cipher, pack('H*', $iv), '');
@@ -38,9 +39,10 @@ class Vectors_Cipher_Block_Mode_CTRTest extends PHPUnit_Framework_TestCase {
             $this->assertEquals($expected, strtoupper(bin2hex($enc)));
         }
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testDecrypt(array $vectors) {
         list ($cipher, $key, $iv) = $vectors[0];
@@ -54,6 +56,6 @@ class Vectors_Cipher_Block_Mode_CTRTest extends PHPUnit_Framework_TestCase {
             $this->assertEquals($expected, strtoupper(bin2hex($dec)));
         }
     }
-    
+
 
 }

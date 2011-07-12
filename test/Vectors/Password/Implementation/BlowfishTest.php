@@ -21,6 +21,7 @@ class Vectors_Password_Implementation_BlowfishTest extends PHPUnit_Framework_Tes
     /**
      * @covers CryptLib\Password\Implementation\Blowfish::verify
      * @dataProvider provideTestVerify
+     * @group Vectors
      */
     public function testVerify($pass, $expect, $value) {
         $apr = new Blowfish();

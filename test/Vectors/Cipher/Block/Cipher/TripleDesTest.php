@@ -27,9 +27,10 @@ class Vectors_Cipher_Block_Cipher_TripleDESTest extends PHPUnit_Framework_TestCa
         }
         return $results;
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testEncrypt($key, $data, $expected) {
         $cipher = new \CryptLib\Cipher\Block\Cipher\TripleDES('tripledes');
@@ -37,9 +38,10 @@ class Vectors_Cipher_Block_Cipher_TripleDESTest extends PHPUnit_Framework_TestCa
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
+     * @group Vectors
      */
     public function testDecrypt($key, $expected, $data) {
         $cipher = new \CryptLib\Cipher\Block\Cipher\TripleDES('tripledes');

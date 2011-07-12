@@ -34,6 +34,7 @@ class Vectors_Password_Implementation_APR1Test extends PHPUnit_Framework_TestCas
      * @covers CryptLib\Password\Implementation\APR1::iterate
      * @covers CryptLib\Password\Implementation\APR1::convertToHash
      * @dataProvider provideTestVerify
+     * @group Vectors
      */
     public function testVerify($pass, $expect, $value) {
         $apr = new APR1();
