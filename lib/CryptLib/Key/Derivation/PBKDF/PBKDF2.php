@@ -41,14 +41,19 @@ class PBKDF2
      * @return string The derived key
      */
     public function derive($password, $salt, $iterations, $length) {
-        $size   = $this->hash->getSize();
+        $size   = strlen(hash($this->hash, '', true));
         $len    = ceil($length / $size);
         $result = '';
         for ($i = 1; $i <= $len; $i++) {
-            $tmp = $this->hash->hmac($salt . pack('N', $i), $password);
+            $tmp = hash_hmac(
+                $this->hash,
+                $salt . pack('N', $i),
+                $password,
+                true
+            );
             $res = $tmp;
             for ($j = 1; $j < $iterations; $j++) {
-                $tmp  = $this->hash->hmac($tmp, $password);
+                $tmp  = hash_hmac($this->hash, $tmp, $password, true);
                 $res ^= $tmp;
             }
             $result .= $res;
@@ -65,7 +70,7 @@ class PBKDF2
      * @return string The signature for this instance
      */
     public function getSignature() {
-        return 'pbkdf2-' . $this->hash->getName();
+        return 'pbkdf2-' . $this->hash;
     }
 
 }

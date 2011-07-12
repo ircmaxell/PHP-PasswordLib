@@ -15,8 +15,6 @@
 
 namespace CryptLib\Key\Derivation;
 
-use CryptLib\Hash\Factory as HashFactory;
-
 /**
  * An abstract implementation of some standard key derivation needs
  *
@@ -37,7 +35,6 @@ abstract class AbstractDerivation {
      */
     protected $options = array(
         'hash'        => 'sha512',
-        'hashfactory' => null,
     );
 
     /**
@@ -49,11 +46,7 @@ abstract class AbstractDerivation {
      */
     public function __construct(array $options = array()) {
         $this->options = $options + $this->options;
-        if (!is_object($this->options['hashfactory'])) {
-            $this->options['hashfactory'] = new HashFactory();
-        }
-        $factory    = $this->options['hashfactory'];
-        $this->hash = $factory->getHash($this->options['hash']);
+        $this->hash    = $this->options['hash'];
     }
 
 }

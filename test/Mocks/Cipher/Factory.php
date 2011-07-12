@@ -77,8 +77,13 @@ class Factory extends \CryptLib\Cipher\Factory {
      * @return Mode The loaded mode instance
      * @throws RuntimeException if the mode is not supported
      */
-    public function getMode($mode) {
-        return $this->__call('getMode', array($mode));
+    public function getMode(
+        $mode,
+        \CryptLib\Cipher\Block\Cipher $cipher,
+        $initv,
+        $adata
+    ) {
+        return $this->__call('getMode', array($mode, $cipher, $initv, $adata));
     }
 
     /**

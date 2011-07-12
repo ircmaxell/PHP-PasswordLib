@@ -1,12 +1,10 @@
 <?php
 
 use CryptLib\Core\Strength\Medium as MediumStrength;
-use CryptLibTest\Mocks\Hash\Hash as MockHash;
-use CryptLibTest\Mocks\Hash\Factory as MockFactory;
 use CryptLibTest\Mocks\Random\Generator as MockGenerator;
 use CryptLib\Password\Implementation\Hash;
 
-class Unit_Hash_Implementation_HashTest extends PHPUnit_Framework_TestCase {
+class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
 
     public static function provideTestLoadFromHash() {
         return array(
@@ -31,10 +29,10 @@ class Unit_Hash_Implementation_HashTest extends PHPUnit_Framework_TestCase {
 
     public static function provideTestVerify() {
         return array(
-            array('md5', 'foo', md5('foo')),
-            array('sha1', 'foo', sha1('foo')),
-            array('sha256', 'foo', hash('sha256', 'foo')),
-            array('sha512', 'foo', hash('sha512', 'foo'))
+            array('md5', 'foo', md5('foo', true)),
+            array('sha1', 'foo', sha1('foo', true)),
+            array('sha256', 'foo', hash('sha256', 'foo', true)),
+            array('sha512', 'foo', hash('sha512', 'foo', true))
         );
     }
     
@@ -91,17 +89,8 @@ class Unit_Hash_Implementation_HashTest extends PHPUnit_Framework_TestCase {
      */
     public function testConstructArgs() {
         $gen = $this->getRandomGenerator(function($size) {});
-        $fac = $this->getHashFactory(function() {}, function() {});
-        $apr = new Hash('md5', $gen, $fac);
+        $apr = new Hash('md5', $gen);
         $this->assertTrue($apr instanceof Hash);
-    }
-    
-    /**
-     * @covers CryptLib\Password\Implementation\Hash
-     * @expectedException RuntimeException
-     */
-    public function testConstructFailFail() {
-        $hash = new Hash('foobar');
     }
  
     /**
@@ -135,18 +124,5 @@ class Unit_Hash_Implementation_HashTest extends PHPUnit_Framework_TestCase {
         return new MockGenerator(array(
             'generateInt' => $generate
         ));
-    }
-
-    protected function getHashFactory($evaluate, $hmac) {
-        $mock = new MockHash(array(
-            'getName' => function() { return 'md5'; },
-            'getSize' => function () { return 16; },
-            'evaluate' => $evaluate,
-            'hmac' => $hmac 
-        ));
-        $factory = new MockFactory(array(
-            'getHash' => function($name) use ($mock) { return $mock; },
-        ));
-        return $factory;
     }
 }

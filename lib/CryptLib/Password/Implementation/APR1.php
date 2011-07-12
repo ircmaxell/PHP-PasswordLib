@@ -20,7 +20,6 @@
 namespace CryptLib\Password\Implementation;
 
 use CryptLib\Random\Factory as RandomFactory;
-use CryptLib\Hash\Factory   as HashFactory;
 
 /**
  * The APR1 password hashing implementation
@@ -90,18 +89,12 @@ class APR1 implements \CryptLib\Password\Password {
      * Build a new instance
      *
      * @param Generator $generator The random generator to use for seeds
-     * @param Factory   $factory   The hash factory to use for this instance
      *
      * @return void
      */
     public function __construct(
-        \CryptLib\Random\Generator $generator = null,
-        \CryptLib\Hash\Factory $factory = null
+        \CryptLib\Random\Generator $generator = null
     ) {
-        if (is_null($factory)) {
-            $factory = new HashFactory();
-        }
-        $this->hash = $factory->getHash('md5');
         if (is_null($generator)) {
             $random    = new RandomFactory();
             $generator = $random->getMediumStrengthGenerator();
@@ -150,7 +143,7 @@ class APR1 implements \CryptLib\Password\Password {
     protected function hash($password, $salt, $iterations) {
         $len  = strlen($password);
         $text = $password . '$apr1$' . $salt;
-        $bin  = $this->hash->evaluate($password.$salt.$password);
+        $bin  = md5($password.$salt.$password, true);
         for ($i = $len; $i > 0; $i -= 16) {
             $text .= substr($bin, 0, min(16, $i));
         }
@@ -162,7 +155,7 @@ class APR1 implements \CryptLib\Password\Password {
     }
 
     protected function iterate($text, $iterations, $salt, $password) {
-        $bin = $this->hash->evaluate($text);
+        $bin = md5($text, true);
         for ($i = 0; $i < $iterations; $i++) {
             $new = ($i & 1) ? $password : $bin;
             if ($i % 3) {
@@ -172,7 +165,7 @@ class APR1 implements \CryptLib\Password\Password {
                 $new .= $password;
             }
             $new .= ($i & 1) ? $bin : $password;
-            $bin  = $this->hash->evaluate($new);
+            $bin  = md5($new, true);
         }
         return $bin;
     }

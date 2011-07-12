@@ -19,7 +19,6 @@
 namespace CryptLib\Password\Implementation;
 
 use CryptLib\Random\Factory as RandomFactory;
-use CryptLib\Hash\Factory   as HashFactory;
 
 /**
  * The PHPASS password hashing implementation
@@ -44,11 +43,6 @@ class PHPASS implements \CryptLib\Password\Password {
      * @var Generator The random generator to use for seeds
      */
     protected $generator = null;
-
-    /**
-     * @var Hash The hash function to use (MD5)
-     */
-    protected $hash = null;
 
     /**
      * This is the hash function to use.  To be overriden by child classes
@@ -145,17 +139,12 @@ class PHPASS implements \CryptLib\Password\Password {
      */
     public function __construct(
         $iterations = 8,
-        \CryptLib\Random\Generator $generator = null,
-        \CryptLib\Hash\Factory $factory = null
+        \CryptLib\Random\Generator $generator = null
     ) {
         if ($iterations > 30 || $iterations < 7) {
             throw new \InvalidArgumentException('Invalid Iteration Count Supplied');
         }
         $this->iterations = $iterations;
-        if (is_null($factory)) {
-            $factory = new HashFactory();
-        }
-        $this->hash = $factory->getHash($this->hashFunction);
         if (is_null($generator)) {
             $random    = new RandomFactory();
             $generator = $random->getMediumStrengthGenerator();
@@ -212,9 +201,9 @@ class PHPASS implements \CryptLib\Password\Password {
      */
     protected function hash($password, $salt) {
         $count = 1 << $this->iterations;
-        $hash  = $this->hash->evaluate($salt . $password);
+        $hash  = hash($this->hashFunction, $salt . $password, true);
         do {
-            $hash = $this->hash->evaluate($hash . $password);
+            $hash = hash($this->hashFunction, $hash . $password, true);
         } while (--$count);
         return $this->to64($hash);
     }

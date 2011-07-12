@@ -2,7 +2,6 @@
 
 use CryptLib\Random\Mixer\Hash;
 use CryptLib\Core\Strength\Low   as LowStrength;
-use CryptLibTest\Mocks\Hash\Hash as MockHash;
 
 class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
 
@@ -10,14 +9,14 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
         $data = array(
             array(array(), ''),
             array(array('', ''), ''),
-            array(array('a'), 'a'),
+            array(array('a'), '61'),
             // This expects 'b' because of how the mock hmac function works
-            array(array('a', 'b'), 'b'),
-            array(array('aa', 'ba'), 'ba'),
-            array(array('ab', 'bb'), 'bb'),
-            array(array('aa', 'bb'), 'bb'),
-            array(array('aa', 'bb', 'cc'), 'cc'),
-            array(array('aabbcc', 'bbccdd', 'ccddee'), 'ccbbdd'),
+            array(array('a', 'b'), '9a'),
+            array(array('aa', 'ba'), '6e84'),
+            array(array('ab', 'bb'), 'b0cb'),
+            array(array('aa', 'bb'), 'ae8d'),
+            array(array('aa', 'bb', 'cc'), 'a14c'),
+            array(array('aabbcc', 'bbccdd', 'ccddee'), 'a8aff3939934'),
         );
         return $data;
     }
@@ -56,14 +55,9 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
      * @dataProvider provideMix
      */
     public function testMix($parts, $result) {
-        $mock = new MockHash(array(
-            'getSize' => function () { return 2; },
-            'evaluate' => function ($data) { return substr($data, 0, 2); },
-            'hmac' => function ($data, $key) { return substr($data ^ $key, 0, 2); }
-        ));
-        $mixer = new Hash($mock);
+        $mixer = new Hash('md5');
         $actual = $mixer->mix($parts);
-        $this->assertEquals($result, $actual);
+        $this->assertEquals($result, bin2hex($actual));
     }
 
 

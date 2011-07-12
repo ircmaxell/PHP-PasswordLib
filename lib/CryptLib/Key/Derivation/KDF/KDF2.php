@@ -38,12 +38,12 @@ class KDF2
      * @return string The generated key
      */
     public function derive($secret, $length, $other = '') {
-        $size = $this->hash->getSize();
+        $size = strlen(hash($this->hash, '', true));
         $len  = ceil($length / $size);
         $res  = '';
         for ($i = 1; $i <= $len; $i++) {
             $tmp  = pack('N', $i);
-            $res .= $this->hash->evaluate($secret . $tmp . $other);
+            $res .= hash($this->hash, $secret . $tmp . $other, true);
         }
         return substr($res, 0, $length);
     }

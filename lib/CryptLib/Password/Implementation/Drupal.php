@@ -19,7 +19,6 @@
 namespace CryptLib\Password\Implementation;
 
 use CryptLib\Random\Factory as RandomFactory;
-use CryptLib\Hash\Factory   as HashFactory;
 
 /**
  * The PHPASS password hashing implementation

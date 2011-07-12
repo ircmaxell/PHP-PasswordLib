@@ -19,7 +19,6 @@
 namespace CryptLib\Password\Implementation;
 
 use CryptLib\Random\Factory as RandomFactory;
-use CryptLib\Hash\Factory   as HashFactory;
 
 /**
  * The basic Hash implementation.
@@ -107,15 +106,9 @@ class Hash implements \CryptLib\Password\Password {
      */
     public function __construct(
         $hashMethod,
-        \CryptLib\Random\Generator $generator = null,
-        \CryptLib\Hash\Factory $factory = null
+        \CryptLib\Random\Generator $generator = null
     ) {
-        if (is_null($factory)) {
-            $factory = new HashFactory();
-        }
-        $this->hash = new \CryptLib\Hash\HexDecorator(
-            $factory->getHash($hashMethod)
-        );
+        $this->hash = $hashMethod;
         if (is_null($generator)) {
             $random    = new RandomFactory();
             $generator = $random->getMediumStrengthGenerator();
@@ -145,7 +138,7 @@ class Hash implements \CryptLib\Password\Password {
      * @return boolean Does the password validate against the hash
      */
     public function verify($hash, $password) {
-        $test = $this->hash->evaluate($password);
+        $test = hash($this->hash, $password, true);
         return $test == $hash;
     }
 

@@ -41,14 +41,14 @@ class PBKDF1
      * @return string The derived key
      */
     public function derive($password, $salt, $iterations, $length) {
-        $size = $this->hash->getSize();
+        $size = strlen(hash($this->hash, '', true));
         if ($length > $size) {
             $message = 'Length is too long for hash';
             throw new \InvalidArgumentException($message);
         }
-        $tmp = $this->hash->evaluate($password . $salt);
+        $tmp = hash($this->hash, $password . $salt, true);
         for ($i = 2; $i <= $iterations; $i++) {
-            $tmp = $this->hash->evaluate($tmp);
+            $tmp = hash($this->hash, $tmp, true);
         }
         return substr($tmp, 0, $length);
     }
@@ -62,7 +62,7 @@ class PBKDF1
      * @return string The signature for this instance
      */
     public function getSignature() {
-        return 'pbkdf1-' . $this->hash->getName();
+        return 'pbkdf1-' . $this->hash;
     }
 
 }

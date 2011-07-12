@@ -33,7 +33,6 @@ class KDF3
      */
     protected $options = array(
         'hash'        => 'sha512',
-        'hashfactory' => null,
         'pAmt'        => 4,
     );
 
@@ -47,13 +46,13 @@ class KDF3
      * @return string The generated key
      */
     public function derive($secret, $length, $other = '') {
-        $size = $this->hash->getSize();
+        $size = strlen(hash($this->hash, '', true));
         $len  = ceil($length / $size);
         $res  = '';
         $stub = str_repeat(chr(0), max($this->options['pAmt'], 0));
         for ($i = 0; $i < $len; $i++) {
             $tmp  = $stub . pack('N', $i);
-            $res .= $this->hash->evaluate($tmp . $secret . $other);
+            $res .= hash($this->hash, $tmp . $secret . $other, true);
         }
         return substr($res, 0, $length);
     }

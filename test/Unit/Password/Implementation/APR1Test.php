@@ -77,8 +77,7 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
      */
     public function testConstructArgs() {
         $gen = $this->getRandomGenerator(function($size) {});
-        $fac = $this->getHashFactory(function() {}, function() {});
-        $apr = new APR1($gen, $fac);
+        $apr = new APR1($gen);
         $this->assertTrue($apr instanceof APR1);
     }
 
@@ -121,21 +120,12 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
         $gen = $this->getRandomGenerator(function($min, $max) {
             return 1914924168;
         });
-        $fac = $this->getHashFactory(
-            function($data) {
-                return md5($data, true);
-            },
-            function($data, $key) {
-		return hash_hmac('md5', $data, $key, true);
-            }
-        );
-        return new APR1($gen, $fac);
+        return new APR1($gen);
     }
 
     protected function getAPR1Instance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        $factory = $this->getHashFactory($evaluate, $hmac);
-        return new APR1($generator, $factory);
+        return new APR1($generator);
     }
 
     protected function getRandomGenerator($generate) {
@@ -143,19 +133,5 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
             'generateInt' => $generate
         ));
     }
-
-    protected function getHashFactory($evaluate, $hmac) {
-        $mock = new MockHash(array(
-            'getName' => function() { return 'md5'; },
-            'getSize' => function () { return 16; },
-            'evaluate' => $evaluate,
-            'hmac' => $hmac 
-        ));
-        $factory = new MockFactory(array(
-            'getHash' => function($name) use ($mock) { return $mock; },
-        ));
-        return $factory;
-    }
-
 
 }

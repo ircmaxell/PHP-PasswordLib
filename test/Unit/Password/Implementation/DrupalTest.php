@@ -1,8 +1,6 @@
 <?php
 
 use CryptLib\Core\Strength\Medium as MediumStrength;
-use CryptLibTest\Mocks\Hash\Hash as MockHash;
-use CryptLibTest\Mocks\Hash\Factory as MockFactory;
 use CryptLibTest\Mocks\Random\Generator as MockGenerator;
 use CryptLib\Password\Implementation\Drupal;
 
@@ -89,8 +87,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     public function testConstructArgs() {
         $iterations = 10;
         $gen = $this->getRandomGenerator(function($size) {});
-        $fac = $this->getHashFactory(function() {}, function() {});
-        $apr = new Drupal($iterations, $gen, $fac);
+        $apr = new Drupal($iterations, $gen);
         $this->assertTrue($apr instanceof Drupal);
     }
     
@@ -152,21 +149,12 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
         });
-        $fac = $this->getHashFactory(
-            function($data) {
-                return hash('sha512', $data, true);
-            },
-            function($data, $key) {
-                return hash_hmac('sha512', $data, $key, true);
-            }
-        );
-        return new Drupal($iterations, $gen, $fac);
+        return new Drupal($iterations, $gen);
     }
 
     protected function getDrupalInstance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        $factory = $this->getHashFactory($evaluate, $hmac);
-        return new Drupal($generator, $factory);
+        return new Drupal($generator);
     }
 
     protected function getRandomGenerator($generate) {
@@ -174,19 +162,5 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
             'generate' => $generate
         ));
     }
-
-    protected function getHashFactory($evaluate, $hmac) {
-        $mock = new MockHash(array(
-            'getName' => function() { return 'sha512'; },
-            'getSize' => function () { return 16; },
-            'evaluate' => $evaluate,
-            'hmac' => $hmac 
-        ));
-        $factory = new MockFactory(array(
-            'getHash' => function($name) use ($mock) { return $mock; },
-        ));
-        return $factory;
-    }
-
 
 }

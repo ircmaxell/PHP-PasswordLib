@@ -19,7 +19,6 @@
 
 namespace CryptLib\Random\Mixer;
 
-use \CryptLib\Hash\Factory      as HashFactory;
 use \CryptLib\Core\Strength\Low as LowStrength;
 
 /**
@@ -37,22 +36,18 @@ use \CryptLib\Core\Strength\Low as LowStrength;
 class Hash extends \CryptLib\Random\AbstractMixer {
 
     /**
-     * @var Hash The hash instance to use
+     * @var string The hash instance to use
      */
     protected $hash = null;
 
     /**
      * Build the hash mixer
      *
-     * @param Hash $hash The hash instance to use (defaults to sha512)
+     * @param string $hash The hash instance to use (defaults to sha512)
      *
      * @return void
      */
-    public function __construct(\CryptLib\Hash\Hash $hash = null) {
-        if (is_null($hash)) {
-            $factory = new HashFactory();
-            $hash    = $factory->getHash('sha512');
-        }
+    public function __construct($hash = 'sha512') {
         $this->hash = $hash;
     }
 
@@ -80,7 +75,7 @@ class Hash extends \CryptLib\Random\AbstractMixer {
      * @return int The block size
      */
     protected function getPartSize() {
-        return $this->hash->getSize();
+        return strlen(hash($this->hash, '', true));
     }
 
     /**
@@ -92,7 +87,7 @@ class Hash extends \CryptLib\Random\AbstractMixer {
      * @return string The mixed data
      */
     protected function mixParts1($part1, $part2) {
-        return $this->hash->hmac($part1, $part2);
+        return hash_hmac($this->hash, $part1, $part2, true);
     }
 
     /**
@@ -104,7 +99,7 @@ class Hash extends \CryptLib\Random\AbstractMixer {
      * @return string The mixed data
      */
     protected function mixParts2($part1, $part2) {
-        return $this->hash->hmac($part2, $part1);
+        return hash_hmac($this->hash, $part2, $part1, true);
     }
 
 }
