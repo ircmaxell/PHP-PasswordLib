@@ -1,9 +1,9 @@
 <?php
 /**
  * Bootstrap the library.  This registers a simple autoloader for autoloading
- * classes 
+ * classes
  *
- * If you are using this library inside of another that uses a similar 
+ * If you are using this library inside of another that uses a similar
  * autoloading system, you can use that autoloader instead of this file.
  *
  * PHP version 5.3
@@ -17,6 +17,12 @@
  */
 
 namespace CryptLib;
+
+if (defined('\\CryptLib\\BOOTSTRAPPED')) {
+    return;
+}
+
+define('BOOTSTRAPPED', true);
 
 /**
  * The simple autoloader for the CryptLib library.

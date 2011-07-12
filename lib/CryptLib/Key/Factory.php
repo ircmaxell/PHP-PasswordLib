@@ -93,7 +93,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
 
     protected function loadKDF() {
         $this->loadFiles(
-            __DIR__ . '/derivation/kdf',
+            __DIR__ . '/Derivation/KDF',
             __NAMESPACE__ . '\\Derivation\\KDF\\',
             array($this, 'registerKDF')
         );
@@ -101,7 +101,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
 
     protected function loadPBKDF() {
         $this->loadFiles(
-            __DIR__ . '/derivation/pbkdf',
+            __DIR__ . '/Derivation/PBKDF',
             __NAMESPACE__ . '\\Derivation\\PBKDF\\',
             array($this, 'registerPBKDF')
         );

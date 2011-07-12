@@ -19,6 +19,19 @@ interface Generator extends Key {
 
     public function __construct(array $options = array());
 
-    public function generate($strength, $size, $passPhrase = '');
+    /**
+     * Generate a key of the supplied size
+     *
+     * @param Strength $strength   The strength of the generated key
+     * @param int      $size       The size of the generated key (in bytes)
+     * @param string   $passPhrase The passphrase to encrypt the key with
+     *
+     * @return void
+     */
+    public function generate(
+        \CryptLib\Core\Strength $strength,
+        $size,
+        $passPhrase = ''
+    );
 
 }

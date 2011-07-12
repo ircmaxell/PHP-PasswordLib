@@ -42,7 +42,11 @@ class Internal implements \CryptLib\Key\Generator {
     public function __toString() {
     }
 
-    public function generate($strength, $size, $passphrase = '') {
+    public function generate(
+        \CryptLib\Core\Strength $strength,
+        $size,
+        $passphrase = ''
+    ) {
         $generator = $this->random->getGenerator($strength);
         $seed      = $generator->generate($size);
         $key       = $this->kdf->derive($seed, $size, $passphrase);
