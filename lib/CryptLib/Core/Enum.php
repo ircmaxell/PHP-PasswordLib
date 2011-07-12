@@ -18,6 +18,10 @@ use \ReflectionObject;
 /**
  * The Enum base class for Enum functionality
  *
+ * This is based off of the SplEnum class implementation (which is only available
+ * as a PECL extension in 5.3)
+ *
+ * @see        http://www.php.net/manual/en/class.splenum.php
  * @category   PHPCryptLib
  * @package    Core
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
