@@ -1,16 +1,14 @@
 <?php
 
 class Unit_Core_BigMathTest extends PHPUnit_Framework_TestCase {
-    
+
     protected static $mathImplementations = array();
-    
+
     public static function provideAddTest() {
         $ret = array(
             array('1', '1', '2'),
             array('11', '11', '22'),
             array('1111111111', '1111111111', '2222222222'),
-            array(str_repeat('1', 200), str_repeat('1', 200), str_repeat('2', 200)),
-            array(str_repeat('5', 500), str_repeat('5', 500), str_repeat('1', 500) . '0'),
             array('555', '555', '1110'),
             array('-10', '10', '0'),
             array('10', '-10', '0'),
@@ -20,7 +18,7 @@ class Unit_Core_BigMathTest extends PHPUnit_Framework_TestCase {
         );
         return $ret;
     }
-    
+
     public static function provideSubtractTest() {
         return array(
             array('1', '1', '0'),
@@ -30,10 +28,19 @@ class Unit_Core_BigMathTest extends PHPUnit_Framework_TestCase {
             array('-1', '-1', '0'),
             array('-5', '5', '-10'),
             array('5', '-5', '10'),
-            array(str_repeat('5', 500), str_repeat('5', 500), '0'),
-            array(str_repeat('1', 500) . '0', str_repeat('5', 500), str_repeat('5', 500)),
-            array(str_repeat('5', 500), str_repeat('1', 500) . '0', '-' . str_repeat('5', 500)),
+            array('0', '0', '0'),
+            array('5', '0', '5'),
         );
     }
-    
+
+    public function testCreateFromServerConfiguration() {
+        $instance = \CryptLib\Core\BigMath::createFromServerConfiguration();
+        if (extension_loaded('bcmath')) {
+            $this->assertEquals('CryptLib\\Core\\BigMath\\BCMath', get_class($instance));
+        } elseif (extension_loaded('gmp')) {
+            $this->assertEquals('CryptLib\\Core\\BigMath\\GMP', get_class($instance));
+        } else {
+            $this->assertEquals('CryptLib\\Core\\BigMath\\PHPMath', get_class($instance));
+        }
+    }
 }

@@ -36,7 +36,7 @@ class CTR extends \CryptLib\Cipher\Block\AbstractMode {
 
     /**
      * Build the instance of the cipher mode
-     * 
+     *
      * @param Cipher $cipher The cipher to use for encryption/decryption
      * @param string $initv  The initialization vector (empty if not needed)
      * @param string $adata  Additional data to authenticate the ciphertext with
@@ -47,12 +47,12 @@ class CTR extends \CryptLib\Cipher\Block\AbstractMode {
         $adata = ''
     ) {
         parent::__construct($cipher, $initv, $adata);
-        $this->bigMath = BigMath::getInstance();
+        $this->bigMath = BigMath::createFromServerConfiguration();
     }
 
     /**
      * Reset the mode to start over (destroying any intermediate state)
-     * 
+     *
      * @return void
      */
     public function reset() {

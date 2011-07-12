@@ -2,7 +2,7 @@
 /**
  * The Blowfish password hashing implementation
  *
- * Use this class to generate and validate Blowfish password hashes. 
+ * Use this class to generate and validate Blowfish password hashes.
  *
  * PHP version 5.3
  *
@@ -22,7 +22,7 @@ use CryptLib\Random\Factory as RandomFactory;
 /**
  * The Blowfish password hashing implementation
  *
- * Use this class to generate and validate Blowfish password hashes. 
+ * Use this class to generate and validate Blowfish password hashes.
  *
  * @category   PHPCryptLib
  * @package    Password
@@ -55,7 +55,7 @@ class Blowfish implements \CryptLib\Password\Password {
 
     /**
      * Return the prefix used by this hashing method
-     * 
+     *
      * @return string The prefix used
      */
     public static function getPrefix() {
@@ -114,7 +114,9 @@ class Blowfish implements \CryptLib\Password\Password {
         $saltstring = $prefix . '$' . $salt;
         $result     = crypt($password, $saltstring);
         if ($result[0] == '*') {
+            //@codeCoverageIgnoreStart
             throw new \RuntimeException('Password Could Not Be Created');
+            //@codeCoverageIgnoreEnd
         }
         return $result;
     }

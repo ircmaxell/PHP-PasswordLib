@@ -2,7 +2,7 @@
 
 use CryptLib\Password\Implementation\APR1;
 
-class Vectors_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
+class Vectors_Password_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
 
     public static function provideTestVerify() {
         $file = \CryptLibTest\getTestDataFile('Vectors/apr1.test-vectors');
@@ -13,6 +13,15 @@ class Vectors_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
                 $vector['P'],
                 $vector['H'],
                 (boolean) $vector['Value'],
+            );
+        }
+        $file = \CryptLibTest\getTestDataFile('Vectors/apr1.custom.test-vectors');
+        $nessie = new CryptLibTest\lib\VectorParser\SSV($file);
+        foreach ($nessie->getVectors() as $vector) {
+            $results[] = array(
+                $vector[0],
+                $vector[1],
+                true
             );
         }
         return $results;

@@ -38,7 +38,7 @@ class MCrypt extends \CryptLib\Cipher\Block\AbstractCipher {
 
     /**
      * Get a list of supported ciphers for this class implementation
-     * 
+     *
      * @return array A list of supported ciphers
      */
     public static function getSupportedCiphers() {
@@ -96,6 +96,7 @@ class MCrypt extends \CryptLib\Cipher\Block\AbstractCipher {
      * Initialize the cipher by preparing the key
      *
      * @return boolean The status of the initialization
+     * @codeCoverageIgnore
      */
     protected function initialize() {
         $this->mcrypt = mcrypt_module_open($this->cipher, '', MCRYPT_MODE_ECB, '');

@@ -48,7 +48,7 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         }
         return $ret;
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
      * @group slow
@@ -64,18 +64,18 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         $actual = $mode->finish();
         $this->assertEquals($expected, strtoupper(bin2hex($actual)));
     }
-    
+
     public function testDecrypt() {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
         $iv = 'FEDCBA9876543210';
         $adata = 'Some Other Text';
         $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
-        
+
         $key = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
         $aes->setKey($key);
         $data = 'Foo Bar Baz Biz ';
-        
+
         $mode->encrypt($data);
         $enc = $mode->finish();
         $mode->reset();
@@ -83,7 +83,26 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         $dec = $mode->finish();
         $this->assertEquals($data, $dec);
     }
-    
+
+    /**
+     * @expectedException LogicException
+     */
+    public function testDecryptAndDecryptTogetherFailure() {
+        $factory = new \CryptLib\Cipher\Factory();
+        $aes = $factory->getBlockCipher('rijndael-128');
+        $iv = 'FEDCBA9876543210';
+        $adata = 'Some Other Text';
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
+
+        $key = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
+        $aes->setKey($key);
+        $data = 'Foo Bar Baz Biz ';
+
+        $mode->encrypt($data);
+        $mode->decrypt($data);
+        $enc = $mode->finish();
+    }
+
     public function testDecryptFailure() {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
@@ -101,7 +120,7 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         $dec = $mode->finish();
         $this->assertFalse($dec);
     }
-    
+
     public function testDecryptAuthFailure() {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
@@ -118,7 +137,7 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         $mode->decrypt($enc);
         $this->assertFalse($mode->finish());
     }
-    
+
     public function testSetAuthField() {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');
@@ -142,7 +161,7 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
         $mode->setAuthFieldSize(13);
     }
-    
+
     /**
      * @expectedException InvalidArgumentException
      */
@@ -153,7 +172,7 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         $adata = 'Some Other Text';
         $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, $iv, $adata);
     }
-    
+
     public function testSetLSize() {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');

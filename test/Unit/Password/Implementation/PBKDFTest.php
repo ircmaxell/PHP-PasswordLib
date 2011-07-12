@@ -44,10 +44,24 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
         );
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testLoadFromHashFail() {
+        PBKDF::loadFromHash('foo');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testLoadFromHashFail2() {
+        PBKDF::loadFromHash('$pbkdf$foobar$baz');
+    }
+
     public function testGetPrefix() {
         $this->assertEquals('$pbkdf$', PBKDF::getPrefix());
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\PBKDF::detect
      * @dataProvider provideTestDetect

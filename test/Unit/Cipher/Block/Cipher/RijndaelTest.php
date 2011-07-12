@@ -9,8 +9,8 @@ class Unit_Cipher_Block_Cipher_RijndaelTest extends PHPUnit_Framework_TestCase {
         $ret = array(
             array(
                 'rijndael-128',
-                '8000000000000000000000000000000000000000000000000000000000000000', 
-                '00000000000000000000000000000000', 
+                '8000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000',
                 'E35A6DCB19B201A01EBCFA8AA22B5759'
             ),
             array(
@@ -44,7 +44,7 @@ class Unit_Cipher_Block_Cipher_RijndaelTest extends PHPUnit_Framework_TestCase {
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
      */
@@ -54,7 +54,7 @@ class Unit_Cipher_Block_Cipher_RijndaelTest extends PHPUnit_Framework_TestCase {
         $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
      */
@@ -65,19 +65,27 @@ class Unit_Cipher_Block_Cipher_RijndaelTest extends PHPUnit_Framework_TestCase {
         $dec = $cipher->decryptBlock($enc, pack('H*', $key));
         $this->assertEquals($data, strtoupper(bin2hex($dec)));
     }
-    
+
     public function testBlockSize() {
         $cipher = new \CryptLib\Cipher\Block\Cipher\Rijndael('rijndael-128');
         $this->assertEquals(16, $cipher->getBlockSize());
         $cipher = new \CryptLib\Cipher\Block\Cipher\Rijndael('rijndael-256');
         $this->assertEquals(32, $cipher->getBlockSize());
     }
-    
+
     public function testGetCipher() {
         $cipher = new \CryptLib\Cipher\Block\Cipher\Rijndael('rijndael-128');
         $this->assertEquals('rijndael-128', $cipher->getCipher());
     }
-    
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetKeyInvalidSize() {
+        $cipher = new \CryptLib\Cipher\Block\Cipher\Rijndael('rijndael-128');
+        $cipher->setKey(str_repeat(chr(0), 66));
+    }
+
     /**
      * @expectedException InvalidArgumentException
      */

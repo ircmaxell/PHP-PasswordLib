@@ -27,10 +27,10 @@ class PHPMath extends \CryptLib\Core\BigMath {
 
     /**
      * Add two numbers together
-     * 
+     *
      * @param string $left  The left argument
      * @param string $right The right argument
-     * 
+     *
      * @return A base-10 string of the sum of the two arguments
      */
     public function add($left, $right) {
@@ -60,10 +60,10 @@ class PHPMath extends \CryptLib\Core\BigMath {
 
     /**
      * Subtract two numbers
-     * 
+     *
      * @param string $left  The left argument
      * @param string $right The right argument
-     * 
+     *
      * @return A base-10 string of the difference of the two arguments
      */
     public function subtract($left, $right) {
@@ -88,7 +88,7 @@ class PHPMath extends \CryptLib\Core\BigMath {
      *
      * @param string $left  The left argument
      * @param string $right The right argument
-     * 
+     *
      * @return string The binary result
      */
     protected function addBinary($left, $right) {
@@ -116,7 +116,7 @@ class PHPMath extends \CryptLib\Core\BigMath {
      *
      * @param string $left  The left argument
      * @param string $right The right argument
-     * 
+     *
      * @return string The binary result
      */
     protected function subtractBinary($left, $right) {
@@ -141,7 +141,7 @@ class PHPMath extends \CryptLib\Core\BigMath {
      * Take the 256 base compliment
      *
      * @param string $string The binary string to compliment
-     * 
+     *
      * @return string The complimented string
      */
     protected function compliment($string) {
@@ -157,13 +157,10 @@ class PHPMath extends \CryptLib\Core\BigMath {
      * Transform a string number into a binary string using base autodetection
      *
      * @param string $string The string to transform
-     * 
+     *
      * @return string The binary transformed number
      */
     protected function normalize($string) {
-        if (empty($string)) {
-            return chr(0);
-        }
         return BaseConverter::convertToBinary(
             $string,
             '0123456789'

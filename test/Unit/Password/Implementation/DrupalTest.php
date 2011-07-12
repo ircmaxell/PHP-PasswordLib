@@ -17,28 +17,28 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
 
         );
     }
-    
+
     public static function provideTestCreate() {
         return array(
             array(10, 'foo', '$S$8........u9PH9ZMowV1f3sR2VX.YMyU5IvKjn8XsQOo6AIIJDbKnT3bdYztQdz2R1/P7YLxxsaAoK2aM.DlN8BoZV3.Fa0'),
             array(12, 'bar', '$S$A........3QBQPGxacHssvSgTWZ4zteafujOLj8VTg52YYt7HkGgeRePmuCAe7PqrPF.WRP6mdvdH9FpkucPD1L4xMwVFw.'),
-            array(14, 'baz', '$S$C........yDYVEB5.jG8aOZh/41LQ8Ntz5ABb6zfm.I/jevKDWvMhzatnR8e6SH93nxagKcEGo.y7nHYMD.IdMMbeUR6eX.'),
+            array(8, 'baz', '$S$6........7VlqDNkTAvIjwCWtn6nTr6q.4QNOMXcaRBtoNAjqd7xlKhZdWGB27q1IzTaueuMGt7ibiksiZGjE1JTKlK5kb/'),
         );
     }
-    
+
     public static function provideTestVerifyFail() {
         return array(
             array(10, 'foo', '$S$8...3....u9PH9ZMowV1f3sR2VX.YMyU5IvKjn8XsQOo6AIIJDbKnT3bdYztQdz2R1/P7YLxxsaAoK2aM.DlN8BoZV3.Fa0'),
             array(12, 'bar', '$S$A.F......3QBQPGxacHssvSgTWZ4zteafujOLj8VTg52YYt7HkGgeRePmuCAe7PqrPF.WRP6mdvdH9FpkucPD1L4xMwVFw.'),
-            array(14, 'baz', '$S$C........yDYVEB5.jG8aOZh/41LQ8Ntz5ABb6zfm.I/jevKDWvMhzatnR8e6SH93nDagKcEGo.y7nHYMD.IdMMbeUR6eX.'),
+            array(8, 'baz', '$S$6........7VlqDNkTAvIjwCWtn6nTr6qR4QNOMXcaRBtoNAjqd7xlKhZdWGB27q1IzTaueuMGt7ibiksiZGjE1JTKlK5kb/'),
         );
     }
-    
+
     public static function provideTestVerifyFailException() {
         return array(
             array(10, 'foo', '$S$A........u9PH9ZMowV1f3sR2VX.YMyU5IvKjn8XsQOo6AIIJDbKnT3bdYztQdz2R1/P7YLxxsaAoK2aM.DlN8BoZV3.Fa0'),
             array(12, 'bar', '$S$C........3QBQPGxacHssvSgTWZ4zteafujOLj8VTg52YYt7HkGgeRePmuCAe7PqrPF.WRP6mdvdH9FpkucPD1L4xMwVFw.'),
-            array(14, 'baz', '$S$8........yDYVEB5.jG8aOZh/41LQ8Ntz5ABb6zfm.I/jevKDWvMhzatnR8e6SH93nxagKcEGo.y7nHYMD.IdMMbeUR6eX.'),
+            array(8, 'baz', '$S$8........yDYVEB5.jG8aOZh/41LQ8Ntz5ABb6zfm.I/jevKDWvMhzatnR8e6SH93nxagKcEGo.y7nHYMD.IdMMbeUR6eX.'),
         );
     }
 
@@ -72,7 +72,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     public function testGetPrefix() {
         $this->assertEquals('$S$', Drupal::getPrefix());
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Drupal
      */
@@ -90,7 +90,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
         $apr = new Drupal($iterations, $gen);
         $this->assertTrue($apr instanceof Drupal);
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Drupal
      * @expectedException InvalidArgumentException
@@ -98,7 +98,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     public function testConstructFailFail() {
         $hash = new Drupal(40);
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Drupal
      */
@@ -134,7 +134,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
         $apr = $this->getDrupalMockInstance($iterations);
         $this->assertFalse($apr->verify($expect, $pass));
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Drupal
      * @dataProvider provideTestVerifyFailException
