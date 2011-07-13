@@ -42,7 +42,7 @@ class HMAC extends \CryptLib\MAC\AbstractMAC {
      * @return string The generated MAC of the appropriate size
      */
     public function generate($data, $key, $size) {
-        $hash = $this->options['hash'];
+        $hash       = $this->options['hash'];
         $outputSize = Hash::getHashSize($hash);
         if ($size > $outputSize) {
             throw new \OutOfRangeException(

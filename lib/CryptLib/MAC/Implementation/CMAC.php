@@ -75,9 +75,9 @@ class CMAC extends \CryptLib\MAC\AbstractMAC {
             );
         }
         $this->cipher->setKey($key);
-        $keys = $this->generateKeys();
+        $keys    = $this->generateKeys();
         $mBlocks = $this->splitDataIntoMBlocks($data, $keys);
-        $cBlock = str_repeat(chr(0), $blockSize);
+        $cBlock  = str_repeat(chr(0), $blockSize);
         foreach ($mBlocks as $key => $block) {
             $cBlock = $this->cipher->encryptBlock($cBlock ^ $block);
         }
@@ -91,12 +91,12 @@ class CMAC extends \CryptLib\MAC\AbstractMAC {
      * @return array The generated keys
      */
     protected function generateKeys() {
-        $keys = array();
+        $keys      = array();
         $blockSize = $this->cipher->getBlockSize();
-        $rVal = $this->getRValue($blockSize);
-        $text = str_repeat(chr(0), $blockSize);
-        $lVal = $this->cipher->encryptBlock($text);
-        $keys[0] = $this->leftShift($lVal, 1);
+        $rVal      = $this->getRValue($blockSize);
+        $text      = str_repeat(chr(0), $blockSize);
+        $lVal      = $this->cipher->encryptBlock($text);
+        $keys[0]   = $this->leftShift($lVal, 1);
         if (ord(substr($lVal, 0, 1)) > 127) {
             $keys[0] = $keys[0] ^ $rVal;
         }
@@ -127,14 +127,14 @@ class CMAC extends \CryptLib\MAC\AbstractMAC {
     }
 
     protected function leftShift($data, $bits) {
-        $mask = (0xff << (8 - $bits)) & 0xff;
-        $state = 0;
+        $mask   = (0xff << (8 - $bits)) & 0xff;
+        $state  = 0;
         $result = '';
         $length = strlen($data);
         for ($i = $length - 1; $i >= 0; $i--) {
-            $tmp = ord($data[$i]);
+            $tmp     = ord($data[$i]);
             $result .= chr(($tmp << $bits) | $state);
-            $state = ($tmp & $mask) >> (8 - $bits);
+            $state   = ($tmp & $mask) >> (8 - $bits);
         }
         return strrev($result);
     }
@@ -149,12 +149,12 @@ class CMAC extends \CryptLib\MAC\AbstractMAC {
      */
     protected function splitDataIntoMBlocks($data, array $keys) {
         $blockSize = $this->cipher->getBlockSize();
-        $data = str_split($data, $blockSize);
-        $last = end($data);
+        $data      = str_split($data, $blockSize);
+        $last      = end($data);
         if (strlen($last) != $blockSize) {
             //Pad the last element
             $last .= chr(0x80) . str_repeat(chr(0), $blockSize - 1 - strlen($last));
-            $last = $last ^ $keys[1];
+            $last  = $last ^ $keys[1];
         } else {
             $last = $last ^ $keys[0];
         }
