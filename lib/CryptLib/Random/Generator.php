@@ -132,6 +132,8 @@ class Generator {
         $result = BaseConverter::convertFromBinary($rand, $characters);
         if (strlen($result) < $length) {
             $result = str_pad($result, $length, $characters[0], STR_PAD_LEFT);
+        } else {
+            $result = substr($result, 0, $length);
         }
         return $result;
     }

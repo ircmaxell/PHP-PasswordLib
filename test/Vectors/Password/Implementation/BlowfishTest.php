@@ -25,7 +25,7 @@ class Vectors_Password_Implementation_BlowfishTest extends PHPUnit_Framework_Tes
      */
     public function testVerify($pass, $expect, $value) {
         $apr = new Blowfish();
-        $this->assertEquals($value, $apr->verify($expect, $pass));
+        $this->assertEquals($value, $apr->verify($pass, $expect));
     }
 
 }

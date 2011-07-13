@@ -19,7 +19,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
 
         );
     }
-    
+
     public static function provideTestCreate() {
         return array(
             array(4, 'foo', '$2a$04$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
@@ -27,7 +27,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
             array(8, 'baz', '$2a$08$......................2r5UcI6EeUqSfXjbJ3a9ILCO4tKmi5C'),
         );
     }
-    
+
     public static function provideTestVerifyFail() {
         return array(
             array(10, 'foo', '$2a$04$......................wy2Ny4IYV94XATD85vz/zPNKyDLSamC'),
@@ -35,7 +35,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
             array(14, 'baz', '$2a$09$......................2r5UcI6EeUqSfXjbJ3a9ILCO4tKmi5C'),
         );
     }
-    
+
     public static function provideTestVerifyFailException() {
         return array(
             array(10, 'foo', '$2a$04$......................wy8 y4IYV94XATD85vz/zPNKyDLSamC'),
@@ -47,7 +47,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     public function testGetPrefix() {
         $this->assertEquals('$2a$', Blowfish::getPrefix());
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Blowfish
      * @dataProvider provideTestDetect
@@ -89,7 +89,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
         $apr = new Blowfish($iterations, $gen);
         $this->assertTrue($apr instanceof Blowfish);
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Blowfish
      * @expectedException InvalidArgumentException
@@ -97,14 +97,14 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     public function testConstructFailFail() {
         $hash = new Blowfish(40);
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Blowfish
      */
     public function testCreateAndVerify() {
         $hash = new Blowfish(10);
         $test = $hash->create('Foobar');
-        $this->assertTrue($hash->verify($test, 'Foobar'));
+        $this->assertTrue($hash->verify('Foobar', $test));
     }
 
     /**
@@ -122,7 +122,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerify($iterations, $pass, $expect) {
         $apr = $this->getBlowfishMockInstance($iterations);
-        $this->assertTrue($apr->verify($expect, $pass));
+        $this->assertTrue($apr->verify($pass, $expect));
     }
 
     /**
@@ -131,9 +131,9 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerifyFail($iterations, $pass, $expect) {
         $apr = $this->getBlowfishMockInstance($iterations);
-        $this->assertFalse($apr->verify($expect, $pass));
+        $this->assertFalse($apr->verify($pass, $expect));
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\Blowfish
      * @dataProvider provideTestVerifyFailException
@@ -141,7 +141,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerifyFailException($iterations, $pass, $expect) {
         $apr = $this->getBlowfishMockInstance($iterations);
-        $apr->verify($expect, $pass);
+        $apr->verify($pass, $expect);
     }
 
     protected function getBlowfishMockInstance($iterations) {

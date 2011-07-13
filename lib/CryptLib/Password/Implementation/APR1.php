@@ -63,7 +63,7 @@ class APR1 implements \CryptLib\Password\Password {
 
     /**
      * Return the prefix used by this hashing method
-     * 
+     *
      * @return string The prefix used
      */
     public static function getPrefix() {
@@ -117,12 +117,12 @@ class APR1 implements \CryptLib\Password\Password {
     /**
      * Verify a password hash against a given plain text password
      *
-     * @param string $hash     The supplied ahsh to validate
      * @param string $password The password to hash
+     * @param string $hash     The supplied ahsh to validate
      *
      * @return boolean Does the password validate against the hash
      */
-    public function verify($hash, $password) {
+    public function verify($password, $hash) {
         $bits = explode('$', $hash);
         if (!isset($bits[3]) || $bits[1] != 'apr1') {
             return false;

@@ -25,7 +25,7 @@ class Vectors_Password_Implementation_PHPBBTest extends PHPUnit_Framework_TestCa
      */
     public function testVerify($pass, $expect, $value) {
         $apr = new PHPBB();
-        $this->assertEquals($value, $apr->verify($expect, $pass));
+        $this->assertEquals($value, $apr->verify($pass, $expect));
     }
 
 }

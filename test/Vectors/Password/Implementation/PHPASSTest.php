@@ -25,7 +25,7 @@ class Vectors_Password_Implementation_PHPASSTest extends PHPUnit_Framework_TestC
      */
     public function testVerify($pass, $expect, $value) {
         $apr = new PHPASS();
-        $this->assertEquals($value, $apr->verify($expect, $pass));
+        $this->assertEquals($value, $apr->verify($pass, $expect));
     }
 
 }

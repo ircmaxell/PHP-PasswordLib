@@ -39,7 +39,7 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
     public function testGetPrefix() {
         $this->assertEquals('$apr1$', APR1::getPrefix());
     }
-    
+
     /**
      * @covers CryptLib\Password\Implementation\APR1::detect
      * @dataProvider provideTestDetect
@@ -104,7 +104,7 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
      */
     public function testVerify($pass, $expect) {
         $apr = $this->getAPR1MockInstance();
-        $this->assertTrue($apr->verify($expect, $pass));
+        $this->assertTrue($apr->verify($pass, $expect));
     }
 
     /**
@@ -113,7 +113,7 @@ class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
      */
     public function testVerifyFail($pass, $expect) {
         $apr = $this->getAPR1MockInstance();
-        $this->assertFalse($apr->verify($expect, $pass));
+        $this->assertFalse($apr->verify($pass, $expect));
     }
 
     protected function getAPR1MockInstance() {

@@ -105,7 +105,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     public function testCreateAndVerify() {
         $hash = new Drupal(10);
         $test = $hash->create('Foobar');
-        $this->assertTrue($hash->verify($test, 'Foobar'));
+        $this->assertTrue($hash->verify('Foobar', $test));
     }
 
     /**
@@ -123,7 +123,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerify($iterations, $pass, $expect) {
         $apr = $this->getDrupalMockInstance($iterations);
-        $this->assertTrue($apr->verify($expect, $pass));
+        $this->assertTrue($apr->verify($pass, $expect));
     }
 
     /**
@@ -132,7 +132,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerifyFail($iterations, $pass, $expect) {
         $apr = $this->getDrupalMockInstance($iterations);
-        $this->assertFalse($apr->verify($expect, $pass));
+        $this->assertFalse($apr->verify($pass, $expect));
     }
 
     /**
@@ -142,7 +142,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerifyFailException($iterations, $pass, $expect) {
         $apr = $this->getDrupalMockInstance($iterations);
-        $apr->verify($expect, $pass);
+        $apr->verify($pass, $expect);
     }
 
     protected function getDrupalMockInstance($iterations) {

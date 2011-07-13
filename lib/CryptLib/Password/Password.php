@@ -30,16 +30,16 @@ interface Password {
 
     /**
      * Determine if the hash was made with this method
-     * 
+     *
      * @param string $hash The hashed data to check
-     * 
+     *
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash);
 
     /**
      * Return the prefix used by this hashing method
-     * 
+     *
      * @return string The prefix used
      */
     public static function getPrefix();
@@ -65,11 +65,11 @@ interface Password {
     /**
      * Verify a password hash against a given plain text password
      *
-     * @param string $hash     The supplied ahsh to validate
      * @param string $password The password to hash
+     * @param string $hash     The supplied ahsh to validate
      *
      * @return boolean Does the password validate against the hash
      */
-    public function verify($hash, $password);
+    public function verify($password, $hash);
 
 }

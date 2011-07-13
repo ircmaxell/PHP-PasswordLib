@@ -66,17 +66,17 @@ class Factory extends \CryptLib\Core\AbstractFactory {
     /**
      * Verify a hash with a supplied password
      *
-     * @param string $hash     The hash to verify
      * @param string $password The password to check against
+     * @param string $hash     The hash to verify
      *
      * @return boolean True if valid, false if not
      * @throws DomainException if the supplied prefix is not supported
      */
-    public function verifyHash($hash, $password) {
+    public function verifyHash($password, $hash) {
         foreach ($this->implementations as $impl) {
             if ($impl::detect($hash)) {
                 $instance = $impl::loadFromHash($hash);
-                return $instance->verify($hash, $password);
+                return $instance->verify($password, $hash);
             }
         }
         throw new \DomainException('Unsupported Password Hash Supplied');

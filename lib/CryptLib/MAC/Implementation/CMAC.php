@@ -63,8 +63,11 @@ class CMAC extends \CryptLib\MAC\AbstractMAC {
      *
      * @return string The generated MAC of the appropriate size
      */
-    public function generate($data, $key, $size) {
+    public function generate($data, $key, $size = 0) {
         $blockSize = $this->cipher->getBlockSize();
+        if ($size == 0) {
+            $size = $outputSize;
+        }
         if ($size > $blockSize) {
             throw new \OutOfRangeException(
                 sprintf(

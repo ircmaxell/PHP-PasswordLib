@@ -148,12 +148,12 @@ class PBKDF implements \CryptLib\Password\Password {
     /**
      * Verify a password hash against a given plain text password
      *
-     * @param string $hash     The supplied ahsh to validate
      * @param string $password The password to hash
+     * @param string $hash     The supplied ahsh to validate
      *
      * @return boolean Does the password validate against the hash
      */
-    public function verify($hash, $password) {
+    public function verify($password, $hash) {
         if (strlen($hash) <= 16 || strpos($hash, '$') === false) {
             return false;
         }

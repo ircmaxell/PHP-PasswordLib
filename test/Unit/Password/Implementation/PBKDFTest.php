@@ -144,7 +144,7 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
             }
         ));
         $pbkdf = new PBKDF($mock1, 30, 50, $mock2);
-        $this->assertTrue($pbkdf->verify($expect, $password));
+        $this->assertTrue($pbkdf->verify($password, $expect));
     }
 
     /**
@@ -173,7 +173,7 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
             }
         ));
         $pbkdf = new PBKDF($mock1, 30, 50, $mock2);
-        $this->assertFalse($pbkdf->verify($expect, $password));
+        $this->assertFalse($pbkdf->verify($password, $expect));
     }
 
 }

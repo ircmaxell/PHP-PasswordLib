@@ -108,7 +108,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerify($func, $pass, $hash) {
         $apr = new Hash($func);
-        $this->assertTrue($apr->verify($hash, $pass));
+        $this->assertTrue($apr->verify($pass, $hash));
     }
 
     /**
@@ -117,7 +117,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerifyFail($func, $pass, $expect) {
         $apr = new Hash($func);
-        $this->assertFalse($apr->verify($expect, $pass));
+        $this->assertFalse($apr->verify($pass, $expect));
     }
 
     protected function getRandomGenerator($generate) {

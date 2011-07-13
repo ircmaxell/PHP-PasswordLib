@@ -38,7 +38,7 @@ class Vectors_Password_Implementation_APR1Test extends PHPUnit_Framework_TestCas
      */
     public function testVerify($pass, $expect, $value) {
         $apr = new APR1();
-        $this->assertEquals($value, $apr->verify($expect, $pass));
+        $this->assertEquals($value, $apr->verify($pass, $expect));
     }
 
 }

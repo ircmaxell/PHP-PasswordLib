@@ -40,6 +40,6 @@ interface MAC {
      *
      * @return string The generated MAC of the appropriate size
      */
-    public function generate($data, $key, $size);
+    public function generate($data, $key, $size = 0);
 
 }

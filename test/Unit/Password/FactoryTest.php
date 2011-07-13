@@ -50,7 +50,7 @@ class Unit_Password_FactoryTest extends PHPUnit_Framework_TestCase {
     public function testCreateThenVerify($algo) {
         $factory = new Factory;
         $text = $factory->createHash('foo', $algo);
-        $this->assertTrue($factory->verifyHash($text, 'foo'));
+        $this->assertTrue($factory->verifyHash('foo', $text));
     }
 
     /**
@@ -63,21 +63,21 @@ class Unit_Password_FactoryTest extends PHPUnit_Framework_TestCase {
 
     public function testVerifyMD5() {
         $factory = new Factory;
-        $this->assertTrue($factory->verifyHash(md5('foo'), 'foo'));
+        $this->assertTrue($factory->verifyHash('foo', md5('foo')));
     }
 
     public function testVerifySHA1() {
         $factory = new Factory;
-        $this->assertTrue($factory->verifyHash(sha1('foo'), 'foo'));
+        $this->assertTrue($factory->verifyHash('foo', sha1('foo')));
     }
 
     public function testVerifySHA256() {
         $factory = new Factory;
-        $this->assertTrue($factory->verifyHash(hash('sha256', 'foo'), 'foo'));
+        $this->assertTrue($factory->verifyHash('foo', hash('sha256', 'foo')));
     }
 
     public function testVerifySHA512() {
         $factory = new Factory;
-        $this->assertTrue($factory->verifyHash(hash('sha512', 'foo'), 'foo'));
+        $this->assertTrue($factory->verifyHash('foo', hash('sha512', 'foo')));
     }
 }

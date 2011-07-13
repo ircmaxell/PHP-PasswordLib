@@ -111,7 +111,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     public function testCreateAndVerify() {
         $hash = new PHPASS(10);
         $test = $hash->create('Foobar');
-        $this->assertTrue($hash->verify($test, 'Foobar'));
+        $this->assertTrue($hash->verify('Foobar', $test));
     }
 
     /**
@@ -120,7 +120,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerify($iterations, $pass, $expect) {
         $apr = $this->getPHPASSMockInstance($iterations);
-        $this->assertTrue($apr->verify($expect, $pass));
+        $this->assertTrue($apr->verify($pass, $expect));
     }
 
     /**
@@ -129,7 +129,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerifyFail($iterations, $pass, $expect) {
         $apr = $this->getPHPASSMockInstance($iterations);
-        $this->assertFalse($apr->verify($expect, $pass));
+        $this->assertFalse($apr->verify($pass, $expect));
     }
 
     /**
@@ -139,7 +139,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
      */
     public function testVerifyFailException($iterations, $pass, $expect) {
         $apr = $this->getPHPASSMockInstance($iterations);
-        $apr->verify($expect, $pass);
+        $apr->verify($pass, $expect);
     }
 
     protected function getPHPASSMockInstance($iterations) {
