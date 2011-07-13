@@ -146,6 +146,7 @@ You can bypass the auto-detection and manually verify:
     - **Random**    - Generation from the system's /dev/random source
     - **URandom**   - Generation from the system's /dev/urandom source
     - **UniqID**    - A low entropy source based upon uniqid()
+
 #Library Dependencies:
 
 The only dependency PHP-CryptLib has to use as a library is the PHP version.  It is made to be completely indepedent of extensions, implementing functionality natively where possible.
