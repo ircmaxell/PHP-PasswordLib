@@ -84,7 +84,6 @@ class Joomla implements \CryptLib\Password\Password {
     public function __construct(
         \CryptLib\Random\Generator $generator = null
     ) {
-        $this->hash = $hashMethod;
         if (is_null($generator)) {
             $random    = new RandomFactory();
             $generator = $random->getMediumStrengthGenerator();
