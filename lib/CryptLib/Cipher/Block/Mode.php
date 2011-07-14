@@ -28,22 +28,22 @@ interface Mode {
 
     /**
      * Build the instance of the cipher mode
-     * 
-     * @param Cipher $cipher The cipher to use for encryption/decryption
-     * @param string $initv  The initialization vector (empty if not needed)
-     * @param string $adata  Additional data to authenticate the ciphertext with
+     *
+     * @param Cipher $cipher  The cipher to use for encryption/decryption
+     * @param string $initv   The initialization vector (empty if not needed)
+     * @param array  $options An array of mode-specific options
      */
     public function __construct(
         \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
-        $adata = ''
+        array $options = array()
     );
 
     /**
      * Decrypt the data using the supplied key, cipher and initialization vector
      *
      * @param string $data The data to decrypt
-     * 
+     *
      * @return string The decrypted data
      */
     public function decrypt($data);
@@ -52,14 +52,14 @@ interface Mode {
      * Encrypt the data using the supplied key, cipher and initialization vector
      *
      * @param string $data The data to encrypt
-     * 
+     *
      * @return string The encrypted data
      */
     public function encrypt($data);
 
     /**
      * Finish the mode and append any additional data necessary
-     * 
+     *
      * @return string Any additional data
      */
     public function finish();
@@ -73,7 +73,7 @@ interface Mode {
 
     /**
      * Reset the mode to start over (destroying any intermediate state)
-     * 
+     *
      * @return void
      */
     public function reset();

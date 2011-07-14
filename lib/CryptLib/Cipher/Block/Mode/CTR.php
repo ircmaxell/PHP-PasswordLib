@@ -37,16 +37,16 @@ class CTR extends \CryptLib\Cipher\Block\AbstractMode {
     /**
      * Build the instance of the cipher mode
      *
-     * @param Cipher $cipher The cipher to use for encryption/decryption
-     * @param string $initv  The initialization vector (empty if not needed)
-     * @param string $adata  Additional data to authenticate the ciphertext with
+     * @param Cipher $cipher  The cipher to use for encryption/decryption
+     * @param string $initv   The initialization vector (empty if not needed)
+     * @param array  $options An array of mode-specific options
      */
     public function __construct(
         \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
-        $adata = ''
+        array $options = array()
     ) {
-        parent::__construct($cipher, $initv, $adata);
+        parent::__construct($cipher, $initv, $options);
         $this->bigMath = BigMath::createFromServerConfiguration();
     }
 

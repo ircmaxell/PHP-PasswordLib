@@ -48,9 +48,9 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
     protected $data = '';
 
     /**
-     * @var string The initialization vector to use for this instance
+     * @var int The number of octets in the length field
      */
-    protected $usedIV = '';
+    protected $lSize = 4;
 
     /**
      * @var int The current encryption mode (enc/dec)
@@ -58,13 +58,44 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
     protected $mode = 0;
 
     /**
-     * @var int The number of octets in the length field
+     * @var array Mode specific options
      */
-    protected $lSize = 4;
+    protected $options = array(
+        'adata' => '',
+        'lSize' => 4,
+        'aSize' => 8,
+    );
+
+    /**
+     * @var string The initialization vector to use for this instance
+     */
+    protected $usedIV = '';
+
+    /**
+     * Build the instance of the cipher mode
+     *
+     * @param Cipher $cipher  The cipher to use for encryption/decryption
+     * @param string $initv   The initialization vector (empty if not needed)
+     * @param array  $options An array of mode-specific options
+     */
+    public function __construct(
+        \CryptLib\Cipher\Block\Cipher $cipher,
+        $initv,
+        array $options = array()
+    ) {
+        $this->mode    = strtolower(get_class($this));
+        $this->options = $options + $this->options;
+        $this->cipher  = $cipher;
+        $this->initv   = $initv;
+        $this->adata   = $this->options['adata'];
+        $this->setLSize($this->options['lSize']);
+        $this->setAuthFieldSize($this->options['aSize']);
+        $this->reset();
+    }
 
     /**
      * Finish the mode and append any additional data necessary
-     * 
+     *
      * @return string Any additional data
      */
     public function finish() {
@@ -79,15 +110,15 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
     }
 
     /**
-     * Set the auth field size to a different value.  
-     * 
+     * Set the auth field size to a different value.
+     *
      * Valid values: 4, 6, 8, 10, 12, 14, 16
-     * 
-     * Note that increasing this size will make it harder for an attacker to 
+     *
+     * Note that increasing this size will make it harder for an attacker to
      * modify the message payload
      *
      * @param int $new The new size of auth field to append
-     * 
+     *
      * @return void
      * @throws InvalidArgumentException If the number is outside of the range
      */
@@ -106,9 +137,9 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
      * message size and the size of the initialization vector
      *
      * Valid values are 2, 3, 4, 5, 6, 7, 8
-     * 
+     *
      * @param int $new The new LSize to use
-     * 
+     *
      * @return void
      * @throws InvalidArgumentException If the number is outside of the range
      */
@@ -124,7 +155,7 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
 
     /**
      * Reset the mode to start over (destroying any intermediate state)
-     * 
+     *
      * @return void
      */
     public function reset() {
@@ -193,8 +224,8 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
      * Compute the authentication field
      *
      * @param string $data   The data to compute with
-     * 
-     * @return string The computed MAC Authentication Code 
+     *
+     * @return string The computed MAC Authentication Code
      */
     protected function computeAuthField($data) {
         $blockSize = $this->cipher->getBlockSize();
@@ -211,11 +242,13 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
             $data .= str_repeat(chr(0), $blockSize - (strlen($data) % $blockSize));
         }
 
-        $blocks  = array_merge(
+        $blocks = array_merge(
             $blocks,
             $this->processAData($this->adata, $blockSize)
         );
-        $blocks  = array_merge($blocks, str_split($data, $blockSize));
+        if (!empty($data)) {
+            $blocks = array_merge($blocks, str_split($data, $blockSize));
+        }
         $crypted = array(
             1 => $this->cipher->encryptBlock($blocks[0])
         );
@@ -233,8 +266,8 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
      * Encrypt the data using the supplied method
      *
      * @param string $data      The data to encrypt
-     * @param string $authValue The auth value field 
-     * 
+     * @param string $authValue The auth value field
+     *
      * @return string The encrypted data with authfield payload
      */
     protected function encryptMessage($data, $authValue) {
@@ -262,9 +295,9 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
 
     /**
      * Enforce the data block is the correct size for the cipher
-     * 
+     *
      * @param string $data The data to check
-     * 
+     *
      * @return void
      * @throws InvalidArgumentException if the block size is not correct
      */
@@ -277,7 +310,7 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
      *
      * @param string $initv     The initialization Vector to trim
      * @param int    $blockSize The size of the final nonce
-     * 
+     *
      * @return string The sized nonce
      * @throws InvalidArgumentException if the IV is too short
      */
@@ -310,7 +343,7 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
      *
      * @param string $adata     The data to authenticate with
      * @param int    $blockSize The block size for the cipher
-     * 
+     *
      * @return array An array of strings bound by the supplied blocksize
      */
     protected function processAData($adata, $blockSize) {

@@ -3,20 +3,20 @@
 namespace CryptLibTest\lib\VectorParser;
 
 class CAVS {
-    
+
     protected $file = '';
-    
+
     protected $vectors = array();
-    
+
     public function __construct($file) {
         $this->file = $file;
         $this->parse();
     }
-    
+
     public function getVectors() {
-        return array_slice($this->vectors, 0, 2);
+        return $this->vectors;
     }
-    
+
     protected function parse() {
         $data = file($this->file);
         $bufferValid = false;
@@ -26,6 +26,7 @@ class CAVS {
             if (empty($line)) {
                 if ($bufferValid) {
                     $this->processBuffer($buffer);
+                    $buffer = array();
                     $bufferValid = false;
                 }
             } elseif ($line[0] == '#') {
@@ -41,7 +42,7 @@ class CAVS {
             }
         }
     }
-    
+
     protected function processBuffer(array $buffer) {
         $this->vectors[] = $buffer;
     }

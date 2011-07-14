@@ -32,7 +32,7 @@ class Vectors_Cipher_Block_Mode_CTRTest extends PHPUnit_Framework_TestCase {
 
         $cipher = new \CryptLib\Cipher\Block\Cipher\AES($cipher);
         $cipher->setKey(pack('H*', $key));
-        $mode = new \CryptLib\Cipher\Block\Mode\CTR($cipher, pack('H*', $iv), '');
+        $mode = new \CryptLib\Cipher\Block\Mode\CTR($cipher, pack('H*', $iv));
         foreach ($vectors as $vector) {
             list (,,, $data, $expected) = $vector;
             $enc = $mode->encrypt(pack('H*', $data));
@@ -48,7 +48,7 @@ class Vectors_Cipher_Block_Mode_CTRTest extends PHPUnit_Framework_TestCase {
         list ($cipher, $key, $iv) = $vectors[0];
         $cipher = new \CryptLib\Cipher\Block\Cipher\AES($cipher);
         $cipher->setKey(pack('H*', $key));
-        $mode = new \CryptLib\Cipher\Block\Mode\CTR($cipher, pack('H*', $iv), '');
+        $mode = new \CryptLib\Cipher\Block\Mode\CTR($cipher, pack('H*', $iv));
         foreach ($vectors as $vector) {
             list (,,, $data, $expected) = $vector;
             $dec = $mode->decrypt(pack('H*', $data));
