@@ -66,7 +66,7 @@ class CMAC extends \CryptLib\MAC\AbstractMAC {
     public function generate($data, $key, $size = 0) {
         $blockSize = $this->cipher->getBlockSize();
         if ($size == 0) {
-            $size = $outputSize;
+            $size = $blockSize;
         }
         if ($size > $blockSize) {
             throw new \OutOfRangeException(
