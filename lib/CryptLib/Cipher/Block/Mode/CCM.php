@@ -53,9 +53,14 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
     protected $lSize = 4;
 
     /**
+     * @var string The mode name for the current instance
+     */
+    protected $mode = 'ccm';
+
+    /**
      * @var int The current encryption mode (enc/dec)
      */
-    protected $mode = 0;
+    protected $encryptionMode = 0;
 
     /**
      * @var array Mode specific options
@@ -83,7 +88,6 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
         $initv,
         array $options = array()
     ) {
-        $this->mode    = strtolower(get_class($this));
         $this->options = $options + $this->options;
         $this->cipher  = $cipher;
         $this->initv   = $initv;
@@ -99,10 +103,11 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
      * @return string Any additional data
      */
     public function finish() {
-        if (!($this->mode ^ (static::MODE_DECRYPT | static::MODE_ENCRYPT))) {
+        $mask = (static::MODE_DECRYPT | static::MODE_ENCRYPT);
+        if (!($this->encryptionMode ^ $mask)) {
             throw new \LogicException('Cannot encrypt and decrypt in same state');
         }
-        if ($this->mode & static::MODE_DECRYPT) {
+        if ($this->encryptionMode & static::MODE_DECRYPT) {
             return $this->decryptBlockFinal();
         } else {
             return $this->encryptBlockFinal();
@@ -159,12 +164,12 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
      * @return void
      */
     public function reset() {
-        $this->usedIV = $this->extractInitv(
+        $this->usedIV         = $this->extractInitv(
             $this->initv,
             $this->cipher->getBlockSize()
         );
-        $this->mode   = 0;
-        $this->data   = '';
+        $this->encryptionMode = 0;
+        $this->data           = '';
     }
 
     /**
@@ -176,7 +181,7 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
      */
     protected function decryptBlock($data) {
         $this->data .= $data;
-        $this->mode |= static::MODE_DECRYPT;
+        $this->encryptionMode |= static::MODE_DECRYPT;
     }
 
     /**
@@ -206,7 +211,7 @@ class CCM extends \CryptLib\Cipher\Block\AbstractMode {
      */
     protected function encryptBlock($data) {
         $this->data .= $data;
-        $this->mode |= static::MODE_ENCRYPT;
+        $this->encryptionMode |= static::MODE_ENCRYPT;
     }
 
     /**

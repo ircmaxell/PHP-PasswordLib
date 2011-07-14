@@ -65,6 +65,13 @@ class Unit_Cipher_Block_Mode_CCMTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, strtoupper(bin2hex($actual)));
     }
 
+    public function testGetMode() {
+        $factory = new \CryptLib\Cipher\Factory();
+        $aes = $factory->getBlockCipher('rijndael-128');
+        $mode = new CryptLib\Cipher\Block\Mode\CCM($aes, 'foobarbazbizbuz');
+        $this->assertEquals('ccm', $mode->getMode());
+    }
+
     public function testDecrypt() {
         $factory = new \CryptLib\Cipher\Factory();
         $aes = $factory->getBlockCipher('rijndael-128');

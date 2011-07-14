@@ -46,7 +46,7 @@ class X_OR extends \CryptLib\Cipher\Block\AbstractCipher {
         $this->key         = $key;
         $this->keySize     = strlen($key);
         $this->blockSize   = $this->keySize;
-        $this->initialized = true;
+        $this->initialized = $this->initialize();
     }
 
     /**

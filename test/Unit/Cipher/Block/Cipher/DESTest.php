@@ -11,7 +11,7 @@ class Unit_Cipher_Block_Cipher_DESTest extends PHPUnit_Framework_TestCase {
         );
         return $ret;
     }
-    
+
     /**
      * @return array The test vectors
      */
@@ -21,7 +21,7 @@ class Unit_Cipher_Block_Cipher_DESTest extends PHPUnit_Framework_TestCase {
         );
         return $ret;
     }
-    
+
     /**
      * @dataProvider provideTestEncryptVectors
      */
@@ -31,7 +31,7 @@ class Unit_Cipher_Block_Cipher_DESTest extends PHPUnit_Framework_TestCase {
         $enc = $cipher->encryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
-    
+
     /**
      * @dataProvider provideTestDecryptVectors
      */
@@ -41,17 +41,17 @@ class Unit_Cipher_Block_Cipher_DESTest extends PHPUnit_Framework_TestCase {
         $enc = $cipher->decryptBlock(pack('H*', $data));
         $this->assertEquals($expected, strtoupper(bin2hex($enc)));
     }
-    
+
     public function testBlockSize() {
         $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
         $this->assertEquals(8, $cipher->getBlockSize());
     }
-    
+
     public function testGetCipher() {
         $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
         $this->assertEquals('des', $cipher->getCipher());
     }
-    
+
     /**
      * @expectedException InvalidArgumentException
      */
@@ -59,4 +59,28 @@ class Unit_Cipher_Block_Cipher_DESTest extends PHPUnit_Framework_TestCase {
         $cipher = new \CryptLib\Cipher\Block\Cipher\DES('something');
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetKeyFailure() {
+        $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
+        $cipher->setKey('foo');
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testEncryptFailure() {
+        $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
+        $enc = $cipher->encryptBlock('barbazbi');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testEncryptFailure2() {
+        $cipher = new \CryptLib\Cipher\Block\Cipher\DES('des');
+        $cipher->setKey('foobarba');
+        $enc = $cipher->encryptBlock('ab');
+    }
 }

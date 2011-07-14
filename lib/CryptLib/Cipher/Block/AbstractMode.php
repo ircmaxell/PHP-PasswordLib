@@ -84,7 +84,9 @@ abstract class AbstractMode implements \CryptLib\Cipher\Block\Mode {
         $initv,
         array $options = array()
     ) {
-        $this->mode    = strtolower(get_class($this));
+        $class         = strtolower(get_class($this));
+        $class         = substr($class, strrpos($class, '\\'));
+        $this->mode    = $class;
         $this->options = $options + $this->options;
         $this->cipher  = $cipher;
         $this->initv   = $initv;

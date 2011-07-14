@@ -124,7 +124,7 @@ class CMAC extends \CryptLib\MAC\AbstractMAC {
                 return str_repeat(chr(0), 7) . chr(0x1B);
             case 128:
                 return str_repeat(chr(0), 15) . chr(0x87);
-                break;
+            default:
         }
         throw new \RuntimeException('Unsupported Block Size For The Cipher');
     }
