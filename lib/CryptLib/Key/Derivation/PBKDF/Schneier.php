@@ -40,7 +40,7 @@ class Schneier
      * @return string The signature for this instance
      */
     public function getSignature() {
-        return 'schneier-'.$this->hash->getName();
+        return 'schneier-'.$this->hash;
     }
 
 }

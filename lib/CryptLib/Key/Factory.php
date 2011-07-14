@@ -45,7 +45,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      */
     public function __construct() {
         $this->loadPBKDF();
-        //$this->loadKDF();
+        $this->loadKDF();
         //$this->loadSymmetricGenerators();
     }
 
