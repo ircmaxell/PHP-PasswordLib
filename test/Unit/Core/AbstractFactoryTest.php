@@ -7,11 +7,8 @@ use CryptLibTest\Mocks\Core\Factory;
 class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
-        vfsStreamWrapper::register();
-
-        // Create Folders
-        $root = new vfsStreamDirectory('CryptLibTest');
-        vfsStreamWrapper::setRoot($root);
+        $root = vfsStream::setup('CryptLibTest');
+        //Setup Folders
         $core = vfsStream::newDirectory('Core')->at($root);
         $af = vfsStream::newDirectory('AbstractFactory')->at($core);
 
@@ -27,7 +24,7 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
      */
     public function testRegisterType() {
         $factory = new Factory;
-        $factory->registerType('test', 'iteratoraggregate', 'foo', 'ArrayObject', false); 
+        $factory->registerType('test', 'iteratoraggregate', 'foo', 'ArrayObject', false);
     }
 
     /**
@@ -36,7 +33,7 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
      */
     public function testRegisterTypeFail() {
         $factory = new Factory;
-        $factory->registerType('test', 'iterator', 'foo', 'ArrayObject', false); 
+        $factory->registerType('test', 'iterator', 'foo', 'ArrayObject', false);
     }
 
     /**
@@ -44,7 +41,7 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
      */
     public function testRegisterTypeInstantiate() {
         $factory = new Factory;
-        $factory->registerType('test', 'iteratoraggregate', 'foo', 'ArrayObject', true); 
+        $factory->registerType('test', 'iteratoraggregate', 'foo', 'ArrayObject', true);
     }
 
     public function testLoadFiles() {
@@ -59,7 +56,7 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
         $factory->loadFiles($dir, 'foo\\', $callback);
 
         $expect = array(
-            'test' => 'foo\\test', 
+            'test' => 'foo\\test',
             'Some234Foo234Bar98Name' => 'foo\\Some234Foo234Bar98Name'
         );
 
