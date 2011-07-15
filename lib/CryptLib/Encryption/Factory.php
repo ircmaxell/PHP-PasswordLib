@@ -74,23 +74,6 @@ class Factory extends \CryptLib\Core\AbstractFactory {
     }
 
     /**
-     * Get an instance of the Symmetric Encryption class
-     *
-     * @param string $algorithm   The cipher name to use
-     * @param string $mode        The mode name to use
-     * @param string $packingMode The PackingMode name to use
-     *
-     * @return Symmetric The encryption class instance
-     */
-    public function getSymmetric($algorithm, $mode, $packingMode = 'pkcs7') {
-        return new Symmetric(
-            $this->cipherFactory->getBlockCipher($algorithm),
-            $this->cipherFactory->getMode($mode),
-            $this->getPackingMode($packingMode)
-        );
-    }
-
-    /**
      * Register a new packing mode by name
      *
      * @param string $name  The name of the packing mode

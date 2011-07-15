@@ -4,7 +4,7 @@ use CryptLibTest\Mocks\Random\Mixer;
 use CryptLibTest\Mocks\Random\Source;
 
 use CryptLib\Core\Strength;
-
+use CryptLibTest\Mocks\Core\Strength as MockStrength;
 use CryptLib\Random\Factory;
 
 class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
@@ -19,6 +19,28 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
     public function testConstruct() {
         $factory = new Factory;
         $this->assertTrue($factory instanceof CryptLib\Random\Factory);
+    }
+
+    /**
+     * @covers CryptLib\Random\Factory
+     */
+    public function testGetGeneratorFallback() {
+        $factory = new Factory;
+        $generator = $factory->getGenerator(new MockStrength(MockStrength::MEDIUMLOW));
+        $mixer = call_user_func(array(
+            get_class($generator->getMixer()),
+            'getStrength'
+        ));
+        $this->assertTrue($mixer->compare(new Strength(Strength::LOW)) <= 0);
+    }
+
+    /**
+     * @covers CryptLib\Random\Factory
+     * @expectedException RuntimeException
+     */
+    public function testGetGeneratorFallbackFail() {
+        $factory = new Factory;
+        $generator = $factory->getGenerator(new MockStrength(MockStrength::SUPERHIGH));
     }
 
     /**

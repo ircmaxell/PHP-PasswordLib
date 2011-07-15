@@ -102,7 +102,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         $mode,
         \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
-        $adata
+        array $options = array()
     ) {
         if (is_object($mode) && $mode instanceof Mode) {
             return $mode;
@@ -110,7 +110,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
         $mode = strtolower($mode);
         if (isset($this->modes[$mode])) {
             $class = $this->modes[$mode];
-            return new $class($cipher, $initv, $adata);
+            return new $class($cipher, $initv, $options);
         }
         $message = sprintf('Unsupported Mode %s', $mode);
         throw new \RuntimeException($message);

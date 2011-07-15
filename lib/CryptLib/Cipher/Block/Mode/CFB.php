@@ -33,7 +33,10 @@ class CFB extends \CryptLib\Cipher\Block\AbstractMode {
      * @return string The decrypted data
      */
     protected function decryptBlock($data) {
-        return $this->encryptBlock($data);
+        $stub        = $this->cipher->encryptBlock($this->state);
+        $rawData     = $stub ^ $data;
+        $this->state = $rawData;
+        return $rawData;
     }
 
     /**
