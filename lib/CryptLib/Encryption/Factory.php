@@ -98,7 +98,7 @@ class Factory extends \CryptLib\Core\AbstractFactory {
      */
     protected function loadPackingModes() {
         $this->loadFiles(
-            __DIR__ . '/packingmode',
+            __DIR__ . '/PackingMode',
             __NAMESPACE__ . '\\PackingMode\\',
             array($this, 'registerPackingMode')
         );
