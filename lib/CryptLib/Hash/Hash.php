@@ -259,8 +259,8 @@ class Hash {
             'secure'    => false,
         ),
         'joaat' => array(
-            'HashSize'  => 64,
-            'BlockSize' => 64,
+            'HashSize'  => 128,
+            'BlockSize' => 128,
             'secure'    => false,
         ),
         'fnv132' => array(
