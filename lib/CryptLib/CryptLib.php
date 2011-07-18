@@ -76,6 +76,19 @@ class CryptLib {
     }
 
     /**
+     * Generate a random full-byte string (characters 0 - 255)
+     *
+     * @param int $size The length of the generated string
+     *
+     * @return string The generated string
+     */
+    public function getRandomBytes($size) {
+        $factory   = new RandomFactory;
+        $generator = $factory->getMediumStrengthGenerator();
+        return $generator->generate($size);
+    }
+
+    /**
      * Get a random number between the supplied boundaries
      *
      * @param int $min The smallest bound the generated number can be
@@ -87,19 +100,6 @@ class CryptLib {
         $factory   = new RandomFactory;
         $generator = $factory->getMediumStrengthGenerator();
         return $generator->generateInt($min, $max);
-    }
-
-    /**
-     * Generate a random full-byte string (characters 0 - 255)
-     *
-     * @param int $size The length of the generated string
-     *
-     * @return string The generated string
-     */
-    public function getRandomString($size) {
-        $factory   = new RandomFactory;
-        $generator = $factory->getMediumStrengthGenerator();
-        return $generator->generate($size);
     }
 
     /**

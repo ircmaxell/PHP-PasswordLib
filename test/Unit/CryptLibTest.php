@@ -40,9 +40,9 @@ class Unit_CryptLibTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThanOrEqual($max, $number);
     }
 
-    public function testGetRandomString() {
+    public function testGetRandomBytes() {
         $crypt = new CryptLib;
-        $string = $crypt->getRandomString(10);
+        $string = $crypt->getRandomBytes(10);
         $this->assertEquals(10, strlen($string));
     }
 
