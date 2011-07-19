@@ -92,19 +92,45 @@ class Generator {
      *
      * @return int The generated random number within the range
      */
-    public function generateInt($min = 0, $max = \PHP_INT_MAX) {
+    public function generateInt($min = 0, $max = PHP_INT_MAX) {
         $tmp   = (int) max($max, $min);
         $min   = (int) min($max, $min);
         $max   = $tmp;
         $range = $max - $min;
         if ($range == 0) {
             return $max;
+        } elseif ($range > PHP_INT_MAX) {
+            // This works, because PHP will auto-convert it to a float at this point
+            throw new \RangeException(
+                'The supplied range is too great to generate'
+            );
         }
-        $bytes    = max(ceil(log($range, 2) / 8), 1);
-        $rand     = $this->generate($bytes);
-        $number   = hexdec(bin2hex($rand));
-        $numRange = pow(2, $bytes * 8) - 1;
-        return (int) ($min + (($number * $range) / $numRange));
+        $bits  = ceil(log($range, 2));
+        $bytes = max(ceil($bits / 8), 1);
+        $shift = ($bytes * 8) - $bits;
+        /**
+         * This shift is an optimization to prevent the generated result from being
+         * overly big.  This should cut down the number of iterations necessary when
+         * the number of un-necessary generated bits is high.  This will occur when
+         * the range is slightly more than an even byte value 2^(8n).  The generated
+         * number is right-shifted by the difference in bits.  That way, un-necessary
+         * bits will "fall off" the end and not be problematic.
+         *
+         * Example:
+         * Range = 300
+         * Bits  = 9
+         * Bytes = 2
+         * Shift = 7
+         *
+         * So in this example, the overal generated random number will only have 9
+         * bits of randomness, so the chance the result is greater than the range
+         * is greatly reduced.
+         */
+        do {
+            $test   = $this->generate($bytes);
+            $result = hexdec(bin2hex($test)) >> $shift;
+        } while ($result > $range);
+        return $result + $min;
     }
 
     /**

@@ -31,7 +31,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
             array(-10, 0, -10),
             array(-655, -400, -655),
             array(-131070, -65535, -130813),
-        ); 
+        );
     }
 
     public static function provideGenerateIntRangeTest() {
@@ -157,6 +157,14 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         $n = $this->generator->generateInt($min, $max);
         $this->assertTrue($min <= $n);
         $this->assertTrue($max >= $n);
+    }
+
+    /**
+     * @covers CryptLib\Random\Generator::generateInt
+     * @expectedException RangeException
+     */
+    public function testGenerateIntFail() {
+        $n = $this->generator->generateInt(-1, PHP_INT_MAX);
     }
 
     /**
