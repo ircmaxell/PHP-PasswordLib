@@ -107,30 +107,27 @@ class Generator {
         }
         $bits  = ceil(log($range, 2));
         $bytes = max(ceil($bits / 8), 1);
-        $shift = ($bytes * 8) - $bits;
+        $mask  = (int) (pow(2, $bits) - 1);
         /**
-         * This shift is an optimization to prevent the generated result from being
-         * overly big.  This should cut down the number of iterations necessary when
-         * the number of un-necessary generated bits is high.  This will occur when
-         * the range is slightly more than an even byte value 2^(8n).  The generated
-         * number is right-shifted by the difference in bits.  That way, un-necessary
-         * bits will "fall off" the end and not be problematic.
+         * The mask is a better way of dropping unused bits.  Basically what it does
+         * is to set all the bits in the mask to 1 that we may need.  Since the max
+         * range is PHP_INT_MAX, we will never need negative numbers (which would
+         * have the MSB set on the max int possible to generate).  Therefore we
+         * can just mask that away.  Since pow returns a float, we need to cast
+         * it back to an int so the mask will work.
          *
-         * Example:
-         * Range = 300
-         * Bits  = 9
-         * Bytes = 2
-         * Shift = 7
+         * On a 64 bit platform, that means that PHP_INT_MAX is 2^63 - 1.  Which
+         * is also the mask if 63 bits are needed (by the log(range, 2) call).
+         * So if the computed result is negative (meaning the 64th bit is set), the
+         * mask will correct that.
          *
-         * So in this example, the overal generated random number will only have 9
-         * bits of randomness, so the chance the result is greater than the range
-         * is greatly reduced.
+         * This turns out to be slightly better than the shift as we don't need to
+         * worry about "fixing" negative values.
          */
         do {
             $test   = $this->generate($bytes);
-            $result = hexdec(bin2hex($test)) >> $shift;
+            $result = hexdec(bin2hex($test)) & $mask;
         } while ($result > $range);
-
         return $result + $min;
     }
 
