@@ -21,11 +21,7 @@ class Unit_Random_Source_URandomTest extends PHPUnit_Framework_TestCase {
      * @covers CryptLib\Random\Source\URandom::getStrength
      */
     public function testGetStrength() {
-        if (defined('S_ALL')) {
-            $strength = new Strength(Strength::LOW);
-        } else {
-            $strength = new Strength(Strength::MEDIUM);
-        }
+        $strength = new Strength(Strength::MEDIUM);
         $actual = URandom::getStrength();
         $this->assertEquals($actual, $strength);
     }

@@ -38,12 +38,7 @@ class URandom implements \CryptLib\Random\Source {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        //This source is over-used by Suhosin patch, the strength is lowered
-        if (defined('S_ALL')) {
-            return new Strength(Strength::LOW);
-        } else {
-            return new Strength(Strength::MEDIUM);
-        }
+        return new Strength(Strength::MEDIUM);
     }
 
     /**

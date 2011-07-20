@@ -26,25 +26,29 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
             array(10, 100, 1),
             // Finally, let's try two large numbers
             array(100000, 100007, 5),
-            array(100000000, 100002047, 5)
+            array(100000000, 100002047, 5),
+            // Now, let's force a few loops by setting a valid offset
+            array(0, 5, 5, 2),
+            array(0, 9, 4, 2),
+            array(0, 27, 3, 4),
         );
     }
 
     /**
      * This test asserts that the algorithm that generates the integers does not
-     * actually introduce any bias into the generated numbers.  If this test 
+     * actually introduce any bias into the generated numbers.  If this test
      * passes, the generated integers from the generator will be as unbiased as
      * the sources that provide the data.
-     * 
+     *
      * @dataProvider provideGenerateInt
      */
-    public function testGenerateInt($min, $max, $shift) {
-        $generator = $this->getGenerator($max - $min, $shift);
+    public function testGenerateInt($min, $max, $shift, $offset = 0) {
+        $generator = $this->getGenerator($max - $min + $offset, $shift);
         for ($i = $max; $i >= $min; $i--) {
             $this->assertEquals($i, $generator->generateInt($min, $max));
         }
     }
-    
+
     public function getGenerator($random, $shift) {
         $source1  = new Source(array(
             'generate' => function ($size) use (&$random, $shift) {
