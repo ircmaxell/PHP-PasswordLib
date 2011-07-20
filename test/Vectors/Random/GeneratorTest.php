@@ -34,6 +34,75 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         );
     }
 
+    public function provideGenerateString() {
+        return array(
+            array(
+                1,
+                1,
+                "01",
+                function($j) {
+                    return str_pad(decbin($j), 1, '0', STR_PAD_LEFT);
+                }
+            ),
+            array(
+                2,
+                3,
+                "01",
+                function($j) {
+                    return str_pad(decbin($j), 2, '0', STR_PAD_LEFT);
+                }
+            ),
+            array(
+                3,
+                7,
+                "01",
+                function($j) {
+                    return str_pad(decbin($j), 3, '0', STR_PAD_LEFT);
+                }
+            ),
+            array(
+                8,
+                255,
+                "01",
+                function($j) {
+                    return str_pad(decbin($j), 8, '0', STR_PAD_LEFT);
+                }
+            ),
+            array(
+                16,
+                255,
+                "01",
+                function($j) {
+                    return str_pad(decbin($j), 16, '0', STR_PAD_LEFT);
+                }
+            ),
+            array(
+                1,
+                15,
+                "0123456789abcdef",
+                function($j) {
+                    return str_pad(dechex($j), 1, '0', STR_PAD_LEFT);
+                }
+            ),
+            array(
+                2,
+                255,
+                "0123456789abcdef",
+                function($j) {
+                    return str_pad(dechex($j), 2, '0', STR_PAD_LEFT);
+                }
+            ),
+            array(
+                3,
+                300,
+                "0123456789abcdef",
+                function($j) {
+                    return str_pad(dechex($j), 3, '0', STR_PAD_LEFT);
+                }
+            ),
+        );
+    }
+
     /**
      * This test asserts that the algorithm that generates the integers does not
      * actually introduce any bias into the generated numbers.  If this test
@@ -46,6 +115,21 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         $generator = $this->getGenerator($max - $min + $offset);
         for ($i = $max; $i >= $min; $i--) {
             $this->assertEquals($i, $generator->generateInt($min, $max));
+        }
+    }
+
+    /**
+     * This test asserts that the algorithm that generates the strings does not
+     * actually introduce any bias into the generated numbers.  If this test
+     * passes, the generated strings from the generator will be as unbiased as
+     * the sources that provide the data.
+     *
+     * @dataProvider provideGenerateString
+     */
+    public function testGenerateString($length, $max, $chrs, $func) {
+        $generator = $this->getGenerator($max);
+        for ($i = $max; $i >= 0; $i--) {
+            $this->assertEquals($func($i), $generator->generateString($length, $chrs));
         }
     }
 

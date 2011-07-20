@@ -1,7 +1,7 @@
 <?php
 /**
- * A Utility class for converting between raw binary strings and a given 
- * list of characters 
+ * A Utility class for converting between raw binary strings and a given
+ * list of characters
  *
  * PHP version 5.3
  *
@@ -34,7 +34,10 @@ class BaseConverter {
      * @return string The converted string
      */
     public static function convertFromBinary($string, $characters) {
-        if (empty($string) || empty($characters)) {
+
+        if ($string === '' || empty($characters)) {
+            var_dump($string, $characters);
+            echo "Returned!";
             return '';
         }
         $string   = str_split($string);
@@ -46,7 +49,8 @@ class BaseConverter {
         $callback  = function ($num) use ($characters) {
             return $characters[$num];
         };
-        return implode('', array_map($callback, $converted));
+        $ret = implode('', array_map($callback, $converted));
+        return $ret;
     }
 
     /**
