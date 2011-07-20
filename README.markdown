@@ -38,6 +38,27 @@ PHP-CryptLib aims to be an all-inclusive cryptographic library for all cryptogra
 
 #Features
 
+##Optional Autoloading
+
+If you include CryptLib via a PHAR package, it will automatically autoload all of the classes for you, no extra step necessary.  Simply:
+
+    require 'path/to/CryptLib.phar';
+
+If you include CryptLib via a filesystem install, you can use the internal autoloader by either loading the bootstrap.php file, or loading the CryptLib.php file
+
+    require_once 'path/to/CryptLib/bootstrap.php
+
+or
+
+    require_once 'path/to/CryptLib/CryptLib.php
+
+You can also use any [PSR-0] [3] autoloader.  CryptLib will automatically detect if an autoloader is setup for its namespace, and will not declare its own if it finds one (it does this by testing if the class CryptLib\Core\AutoLoader can be found.  If so, that means that an autoloader was declared already.  If not, it loads the core implementation).
+
+    $classLoader = new SplClassLoader('CryptLib', 'path/to/');
+    $classLoader->register();
+
+Note that the path you supply is the directory which contains the *CryptLib* directory.  Not the CryptLib directory itself.
+
 ##Secure Random Number/String Generation
 
 PHP-CryptLib implements a method specified in [RFC 4086 - Randomness Requirements for Security] [2].  Basically, it generates randomness from a number of pseudo random sources, and "mixes" them together to get better quality random data out.  When you specify the "strength" of random generator, you are actually telling the system which sources you would like to use.  The higher the strength, the slower and potentially more fragile the source it will use.
@@ -228,3 +249,4 @@ Note: You can install all of them with the following commands:
 
   [1]: http://us.php.net/manual/en/book.mcrypt.php "MCrypt Book"
   [2]: http://www.ietf.org/rfc/rfc4086.txt "RFC 4086 - Randomness Requirements for Security"
+  [3]: http://groups.google.com/group/php-standards/web/psr-0-final-proposal "PSR-0 Autoloading Final Proposal"
