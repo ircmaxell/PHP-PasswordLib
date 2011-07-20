@@ -34,10 +34,7 @@ class BaseConverter {
      * @return string The converted string
      */
     public static function convertFromBinary($string, $characters) {
-
         if ($string === '' || empty($characters)) {
-            var_dump($string, $characters);
-            echo "Returned!";
             return '';
         }
         $string   = str_split($string);
@@ -49,8 +46,7 @@ class BaseConverter {
         $callback  = function ($num) use ($characters) {
             return $characters[$num];
         };
-        $ret = implode('', array_map($callback, $converted));
-        return $ret;
+        return implode('', array_map($callback, $converted));
     }
 
     /**

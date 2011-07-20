@@ -30,7 +30,12 @@ use CryptLib\Core\Strength;
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @codeCoverageIgnore
  */
-class Random implements \CryptLib\Random\Source {
+class Random extends URandom {
+
+    /**
+     * @var string The file to read from
+     */
+    protected $file = '/dev/random';
 
     /**
      * Return an instance of Strength indicating the strength of the source
@@ -39,30 +44,6 @@ class Random implements \CryptLib\Random\Source {
      */
     public static function getStrength() {
         return new Strength(Strength::HIGH);
-    }
-
-    /**
-     * Generate a random string of the specified size
-     *
-     * @param int $size The size of the requested random string
-     *
-     * @return string A string of the requested size
-     */
-    public function generate($size) {
-        if ($size == 0) {
-            return '';
-        }
-        if (!file_exists('/dev/random')) {
-            return str_repeat(chr(0), $size);
-        }
-        $file = fopen('/dev/random', 'rb');
-        if (!$file) {
-            return str_repeat(chr(0), $size);
-        }
-        stream_set_read_buffer($file, 0);
-        $result = fread($file, $size);
-        fclose($file);
-        return str_pad($result, $size, chr(0));
     }
 
 }

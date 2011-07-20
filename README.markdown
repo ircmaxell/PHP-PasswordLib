@@ -153,7 +153,7 @@ The only dependency PHP-CryptLib has to use as a library is the PHP version.  It
 
 ##Required
 
- - PHP >= 5.3.3
+ - PHP >= 5.3.2
 
 ##Optional
 

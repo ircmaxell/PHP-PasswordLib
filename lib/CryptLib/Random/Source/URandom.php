@@ -33,6 +33,11 @@ use CryptLib\Core\Strength;
 class URandom implements \CryptLib\Random\Source {
 
     /**
+     * @var string The file to read from
+     */
+    protected $file = '/dev/urandom';
+
+    /**
      * Return an instance of Strength indicating the strength of the source
      *
      * @return Strength An instance of one of the strength classes
@@ -49,17 +54,16 @@ class URandom implements \CryptLib\Random\Source {
      * @return string A string of the requested size
      */
     public function generate($size) {
-        if ($size == 0) {
-            return '';
-        }
-        if (!file_exists('/dev/urandom')) {
+        if ($size == 0 || !file_exists($this->file)) {
             return str_repeat(chr(0), $size);
         }
-        $file = fopen('/dev/urandom', 'rb');
+        $file = fopen($this->file, 'rb');
         if (!$file) {
             return str_repeat(chr(0), $size);
         }
-        stream_set_read_buffer($file, 0);
+        if (function_exists('stream_set_read_buffer')) {
+            stream_set_read_buffer($file, 0);
+        }
         $result = fread($file, $size);
         fclose($file);
         return $result;
