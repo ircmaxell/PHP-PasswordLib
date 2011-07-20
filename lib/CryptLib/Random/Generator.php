@@ -130,6 +130,7 @@ class Generator {
             $test   = $this->generate($bytes);
             $result = hexdec(bin2hex($test)) >> $shift;
         } while ($result > $range);
+
         return $result + $min;
     }
 

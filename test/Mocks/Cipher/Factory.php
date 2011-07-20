@@ -81,9 +81,9 @@ class Factory extends \CryptLib\Cipher\Factory {
         $mode,
         \CryptLib\Cipher\Block\Cipher $cipher,
         $initv,
-        $adata
+        array $options = array()
     ) {
-        return $this->__call('getMode', array($mode, $cipher, $initv, $adata));
+        return $this->__call('getMode', array($mode, $cipher, $initv, $options));
     }
 
     /**
