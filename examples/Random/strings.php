@@ -15,7 +15,7 @@
 namespace CryptLibExamples\Random;
 
 /**
- * Let's generate some random strings!  For this, we'll use the 
+ * Let's generate some random strings!  For this, we'll use the
  * CryptLib\Random\Factory class to build a random number generator to suit
  * our needs here.
  */
@@ -27,11 +27,11 @@ require_once dirname(dirname(__DIR__)) . '/lib/CryptLib/bootstrap.php';
 $factory = new \CryptLib\Random\Factory;
 
 /**
- * Now, since we want a low strength random number, let's get a low strength 
+ * Now, since we want a low strength random number, let's get a low strength
  * generator from the factory.
  *
  * If we wanted stronger random numbers, we could change this to medium or high
- * but both use significantly more resources to generate, so let's just stick 
+ * but both use significantly more resources to generate, so let's just stick
  * with low for the purposes of this example:
  */
 $generator = $factory->getLowStrengthGenerator();
@@ -56,7 +56,7 @@ printf("\nHere's a base64 encoded random string: %s\n", base64_encode($number));
  * But, we can also generate random strings against a list of characters.  That
  * way we can use the random string in user-facing situations:  (this can be for
  * one-time-use passwords, CRSF tokens, etc).
- * 
+ *
  * Now, let's define a string of allowable characters to use for token
  * generation.
  */

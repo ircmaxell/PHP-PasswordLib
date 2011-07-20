@@ -19,11 +19,6 @@ namespace CryptLib\Random;
 use CryptLib\Core\BaseConverter;
 
 /**
- * The number of bits in each byte.
- */
-define('BITS_PER_BYTE', 8);
-
-/**
  * The Random Number Generator Class
  *
  * Use this factory to generate cryptographic quality random numbers (strings)
@@ -151,7 +146,7 @@ class Generator {
                           'ABCDEFGHIJKLMNOPQRSTUVWXYZ./';
         }
         //determine how many bytes to generate
-        $bytes  = ceil($length * log(strlen($characters), 2) / BITS_PER_BYTE);
+        $bytes  = ceil($length * log(strlen($characters), 2) / 8);
         $rand   = $this->generate($bytes);
         $result = BaseConverter::convertFromBinary($rand, $characters);
         if (strlen($result) < $length) {

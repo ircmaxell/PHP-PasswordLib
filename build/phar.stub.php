@@ -18,30 +18,13 @@
 
 namespace CryptLib;
 
-if (defined('\\CryptLib\\BOOTSTRAPPED')) {
-    return;
-}
-
-define('BOOTSTRAPPED', true);
-
 \Phar::mapPhar('CryptLib.phar');
 \Phar::interceptFileFuncs();
 
-/**
- * The simple autoloader for the CryptLib library.
- *
- * @param string $class The class name to load
- *
- * @return void
- */
-spl_autoload_register(function ($class) {
-    if (substr($class, 0, strlen(__NAMESPACE__)) == __NAMESPACE__) {
-        $path = str_replace('\\', '/', $class);
-        $path = 'phar://CryptLib.phar/' . $path . '.php';
-        if (file_exists($path)) {
-            require $path;
-        }
-    }
-});
+require_once 'phar://CryptLib.phar/CryptLib/Core/AutoLoader.php';
+
+$autoloader = new \CryptLib\Core\AutoLoader(__NAMESPACE__, 'phar://CryptLib.phar');
+
+$autoloader->register();
 
 __HALT_COMPILER();

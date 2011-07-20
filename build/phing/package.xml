@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="package" default="package" basedir="../../">
     <property file="build/build.properties" />
- 
+
      <target name="package">
 		 <delete dir="${path.results/lib" />
 		 <delete dir="${path.package}" />
@@ -18,11 +18,11 @@
         <phingcall target="packageFiles" />
 		<phingcall target="packagePhar" />
     </target>
-	
+
 	<target name="copyFilesToResultsLib">
 		<delete dir="${path.results}/lib" />
 		<mkdir dir="${path.results}/lib" />
-		
+
         <copy todir="${path.results}/lib">
             <filterchain>
                 <replacetokens begintoken="@@" endtoken="@@">
@@ -34,7 +34,7 @@
             </fileset>
         </copy>
 	</target>
-	
+
 	<target name="packageFiles">
 		<zip destfile="${path.package}/CryptLib.zip">
             <fileset dir="${path.results}/lib">
@@ -66,7 +66,7 @@
         <filehash file="${path.package}/CryptLib.tar.bz2" hashtype="1" propertyname="filehash" />
         <echo message="${filehash}" file="${path.package}/CryptLib.tar.bz2.sha1" />
 	</target>
-	
+
 	<target name="packagePear">
 		<pearpkg name="CryptLib" dir="${path.results}/lib" destfile="${path.results}/lib/package.xml">
             <fileset dir="${path.results}/lib">
@@ -87,11 +87,11 @@
             </mapping>
         </pearpkg>
 	</target>
-	
+
 	<target name="packagePhar">
 		<pharpackage
             destfile="${path.package}/CryptLib.phar"
-            basedir="${path.lib}"
+            basedir="${path.results}/lib"
             stub="${path.build}/phar.stub.php"
             signature="sha1"
             >
@@ -101,7 +101,7 @@
             <metadata>
                 <element name="version" value="${version.number}" />
             </metadata>
-            
+
         </pharpackage>
 	</target>
 </project>

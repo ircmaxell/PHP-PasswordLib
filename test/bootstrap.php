@@ -21,7 +21,10 @@ namespace CryptLibTest;
 ini_set('memory_limit', '1G');
 
 /**
- * The simple autoloader for the CryptLib library.
+ * The simple autoloader for the CryptLibTest libraries.
+ *
+ * This does not use the PRS-0 standards due to the namespace prefix and directory
+ * structure
  *
  * @param string $class The class name to load
  *
@@ -47,3 +50,4 @@ function getTestDataFile($file) {
 }
 
 require_once dirname(__DIR__) . '/lib/CryptLib/bootstrap.php';
+

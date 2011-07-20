@@ -32,7 +32,7 @@ $hash = $hasher->create($password);
 
 //It's safe to print, so let's output it:
 printf(
-    "Password: %s, Hash: %s\n",
+    "Password: %s\nHash: %s\n\n",
     $password,
     $hash
 );
@@ -48,12 +48,12 @@ $hasher2 = \CryptLib\Password\Implementation\Drupal::loadFromHash($hash);
 /**
  * Next, we verify the hash with the expected password.
  */
-$test = $hasher2->verify($hash, $password);
+$test = $hasher2->verify($password, $hash);
 
 /**
  * $test should now contain a boolean value as to the validity of the hash
  */
 printf(
-    "Verification was %s",
+    "Verification was %s\n\n",
     $test ? "Successful!" : "Failed!"
 );

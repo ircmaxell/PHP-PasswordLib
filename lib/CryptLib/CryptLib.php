@@ -16,9 +16,13 @@
 namespace CryptLib;
 
 /**
- * Ensure that we're bootstrapped
+ * The autoloader class will be autoloaded at this point even if another autoloader
+ * is in use.  So if it does not exist at this point, we know we must bootstrap
+ * the libraries.
  */
-require_once __DIR__ . '/bootstrap.php';
+if (!class_exists('\\CryptLib\Core\AutoLoader', true)) {
+    require_once 'bootstrap.php';
+}
 
 use CryptLib\Password\Factory as PasswordFactory;
 use CryptLib\Random\Factory as RandomFactory;
