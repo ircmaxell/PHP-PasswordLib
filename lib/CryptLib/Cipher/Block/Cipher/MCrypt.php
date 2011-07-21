@@ -65,6 +65,45 @@ class MCrypt extends \CryptLib\Cipher\Block\AbstractCipher {
     }
 
     /**
+     * Destroy the mcrypt module if it's open
+     *
+     * @return void
+     */
+    public function __destruct() {
+        if ($this->mcrypt) {
+            mcrypt_module_close($this->mcrypt);
+        }
+    }
+
+    /**
+     * Set the key to use for the cipher
+     *
+     * @param string $key The key to use
+     *
+     * @throws InvalidArgumentException If the key is not the correct size
+     * @return void
+     */
+    public function setKey($key) {
+        switch ($this->cipher) {
+            case 'rijndael-128':
+            case 'rijndael-192':
+            case 'rijndael-256':
+                if (!in_array(strlen($key), array(16, 20, 24, 28, 32))) {
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            'The supplied key block is in the valid sizes [%d:%s]',
+                            strlen($key),
+                            '16, 20, 24, 28, 32'
+                        )
+                    );
+                }
+                $this->keySize = strlen($key);
+            default:
+                parent::setKey($key);
+        }
+    }
+
+    /**
      * Decrypt a block of data using the supplied string key
      *
      * Note that the supplied data should be the same size as the block size of
@@ -99,6 +138,9 @@ class MCrypt extends \CryptLib\Cipher\Block\AbstractCipher {
      * @codeCoverageIgnore
      */
     protected function initialize() {
+        if ($this->mcrypt) {
+            mcrypt_module_close($this->mcrypt);
+        }
         $this->mcrypt = mcrypt_module_open($this->cipher, '', MCRYPT_MODE_ECB, '');
         if ($this->mcrypt) {
             $initv = str_repeat(chr(0), $this->getBlockSize());
