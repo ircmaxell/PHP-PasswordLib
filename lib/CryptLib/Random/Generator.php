@@ -9,6 +9,7 @@
  * @category   PHPCryptLib
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @author     Timo Hamina
  * @copyright  2011 The Authors
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version    Build @@version@@
@@ -26,6 +27,7 @@ use CryptLib\Core\BaseConverter;
  * @category   PHPCryptLib
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @author     Timo Hamina
  */
 class Generator {
 
@@ -100,7 +102,7 @@ class Generator {
                 'The supplied range is too great to generate'
             );
         }
-        $bits  = ceil(log($range, 2));
+        $bits  = floor(log($range, 2) + 1);
         $bytes = max(ceil($bits / 8), 1);
         $mask  = (int) (pow(2, $bits) - 1);
         /**
@@ -146,7 +148,7 @@ class Generator {
                           'ABCDEFGHIJKLMNOPQRSTUVWXYZ./';
         }
         //determine how many bytes to generate
-        $bytes  = ceil($length * log(strlen($characters), 2) / 8);
+        $bytes  = ceil($length * floor(log(strlen($characters), 2) + 1) / 8);
         $rand   = $this->generate($bytes);
         $result = BaseConverter::convertFromBinary($rand, $characters);
         if (strlen($result) < $length) {
