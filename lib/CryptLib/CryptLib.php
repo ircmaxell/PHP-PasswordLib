@@ -53,14 +53,14 @@ class CryptLib {
     /**
      * Verify a password against a supplied password hash
      *
-     * @param string $hash     The valid hash to verify against
      * @param string $password The supplied password to attempt to verify
+     * @param string $hash     The valid hash to verify against
      *
      * @return boolean Is the password valid
      */
-    public function verifyPasswordHash($hash, $password) {
+    public function verifyPasswordHash($password, $hash) {
         $factory = new PasswordFactory();
-        return $factory->verifyHash($hash, $password);
+        return $factory->verifyHash($password, $hash);
     }
 
     /**
