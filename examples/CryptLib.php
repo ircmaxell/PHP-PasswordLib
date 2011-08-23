@@ -75,3 +75,57 @@ $array = array('ab', 'bc', 'cd', 'de', 'ef', 'fg', 'gh');
 $element = $cryptLib->getRandomArrayElement($array);
 
 printf("\nHere's a random array element: %s\n", $element);
+
+/**
+ * Now, lets do some password hashing.
+ */
+$password = 'Password';
+
+$hash = $cryptLib->createPasswordHash($password);
+
+printf("\nHere's a hashed password: %s\n", $hash);
+
+/**
+ * Let's verify the password.  To show that nothing is saved, let's create a new
+ * instance of the CryptLib class.
+ */
+$cryptLib2 = new \CryptLib\CryptLib;
+
+$result = $cryptLib2->verifyPasswordHash($password, $hash);
+
+printf("\nThe result of the password check was: %s\n", $result ? 'successful' : 'not successful');
+
+/**
+ * Let's use a different format.  Let's try using Drupal's password hash
+ */
+
+$hash = $cryptLib->createPasswordHash($password, '$S$');
+
+printf("\nHere's a Drupal hashed password: %s\n", $hash);
+
+/**
+ * Let's verify the password.  To show that nothing is saved, let's create a new
+ * instance of the CryptLib class.
+ */
+
+$result = $cryptLib2->verifyPasswordHash($password, $hash);
+
+printf("\nThe result of the Drupal password check was: %s\n", $result ? 'successful' : 'not successful');
+
+
+/**
+ * Let's use PBKDF2
+ */
+
+$hash = $cryptLib->createPasswordHash($password, '$pbkdf$');
+
+printf("\nHere's a PBKDF2 hashed password: %s\n", $hash);
+
+/**
+ * Let's verify the password.  To show that nothing is saved, let's create a new
+ * instance of the CryptLib class.
+ */
+
+$result = $cryptLib2->verifyPasswordHash($password, $hash);
+
+printf("\nThe result of the PBKDF2 password check was: %s\n", $result ? 'successful' : 'not successful');
