@@ -51,4 +51,22 @@ class Unit_CryptLibTest extends PHPUnit_Framework_TestCase {
         $string = $crypt->getRandomToken(10);
         $this->assertEquals(10, strlen($string));
     }
+
+    public function testShuffleArray() {
+        $crypt = new CryptLib;
+        $array = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        $newArray = $crypt->shuffleArray($array);
+        $this->assertNotEquals($array, array_values($newArray));
+        $this->assertEquals($array, $newArray);
+    }
+
+    public function testShuffleString() {
+        $crypt = new CryptLib;
+        $string = 'abcdefghijklmnopqrstuvwxyz';
+        $newString = $crypt->shuffleString($string);
+        $this->assertNotEquals($string, $newString);
+        $cnt = count_chars($string, 1);
+        $cnt2 = count_chars($newString, 1);
+        $this->assertEquals($cnt, $cnt2);
+    }
 }

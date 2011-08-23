@@ -77,6 +77,29 @@ $element = $cryptLib->getRandomArrayElement($array);
 printf("\nHere's a random array element: %s\n", $element);
 
 /**
+ * And we can randomize an array
+ */
+$array = array('a', 'b', 'c', 'd', 'e', 'f');
+$newArray = $cryptLib->shuffleArray($array);
+
+printf("\nHere's a randomized array: \n");
+
+print_r($newArray);
+
+printf("\nAnd here's the same arrays with incremental keys:\n");
+
+print_r(array_values($newArray));
+
+/**
+ * And we can randomize a string
+ */
+
+$string = 'abcdef';
+$newString = $cryptLib->shuffleString($string);
+
+printf("\nHere's our randomized string: %s\n", $newString);
+
+/**
  * Now, lets do some password hashing.
  */
 $password = 'Password';
