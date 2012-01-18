@@ -94,14 +94,19 @@ class Generator {
         $range = $max - $min;
         if ($range == 0) {
             return $max;
-        } elseif ($range > PHP_INT_MAX) {
-            // This works, because PHP will auto-convert it to a float at this point
+        } elseif ($range > PHP_INT_MAX || is_float($range)) {
+            /**
+             * This works, because PHP will auto-convert it to a float at this point,
+             * But on 64 bit systems, the float won't have enough precision to
+             * actually store the difference, so we need to check if it's a float
+             * and hence auto-converted...
+             */
             throw new \RangeException(
                 'The supplied range is too great to generate'
             );
         }
-        $bits  = ceil(log($range, 2));
-        $bytes = max(ceil($bits / 8), 1);
+        $bits  = (int) ceil(log($range, 2));
+        $bytes = (int) max(ceil($bits / 8), 1);
         $mask  = (int) (pow(2, $bits) - 1);
         /**
          * The mask is a better way of dropping unused bits.  Basically what it does

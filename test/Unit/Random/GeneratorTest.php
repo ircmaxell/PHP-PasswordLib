@@ -168,6 +168,20 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers CryptLib\Random\Generator::generateInt
+     */
+    public function testGenerateIntLargeTest() {
+        $bits = 30;
+        $expected = 50529027;
+        if (PHP_INT_MAX > 4000000000) {
+            $bits = 56;
+            $expected = 1693273676973062;
+        }
+        $n = $this->generator->generateInt(0, pow(2, $bits));
+        $this->assertEquals($expected, $n);
+    }
+    
+    /**
      * @covers CryptLib\Random\Generator::generateString
      * @dataProvider provideGenerateStringTest
      */
