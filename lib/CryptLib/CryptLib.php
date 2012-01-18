@@ -53,14 +53,14 @@ class CryptLib {
     /**
      * Verify a password against a supplied password hash
      *
-     * @param string $hash     The valid hash to verify against
      * @param string $password The supplied password to attempt to verify
+     * @param string $hash     The valid hash to verify against
      *
      * @return boolean Is the password valid
      */
-    public function verifyPasswordHash($hash, $password) {
+    public function verifyPasswordHash($password, $hash) {
         $factory = new PasswordFactory();
-        return $factory->verifyHash($hash, $password);
+        return $factory->verifyHash($password, $hash);
     }
 
     /**
@@ -117,6 +117,48 @@ class CryptLib {
         $factory   = new RandomFactory;
         $generator = $factory->getMediumStrengthGenerator();
         return $generator->generateString($size);
+    }
+
+    /**
+     * Shuffle an array.  This will preserve key => value relationships, and return
+     * a new array that has been randomized in order.
+     *
+     * To get keys randomized, simply pass the result through array_values()...
+     *
+     * @param array $array The input array to randomize
+     *
+     * @return array The suffled array
+     */
+    public function shuffleArray(array $array) {
+        $factory   = new RandomFactory;
+        $generator = $factory->getMediumStrengthGenerator();
+        $result    = array();
+        $values    = array_values($array);
+        $keys      = array_keys($array);
+        $max       = count($array);
+        for ($i = $max - 1; $i >= 0; $i--) {
+            $int                 = $generator->generateInt(0, $i);
+            $result[$keys[$int]] = $values[$int];
+            unset($keys[$int], $values[$int]);
+            $keys   = array_values($keys);
+            $values = array_values($values);
+        }
+        return $result;
+    }
+
+    /**
+     * Shuffle a string and return the randomized string
+     *
+     * @param string $string The string to randomize
+     *
+     * @return string The shuffled string
+     */
+    public function shuffleString($string) {
+        $factory   = new RandomFactory;
+        $generator = $factory->getMediumStrengthGenerator();
+        $array     = str_split($string);
+        $result    = $this->shuffleArray($array);
+        return implode('', $result);
     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A Utility class for converting between raw binary strings and a given
  * list of characters
@@ -39,14 +40,15 @@ class BaseConverter {
         }
         $string   = str_split($string);
         $callback = function($str) {
-            return ord($str);
-        };
+                return ord($str);
+            };
         $string    = array_map($callback, $string);
         $converted = static::baseConvert($string, 256, strlen($characters));
         $callback  = function ($num) use ($characters) {
-            return $characters[$num];
-        };
-        return implode('', array_map($callback, $converted));
+                return $characters[$num];
+            };
+        $ret = implode('', array_map($callback, $converted));
+        return $ret;
     }
 
     /**
@@ -63,15 +65,14 @@ class BaseConverter {
         }
         $string   = str_split($string);
         $callback = function($str) use ($characters) {
-            return strpos($characters, $str);
-        };
+                return strpos($characters, $str);
+            };
         $string    = array_map($callback, $string);
         $converted = static::baseConvert($string, strlen($characters), 256);
         $callback  = function ($num) {
-            return chr($num);
-        };
+                return chr($num);
+            };
         return implode('', array_map($callback, $converted));
-
     }
 
     /**
@@ -93,24 +94,19 @@ class BaseConverter {
             throw new \InvalidArgumentException($message);
         }
         $result = array();
-        $callback = function($source, $src, $dst) {
-            $div       = array();
-            $remainder = 0;
-            foreach ($source as $n) {
-                $e         = floor(($n + $remainder * $src) / $dst);
-                $remainder = ($n + $remainder * $src) % $dst;
-                if ($div || $e) {
-                    $div[] = $e;
+        $count  = count($source);
+        while ($count) {
+            $itMax     = $count;
+            $remainder = $count = $i = 0;
+            while($i < $itMax) {
+                $dividend  = $source[$i++] + $remainder * $srcBase;
+                $remainder = $dividend % $dstBase;
+                $res       = ($dividend - $remainder) / $dstBase;
+                if ($count || $res) {
+                    $source[$count++] = $res;
                 }
             }
-            return array(
-                $div,
-                $remainder
-            );
-        };
-        while ($source) {
-            list ($source, $remainder) = $callback($source, $srcBase, $dstBase);
-            $result[]                  = $remainder;
+            $result[] = $remainder;
         }
         return array_reverse($result);
     }

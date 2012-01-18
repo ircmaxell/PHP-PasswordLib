@@ -51,20 +51,17 @@
                 <include name="**/**" />
             </fileset>
         </tar>
-        <filehash file="${path.package}/CryptLib.tar.gz" hashtype="0" propertyname="filehash" />
-        <echo message="${filehash}" file="${path.package}/CryptLib.tar.gz.md5" />
-        <filehash file="${path.package}/CryptLib.tar.gz" hashtype="1" propertyname="filehash" />
-        <echo message="${filehash}" file="${path.package}/CryptLib.tar.gz.sha1" />
-
         <tar destfile="${path.package}/CryptLib.tar.bz2" compression="bzip2">
             <fileset dir="${path.results}/lib">
                 <include name="**/**" />
             </fileset>
         </tar>
-        <filehash file="${path.package}/CryptLib.tar.bz2" hashtype="0" propertyname="filehash" />
-        <echo message="${filehash}" file="${path.package}/CryptLib.tar.bz2.md5" />
-        <filehash file="${path.package}/CryptLib.tar.bz2" hashtype="1" propertyname="filehash" />
-        <echo message="${filehash}" file="${path.package}/CryptLib.tar.bz2.sha1" />
+        <phingcall target="writeFileHashes">
+            <property name="filename" value="${path.package}/CryptLib.tar.gz" />
+        </phingcall>
+        <phingcall target="writeFileHashes">
+            <property name="filename" value="${path.package}/CryptLib.tar.bz2" />
+        </phingcall>
 	</target>
 
 	<target name="packagePear">
@@ -101,7 +98,16 @@
             <metadata>
                 <element name="version" value="${version.number}" />
             </metadata>
-
         </pharpackage>
+        <phingcall target="writeFileHashes">
+            <property name="filename" value="${path.package}/CryptLib.phar" />
+        </phingcall>
 	</target>
+
+    <target name="writeFileHashes">
+        <filehash file="${filename}" hashtype="0" propertyname="filehash" />
+        <echo message="${filehash}" file="${filename}.md5" />
+        <filehash file="${filename}" hashtype="1" propertyname="filehash" />
+        <echo message="${filehash}" file="${filename}.sha1" />
+    </target>
 </project>
