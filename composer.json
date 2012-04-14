@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-0": {
-            "PasswordLib": "src"
+            "PasswordLib": "lib"
         }
     }
 }
