@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="PHP-CryptLib PHPMD Rule Set"
+<ruleset name="PHP-PasswordLib PHPMD Rule Set"
          xmlns="http://pmd.sf.net/ruleset/1.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
@@ -8,7 +8,7 @@
                      http://pmd.sf.net/ruleset_xml_schema.xsd">
 	<description>
         A custom PHPMD ruleset for detecting messy code in the
-        PHP-CryptLib project.
+        PHP-PasswordLib project.
 	</description>
 
 	<rule ref="rulesets/codesize.xml/CyclomaticComplexity">

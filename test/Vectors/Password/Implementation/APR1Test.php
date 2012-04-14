@@ -1,12 +1,12 @@
 <?php
 
-use CryptLib\Password\Implementation\APR1;
+use PasswordLib\Password\Implementation\APR1;
 
 class Vectors_Password_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
 
     public static function provideTestVerify() {
-        $file = \CryptLibTest\getTestDataFile('Vectors/apr1.test-vectors');
-        $nessie = new CryptLibTest\lib\VectorParser\NESSIE($file);
+        $file = \PasswordLibTest\getTestDataFile('Vectors/apr1.test-vectors');
+        $nessie = new PasswordLibTest\lib\VectorParser\NESSIE($file);
         $results = array();
         foreach ($nessie->getVectors() as $vector) {
             $results[] = array(
@@ -15,8 +15,8 @@ class Vectors_Password_Implementation_APR1Test extends PHPUnit_Framework_TestCas
                 (boolean) $vector['Value'],
             );
         }
-        $file = \CryptLibTest\getTestDataFile('Vectors/apr1.custom.test-vectors');
-        $nessie = new CryptLibTest\lib\VectorParser\SSV($file);
+        $file = \PasswordLibTest\getTestDataFile('Vectors/apr1.custom.test-vectors');
+        $nessie = new PasswordLibTest\lib\VectorParser\SSV($file);
         foreach ($nessie->getVectors() as $vector) {
             $results[] = array(
                 $vector[0],
@@ -28,11 +28,11 @@ class Vectors_Password_Implementation_APR1Test extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\APR1::verify
-     * @covers CryptLib\Password\Implementation\APR1::to64
-     * @covers CryptLib\Password\Implementation\APR1::hash
-     * @covers CryptLib\Password\Implementation\APR1::iterate
-     * @covers CryptLib\Password\Implementation\APR1::convertToHash
+     * @covers PasswordLib\Password\Implementation\APR1::verify
+     * @covers PasswordLib\Password\Implementation\APR1::to64
+     * @covers PasswordLib\Password\Implementation\APR1::hash
+     * @covers PasswordLib\Password\Implementation\APR1::iterate
+     * @covers PasswordLib\Password\Implementation\APR1::convertToHash
      * @dataProvider provideTestVerify
      * @group Vectors
      */

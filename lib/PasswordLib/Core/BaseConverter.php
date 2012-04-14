@@ -97,9 +97,9 @@ class BaseConverter {
         $count  = count($source);
         while ($count) {
             $itMax     = $count;
-            $remainder = $count = $i = 0;
-            while($i < $itMax) {
-                $dividend  = $source[$i++] + $remainder * $srcBase;
+            $remainder = $count = $loop = 0;
+            while($loop < $itMax) {
+                $dividend  = $source[$loop++] + $remainder * $srcBase;
                 $remainder = $dividend % $dstBase;
                 $res       = ($dividend - $remainder) / $dstBase;
                 if ($count || $res) {

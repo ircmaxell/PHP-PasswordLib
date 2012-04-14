@@ -36,36 +36,36 @@
 	</target>
 
 	<target name="packageFiles">
-		<zip destfile="${path.package}/CryptLib.zip">
+		<zip destfile="${path.package}/PasswordLib.zip">
             <fileset dir="${path.results}/lib">
                 <include name="**/**" />
             </fileset>
         </zip>
-        <filehash file="${path.package}/CryptLib.zip" hashtype="0" propertyname="filehash" />
-        <echo message="${filehash}" file="${path.package}/CryptLib.zip.md5" />
-        <filehash file="${path.package}/CryptLib.zip" hashtype="1" propertyname="filehash" />
-        <echo message="${filehash}" file="${path.package}/CryptLib.zip.sha1" />
+        <filehash file="${path.package}/PasswordLib.zip" hashtype="0" propertyname="filehash" />
+        <echo message="${filehash}" file="${path.package}/PasswordLib.zip.md5" />
+        <filehash file="${path.package}/PasswordLib.zip" hashtype="1" propertyname="filehash" />
+        <echo message="${filehash}" file="${path.package}/PasswordLib.zip.sha1" />
 
-        <tar destfile="${path.package}/CryptLib.tar.gz" compression="gzip">
+        <tar destfile="${path.package}/PasswordLib.tar.gz" compression="gzip">
             <fileset dir="${path.results}/lib">
                 <include name="**/**" />
             </fileset>
         </tar>
-        <tar destfile="${path.package}/CryptLib.tar.bz2" compression="bzip2">
+        <tar destfile="${path.package}/PasswordLib.tar.bz2" compression="bzip2">
             <fileset dir="${path.results}/lib">
                 <include name="**/**" />
             </fileset>
         </tar>
         <phingcall target="writeFileHashes">
-            <property name="filename" value="${path.package}/CryptLib.tar.gz" />
+            <property name="filename" value="${path.package}/PasswordLib.tar.gz" />
         </phingcall>
         <phingcall target="writeFileHashes">
-            <property name="filename" value="${path.package}/CryptLib.tar.bz2" />
+            <property name="filename" value="${path.package}/PasswordLib.tar.bz2" />
         </phingcall>
 	</target>
 
 	<target name="packagePear">
-		<pearpkg name="CryptLib" dir="${path.results}/lib" destfile="${path.results}/lib/package.xml">
+		<pearpkg name="PasswordLib" dir="${path.results}/lib" destfile="${path.results}/lib/package.xml">
             <fileset dir="${path.results}/lib">
                 <include name="**/**" />
             </fileset>
@@ -87,7 +87,7 @@
 
 	<target name="packagePhar">
 		<pharpackage
-            destfile="${path.package}/CryptLib.phar"
+            destfile="${path.package}/PasswordLib.phar"
             basedir="${path.results}/lib"
             stub="${path.build}/phar.stub.php"
             signature="sha1"
@@ -100,7 +100,7 @@
             </metadata>
         </pharpackage>
         <phingcall target="writeFileHashes">
-            <property name="filename" value="${path.package}/CryptLib.phar" />
+            <property name="filename" value="${path.package}/PasswordLib.phar" />
         </phingcall>
 	</target>
 

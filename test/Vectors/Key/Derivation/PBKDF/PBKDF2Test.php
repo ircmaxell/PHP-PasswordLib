@@ -1,16 +1,16 @@
 <?php
 
-use CryptLibTest\Mocks\Hash\Hash as MockHash;
-use CryptLib\Key\Derivation\PBKDF\PBKDF2;
+use PasswordLibTest\Mocks\Hash\Hash as MockHash;
+use PasswordLib\Key\Derivation\PBKDF\PBKDF2;
 
 class Vectors_Key_Derivation_PBKDF_PBKDF2Test extends PHPUnit_Framework_TestCase {
 
     public static function provideTestDerive() {
-        $file = \CryptLibTest\getTestDataFile('Vectors/pbkdf2-draft-josefsson-sha1.test-vectors');
-        $nessie = new CryptLibTest\lib\VectorParser\NESSIE($file);
+        $file = \PasswordLibTest\getTestDataFile('Vectors/pbkdf2-draft-josefsson-sha1.test-vectors');
+        $nessie = new PasswordLibTest\lib\VectorParser\NESSIE($file);
         $data = array('sha1' => $nessie->getVectors());
-        $file = \CryptLibTest\getTestDataFile('Vectors/pbkdf2-draft-josefsson-sha256.test-vectors');
-        $nessie = new CryptLibTest\lib\VectorParser\NESSIE($file);
+        $file = \PasswordLibTest\getTestDataFile('Vectors/pbkdf2-draft-josefsson-sha256.test-vectors');
+        $nessie = new PasswordLibTest\lib\VectorParser\NESSIE($file);
         $data['sha256'] = $nessie->getVectors();
         $results = array();
         foreach ($data as $algo => $vectors) {
@@ -29,7 +29,7 @@ class Vectors_Key_Derivation_PBKDF_PBKDF2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CryptLib\Key\Derivation\PBKDF\PBKDF2::derive
+     * @covers PasswordLib\Key\Derivation\PBKDF\PBKDF2::derive
      * @dataProvider provideTestDerive
      * @group Vectors
      */

@@ -1,7 +1,7 @@
 <?php
 
-use CryptLib\Random\Source\CAPICOM;
-use CryptLib\Core\Strength;
+use PasswordLib\Random\Source\CAPICOM;
+use PasswordLib\Core\Strength;
 
 
 
@@ -17,7 +17,7 @@ class Unit_Random_Source_CAPICOMTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\CAPICOM::getStrength
+     * @covers PasswordLib\Random\Source\CAPICOM::getStrength
      */
     public function testGetStrength() {
         $strength = new Strength(Strength::MEDIUM);
@@ -26,7 +26,7 @@ class Unit_Random_Source_CAPICOMTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\CAPICOM::generate
+     * @covers PasswordLib\Random\Source\CAPICOM::generate
      * @dataProvider provideGenerate
      * @group slow
      */

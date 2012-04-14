@@ -35,9 +35,9 @@ class Crypt implements \PasswordLib\Password\Password {
      * @var Generator The random generator to use for seeds
      */
     protected $generator = null;
-    
+
     protected $iterations = 10;
-    
+
     protected $saltLen = 2;
 
     /**
@@ -107,8 +107,8 @@ class Crypt implements \PasswordLib\Password\Password {
      * @return string The formatted password hash
      */
     public function create($password) {
-        $salt = $this->generateSalt();
-        $result     = crypt($password, $salt);
+        $salt   = $this->generateSalt();
+        $result = crypt($password, $salt);
         if ($result[0] == '*') {
             //@codeCoverageIgnoreStart
             throw new \RuntimeException('Password Could Not Be Created');
@@ -136,11 +136,11 @@ class Crypt implements \PasswordLib\Password\Password {
     }
 
     protected function generateSalt() {
-        $salt = $this->generator->generateString($this->saltLen);
+        $salt  = $this->generator->generate($this->saltLen);
         $chars = $this->to64($salt);
         return substr($chars, 0, $this->saltLen);
     }
-    
+
     /**
      * Convert the input number to a base64 number of the specified size
      *

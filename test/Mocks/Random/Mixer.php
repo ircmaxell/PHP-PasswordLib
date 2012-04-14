@@ -6,7 +6,7 @@
  *
  * PHP version 5.3
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
@@ -14,20 +14,20 @@
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLibTest\Mocks\Random;
+namespace PasswordLibTest\Mocks\Random;
 
-use CryptLib\Core\Strength\High as HighStrength;
+use PasswordLib\Core\Strength\High as HighStrength;
 
 /**
  * The Mixer strategy interface.
  *
  * All mixing strategies must implement this interface
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Mixer extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\Random\Mixer {
+class Mixer extends \PasswordLibTest\Mocks\AbstractMock implements \PasswordLib\Random\Mixer {
 
     public static $strength = null;
 

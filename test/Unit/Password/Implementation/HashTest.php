@@ -1,8 +1,8 @@
 <?php
 
-use CryptLib\Core\Strength\Medium as MediumStrength;
-use CryptLibTest\Mocks\Random\Generator as MockGenerator;
-use CryptLib\Password\Implementation\Hash;
+use PasswordLib\Core\Strength\Medium as MediumStrength;
+use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
+use PasswordLib\Password\Implementation\Hash;
 
 class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
 
@@ -44,7 +44,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Hash
+     * @covers PasswordLib\Password\Implementation\Hash
      * @dataProvider provideTestDetect
      */
     public function testDetect($from, $expect) {
@@ -52,7 +52,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Hash
+     * @covers PasswordLib\Password\Implementation\Hash
      * @dataProvider provideTestLoadFromHash
      */
     public function testLoadFromHash($algo) {
@@ -61,7 +61,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Hash
+     * @covers PasswordLib\Password\Implementation\Hash
      * @expectedException InvalidArgumentException
      */
     public function testLoadFromHashFail() {
@@ -69,7 +69,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Hash
+     * @covers PasswordLib\Password\Implementation\Hash
      */
     public function testConstruct() {
         $hash = new Hash('sha256');
@@ -77,7 +77,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Hash
+     * @covers PasswordLib\Password\Implementation\Hash
      */
     public function testGetPrefix() {
         $this->assertFalse(Hash::getPrefix());
@@ -85,7 +85,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
 
 
     /**
-     * @covers CryptLib\Password\Implementation\Hash
+     * @covers PasswordLib\Password\Implementation\Hash
      */
     public function testConstructArgs() {
         $gen = $this->getRandomGenerator(function($size) {});
@@ -94,7 +94,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Hash
+     * @covers PasswordLib\Password\Implementation\Hash
      * @expectedException BadMethodCallException
      */
     public function testCreate() {
@@ -103,7 +103,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Hash
+     * @covers PasswordLib\Password\Implementation\Hash
      * @dataProvider provideTestVerify
      */
     public function testVerify($func, $pass, $hash) {
@@ -112,7 +112,7 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Hash
+     * @covers PasswordLib\Password\Implementation\Hash
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($func, $pass, $expect) {

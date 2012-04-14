@@ -1,28 +1,28 @@
 <?php
 
-use CryptLibTest\Mocks\Random\Mixer;
-use CryptLibTest\Mocks\Random\Source;
+use PasswordLibTest\Mocks\Random\Mixer;
+use PasswordLibTest\Mocks\Random\Source;
 
-use CryptLib\Core\Strength;
-use CryptLibTest\Mocks\Core\Strength as MockStrength;
-use CryptLib\Random\Factory;
+use PasswordLib\Core\Strength;
+use PasswordLibTest\Mocks\Core\Strength as MockStrength;
+use PasswordLib\Random\Factory;
 
 class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers CryptLib\Random\Factory::__construct
-     * @covers CryptLib\Random\Factory::loadMixers
-     * @covers CryptLib\Random\Factory::loadSources
-     * @covers CryptLib\Random\Factory::registerMixer
-     * @covers CryptLib\Random\Factory::registerSource
+     * @covers PasswordLib\Random\Factory::__construct
+     * @covers PasswordLib\Random\Factory::loadMixers
+     * @covers PasswordLib\Random\Factory::loadSources
+     * @covers PasswordLib\Random\Factory::registerMixer
+     * @covers PasswordLib\Random\Factory::registerSource
      */
     public function testConstruct() {
         $factory = new Factory;
-        $this->assertTrue($factory instanceof CryptLib\Random\Factory);
+        $this->assertTrue($factory instanceof PasswordLib\Random\Factory);
     }
 
     /**
-     * @covers CryptLib\Random\Factory
+     * @covers PasswordLib\Random\Factory
      */
     public function testGetGeneratorFallback() {
         $factory = new Factory;
@@ -35,7 +35,7 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Factory
+     * @covers PasswordLib\Random\Factory
      * @expectedException RuntimeException
      */
     public function testGetGeneratorFallbackFail() {
@@ -44,19 +44,19 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Factory::registerSource
-     * @covers CryptLib\Random\Factory::getSources
+     * @covers PasswordLib\Random\Factory::registerSource
+     * @covers PasswordLib\Random\Factory::getSources
      */
     public function testRegisterSource() {
         $factory = new Factory;
-        $factory->registerSource('mock', 'CryptLibTest\Mocks\Random\Source');
+        $factory->registerSource('mock', 'PasswordLibTest\Mocks\Random\Source');
         $test = $factory->getSources();
-        $this->assertTrue(in_array('CryptLibTest\Mocks\Random\Source', $test));
+        $this->assertTrue(in_array('PasswordLibTest\Mocks\Random\Source', $test));
     }
 
     /**
-     * @covers CryptLib\Random\Factory::registerSource
-     * @covers CryptLib\Random\Factory::getSources
+     * @covers PasswordLib\Random\Factory::registerSource
+     * @covers PasswordLib\Random\Factory::getSources
      * @expectedException InvalidArgumentException
      */
     public function testRegisterSourceFail() {
@@ -66,19 +66,19 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
 
 
     /**
-     * @covers CryptLib\Random\Factory::registerMixer
-     * @covers CryptLib\Random\Factory::getMixers
+     * @covers PasswordLib\Random\Factory::registerMixer
+     * @covers PasswordLib\Random\Factory::getMixers
      */
     public function testRegisterMixer() {
         $factory = new Factory;
-        $factory->registerMixer('mock', 'CryptLibTest\Mocks\Random\Mixer');
+        $factory->registerMixer('mock', 'PasswordLibTest\Mocks\Random\Mixer');
         $test = $factory->getMixers();
-        $this->assertTrue(in_array('CryptLibTest\Mocks\Random\Mixer', $test));
+        $this->assertTrue(in_array('PasswordLibTest\Mocks\Random\Mixer', $test));
     }
 
     /**
-     * @covers CryptLib\Random\Factory::registerMixer
-     * @covers CryptLib\Random\Factory::getMixers
+     * @covers PasswordLib\Random\Factory::registerMixer
+     * @covers PasswordLib\Random\Factory::getMixers
      * @expectedException InvalidArgumentException
      */
     public function testRegisterMixerFail() {
@@ -87,35 +87,14 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Factory::getLowStrengthGenerator
-     * @covers CryptLib\Random\Factory::getGenerator
-     * @covers CryptLib\Random\Factory::findMixer
-     */
-    public function testGetLowStrengthGenerator() {
-        $factory = new Factory;
-        $generator = $factory->getLowStrengthGenerator();
-        $this->assertTrue($generator instanceof CryptLib\Random\Generator);
-        $mixer = call_user_func(array(
-            get_class($generator->getMixer()),
-            'getStrength'
-        ));
-        $this->assertTrue($mixer->compare(new Strength(Strength::LOW)) <= 0);
-        $compare = new Strength(Strength::LOW);
-        foreach ($generator->getSources() as $source) {
-            $strength = call_user_func(array(get_class($source), 'getStrength'));
-            $this->assertTrue($strength->compare($compare) >= 0);
-        }
-    }
-
-    /**
-     * @covers CryptLib\Random\Factory::getMediumStrengthGenerator
-     * @covers CryptLib\Random\Factory::getGenerator
-     * @covers CryptLib\Random\Factory::findMixer
+     * @covers PasswordLib\Random\Factory::getMediumStrengthGenerator
+     * @covers PasswordLib\Random\Factory::getGenerator
+     * @covers PasswordLib\Random\Factory::findMixer
      */
     public function testGetMediumStrengthGenerator() {
         $factory = new Factory;
         $generator = $factory->getMediumStrengthGenerator();
-        $this->assertTrue($generator instanceof CryptLib\Random\Generator);
+        $this->assertTrue($generator instanceof PasswordLib\Random\Generator);
         $mixer = call_user_func(array(
             get_class($generator->getMixer()),
             'getStrength'
@@ -127,24 +106,5 @@ class Unit_Random_FactoryTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    /**
-     * @covers CryptLib\Random\Factory::getHighStrengthGenerator
-     * @covers CryptLib\Random\Factory::getGenerator
-     * @covers CryptLib\Random\Factory::findMixer
-     */
-    public function testGetHighStrengthGenerator() {
-        $factory = new Factory;
-        $generator = $factory->getHighStrengthGenerator();
-        $this->assertTrue($generator instanceof CryptLib\Random\Generator);
-        $mixer = call_user_func(array(
-            get_class($generator->getMixer()),
-            'getStrength'
-        ));
-        $this->assertTrue($mixer->compare(new Strength(Strength::HIGH)) <= 0);
-        foreach ($generator->getSources() as $source) {
-            $strength = call_user_func(array(get_class($source), 'getStrength'));
-            $this->assertTrue($strength->compare(new Strength(Strength::HIGH)) >= 0);
-        }
-    }
 
 }

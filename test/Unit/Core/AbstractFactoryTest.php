@@ -2,12 +2,12 @@
 
 require_once 'vfsStream/vfsStream.php';
 
-use CryptLibTest\Mocks\Core\Factory;
+use PasswordLibTest\Mocks\Core\Factory;
 
 class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
-        $root = vfsStream::setup('CryptLibTest');
+        $root = vfsStream::setup('PasswordLibTest');
         //Setup Folders
         $core = vfsStream::newDirectory('Core')->at($root);
         $af = vfsStream::newDirectory('AbstractFactory')->at($core);
@@ -20,7 +20,7 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Core\AbstractFactory::registerType
+     * @covers PasswordLib\Core\AbstractFactory::registerType
      */
     public function testRegisterType() {
         $factory = new Factory;
@@ -28,7 +28,7 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Core\AbstractFactory::registerType
+     * @covers PasswordLib\Core\AbstractFactory::registerType
      * @expectedException InvalidArgumentException
      */
     public function testRegisterTypeFail() {
@@ -37,7 +37,7 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Core\AbstractFactory::registerType
+     * @covers PasswordLib\Core\AbstractFactory::registerType
      */
     public function testRegisterTypeInstantiate() {
         $factory = new Factory;
@@ -45,7 +45,7 @@ class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testLoadFiles() {
-        $dir = vfsStream::url('CryptLibTest/Core/AbstractFactory');
+        $dir = vfsStream::url('PasswordLibTest/Core/AbstractFactory');
 
         $result = array();
         $callback = function($name, $class) use (&$result) {

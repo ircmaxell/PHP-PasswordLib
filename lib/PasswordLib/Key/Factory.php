@@ -45,8 +45,6 @@ class Factory extends \PasswordLib\Core\AbstractFactory {
      */
     public function __construct() {
         $this->loadPBKDF();
-        $this->loadKDF();
-        //$this->loadSymmetricGenerators();
     }
 
     public function getKDF($name = 'kdf3', array $options = array()) {

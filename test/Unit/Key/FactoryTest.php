@@ -1,6 +1,6 @@
 <?php
 
-use CryptLib\Key\Factory;
+use PasswordLib\Key\Factory;
 
 class Unit_Key_FactoryTest extends PHPUnit_Framework_TestCase {
 
@@ -8,22 +8,9 @@ class Unit_Key_FactoryTest extends PHPUnit_Framework_TestCase {
         $factory = new Factory;
     }
 
-    public function testGetKDF() {
-        $factory = new Factory;
-        $this->assertTrue($factory->getKDF() instanceof \CryptLib\Key\Derivation\KDF\KDF3);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testGetKDFFail() {
-        $factory = new Factory;
-        $factory->getKDF('someGibberish');
-    }
-
     public function testGetPBKDF() {
         $factory = new Factory;
-        $this->assertTrue($factory->getPBKDF() instanceof \CryptLib\Key\Derivation\PBKDF\PBKDF2);
+        $this->assertTrue($factory->getPBKDF() instanceof \PasswordLib\Key\Derivation\PBKDF\PBKDF2);
     }
 
     /**
@@ -34,8 +21,4 @@ class Unit_Key_FactoryTest extends PHPUnit_Framework_TestCase {
         $factory->getPBKDF('someGibberish');
     }
 
-    public function testGetSymmetricKeyGenerator() {
-        $factory = new Factory;
-        $this->assertTrue(is_null($factory->getSymmetricKeyGenerator()));
-    }
 }

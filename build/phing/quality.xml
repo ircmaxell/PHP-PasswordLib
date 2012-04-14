@@ -23,7 +23,7 @@
 						--report=summary
 						--report-checkstyle=&quot;${path.logs}/checkstyle.xml&quot;
 						--standard=&quot;${path.build}/phpcs/ruleset.xml&quot;
-						&quot;${path.lib}/CryptLib&quot;"
+						&quot;${path.lib}/PasswordLib&quot;"
             passthru="true"
             checkreturn="true" />
     </target>
@@ -43,14 +43,14 @@
         <exec
             command="phploc
 						--log-csv &quot;${path.logs}/phploc.csv&quot;
-						&quot;${path.lib}/CryptLib&quot;"
+						&quot;${path.lib}/PasswordLib&quot;"
 	        />
     </target>
 
     <target name="pmd">
 		<mkdir dir="${path.results}/logs" />
         <phpmd rulesets="${path.build}/phpmd/ruleset.xml">
-            <fileset dir="${path.lib}/CryptLib">
+            <fileset dir="${path.lib}/PasswordLib">
                 <include name="**/*.php" />
             </fileset>
             <formatter type="xml" outfile="${path.logs}/pmd.xml" />
@@ -60,7 +60,7 @@
 
     <target name="pdepend">
 		<mkdir dir="${path.results}/logs" />
-        <phpdepend file="${path.lib}/CryptLib">
+        <phpdepend file="${path.lib}/PasswordLib">
             <logger type="phpunit-xml" outfile="${path.logs}/metrics.xml" />
             <logger type="jdepend-xml" outfile="${path.logs}/jdepend.xml" />
             <logger type="jdepend-chart" outfile="${path.logs}/dependencies.svg" />

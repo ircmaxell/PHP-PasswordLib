@@ -7,7 +7,7 @@
  *
  * PHP version 5.3
  *
- * @category  PHPCryptLib
+ * @category  PHPPasswordLib
  * @package   Cipher
  * @author    Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright 2011 The Authors
@@ -15,7 +15,7 @@
  * @license   http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLibTest\Mocks\Cipher;
+namespace PasswordLibTest\Mocks\Cipher;
 
 
 /**
@@ -24,11 +24,11 @@ namespace CryptLibTest\Mocks\Cipher;
  * Use this factory to instantiate ciphers and modes based upon their names. You
  * can register new ciphers and modes by simply calling the appropriate methods.
  *
- * @category  PHPCryptLib
+ * @category  PHPPasswordLib
  * @package   Cipher
  * @author    Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Factory extends \CryptLib\Cipher\Factory {
+class Factory extends \PasswordLib\Cipher\Factory {
 
     protected $callbacks = array();
 
@@ -79,7 +79,7 @@ class Factory extends \CryptLib\Cipher\Factory {
      */
     public function getMode(
         $mode,
-        \CryptLib\Cipher\Block\Cipher $cipher,
+        \PasswordLib\Cipher\Block\Cipher $cipher,
         $initv,
         array $options = array()
     ) {

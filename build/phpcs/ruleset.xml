@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="PHP-CryptLib">
-	<description>PHP-CryptLib Standard</description>
+<ruleset name="PHP-PasswordLib">
+	<description>PHP-PasswordLib Standard</description>
 
 	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
 	<rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>

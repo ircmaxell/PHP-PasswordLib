@@ -1,13 +1,13 @@
 <?php
 
-use CryptLib\Password\Implementation\Blowfish;
+use PasswordLib\Password\Implementation\Blowfish;
 
 class Vectors_Password_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
 
     public static function provideTestVerify() {
         $results = array();
-        $file = \CryptLibTest\getTestDataFile('Vectors/blowfish.custom.test-vectors');
-        $nessie = new CryptLibTest\lib\VectorParser\SSV($file);
+        $file = \PasswordLibTest\getTestDataFile('Vectors/blowfish.custom.test-vectors');
+        $nessie = new PasswordLibTest\lib\VectorParser\SSV($file);
         foreach ($nessie->getVectors() as $vector) {
             $results[] = array(
                 $vector[0],
@@ -19,7 +19,7 @@ class Vectors_Password_Implementation_BlowfishTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish::verify
+     * @covers PasswordLib\Password\Implementation\Blowfish::verify
      * @dataProvider provideTestVerify
      * @group Vectors
      */

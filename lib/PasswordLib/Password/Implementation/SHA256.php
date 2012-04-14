@@ -32,7 +32,7 @@ use PasswordLib\Random\Factory as RandomFactory;
 class SHA256 extends Crypt {
 
     protected $saltLen = 16;
-    
+
     /**
      * Determine if the hash was made with this method
      *
@@ -41,7 +41,7 @@ class SHA256 extends Crypt {
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash) {
-        static $regex = '/^\$5\$(rounds=\d{4,9}\$)?[a-zA-Z0-9.\/]{16}\$[a-zA-Z0-9.\/]{56}$/';
+        $regex = '#^\$5\$(rounds=\d{4,9}\$)?[a-zA-Z0-9./]{16}\$[a-zA-Z0-9./]{56}$#';
         return 1 == preg_match($regex, $hash);
     }
 
@@ -58,5 +58,5 @@ class SHA256 extends Crypt {
         $salt = parent::generateSalt();
         return '$5$rounds=' . $this->iterations . '$' . $salt;
     }
-    
+
 }

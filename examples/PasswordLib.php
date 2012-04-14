@@ -1,10 +1,10 @@
 <?php
 /**
- * An example file demonstrating the use of the wrapper class CryptLib
+ * An example file demonstrating the use of the wrapper class PasswordLib
  *
  * PHP version 5.3
  *
- * @category   PHPCryptLib-Examples
+ * @category   PHPPasswordLib-Examples
  * @package    Core
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
@@ -16,7 +16,7 @@
  * Note, you do not need to use namespaces in your code to make use of the library.
  * Namespaces are used here for separation separation only.
  */
-namespace CryptLibExamples;
+namespace PasswordLibExamples;
 
 /**
  * Since we're using the wrapper class, it will automatically instantiate the
@@ -24,14 +24,14 @@ namespace CryptLibExamples;
  * work just fine.  Even if you call both, it's smart enough to not double
  * initialize the framework.
  */
-require_once dirname(__DIR__) . '/lib/CryptLib/CryptLib.php';
+require_once dirname(__DIR__) . '/lib/PasswordLib/PasswordLib.php';
 
 /**
  * There's no parameters to instantiate the class.  Just instantiate it.  Note the
- * namespace prefix.  You can import the class using a `use CryptLib\CryptLib`
+ * namespace prefix.  You can import the class using a `use PasswordLib\PasswordLib`
  * declaration at the top of the file, but this works just as well.
  */
-$cryptLib = new \CryptLib\CryptLib;
+$PasswordLib = new \PasswordLib\PasswordLib;
 
 /**
  * Now we can do all sorts of things with the library.  Let's start off by
@@ -45,7 +45,7 @@ $cryptLib = new \CryptLib\CryptLib;
  * the generated numbers for encryption or for other sensitive needs, use the
  * random generator class itself (see the Random/strings.php example).
  */
-$token = $cryptLib->getRandomToken(16);
+$token = $PasswordLib->getRandomToken(16);
 
 printf("\nHere's our token: %s\n", $token);
 
@@ -54,14 +54,14 @@ printf("\nHere's our token: %s\n", $token);
  * can provide a min and a max to the function to put boundaries on the generated
  * number's range.
  */
-$number = $cryptLib->getRandomNumber();
+$number = $PasswordLib->getRandomNumber();
 
 printf("\nHere's a random number from 0 to PHP_INT_MAX: %d\n", $number);
 
 /**
  * Let's bound that to between 10 and 100...
  */
-$number = $cryptLib->getRandomNumber(10, 100);
+$number = $PasswordLib->getRandomNumber(10, 100);
 
 printf("\nHere's a random number from 10 to 100: %d\n", $number);
 
@@ -72,7 +72,7 @@ printf("\nHere's a random number from 10 to 100: %d\n", $number);
  * (which is likely overkill for most applications)
  */
 $array = array('ab', 'bc', 'cd', 'de', 'ef', 'fg', 'gh');
-$element = $cryptLib->getRandomArrayElement($array);
+$element = $PasswordLib->getRandomArrayElement($array);
 
 printf("\nHere's a random array element: %s\n", $element);
 
@@ -80,7 +80,7 @@ printf("\nHere's a random array element: %s\n", $element);
  * And we can randomize an array
  */
 $array = array('a', 'b', 'c', 'd', 'e', 'f');
-$newArray = $cryptLib->shuffleArray($array);
+$newArray = $PasswordLib->shuffleArray($array);
 
 printf("\nHere's a randomized array: \n");
 
@@ -95,7 +95,7 @@ print_r(array_values($newArray));
  */
 
 $string = 'abcdef';
-$newString = $cryptLib->shuffleString($string);
+$newString = $PasswordLib->shuffleString($string);
 
 printf("\nHere's our randomized string: %s\n", $newString);
 
@@ -104,17 +104,17 @@ printf("\nHere's our randomized string: %s\n", $newString);
  */
 $password = 'Password';
 
-$hash = $cryptLib->createPasswordHash($password);
+$hash = $PasswordLib->createPasswordHash($password);
 
 printf("\nHere's a hashed password: %s\n", $hash);
 
 /**
  * Let's verify the password.  To show that nothing is saved, let's create a new
- * instance of the CryptLib class.
+ * instance of the PasswordLib class.
  */
-$cryptLib2 = new \CryptLib\CryptLib;
+$PasswordLib2 = new \PasswordLib\PasswordLib;
 
-$result = $cryptLib2->verifyPasswordHash($password, $hash);
+$result = $PasswordLib2->verifyPasswordHash($password, $hash);
 
 printf("\nThe result of the password check was: %s\n", $result ? 'successful' : 'not successful');
 
@@ -122,16 +122,16 @@ printf("\nThe result of the password check was: %s\n", $result ? 'successful' : 
  * Let's use a different format.  Let's try using Drupal's password hash
  */
 
-$hash = $cryptLib->createPasswordHash($password, '$S$');
+$hash = $PasswordLib->createPasswordHash($password, '$S$');
 
 printf("\nHere's a Drupal hashed password: %s\n", $hash);
 
 /**
  * Let's verify the password.  To show that nothing is saved, let's create a new
- * instance of the CryptLib class.
+ * instance of the PasswordLib class.
  */
 
-$result = $cryptLib2->verifyPasswordHash($password, $hash);
+$result = $PasswordLib2->verifyPasswordHash($password, $hash);
 
 printf("\nThe result of the Drupal password check was: %s\n", $result ? 'successful' : 'not successful');
 
@@ -140,15 +140,15 @@ printf("\nThe result of the Drupal password check was: %s\n", $result ? 'success
  * Let's use PBKDF2
  */
 
-$hash = $cryptLib->createPasswordHash($password, '$pbkdf$');
+$hash = $PasswordLib->createPasswordHash($password, '$pbkdf$');
 
 printf("\nHere's a PBKDF2 hashed password: %s\n", $hash);
 
 /**
  * Let's verify the password.  To show that nothing is saved, let's create a new
- * instance of the CryptLib class.
+ * instance of the PasswordLib class.
  */
 
-$result = $cryptLib2->verifyPasswordHash($password, $hash);
+$result = $PasswordLib2->verifyPasswordHash($password, $hash);
 
 printf("\nThe result of the PBKDF2 password check was: %s\n", $result ? 'successful' : 'not successful');

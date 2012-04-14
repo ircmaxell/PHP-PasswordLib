@@ -4,7 +4,7 @@
  *
  * PHP version 5.3
  *
- * @category   PHPCryptLib-Examples
+ * @category   PHPPasswordLib-Examples
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
@@ -12,19 +12,19 @@
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLibExamples\Random;
+namespace PasswordLibExamples\Random;
 
 /**
  * Let's generate some random strings!  For this, we'll use the
- * CryptLib\Random\Factory class to build a random number generator to suit
+ * PasswordLib\Random\Factory class to build a random number generator to suit
  * our needs here.
  */
 
 //We first load the bootstrap file so we have access to the library
-require_once dirname(dirname(__DIR__)) . '/lib/CryptLib/bootstrap.php';
+require_once dirname(dirname(__DIR__)) . '/lib/PasswordLib/bootstrap.php';
 
 //Now, let's get a random number factory
-$factory = new \CryptLib\Random\Factory;
+$factory = new \PasswordLib\Random\Factory;
 
 /**
  * Now, since we want a low strength random number, let's get a low strength

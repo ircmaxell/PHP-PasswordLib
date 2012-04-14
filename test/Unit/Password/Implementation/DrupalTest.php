@@ -1,8 +1,8 @@
 <?php
 
-use CryptLib\Core\Strength\Medium as MediumStrength;
-use CryptLibTest\Mocks\Random\Generator as MockGenerator;
-use CryptLib\Password\Implementation\Drupal;
+use PasswordLib\Core\Strength\Medium as MediumStrength;
+use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
+use PasswordLib\Password\Implementation\Drupal;
 
 class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
 
@@ -43,7 +43,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      * @dataProvider provideTestDetect
      */
     public function testDetect($from, $expect) {
@@ -51,7 +51,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      */
     public function testLoadFromHash() {
         $test = Drupal::loadFromHash('$S$ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz./ABCDEFGHIJKLMNOPQRSTUVWXYZ01234');
@@ -59,7 +59,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      * @expectedException InvalidArgumentException
      */
     public function testLoadFromHashFail() {
@@ -67,14 +67,14 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      */
     public function testGetPrefix() {
         $this->assertEquals('$S$', Drupal::getPrefix());
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      */
     public function testConstruct() {
         $hash = new Drupal();
@@ -82,7 +82,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      */
     public function testConstructArgs() {
         $iterations = 10;
@@ -92,7 +92,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
@@ -100,7 +100,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      */
     public function testCreateAndVerify() {
         $hash = new Drupal(10);
@@ -109,7 +109,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      * @dataProvider provideTestCreate
      */
     public function testCreate($iterations, $pass, $expect) {
@@ -118,7 +118,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      * @dataProvider provideTestCreate
      */
     public function testVerify($iterations, $pass, $expect) {
@@ -127,7 +127,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($iterations, $pass, $expect) {
@@ -136,7 +136,7 @@ class Unit_Hash_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal
+     * @covers PasswordLib\Password\Implementation\Drupal
      * @dataProvider provideTestVerifyFailException
      * @expectedException InvalidArgumentException
      */

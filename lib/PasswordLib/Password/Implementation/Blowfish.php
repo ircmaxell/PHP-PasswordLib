@@ -32,7 +32,7 @@ use PasswordLib\Random\Factory as RandomFactory;
 class Blowfish extends Crypt {
 
     protected $saltLen = 22;
-    
+
     /**
      * Determine if the hash was made with this method
      *
@@ -71,8 +71,8 @@ class Blowfish extends Crypt {
     }
 
     protected function generateSalt() {
-        $salt = parent::generateSalt();
-        $prefix     = '$2a$' . str_pad($this->iterations, 2, '0', STR_PAD_LEFT);
+        $salt   = parent::generateSalt();
+        $prefix = '$2a$' . str_pad($this->iterations, 2, '0', STR_PAD_LEFT);
         return $prefix . '$' . $salt;
     }
 }

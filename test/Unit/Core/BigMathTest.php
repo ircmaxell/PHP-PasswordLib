@@ -34,13 +34,13 @@ class Unit_Core_BigMathTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testCreateFromServerConfiguration() {
-        $instance = \CryptLib\Core\BigMath::createFromServerConfiguration();
+        $instance = \PasswordLib\Core\BigMath::createFromServerConfiguration();
         if (extension_loaded('bcmath')) {
-            $this->assertEquals('CryptLib\\Core\\BigMath\\BCMath', get_class($instance));
+            $this->assertEquals('PasswordLib\\Core\\BigMath\\BCMath', get_class($instance));
         } elseif (extension_loaded('gmp')) {
-            $this->assertEquals('CryptLib\\Core\\BigMath\\GMP', get_class($instance));
+            $this->assertEquals('PasswordLib\\Core\\BigMath\\GMP', get_class($instance));
         } else {
-            $this->assertEquals('CryptLib\\Core\\BigMath\\PHPMath', get_class($instance));
+            $this->assertEquals('PasswordLib\\Core\\BigMath\\PHPMath', get_class($instance));
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use CryptLib\Password\Factory;
+use PasswordLib\Password\Factory;
 
 class Unit_Password_FactoryTest extends PHPUnit_Framework_TestCase {
 

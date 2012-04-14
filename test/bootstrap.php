@@ -8,7 +8,7 @@
  *
  * PHP version 5.3
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    test
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
@@ -16,12 +16,12 @@
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLibTest;
+namespace PasswordLibTest;
 
 ini_set('memory_limit', '1G');
 
 /**
- * The simple autoloader for the CryptLibTest libraries.
+ * The simple autoloader for the PasswordLibTest libraries.
  *
  * This does not use the PRS-0 standards due to the namespace prefix and directory
  * structure
@@ -49,5 +49,5 @@ function getTestDataFile($file) {
     return __DIR__ . '/Data/' . $file;
 }
 
-require_once dirname(__DIR__) . '/lib/CryptLib/bootstrap.php';
+require_once dirname(__DIR__) . '/lib/PasswordLib/bootstrap.php';
 

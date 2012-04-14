@@ -32,7 +32,7 @@ use PasswordLib\Random\Factory as RandomFactory;
 class MD5 extends Crypt {
 
     protected $saltLen = 12;
-    
+
     /**
      * Determine if the hash was made with this method
      *

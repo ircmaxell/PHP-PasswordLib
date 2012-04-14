@@ -1,13 +1,13 @@
 <?php
 
-use CryptLib\Password\Implementation\Drupal;
+use PasswordLib\Password\Implementation\Drupal;
 
 class Vectors_Password_Implementation_DrupalTest extends PHPUnit_Framework_TestCase {
 
     public static function provideTestVerify() {
         $results = array();
-        $file = \CryptLibTest\getTestDataFile('Vectors/drupal.custom.test-vectors');
-        $nessie = new CryptLibTest\lib\VectorParser\SSV($file);
+        $file = \PasswordLibTest\getTestDataFile('Vectors/drupal.custom.test-vectors');
+        $nessie = new PasswordLibTest\lib\VectorParser\SSV($file);
         foreach ($nessie->getVectors() as $vector) {
             $results[] = array(
                 $vector[0],
@@ -19,7 +19,7 @@ class Vectors_Password_Implementation_DrupalTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Drupal::verify
+     * @covers PasswordLib\Password\Implementation\Drupal::verify
      * @dataProvider provideTestVerify
      * @group Vectors
      */

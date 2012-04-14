@@ -1,6 +1,6 @@
 <?php
 
-use CryptLib\Key\Derivation\PBKDF\PBKDF2;
+use PasswordLib\Key\Derivation\PBKDF\PBKDF2;
 
 class Unit_Key_Derivation_PBKDF_PBKDF2Test extends PHPUnit_Framework_TestCase {
 
@@ -12,8 +12,8 @@ class Unit_Key_Derivation_PBKDF_PBKDF2Test extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Key\Derivation\PBKDF\PBKDF2
-     * @covers CryptLib\Key\Derivation\AbstractDerivation
+     * @covers PasswordLib\Key\Derivation\PBKDF\PBKDF2
+     * @covers PasswordLib\Key\Derivation\AbstractDerivation
      */
     public function testConstruct() {
         $pb = new PBKDF2();
@@ -21,7 +21,7 @@ class Unit_Key_Derivation_PBKDF_PBKDF2Test extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Key\Derivation\PBKDF\PBKDF2::derive
+     * @covers PasswordLib\Key\Derivation\PBKDF\PBKDF2::derive
      * @dataProvider provideTestDerive
      * @group slow
      */
@@ -32,7 +32,7 @@ class Unit_Key_Derivation_PBKDF_PBKDF2Test extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Key\Derivation\PBKDF\PBKDF2::getSignature
+     * @covers PasswordLib\Key\Derivation\PBKDF\PBKDF2::getSignature
      */
     public function testGetSignature() {
         $pb = new PBKDF2(array('hash' => 'test'));

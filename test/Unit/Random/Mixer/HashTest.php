@@ -1,7 +1,7 @@
 <?php
 
-use CryptLib\Random\Mixer\Hash;
-use CryptLib\Core\Strength;
+use PasswordLib\Random\Mixer\Hash;
+use PasswordLib\Core\Strength;
 
 class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
 
@@ -22,27 +22,27 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\Hash
-     * @covers CryptLib\Random\AbstractMixer
+     * @covers PasswordLib\Random\Mixer\Hash
+     * @covers PasswordLib\Random\AbstractMixer
      */
     public function testConstructWithoutArgument() {
         $hash = new Hash;
-        $this->assertTrue($hash instanceof \CryptLib\Random\Mixer);
+        $this->assertTrue($hash instanceof \PasswordLib\Random\Mixer);
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\Hash
-     * @covers CryptLib\Random\AbstractMixer
+     * @covers PasswordLib\Random\Mixer\Hash
+     * @covers PasswordLib\Random\AbstractMixer
      */
     public function testGetStrength() {
-        $strength = new Strength(Strength::LOW);
+        $strength = new Strength(Strength::MEDIUM);
         $actual = Hash::getStrength();
         $this->assertEquals($actual, $strength);
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\Hash
-     * @covers CryptLib\Random\AbstractMixer
+     * @covers PasswordLib\Random\Mixer\Hash
+     * @covers PasswordLib\Random\AbstractMixer
      */
     public function testTest() {
         $actual = Hash::test();
@@ -50,8 +50,8 @@ class Unit_Random_Mixer_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Mixer\Hash
-     * @covers CryptLib\Random\AbstractMixer
+     * @covers PasswordLib\Random\Mixer\Hash
+     * @covers PasswordLib\Random\AbstractMixer
      * @dataProvider provideMix
      */
     public function testMix($parts, $result) {

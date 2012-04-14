@@ -1,13 +1,13 @@
 <?php
 
-use CryptLib\Core\Strength;
+use PasswordLib\Core\Strength;
 
 class Unit_Core_StrengthTest extends PHPUnit_Framework_TestCase {
 
     public function testConstruct() {
         $obj = new Strength(Strength::LOW);
-        $this->assertTrue($obj instanceof \CryptLib\Core\Strength);
-        $this->assertTrue($obj instanceof \CryptLib\Core\Enum);
+        $this->assertTrue($obj instanceof \PasswordLib\Core\Strength);
+        $this->assertTrue($obj instanceof \PasswordLib\Core\Enum);
     }
 
     public function testGetConstList() {

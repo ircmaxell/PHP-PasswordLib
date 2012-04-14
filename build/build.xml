@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="PHP-CryptLib" default="build-lite" basedir="../">
+<project name="PHP-PasswordLib" default="build-lite" basedir="../">
     <property file="build/build.properties" />
 	<import file="${path.build}/phing/document.xml" />
 	<import file="${path.build}/phing/package.xml" />

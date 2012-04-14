@@ -1,6 +1,6 @@
 <?php
 
-use CryptLib\Hash\Hash;
+use PasswordLib\Hash\Hash;
 
 class Unit_Hash_HashTest extends PHPUnit_Framework_TestCase {
     protected $oldHashes = array();
@@ -66,7 +66,7 @@ class Unit_Hash_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     public function setUp() {
-        $r = new ReflectionProperty('CryptLib\\Hash\\Hash', 'hashInfo');
+        $r = new ReflectionProperty('PasswordLib\\Hash\\Hash', 'hashInfo');
         $r->setAccessible(true);
         $prop = $r->getValue(null);
         $this->oldHashes = $prop;
@@ -79,7 +79,7 @@ class Unit_Hash_HashTest extends PHPUnit_Framework_TestCase {
     }
 
     public function tearDown() {
-        $r = new ReflectionProperty('CryptLib\\Hash\\Hash', 'hashInfo');
+        $r = new ReflectionProperty('PasswordLib\\Hash\\Hash', 'hashInfo');
         $r->setAccessible(true);
         $r->setValue(null, $this->oldHashes);
     }

@@ -4,7 +4,7 @@
  *
  * PHP version 5.3
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Cipher
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
@@ -13,17 +13,17 @@
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLibTest\Mocks\Cipher\Block;
+namespace PasswordLibTest\Mocks\Cipher\Block;
 
 /**
  * The interface that all block ciphers must implement
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Cipher
  * @subpackage Block
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Cipher extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\Cipher\Block\Cipher {
+class Cipher extends \PasswordLibTest\Mocks\AbstractMock implements \PasswordLib\Cipher\Block\Cipher {
 
     public static $ciphers = array();
 

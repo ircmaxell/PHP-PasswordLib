@@ -16,7 +16,7 @@
  * @version    Build @@version@@
  */
 
-namespace PasswordLibs;
+namespace PasswordLib;
 
 require_once __DIR__ . '/Core/AutoLoader.php';
 

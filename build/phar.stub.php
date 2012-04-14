@@ -8,7 +8,7 @@
  *
  * PHP version 5.3
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Core
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
@@ -16,14 +16,14 @@
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLib;
+namespace PasswordLib;
 
-\Phar::mapPhar('CryptLib.phar');
+\Phar::mapPhar('PasswordLib.phar');
 \Phar::interceptFileFuncs();
 
-require_once 'phar://CryptLib.phar/CryptLib/Core/AutoLoader.php';
+require_once 'phar://PasswordLib.phar/PasswordLib/Core/AutoLoader.php';
 
-$autoloader = new \CryptLib\Core\AutoLoader(__NAMESPACE__, 'phar://CryptLib.phar');
+$autoloader = new \PasswordLib\Core\AutoLoader(__NAMESPACE__, 'phar://PasswordLib.phar');
 
 $autoloader->register();
 

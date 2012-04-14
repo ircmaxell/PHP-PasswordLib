@@ -1,8 +1,8 @@
 <?php
 
-use CryptLib\Core\Strength\Medium as MediumStrength;
-use CryptLibTest\Mocks\Random\Generator as MockGenerator;
-use CryptLib\Password\Implementation\Joomla;
+use PasswordLib\Core\Strength\Medium as MediumStrength;
+use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
+use PasswordLib\Password\Implementation\Joomla;
 
 class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
 
@@ -41,7 +41,7 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      * @dataProvider provideTestDetect
      */
     public function testDetect($from, $expect) {
@@ -49,7 +49,7 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      */
     public function testLoadFromHash() {
         $test = Joomla::loadFromHash('f29e73e26c48d3963a8574f176b1be84:aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
@@ -57,7 +57,7 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      * @expectedException InvalidArgumentException
      */
     public function testLoadFromHashFail() {
@@ -65,14 +65,14 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      */
     public function testGetPrefix() {
         $this->assertFalse(Joomla::getPrefix());
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      */
     public function testConstruct() {
         $hash = new Joomla();
@@ -80,7 +80,7 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      */
     public function testConstructArgs() {
         $iterations = 10;
@@ -90,7 +90,7 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      */
     public function testCreateAndVerify() {
         $hash = new Joomla();
@@ -99,7 +99,7 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      * @dataProvider provideTestCreate
      */
     public function testCreate($pass, $expect) {
@@ -108,7 +108,7 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      * @dataProvider provideTestCreate
      */
     public function testVerify($pass, $expect) {
@@ -117,7 +117,7 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($pass, $expect) {
@@ -126,7 +126,7 @@ class Unit_Hash_Implementation_JoomlaTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Joomla
+     * @covers PasswordLib\Password\Implementation\Joomla
      * @dataProvider provideTestVerifyFailException
      * @expectedException InvalidArgumentException
      */

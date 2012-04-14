@@ -1,8 +1,8 @@
 <?php
 
-use CryptLib\Random\Source\URandom;
+use PasswordLib\Random\Source\URandom;
 
-use CryptLib\Core\Strength;
+use PasswordLib\Core\Strength;
 
 
 
@@ -18,7 +18,7 @@ class Unit_Random_Source_URandomTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\URandom::getStrength
+     * @covers PasswordLib\Random\Source\URandom::getStrength
      */
     public function testGetStrength() {
         $strength = new Strength(Strength::MEDIUM);
@@ -27,7 +27,7 @@ class Unit_Random_Source_URandomTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\URandom::generate
+     * @covers PasswordLib\Random\Source\URandom::generate
      * @dataProvider provideGenerate
      * @group slow
      */

@@ -57,7 +57,7 @@ class Hash extends \PasswordLib\Random\AbstractMixer {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        return new Strength(Strength::LOW);
+        return new Strength(Strength::MEDIUM);
     }
 
     /**

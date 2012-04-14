@@ -1,10 +1,10 @@
 <?php
 
-use CryptLibTest\Mocks\Hash\Hash as MockHash;
-use CryptLibTest\Mocks\Hash\Factory as MockFactory;
-use CryptLibTest\Mocks\Key\Derivation\PBKDF as MockPBKDF;
-use CryptLibTest\Mocks\Random\Generator as MockGenerator;
-use CryptLib\Password\Implementation\PBKDF;
+use PasswordLibTest\Mocks\Hash\Hash as MockHash;
+use PasswordLibTest\Mocks\Hash\Factory as MockFactory;
+use PasswordLibTest\Mocks\Key\Derivation\PBKDF as MockPBKDF;
+use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
+use PasswordLib\Password\Implementation\PBKDF;
 
 class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
 
@@ -63,7 +63,7 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PBKDF::detect
+     * @covers PasswordLib\Password\Implementation\PBKDF::detect
      * @dataProvider provideTestDetect
      */
     public function testDetect($from, $expected) {
@@ -71,7 +71,7 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PBKDF::__construct
+     * @covers PasswordLib\Password\Implementation\PBKDF::__construct
      */
     public function testConstructWithoutArgs() {
         $pbkdf = new PBKDF;
@@ -79,7 +79,7 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PBKDF::__construct
+     * @covers PasswordLib\Password\Implementation\PBKDF::__construct
      */
     public function testConstructWithArgs() {
         $mock1 = new MockPBKDF;
@@ -89,8 +89,8 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PBKDF::create
-     * @covers CryptLib\Password\Implementation\PBKDF::hash
+     * @covers PasswordLib\Password\Implementation\PBKDF::create
+     * @covers PasswordLib\Password\Implementation\PBKDF::hash
      * @dataProvider provideTestCreate
      */
     public function testCreate($password, $expect) {
@@ -119,8 +119,8 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PBKDF::verify
-     * @covers CryptLib\Password\Implementation\PBKDF::hash
+     * @covers PasswordLib\Password\Implementation\PBKDF::verify
+     * @covers PasswordLib\Password\Implementation\PBKDF::hash
      * @dataProvider provideTestCreate
      */
     public function testVerify($password, $expect) {
@@ -148,8 +148,8 @@ class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PBKDF::verify
-     * @covers CryptLib\Password\Implementation\PBKDF::hash
+     * @covers PasswordLib\Password\Implementation\PBKDF::verify
+     * @covers PasswordLib\Password\Implementation\PBKDF::hash
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($password, $expect) {

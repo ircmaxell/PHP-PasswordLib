@@ -6,7 +6,7 @@
  *
  * PHP version 5.3
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
@@ -14,20 +14,20 @@
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLibTest\Mocks\Random;
+namespace PasswordLibTest\Mocks\Random;
 
-use CryptLib\Core\Strength\VeryLow as VeryLowStrength;
+use PasswordLib\Core\Strength\VeryLow as VeryLowStrength;
 
 /**
  * The Random Number Source interface.
  *
  * All random number sources must implement this interface
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Source extends \CryptLibTest\Mocks\AbstractMock implements \CryptLib\Random\Source {
+class Source extends \PasswordLibTest\Mocks\AbstractMock implements \PasswordLib\Random\Source {
 
     public static $strength = null;
 

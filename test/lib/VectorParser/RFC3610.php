@@ -1,6 +1,6 @@
 <?php
 
-namespace CryptLibTest\lib\VectorParser;
+namespace PasswordLibTest\lib\VectorParser;
 
 class RFC3610 {
     

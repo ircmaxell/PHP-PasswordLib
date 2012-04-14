@@ -6,7 +6,7 @@
  *
  * PHP version 5.3
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLibTest\Mocks\Random;
+namespace PasswordLibTest\Mocks\Random;
 
 
 /**
@@ -22,11 +22,11 @@ namespace CryptLibTest\Mocks\Random;
  *
  * All mixing strategies must implement this interface
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Random
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Generator extends \CryptLib\Random\Generator {
+class Generator extends \PasswordLib\Random\Generator {
     protected $callbacks = array();
 
     public static function init() {}
@@ -42,7 +42,7 @@ class Generator extends \CryptLib\Random\Generator {
         return null;
     }
 
-    public function addSource(\CryptLib\Random\Source $source) {
+    public function addSource(\PasswordLib\Random\Source $source) {
         return $this->__call('addSource', array($source));
     }
 

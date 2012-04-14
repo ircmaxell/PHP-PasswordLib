@@ -5,7 +5,7 @@
  * PHP version 5.3
  *
  * @see        http://www.ietf.org/rfc/rfc2898.txt
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Key
  * @subpackage Derivation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
@@ -15,20 +15,20 @@
  * @version    Build @@version@@
  */
 
-namespace CryptLibTest\Mocks\Key\Derivation;
+namespace PasswordLibTest\Mocks\Key\Derivation;
 
 /**
  * An implementation of the RFC 2898 PBKDF2 Standard key derivation function
  *
  * @see        http://www.ietf.org/rfc/rfc2898.txt
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Key
  * @subpackage Derivation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
 class PBKDF
-    extends \CryptLibTest\Mocks\AbstractMock
-    implements \CryptLib\Key\Derivation\PBKDF
+    extends \PasswordLibTest\Mocks\AbstractMock
+    implements \PasswordLib\Key\Derivation\PBKDF
 {
 
     /**

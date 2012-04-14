@@ -10,7 +10,7 @@ class Unit_Core_BigMath_PHPMathTest extends Unit_Core_BigMathTest {
      * @dataProvider provideAddTest
      */
     public function testAdd($left, $right, $expected) {
-        $obj = new \CryptLib\Core\BigMath\PHPMath;
+        $obj = new \PasswordLib\Core\BigMath\PHPMath;
         $this->assertEquals($expected, $obj->add($left, $right));
     }
     
@@ -18,7 +18,7 @@ class Unit_Core_BigMath_PHPMathTest extends Unit_Core_BigMathTest {
      * @dataProvider provideSubtractTest
      */
     public function testSubtract($left, $right, $expected) {
-        $obj = new \CryptLib\Core\BigMath\PHPMath;
+        $obj = new \PasswordLib\Core\BigMath\PHPMath;
         $this->assertEquals($expected, $obj->subtract($left, $right));
     }
 }

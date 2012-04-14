@@ -1,4 +1,4 @@
-#PHP-CryptLib
+#PHP-PasswordLib
 
 ##Version
 
@@ -8,7 +8,7 @@ As this software is **ALPHA**, **Use at your own risk**!
 
 #About
 
-PHP-CryptLib aims to be an all-inclusive cryptographic library for all cryptographic needs.  It is meant to be easy to install and use, yet extensible and powerful enough for even the most experienced developer.
+PHP-PasswordLib aims to be an all-inclusive cryptographic library for all cryptographic needs.  It is meant to be easy to install and use, yet extensible and powerful enough for even the most experienced developer.
 
 ##Design Goals
 
@@ -26,7 +26,7 @@ PHP-CryptLib aims to be an all-inclusive cryptographic library for all cryptogra
 
  - **Easy To Install**
 
-    PHP-CryptLib will support two install methods.  The first method is a pear based installer.  The second is a single file PHAR archive.
+    PHP-PasswordLib will support three install methods.  The first method is a pear based installer.  The second is a single file PHAR archive.  The third is support via Composer.
 
  - **Easy To Use**
 
@@ -40,64 +40,64 @@ PHP-CryptLib aims to be an all-inclusive cryptographic library for all cryptogra
 
 ##Optional Autoloading
 
-If you include CryptLib via a PHAR package, it will automatically autoload all of the classes for you, no extra step necessary.  Simply:
+If you include PasswordLib via a PHAR package, it will automatically autoload all of the classes for you, no extra step necessary.  Simply:
 
-    require 'path/to/CryptLib.phar';
+    require 'path/to/PasswordLib.phar';
 
-If you include CryptLib via a filesystem install, you can use the internal autoloader by either loading the bootstrap.php file, or loading the CryptLib.php file
+If you include PasswordLib via a filesystem install, you can use the internal autoloader by either loading the bootstrap.php file, or loading the PasswordLib.php file
 
-    require_once 'path/to/CryptLib/bootstrap.php
+    require_once 'path/to/PasswordLib/bootstrap.php
 
 or
 
-    require_once 'path/to/CryptLib/CryptLib.php
+    require_once 'path/to/PasswordLib/PasswordLib.php
 
-You can also use any [PSR-0] [3] autoloader.  CryptLib will automatically detect if an autoloader is setup for its namespace, and will not declare its own if it finds one (it does this by testing if the class CryptLib\Core\AutoLoader can be found.  If so, that means that an autoloader was declared already.  If not, it loads the core implementation).
+You can also use any [PSR-0] [3] autoloader.  PasswordLib will automatically detect if an autoloader is setup for its namespace, and will not declare its own if it finds one (it does this by testing if the class PasswordLib\Core\AutoLoader can be found.  If so, that means that an autoloader was declared already.  If not, it loads the core implementation).
 
-    $classLoader = new SplClassLoader('CryptLib', 'path/to/');
+    $classLoader = new SplClassLoader('PasswordLib', 'path/to/');
     $classLoader->register();
 
-Note that the path you supply is the directory which contains the *CryptLib* directory.  Not the CryptLib directory itself.
+Note that the path you supply is the directory which contains the *PasswordLib* directory.  Not the PasswordLib directory itself.
 
 ##Secure Random Number/String Generation
 
-PHP-CryptLib implements a method specified in [RFC 4086 - Randomness Requirements for Security] [2].  Basically, it generates randomness from a number of pseudo random sources, and "mixes" them together to get better quality random data out.  When you specify the "strength" of random generator, you are actually telling the system which sources you would like to use.  The higher the strength, the slower and potentially more fragile the source it will use.
+PHP-PasswordLib implements a method specified in [RFC 4086 - Randomness Requirements for Security] [2].  Basically, it generates randomness from a number of pseudo random sources, and "mixes" them together to get better quality random data out.  When you specify the "strength" of random generator, you are actually telling the system which sources you would like to use.  The higher the strength, the slower and potentially more fragile the source it will use.
 
 The mixing function is also dependent upon the strength required.  For non-cryptographic numbers, a simple XOR mixing function is used (for speed).  As strength requirements increase, it will use a SHA512 based mixing function, then a DES based mixing function and finally an AES-128 based mixing function at "High" strength.
 
 And all of this is hidden behind a simple API.
 
-To generate user-readable strings, you can use the CryptLib class (which generates medium strength numbers by default):
+To generate user-readable strings, you can use the PasswordLib class (which generates medium strength numbers by default):
 
-    $crypt = new CryptLib\CryptLib;
+    $crypt = new PasswordLib\PasswordLib;
     $token = $crypt->getRandomToken(16);
 
 Or you can use the core generator to get more control:
 
-    $factory = new CryptLib\Random\Factory;
+    $factory = new PasswordLib\Random\Factory;
     $generator = $factory->getHighStrengthGenerator();
     $token = $generator->generateString(16);
 
-To generate salts, simple use CryptLib::getRandomString() or Generator::generate()
+To generate salts, simple use PasswordLib::getRandomString() or Generator::generate()
 
 ##Password Hashing And Validation
 
 A number of password hashing algorithms are supported.  When creating a new hash, the algorithm is chosen via a prefix (a CRYPT() style prefix).  The library will do the rest (salt generation, etc):
 
-    $crypt = new CryptLib\CryptLib;
+    $crypt = new PasswordLib\PasswordLib;
     $hash = $crypt->createPasswordHash($password, '$2a$'); // Blowfish
     $hash = $crypt->createPasswordHash($password, '$S$'); // Drupal
 
 When validating password hashes, where possible, the library will actually auto-detect the algorithm used from the format and verify.  That means it's as simple as:
 
-    $crypt = new CryptLib\CryptLib;
+    $crypt = new PasswordLib\PasswordLib;
     if (!$crypt->verifyPasswordHash($password, $hash)) {
         //Invalid Password!
     }
 
 You can bypass the auto-detection and manually verify:
 
-    $hasher = new CryptLib\Password\Implementation\Joomla;
+    $hasher = new PasswordLib\Password\Implementation\Joomla;
     $hash = $hasher->create($password);
     if (!$hasher->verify($password, $hash)) {
         //Invalid Hash!
@@ -105,72 +105,31 @@ You can bypass the auto-detection and manually verify:
 
 #Specifications
 
- - Supported Portable Block Ciphers
-    - **aes-128**
-    - **aes-192**
-    - **aes-256**
-    - **rijndael-128**
-    - **rijndael-160**
-    - **rijndael-192**
-    - **rijndael-224**
-    - **rijndael-256**
-    - **des**
-    - **tripledes**
-
- - Supported Portable Cipher Modes Of Operation
-    - **CBC** - Encryption (Cipher Block Chaining)
-    - **CCM** - Encryption and Authentication (Counter Cipher Block Chaining)
-    - **CFB** - Encryption (Cipher FeedBack)
-    - **CTR** - Encryption (Counter)
-    - **ECB** - Encryption (Electronic CodeBook)
-    - **NOFB** - Encryption (Output FeedBack - Variable Block Size)
-
- - Supported Packing Modes
-    - **ANSI-923**
-    - **ISO-10126**
-    - **PKCS-7**
-    - **Zeros** - (Null Padding)
-
- - Supported Key Derivation Functions
-    - **KDF1**
-    - **KDF2**
-    - **KDF3**
-
- - Supported Password Based Key Derivation Functions
-    - **BCrypt**
-    - **PBKDF1**
-    - **PBKDF2**
-    - **SHA256** - (crypt()'s implementation)
-    - **SHA512** - (crypt()'s implementation)
-    - **Schneier** (a PBKDF derivative)
-
- - Supported MAC Functions (Message Authentication Code)
-    - **CMAC** (Cipher MAC)
-    - **HMAC** (Hash MAC)
-
- - Supported Password Storage Functions
-    - **APR1**     - Apache's internal password function
-    - **Blowfish** - BCrypt
-    - **Drupal**   - Drupal's SHA512 based algorithm
-    - **Hash**     - Raw md5, sha1, sha256 and sha512 detected by length
-    - **Joomla**   - Joomla's MD5 based algorithm
-    - **PBKDF**    - A PBKDF implementation (which supports any supported password based key derivation)
-    - **PHPASS**   - An implementation of the portable hash from the PHPASS library
-    - **PHPBB**    - PHPBB's MD5 based algorithm
+  - Supported Password Storage Functions
+    - **APR1**         - Apache's internal password function
+    - **Blowfish**     - BCrypt
+    - **Crypt**        - Crypt DES hashing
+    - **Drupal**       - Drupal's SHA512 based algorithm
+    - **Hash**         - Raw md5, sha1, sha256 and sha512 detected by length
+    - **Joomla**       - Joomla's MD5 based algorithm
+    - **Crypt MD5**    - Support for Crypt's MD5 algorithm
+    - **PBKDF**        - A PBKDF implementation (which supports any supported password based key derivation)
+    - **PHPASS**       - An implementation of the portable hash from the PHPASS library
+    - **PHPBB**        - PHPBB's MD5 based algorithm
+    - **Crypt SHA256** - Crypt's SHA256 algorithm
+    - **Crypt SHA512** - Crypt's SHA512 algorithm
 
  - Supported Random Number Sources
     - **CAPICOM**   - A COM object method call available on Windows systems
     - **MTRand**    - Generation based upon the mt_rand() functions
     - **MicroTime** - A low entropy source based upon the server's microtime
-    - **OpenSSL**   - Generation from the OpenSSL library (if available)
     - **Rand**      - A low entropy source based upon rand()
-    - **Random**    - Generation from the system's /dev/random source
     - **URandom**   - Generation from the system's /dev/urandom source
     - **UniqID**    - A low entropy source based upon uniqid()
 
 #Library Dependencies:
 
-The only dependency PHP-CryptLib has to use as a library is the PHP version.  It is made to be completely indepedent of extensions, implementing functionality natively where possible.
+The only dependency PHP-PasswordLib has to use as a library is the PHP version.  It is made to be completely indepedent of extensions, implementing functionality natively where possible.
 
 ##Required
 

@@ -1,7 +1,7 @@
 <?php
 
-use CryptLib\Random\Source\MTRand;
-use CryptLib\Core\Strength;
+use PasswordLib\Random\Source\MTRand;
+use PasswordLib\Core\Strength;
 
 
 
@@ -17,7 +17,7 @@ class Unit_Random_Source_MTRandTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\MTRand::getStrength
+     * @covers PasswordLib\Random\Source\MTRand::getStrength
      */
     public function testGetStrength() {
         if (defined('S_ALL')) {
@@ -30,7 +30,7 @@ class Unit_Random_Source_MTRandTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\MTRand::generate
+     * @covers PasswordLib\Random\Source\MTRand::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {

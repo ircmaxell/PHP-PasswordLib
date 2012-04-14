@@ -1,8 +1,8 @@
 <?php
 
-use CryptLib\Core\Strength\Medium as MediumStrength;
-use CryptLibTest\Mocks\Random\Generator as MockGenerator;
-use CryptLib\Password\Implementation\PHPASS;
+use PasswordLib\Core\Strength\Medium as MediumStrength;
+use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
+use PasswordLib\Password\Implementation\PHPASS;
 
 class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
 
@@ -41,7 +41,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      * @dataProvider provideTestDetect
      */
     public function testDetect($from, $expect) {
@@ -49,7 +49,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      */
     public function testLoadFromHash() {
         $test = PHPASS::loadFromHash('$P$MBCDEFGHIJKLMNOPQRSTUVWXYZ01234');
@@ -57,7 +57,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      * @expectedException InvalidArgumentException
      */
     public function testLoadFromHashFail() {
@@ -65,7 +65,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      */
     public function testConstruct() {
         $hash = new PHPASS();
@@ -73,7 +73,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      */
     public function testConstructArgs() {
         $iterations = 10;
@@ -83,7 +83,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
@@ -95,7 +95,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      * @dataProvider provideTestCreate
      */
     public function testCreate($iterations, $pass, $expect) {
@@ -106,7 +106,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
 
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      */
     public function testCreateAndVerify() {
         $hash = new PHPASS(10);
@@ -115,7 +115,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      * @dataProvider provideTestCreate
      */
     public function testVerify($iterations, $pass, $expect) {
@@ -124,7 +124,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($iterations, $pass, $expect) {
@@ -133,7 +133,7 @@ class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPASS
+     * @covers PasswordLib\Password\Implementation\PHPASS
      * @dataProvider provideTestVerifyFailException
      * @expectedException InvalidArgumentException
      */

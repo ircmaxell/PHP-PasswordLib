@@ -4,7 +4,7 @@
  *
  * PHP version 5.3
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Hash
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
@@ -12,16 +12,16 @@
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
 
-namespace CryptLibTest\Mocks\Core;
+namespace PasswordLibTest\Mocks\Core;
 
 /**
  * The interface that all hash implementations must implement
  *
- * @category   PHPCryptLib
+ * @category   PHPPasswordLib
  * @package    Hash
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Factory extends \CryptLib\Core\AbstractFactory {
+class Factory extends \PasswordLib\Core\AbstractFactory {
     
     protected $callbacks = array();
 

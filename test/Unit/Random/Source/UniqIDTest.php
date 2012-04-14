@@ -1,7 +1,7 @@
 <?php
 
-use CryptLib\Random\Source\UniqID;
-use CryptLib\Core\Strength;
+use PasswordLib\Random\Source\UniqID;
+use PasswordLib\Core\Strength;
 
 
 
@@ -17,7 +17,7 @@ class Unit_Random_Source_UniqIDTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\UniqID::getStrength
+     * @covers PasswordLib\Random\Source\UniqID::getStrength
      */
     public function testGetStrength() {
         $strength = new Strength(Strength::LOW);
@@ -26,7 +26,7 @@ class Unit_Random_Source_UniqIDTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\UniqID::generate
+     * @covers PasswordLib\Random\Source\UniqID::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {

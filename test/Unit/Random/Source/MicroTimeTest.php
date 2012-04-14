@@ -1,7 +1,7 @@
 <?php
 
-use CryptLib\Random\Source\MicroTime;
-use CryptLib\Core\Strength;
+use PasswordLib\Random\Source\MicroTime;
+use PasswordLib\Core\Strength;
 
 
 
@@ -17,7 +17,7 @@ class Unit_Random_Source_MicroTimeTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\MicroTime::getStrength
+     * @covers PasswordLib\Random\Source\MicroTime::getStrength
      */
     public function testGetStrength() {
         $strength = new Strength(Strength::VERYLOW);
@@ -26,7 +26,7 @@ class Unit_Random_Source_MicroTimeTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Source\MicroTime::generate
+     * @covers PasswordLib\Random\Source\MicroTime::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($length, $not) {

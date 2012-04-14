@@ -1,8 +1,8 @@
 <?php
 
-use CryptLib\Core\Strength\Medium as MediumStrength;
-use CryptLibTest\Mocks\Random\Generator as MockGenerator;
-use CryptLib\Password\Implementation\PHPBB;
+use PasswordLib\Core\Strength\Medium as MediumStrength;
+use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
+use PasswordLib\Password\Implementation\PHPBB;
 
 class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
 
@@ -41,7 +41,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      * @dataProvider provideTestDetect
      */
     public function testDetect($from, $expect) {
@@ -49,7 +49,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      */
     public function testLoadFromHash() {
         $test = PHPBB::loadFromHash('$H$MBCDEFGHIJKLMNOPQRSTUVWXYZ01234');
@@ -57,7 +57,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      * @expectedException InvalidArgumentException
      */
     public function testLoadFromHashFail() {
@@ -65,7 +65,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      */
     public function testConstruct() {
         $hash = new PHPBB();
@@ -73,7 +73,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      */
     public function testConstructArgs() {
         $iterations = 10;
@@ -83,7 +83,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
@@ -95,7 +95,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      * @dataProvider provideTestCreate
      */
     public function testCreate($iterations, $pass, $expect) {
@@ -106,7 +106,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
 
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      */
     public function testCreateAndVerify() {
         $hash = new PHPBB(10);
@@ -115,7 +115,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      * @dataProvider provideTestCreate
      */
     public function testVerify($iterations, $pass, $expect) {
@@ -124,7 +124,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($iterations, $pass, $expect) {
@@ -133,7 +133,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\PHPBB
+     * @covers PasswordLib\Password\Implementation\PHPBB
      * @dataProvider provideTestVerifyFailException
      * @expectedException InvalidArgumentException
      */

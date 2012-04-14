@@ -1,9 +1,9 @@
 <?php
 
-use CryptLibTest\Mocks\Random\Mixer;
-use CryptLibTest\Mocks\Random\Source;
+use PasswordLibTest\Mocks\Random\Mixer;
+use PasswordLibTest\Mocks\Random\Source;
 
-use CryptLib\Random\Generator;
+use PasswordLib\Random\Generator;
 
 class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
 
@@ -93,15 +93,15 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Generator::__construct
+     * @covers PasswordLib\Random\Generator::__construct
      */
     public function testConstruct() {
         $obj = new Generator(array(new Source), new Mixer);
-        $this->assertTrue($obj instanceof \CryptLib\Random\Generator);
+        $this->assertTrue($obj instanceof \PasswordLib\Random\Generator);
     }
 
     /**
-     * @covers CryptLib\Random\Generator::getMixer
+     * @covers PasswordLib\Random\Generator::getMixer
      */
     public function testGetMixer() {
         $mixer = new Mixer();
@@ -110,7 +110,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Generator::getSources
+     * @covers PasswordLib\Random\Generator::getSources
      */
     public function testGetSources() {
         $sources = array(new Source);
@@ -120,7 +120,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
 
 
     /**
-     * @covers CryptLib\Random\Generator::addSource
+     * @covers PasswordLib\Random\Generator::addSource
      */
     public function testAddSource() {
         $obj = new Generator(array(), new Mixer);
@@ -134,7 +134,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Generator::generate
+     * @covers PasswordLib\Random\Generator::generate
      * @dataProvider provideGenerate
      */
     public function testGenerate($size, $expect) {
@@ -142,7 +142,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Generator::generateInt
+     * @covers PasswordLib\Random\Generator::generateInt
      * @dataProvider provideGenerateInt
      */
     public function testGenerateInt($min, $max, $expect) {
@@ -150,7 +150,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Generator::generateInt
+     * @covers PasswordLib\Random\Generator::generateInt
      * @dataProvider provideGenerateIntRangeTest
      */
     public function testGenerateIntRange($min, $max) {
@@ -160,7 +160,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Generator::generateInt
+     * @covers PasswordLib\Random\Generator::generateInt
      * @expectedException RangeException
      */
     public function testGenerateIntFail() {
@@ -168,7 +168,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Random\Generator::generateInt
+     * @covers PasswordLib\Random\Generator::generateInt
      */
     public function testGenerateIntLargeTest() {
         $bits = 30;
@@ -182,7 +182,7 @@ class Unit_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers CryptLib\Random\Generator::generateString
+     * @covers PasswordLib\Random\Generator::generateString
      * @dataProvider provideGenerateStringTest
      */
     public function testGenerateString($length, $chars, $expected) {

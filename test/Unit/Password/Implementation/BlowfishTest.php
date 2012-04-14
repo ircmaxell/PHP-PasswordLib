@@ -1,12 +1,12 @@
 <?php
 
-use CryptLib\Core\Strength\Medium as MediumStrength;
-use CryptLibTest\Mocks\Hash\Hash as MockHash;
-use CryptLibTest\Mocks\Hash\Factory as MockFactory;
-use CryptLibTest\Mocks\Random\Generator as MockGenerator;
-use CryptLib\Password\Implementation\Blowfish;
+use PasswordLib\Core\Strength\Medium as MediumStrength;
+use PasswordLibTest\Mocks\Hash\Hash as MockHash;
+use PasswordLibTest\Mocks\Hash\Factory as MockFactory;
+use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
+use PasswordLib\Password\Implementation\Blowfish;
 
-class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
+class Unit_Password_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
 
     public static function provideTestDetect() {
         return array(
@@ -49,7 +49,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      * @dataProvider provideTestDetect
      */
     public function testDetect($from, $expect) {
@@ -57,7 +57,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      */
     public function testLoadFromHash() {
         $test = Blowfish::loadFromHash('$2a$04$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC');
@@ -65,7 +65,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      * @expectedException InvalidArgumentException
      */
     public function testLoadFromHashFail() {
@@ -73,7 +73,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      */
     public function testConstruct() {
         $hash = new Blowfish();
@@ -81,7 +81,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      */
     public function testConstructArgs() {
         $iterations = 10;
@@ -91,7 +91,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
@@ -99,7 +99,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      */
     public function testCreateAndVerify() {
         $hash = new Blowfish(10);
@@ -108,7 +108,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      * @dataProvider provideTestCreate
      */
     public function testCreate($iterations, $pass, $expect) {
@@ -117,7 +117,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      * @dataProvider provideTestCreate
      */
     public function testVerify($iterations, $pass, $expect) {
@@ -126,7 +126,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($iterations, $pass, $expect) {
@@ -135,7 +135,7 @@ class Unit_Hash_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Password\Implementation\Blowfish
+     * @covers PasswordLib\Password\Implementation\Blowfish
      * @dataProvider provideTestVerifyFailException
      * @expectedException InvalidArgumentException
      */

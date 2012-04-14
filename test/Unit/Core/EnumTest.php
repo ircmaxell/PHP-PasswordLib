@@ -1,6 +1,6 @@
 <?php
 
-use CryptLibTest\Mocks\Core\Enum;
+use PasswordLibTest\Mocks\Core\Enum;
 
 class Unit_Core_EnumTest extends PHPUnit_Framework_TestCase {
 
@@ -20,7 +20,7 @@ class Unit_Core_EnumTest extends PHPUnit_Framework_TestCase {
     }
     public function testConstruct() {
         $obj = new Enum(Enum::Value3);
-        $this->assertTrue($obj instanceof \CryptLib\Core\Enum);
+        $this->assertTrue($obj instanceof \PasswordLib\Core\Enum);
     }
 
     public function testToString() {
@@ -29,7 +29,7 @@ class Unit_Core_EnumTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Core\Enum::compare
+     * @covers PasswordLib\Core\Enum::compare
      * @dataProvider provideTestCompare
      */
     public function testCompare(Enum $from, Enum $to, $expected) {

@@ -13,9 +13,9 @@
         <exec 
 			passthru="true"
 			command="phpuml 
-						&quot;${path.lib}/CryptLib&quot; 
+						&quot;${path.lib}/PasswordLib&quot; 
 						-f htmlnew 
-						-n CryptLib 
+						-n PasswordLib 
 						--no-deployment-view 
 						-o &quot;${path.results}/api&quot;" 
 			/>

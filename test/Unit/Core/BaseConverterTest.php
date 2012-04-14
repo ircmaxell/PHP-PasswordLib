@@ -1,6 +1,6 @@
 <?php
 
-use CryptLib\Core\BaseConverter;
+use PasswordLib\Core\BaseConverter;
 
 class Unit_Core_BaseConverterTest extends PHPUnit_Framework_TestCase {
 
@@ -25,8 +25,8 @@ class Unit_Core_BaseConverterTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Core\BaseConverter::convertFromBinary
-     * @covers CryptLib\Core\BaseConverter::baseConvert
+     * @covers PasswordLib\Core\BaseConverter::convertFromBinary
+     * @covers PasswordLib\Core\BaseConverter::baseConvert
      * @dataProvider provideConvertFromBinary
      */
     public function testConvertFromBinary($from, $to, $expect) {
@@ -35,8 +35,8 @@ class Unit_Core_BaseConverterTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Core\BaseConverter::convertToBinary
-     * @covers CryptLib\Core\BaseConverter::baseConvert
+     * @covers PasswordLib\Core\BaseConverter::convertToBinary
+     * @covers PasswordLib\Core\BaseConverter::baseConvert
      * @dataProvider provideConvertFromBinary
      */
     public function testConvertToBinary($expect, $from, $str) {
@@ -47,9 +47,9 @@ class Unit_Core_BaseConverterTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers CryptLib\Core\BaseConverter::convertToBinary
-     * @covers CryptLib\Core\BaseConverter::convertFromBinary
-     * @covers CryptLib\Core\BaseConverter::baseConvert
+     * @covers PasswordLib\Core\BaseConverter::convertToBinary
+     * @covers PasswordLib\Core\BaseConverter::convertFromBinary
+     * @covers PasswordLib\Core\BaseConverter::baseConvert
      * @dataProvider provideConvertToFromBinary
      */
     public function testConvertToAndFromBinary($str, $from) {
@@ -60,7 +60,7 @@ return false;
     }
 
     /**
-     * @covers CryptLib\Core\BaseConverter::baseConvert
+     * @covers PasswordLib\Core\BaseConverter::baseConvert
      * @expectedException InvalidArgumentException
      */
     public function testBaseConvertFailure() {

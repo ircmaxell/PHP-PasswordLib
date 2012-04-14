@@ -1,9 +1,9 @@
 <?php
 
-use CryptLibTest\Mocks\Random\Mixer;
-use CryptLibTest\Mocks\Random\Source;
+use PasswordLibTest\Mocks\Random\Mixer;
+use PasswordLibTest\Mocks\Random\Source;
 
-use CryptLib\Random\Generator;
+use PasswordLib\Random\Generator;
 
 class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
 
@@ -104,14 +104,12 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     public static function provideGenerators() {
-        $factory = new \CryptLib\Random\Factory;
+        $factory = new \PasswordLib\Random\Factory;
         $generator = $factory->getLowStrengthGenerator();
         $sources = $generator->getSources();
         $ret = array();
 
-        $ret[] = array(new Generator($sources, new \CryptLib\Random\Mixer\Hash), 10000, 'hash');
-        $ret[] = array(new Generator($sources, new \CryptLib\Random\Mixer\DES), 10000, 'des');
-        $ret[] = array(new Generator($sources, new \CryptLib\Random\Mixer\Rijndael), 10000, 'rijndael');
+        $ret[] = array(new Generator($sources, new \PasswordLib\Random\Mixer\Hash), 10000, 'hash');
         return $ret;
     }
 
@@ -173,7 +171,7 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
      *
      * @dataProvider provideGenerators
      */
-    public function testGenerate(\CryptLib\Random\Generator $generator, $times) {
+    public function testGenerate(\PasswordLib\Random\Generator $generator, $times) {
         $ratio = $this->doTestGenerate($generator, $times);
         if ($ratio < 0.8 || $ratio > 1.2) {
             $ratio2 = $this->doTestGenerate($generator, $times);
@@ -189,13 +187,14 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    protected function doTestGenerate(\CryptLib\Random\Generator $generator, $times) {
+    protected function doTestGenerate(\PasswordLib\Random\Generator $generator, $times) {
         $inside = 0;
         $outside = 0;
         $on = 0;
         for ($i = 0; $i < $times; $i++) {
             $byte = $generator->generate(2);
-            $byte = array_shift(unpack('n', $byte));
+            $byte = unpack('n', $byte);
+            $byte = array_shift($byte);
             $xCoord = ($byte >> 8);
             $yCoord = ($byte & 0xFF);
             if ($xCoord < $yCoord) {

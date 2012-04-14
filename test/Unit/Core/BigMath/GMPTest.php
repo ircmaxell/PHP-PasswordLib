@@ -16,7 +16,7 @@ class Unit_Core_BigMath_GMPTest extends Unit_Core_BigMathTest {
      * @dataProvider provideAddTest
      */
     public function testAdd($left, $right, $expected) {
-        $obj = new \CryptLib\Core\BigMath\GMP;
+        $obj = new \PasswordLib\Core\BigMath\GMP;
         $this->assertEquals($expected, $obj->add($left, $right));
     }
     
@@ -24,7 +24,7 @@ class Unit_Core_BigMath_GMPTest extends Unit_Core_BigMathTest {
      * @dataProvider provideSubtractTest
      */
     public function testSubtract($left, $right, $expected) {
-        $obj = new \CryptLib\Core\BigMath\GMP;
+        $obj = new \PasswordLib\Core\BigMath\GMP;
         $this->assertEquals($expected, $obj->subtract($left, $right));
     }
 }
