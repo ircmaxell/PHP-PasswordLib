@@ -10,6 +10,65 @@ As this software is **ALPHA**, **Use at your own risk**!
 
 PHP-PasswordLib aims to be an all-inclusive cryptographic library for all cryptographic needs.  It is meant to be easy to install and use, yet extensible and powerful enough for even the most experienced developer.
 
+# Installation
+
+PasswordLib supports multiple installation methods.
+
+## PHAR
+
+From the [downloads](https://github.com/ircmaxell/PHP-PasswordLib/downloads) tab, download the latest phar build.  Then, just require the phar in your code!
+
+    require_once '/path/to/PasswordLib.phar';
+
+## Composer
+
+Add a `composer.json` file to your project with the following:
+
+    {
+        "require": {
+            "PasswordLib/PasswordLib": "*"
+        }
+    }
+
+Then, inside that folder, just run `php composer.phar install`.  
+
+Then, in your code, just use the composer autoloader:
+
+    require_once 'vendor/.composer/autoload.php';
+
+That's it!
+
+# Usage
+
+Most use-cases can simply use the root `PasswordLib` class.
+
+    $lib = new PasswordLib\PasswordLib();
+    $hash = $lib->createPasswordHash($password);
+    $boolean = $lib->verifyPasswordHash($password, $hash);
+
+By default, `createPasswordHash` will create a blowfish hash, which is the most secure available.  To create other types, just pass the prefix of the type as a second parameter.
+
+So, to create a drupal hash:
+
+    $hash = $lib->createPasswordHash($password, "$S$");
+
+Or to create a SHA512 hash:
+
+    $hash = $lib->createPasswordHash($password, "$6$");
+
+It will automatically create a secure salt, and generate the hash.
+
+`verifyPasswordHash` will attempt to determine what type of hash is passed in.  So one API call can verify multiple types of hashes.  This allows for applications to be portable and authenticate against multiple databases with one API.
+
+The `PasswordLib` class has other API methods for getting random data.  Two of particular use are `getRandomNumber` and `getRandomToken`.  
+
+ - `getRandomNumber([$min] [, $max]` - gets a secure random integer between the given parameters.
+
+ - `getRandomToken($size)` returns a random string using base64 characters (`a-zA-Z0-9./`).  This is useful for generating nonce's and tokens to send to clients.
+
+The library also contains other methods for generating random data and hashing data, so look around!
+
+
 ##Design Goals
 
  - **100% Portable**
