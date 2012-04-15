@@ -31,6 +31,8 @@ use PasswordLib\Random\Factory as RandomFactory;
  */
 class SHA256 extends Crypt {
 
+    protected static $prefix = '$5$';
+
     protected $saltLen = 16;
 
     /**
@@ -43,15 +45,6 @@ class SHA256 extends Crypt {
     public static function detect($hash) {
         $regex = '#^\$5\$(rounds=\d{4,9}\$)?[a-zA-Z0-9./]{16}\$[a-zA-Z0-9./]{56}$#';
         return 1 == preg_match($regex, $hash);
-    }
-
-    /**
-     * Return the prefix used by this hashing method
-     *
-     * @return string The prefix used
-     */
-    public static function getPrefix() {
-        return '$5$';
     }
 
     protected function generateSalt() {

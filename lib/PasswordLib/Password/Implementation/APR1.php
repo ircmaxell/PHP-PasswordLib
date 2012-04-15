@@ -33,7 +33,7 @@ use PasswordLib\Random\Factory as RandomFactory;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class APR1 implements \PasswordLib\Password\Password {
+class APR1 extends \PasswordLib\Password\AbstractPassword {
 
     /**
      * @var Generator The random generator to use for seeds
@@ -50,25 +50,7 @@ class APR1 implements \PasswordLib\Password\Password {
      */
     protected $iterations = 1000;
 
-    /**
-     * Determine if the hash was made with this method
-     *
-     * @param string $hash The hashed data to check
-     *
-     * @return boolean Was the hash created by this method
-     */
-    public static function detect($hash) {
-        return strncmp($hash, '$apr1$', 6) === 0;
-    }
-
-    /**
-     * Return the prefix used by this hashing method
-     *
-     * @return string The prefix used
-     */
-    public static function getPrefix() {
-        return '$apr1$';
-    }
+    protected static $prefix = '$apr1$';
 
     /**
      * Load an instance of the class based upon the supplied hash
@@ -128,7 +110,7 @@ class APR1 implements \PasswordLib\Password\Password {
             return false;
         }
         $test = $this->hash($password, $bits[2], $this->iterations);
-        return $test == $hash;
+        return $this->compareStrings($test, $hash);
     }
 
     /**

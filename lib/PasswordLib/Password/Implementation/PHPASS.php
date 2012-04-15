@@ -31,7 +31,7 @@ use PasswordLib\Random\Factory as RandomFactory;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class PHPASS implements \PasswordLib\Password\Password {
+class PHPASS extends \PasswordLib\Password\AbstractPassword {
 
     /**
      * @var string The ITOA string to be used for base64 conversion
@@ -71,15 +71,6 @@ class PHPASS implements \PasswordLib\Password\Password {
     public static function detect($hash) {
         $prefix = preg_quote(static::$prefix, '/');
         return 1 == preg_match('/^'.$prefix.'[a-zA-Z0-9.\/]{31}$/', $hash);
-    }
-
-    /**
-     * Return the prefix used by this hashing method
-     *
-     * @return string The prefix used
-     */
-    public static function getPrefix() {
-        return static::$prefix;
     }
 
     /**
@@ -189,7 +180,7 @@ class PHPASS implements \PasswordLib\Password\Password {
         $salt = substr($hash, 4, 8);
         $hash = substr($hash, 12);
         $test = $this->hash($password, $salt);
-        return $test == $hash;
+        return $this->compareStrings($test, $hash);
     }
 
     /**

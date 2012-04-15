@@ -31,7 +31,7 @@ use PasswordLib\Random\Factory as RandomFactory;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Hash implements \PasswordLib\Password\Password {
+class Hash extends \PasswordLib\Password\AbstractPassword {
 
     /**
      * @var Generator The random generator to use for seeds
@@ -54,15 +54,6 @@ class Hash implements \PasswordLib\Password\Password {
         $res  = preg_match('/^[a-fA-F0-9]+$/', $hash);
         $res &= (int) in_array(strlen($hash), array(32, 40, 64, 128));
         return (boolean) $res;
-    }
-
-    /**
-     * Return the prefix used by this hashing method
-     *
-     * @return string The prefix used
-     */
-    public static function getPrefix() {
-        return false;
     }
 
     /**
@@ -139,7 +130,7 @@ class Hash implements \PasswordLib\Password\Password {
      */
     public function verify($password, $hash) {
         $test = hash($this->hash, $password);
-        return $test == $hash;
+        return $this->compareStrings($test, $hash);
     }
 
 }

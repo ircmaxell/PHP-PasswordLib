@@ -35,7 +35,7 @@ use PasswordLib\Key\Derivation\PBKDF\PBKDF2 as PBKDF2;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class PBKDF implements \PasswordLib\Password\Password {
+class PBKDF extends \PasswordLib\Password\AbstractPassword {
 
     /**
      * @var PBKDF The PBKDF derivation implementation to use for this instance
@@ -58,24 +58,9 @@ class PBKDF implements \PasswordLib\Password\Password {
     protected $size = 40;
 
     /**
-     * Determine if the hash was made with this method
-     *
-     * @param string $hash The hashed data to check
-     *
-     * @return boolean Was the hash created by this method
+     * @var string The prefix for the generated hash
      */
-    public static function detect($hash) {
-        return strncmp($hash, '$pbkdf$', 7) === 0;
-    }
-
-    /**
-     * Return the prefix used by this hashing method
-     *
-     * @return string The prefix used
-     */
-    public static function getPrefix() {
-        return '$pbkdf$';
-    }
+    protected static $prefix = '$pbkdf$';
 
     /**
      * Load an instance of the class based upon the supplied hash
@@ -166,7 +151,8 @@ class PBKDF implements \PasswordLib\Password\Password {
         $iterations = $parts[3];
         $size       = $parts[4];
         $salt       = base64_decode($parts[5]);
-        return $this->hash($password, $salt, $iterations, $size) == $hash;
+        $tmp        = $this->hash($password, $salt, $iterations, $size);
+        return $this->compareStrings($tmp, $hash);
     }
 
     /**

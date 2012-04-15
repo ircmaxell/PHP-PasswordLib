@@ -29,7 +29,7 @@ use PasswordLib\Random\Factory as RandomFactory;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Crypt implements \PasswordLib\Password\Password {
+class Crypt extends \PasswordLib\Password\AbstractPassword {
 
     /**
      * @var Generator The random generator to use for seeds
@@ -50,15 +50,6 @@ class Crypt implements \PasswordLib\Password\Password {
     public static function detect($hash) {
         static $regex = '/^[.\/0-9A-Za-z]{13}$/';
         return 1 == preg_match($regex, $hash);
-    }
-
-    /**
-     * Return the prefix used by this hashing method
-     *
-     * @return string The prefix used
-     */
-    public static function getPrefix() {
-        return '';
     }
 
     /**
@@ -132,7 +123,7 @@ class Crypt implements \PasswordLib\Password\Password {
             );
         }
         $test = crypt($password, $hash);
-        return $test == $hash;
+        return $this->compareStrings($test, $hash);
     }
 
     protected function generateSalt() {

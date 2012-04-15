@@ -31,7 +31,7 @@ use PasswordLib\Random\Factory as RandomFactory;
  * @subpackage Implementation
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
-class Joomla implements \PasswordLib\Password\Password {
+class Joomla extends \PasswordLib\Password\AbstractPassword {
 
     /**
      * @var Generator The random generator to use for seeds
@@ -47,15 +47,6 @@ class Joomla implements \PasswordLib\Password\Password {
      */
     public static function detect($hash) {
         return (boolean) preg_match('/^[a-fA-F0-9]{32}:[a-zA-z0-9]{32}$/', $hash);
-    }
-
-    /**
-     * Return the prefix used by this hashing method
-     *
-     * @return string The prefix used
-     */
-    public static function getPrefix() {
-        return false;
     }
 
     /**
@@ -121,7 +112,7 @@ class Joomla implements \PasswordLib\Password\Password {
         }
         list ($hash, $salt) = explode(':', $hash, 2);
         $test               = md5($password . $salt);
-        return $test == $hash;
+        return $this->compareStrings($test, $hash);
     }
 
 }

@@ -31,6 +31,8 @@ use PasswordLib\Random\Factory as RandomFactory;
  */
 class Blowfish extends Crypt {
 
+    protected static $prefix = '$2a$';
+
     protected $saltLen = 22;
 
     /**
@@ -43,15 +45,6 @@ class Blowfish extends Crypt {
     public static function detect($hash) {
         static $regex = '/^\$2a\$(0[4-9]|[1-2][0-9]|3[0-1])\$[a-zA-Z0-9.\/]{53}/';
         return 1 == preg_match($regex, $hash);
-    }
-
-    /**
-     * Return the prefix used by this hashing method
-     *
-     * @return string The prefix used
-     */
-    public static function getPrefix() {
-        return '$2a$';
     }
 
     /**
