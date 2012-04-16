@@ -66,11 +66,11 @@ abstract class AbstractPassword implements \PasswordLib\Password\Password {
             return false;
         }
         $len    = strlen($hash1);
-        $result = true;
+        $result = 0;
         for ($i = 0; $i < $len; $i++) {
-            $result &= $hash1[$i] === $hash2[$i];
+            $result |= ord($hash1[$i]) ^ ord($hash2[$i]);
         }
-        return (boolean) $result;
+        return $result === 0;
     }
 
 }
