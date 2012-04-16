@@ -154,9 +154,8 @@ class PasswordLib {
      * @return string The shuffled string
      */
     public function shuffleString($string) {
-        $factory = new RandomFactory;
-        $array   = str_split($string);
-        $result  = $this->shuffleArray($array);
+        $array  = str_split($string);
+        $result = $this->shuffleArray($array);
         return implode('', $result);
     }
 

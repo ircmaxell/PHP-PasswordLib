@@ -55,10 +55,18 @@ abstract class AbstractPassword implements \PasswordLib\Password\Password {
 
     /**
      * Perform a constant time comparison between two hash strings
+     * 
+     * This is done to prevent remote timing attacks from giving an attacker
+     * information about the hash remotely.  This provides a constant runtime
+     * equality check between two strings of the same length. This should be used
+     * any time sensitive information is compared, as === can leak information
+     * about the position of the difference to an attacker.
      *
      * @param string $hash1 The first hash to compare
      * @param string $hash2 The second hash to compare
      * 
+     * @see http://rdist.root.org/2010/07/19/exploiting-remote-timing-attacks/
+     * @see http://rdist.root.org/2010/01/07/timing-independent-array-comparison/
      * @return boolean True if the strings are identical
      */
     protected function compareStrings($hash1, $hash2) {
