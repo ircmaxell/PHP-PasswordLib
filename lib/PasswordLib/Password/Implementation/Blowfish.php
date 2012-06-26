@@ -36,6 +36,19 @@ class Blowfish extends Crypt {
     protected $saltLen = 22;
 
     /**
+     * Return the prefix used by this hashing method
+     *
+     * @return string The prefix used
+     */
+    public static function getPrefix() {
+        if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
+            return '$2y$';
+        } else {
+            return '$2a$';
+        }
+    }
+
+    /**
      * Determine if the hash was made with this method
      *
      * @param string $hash The hashed data to check
@@ -43,7 +56,7 @@ class Blowfish extends Crypt {
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash) {
-        static $regex = '/^\$2a\$(0[4-9]|[1-2][0-9]|3[0-1])\$[a-zA-Z0-9.\/]{53}/';
+        static $regex = '/^\$2[ay]\$(0[4-9]|[1-2][0-9]|3[0-1])\$[a-zA-Z0-9.\/]{53}/';
         return 1 == preg_match($regex, $hash);
     }
 
@@ -64,8 +77,9 @@ class Blowfish extends Crypt {
     }
 
     protected function generateSalt() {
-        $salt   = parent::generateSalt();
-        $prefix = '$2a$' . str_pad($this->iterations, 2, '0', STR_PAD_LEFT);
+        $salt    = parent::generateSalt();
+        $prefix  = static::getPrefix();
+        $prefix .= str_pad($this->iterations, 2, '0', STR_PAD_LEFT);
         return $prefix . '$' . $salt;
     }
 }

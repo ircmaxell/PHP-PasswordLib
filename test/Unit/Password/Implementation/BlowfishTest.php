@@ -10,42 +10,46 @@ class Unit_Password_Implementation_BlowfishTest extends PHPUnit_Framework_TestCa
 
     public static function provideTestDetect() {
         return array(
-            array('$2a$', false),
+            array(Blowfish::getPrefix(), false),
             array('$2$', false),
-            array('$2a$07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', true),
+            array(Blowfish::getPrefix() . '07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', true),
             array('$2$07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
-            array('$2a$07$usesome illystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
-            array('$2a$01$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
+            array(Blowfish::getPrefix() . '07$usesome illystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
+            array(Blowfish::getPrefix() . '01$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
 
         );
     }
 
     public static function provideTestCreate() {
         return array(
-            array(4, 'foo', '$2a$04$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
-            array(6, 'bar', '$2a$06$......................D6QbjsjSOywPPik8vlc2TG0FG4vX9De'),
-            array(8, 'baz', '$2a$08$......................2r5UcI6EeUqSfXjbJ3a9ILCO4tKmi5C'),
+            array(4, 'foo', Blowfish::getPrefix() . '04$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
+            array(6, 'bar', Blowfish::getPrefix() . '06$......................D6QbjsjSOywPPik8vlc2TG0FG4vX9De'),
+            array(8, 'baz', Blowfish::getPrefix() . '08$......................2r5UcI6EeUqSfXjbJ3a9ILCO4tKmi5C'),
         );
     }
 
     public static function provideTestVerifyFail() {
         return array(
-            array(10, 'foo', '$2a$04$......................wy2Ny4IYV94XATD85vz/zPNKyDLSamC'),
-            array(12, 'bar', '$2a$06$.............f........D6QbjsjSOywPPik8vlc2TG0FG4vX9De'),
-            array(14, 'baz', '$2a$09$......................2r5UcI6EeUqSfXjbJ3a9ILCO4tKmi5C'),
+            array(10, 'foo', Blowfish::getPrefix() . '04$......................wy2Ny4IYV94XATD85vz/zPNKyDLSamC'),
+            array(12, 'bar', Blowfish::getPrefix() . '06$.............f........D6QbjsjSOywPPik8vlc2TG0FG4vX9De'),
+            array(14, 'baz', Blowfish::getPrefix() . '09$......................2r5UcI6EeUqSfXjbJ3a9ILCO4tKmi5C'),
         );
     }
 
     public static function provideTestVerifyFailException() {
         return array(
-            array(10, 'foo', '$2a$04$......................wy8 y4IYV94XATD85vz/zPNKyDLSamC'),
+            array(10, 'foo', Blowfish::getPrefix() . '04$......................wy8 y4IYV94XATD85vz/zPNKyDLSamC'),
             array(12, 'bar', '$2b$04$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
-            array(14, 'baz', '$2a$02$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
+            array(14, 'baz', Blowfish::getPrefix() . '02$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
         );
     }
 
     public function testGetPrefix() {
-        $this->assertEquals('$2a$', Blowfish::getPrefix());
+        if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
+            $this->assertEquals('$2y$', Blowfish::getPrefix());
+        } else {
+            $this->assertEquals('$2a$', Blowfish::getPrefix());
+        }    
     }
 
     /**
@@ -144,6 +148,23 @@ class Unit_Password_Implementation_BlowfishTest extends PHPUnit_Framework_TestCa
         $apr->verify($pass, $expect);
     }
 
+    /**
+     * @covers PasswordLib\Password\Implementation\Blowfish
+     */
+    public function test8bitPassword() {
+        $hash     = new Blowfish(10);
+        $password = 'Foobar'.chr(128);
+        
+        if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
+            $test = $hash->create($password);
+            $this->assertEquals(60, strlen($test));
+            $this->assertEquals(Blowfish::getPrefix(), substr($test, 0, 4));
+        } else {
+            $this->setExpectedException('\RuntimeException');
+            $test = $hash->create($password);
+        }
+    }
+    
     protected function getBlowfishMockInstance($iterations) {
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);

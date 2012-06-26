@@ -1,12 +1,13 @@
 <?php
 
 use PasswordLib\Password\Factory;
+use PasswordLib\Password\Implementation\Blowfish;
 
 class Unit_Password_FactoryTest extends PHPUnit_Framework_TestCase {
 
     public static function provideTestCreate() {
         return array(
-            array('$2a$', 60),
+            array(Blowfish::getPrefix(), 60),
             array('$apr1$', 37),
             array('$S$', 98),
             array('$P$', 34),

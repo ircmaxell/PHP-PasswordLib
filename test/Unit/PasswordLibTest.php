@@ -1,6 +1,7 @@
 <?php
 
 use PasswordLib\PasswordLib;
+use PasswordLib\Password\Implementation\Blowfish;
 
 class Unit_PasswordLibTest extends PHPUnit_Framework_TestCase {
 
@@ -10,7 +11,7 @@ class Unit_PasswordLibTest extends PHPUnit_Framework_TestCase {
 
     public function testCreatePasswordHash() {
         $password = 'foobar';
-        $prefix = '$2a$';
+        $prefix = Blowfish::getPrefix();
         $crypt = new PasswordLib;
         $test = $crypt->createPasswordHash($password, $prefix);
         $this->assertTrue($test == crypt($password, $test));
@@ -18,7 +19,7 @@ class Unit_PasswordLibTest extends PHPUnit_Framework_TestCase {
 
     public function testVerifyPasswordHash() {
         $password = 'foobar';
-        $prefix = '$2a$';
+        $prefix = Blowfish::getPrefix();
         $crypt = new PasswordLib;
         $test = $crypt->createPasswordHash($password, $prefix);
         $this->assertTrue($crypt->verifyPasswordHash($password, $test));
