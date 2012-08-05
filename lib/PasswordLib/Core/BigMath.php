@@ -36,9 +36,8 @@ abstract class BigMath {
             return new \PasswordLib\Core\BigMath\BCMath();
         } elseif (extension_loaded('gmp')) {
             return new \PasswordLib\Core\BigMath\GMP();
-        } else {
-            return new \PasswordLib\Core\BigMath\PHPMath();
         }
+        return new \PasswordLib\Core\BigMath\PHPMath();
         //@codeCoverageIgnoreEnd
     }
 

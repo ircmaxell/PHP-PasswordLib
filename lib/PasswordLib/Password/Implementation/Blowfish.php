@@ -43,9 +43,8 @@ class Blowfish extends Crypt {
     public static function getPrefix() {
         if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
             return '$2y$';
-        } else {
-            return '$2a$';
         }
+        return '$2a$';
     }
 
     /**
