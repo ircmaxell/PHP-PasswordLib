@@ -28,12 +28,12 @@ class AutoLoader {
     /**
      * @var string The namespace prefix for this instance.
      */
-    protected $namespace = '';
+    protected $namespace = null;
 
     /**
      * @var string The filesystem prefix to use for this instance
      */
-    protected $path = '';
+    protected $path = null;
 
     /**
      * Build the instance of the autoloader

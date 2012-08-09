@@ -87,9 +87,8 @@ abstract class Enum {
             return 0;
         } elseif ($this->value > $arg->value) {
             return -1;
-        } else {
-            return 1;
         }
+        return 1;
     }
 
     /**
