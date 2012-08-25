@@ -34,11 +34,6 @@ use PasswordLib\Random\Factory as RandomFactory;
 class Hash extends \PasswordLib\Password\AbstractPassword {
 
     /**
-     * @var Generator The random generator to use for seeds
-     */
-    protected $generator = null;
-
-    /**
      * @var Hash The hash function to use (MD5)
      */
     protected $hash = null;
@@ -90,21 +85,11 @@ class Hash extends \PasswordLib\Password\AbstractPassword {
      * Build a new instance
      *
      * @param string    $hashMethod The hash function to use for hashing
-     * @param Generator $generator  The random generator to use for seeds
-     * @param Factory   $factory    The hash factory to use for this instance
      *
      * @return void
      */
-    public function __construct(
-        $hashMethod,
-        \PasswordLib\Random\Generator $generator = null
-    ) {
+    public function __construct($hashMethod) {
         $this->hash = $hashMethod;
-        if (is_null($generator)) {
-            $random    = new RandomFactory();
-            $generator = $random->getMediumStrengthGenerator();
-        }
-        $this->generator = $generator;
     }
 
     /**
