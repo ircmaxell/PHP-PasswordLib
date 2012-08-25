@@ -153,16 +153,23 @@ class Generator {
             $characters = '0123456789abcdefghijklmnopqrstuvwxyz' .
                           'ABCDEFGHIJKLMNOPQRSTUVWXYZ./';
         }
-        //determine how many bytes to generate
+        // determine how many bytes to generate
         $bytes  = ceil($length * floor(log(strlen($characters), 2) + 1) / 8);
-        $rand   = $this->generate($bytes);
-        $result = BaseConverter::convertFromBinary($rand, $characters);
-        if (strlen($result) < $length) {
-            $result = str_pad($result, $length, $characters[0], STR_PAD_LEFT);
-        } else {
-            $result = substr($result, 0, $length);
-        }
-        return $result;
+        // determine mask for valid characters
+        $len = strlen($characters);
+        $mask = 255 - (255 % $len);
+        $result = '';
+        do {
+            $rand   = $this->generate($bytes);
+            for ($i = 0; $i < $bytes; $i++) {
+                if (ord($rand[$i]) > $mask) {
+                    continue;
+                }
+                $result .= $characters[ord($rand[$i]) % $len];
+            }
+        } while (strlen($result) < $length);
+        // We may over-generate, since we always use the entire buffer
+        return substr($result, 0, $length);
     }
 
     /**
