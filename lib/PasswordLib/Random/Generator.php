@@ -154,13 +154,13 @@ class Generator {
                           'ABCDEFGHIJKLMNOPQRSTUVWXYZ./';
         }
         // determine how many bytes to generate
-        $bytes  = ceil($length * floor(log(strlen($characters), 2) + 1) / 8);
+        $bytes = ceil($length * floor(log(strlen($characters), 2) + 1) / 8);
         // determine mask for valid characters
-        $len = strlen($characters);
-        $mask = 255 - (255 % $len);
+        $len    = strlen($characters);
+        $mask   = 255 - (255 % $len);
         $result = '';
         do {
-            $rand   = $this->generate($bytes);
+            $rand = $this->generate($bytes);
             for ($i = 0; $i < $bytes; $i++) {
                 if (ord($rand[$i]) > $mask) {
                     continue;

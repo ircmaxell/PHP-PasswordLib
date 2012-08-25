@@ -4,7 +4,11 @@ use PasswordLib\Core\Strength\Medium as MediumStrength;
 use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
 use PasswordLib\Password\Implementation\Hash;
 
-class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
+require_once 'Password_TestCase.php';
+
+class Unit_Password_Implementation_HashTest extends Unit_Password_Implementation_Password_TestCase {
+
+    protected $class = 'PasswordLib\Password\Implementation\Hash';
 
     public static function provideTestLoadFromHash() {
         return array(
@@ -43,6 +47,25 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
         );
     }
 
+    /**
+     * @dataProvider provideCreateTypes
+     * @expectedException BadMethodCallException
+     */
+    public function testCreateTypes($password, $valid) {
+        $this->getPassword()->create($password);
+    }
+    
+    /**
+     * @dataProvider provideCreateTypes
+     */
+    public function testVerifyTypes($password, $valid) {
+        $hash = md5('test');
+        if (!$valid) {
+            $this->setExpectedException('DomainException');
+        }
+        $this->getPassword()->verify($password, $hash);
+    }
+    
     /**
      * @covers PasswordLib\Password\Implementation\Hash
      * @dataProvider provideTestDetect
@@ -124,5 +147,9 @@ class Unit_Password_Implementation_HashTest extends PHPUnit_Framework_TestCase {
         return new MockGenerator(array(
             'generateInt' => $generate
         ));
+    }
+
+    protected function getPassword($func = 'md5') {
+        return new Hash($func);
     }
 }

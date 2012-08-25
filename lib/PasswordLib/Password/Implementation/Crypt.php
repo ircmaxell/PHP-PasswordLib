@@ -98,8 +98,9 @@ class Crypt extends \PasswordLib\Password\AbstractPassword {
      * @return string The formatted password hash
      */
     public function create($password) {
-        $salt   = $this->generateSalt();
-        $result = crypt($password, $salt);
+        $password = $this->checkPassword($password);
+        $salt     = $this->generateSalt();
+        $result   = crypt($password, $salt);
         if ($result[0] == '*') {
             //@codeCoverageIgnoreStart
             throw new \RuntimeException('Password Could Not Be Created');
@@ -117,6 +118,7 @@ class Crypt extends \PasswordLib\Password\AbstractPassword {
      * @return boolean Does the password validate against the hash
      */
     public function verify($password, $hash) {
+        $password = $this->checkPassword($password);
         if (!static::detect($hash)) {
             throw new \InvalidArgumentException(
                 'The hash was not created here, we cannot verify it'

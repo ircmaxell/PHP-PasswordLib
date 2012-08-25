@@ -6,7 +6,11 @@ use PasswordLibTest\Mocks\Hash\Factory as MockFactory;
 use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
 use PasswordLib\Password\Implementation\Blowfish;
 
-class Unit_Password_Implementation_BlowfishTest extends PHPUnit_Framework_TestCase {
+require_once 'Password_TestCase.php';
+
+class Unit_Password_Implementation_BlowfishTest extends Unit_Password_Implementation_Password_TestCase {
+
+    protected $class = 'PasswordLib\Password\Implementation\Blowfish';
 
     public static function provideTestDetect() {
         return array(
@@ -148,23 +152,6 @@ class Unit_Password_Implementation_BlowfishTest extends PHPUnit_Framework_TestCa
         $apr->verify($pass, $expect);
     }
 
-    /**
-     * @covers PasswordLib\Password\Implementation\Blowfish
-     */
-    public function test8bitPassword() {
-        $hash     = new Blowfish(10);
-        $password = 'Foobar'.chr(128);
-        
-        if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
-            $test = $hash->create($password);
-            $this->assertEquals(60, strlen($test));
-            $this->assertEquals(Blowfish::getPrefix(), substr($test, 0, 4));
-        } else {
-            $this->setExpectedException('\RuntimeException');
-            $test = $hash->create($password);
-        }
-    }
-    
     protected function getBlowfishMockInstance($iterations) {
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);

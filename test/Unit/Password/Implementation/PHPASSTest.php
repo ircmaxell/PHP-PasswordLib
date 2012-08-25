@@ -4,7 +4,11 @@ use PasswordLib\Core\Strength\Medium as MediumStrength;
 use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
 use PasswordLib\Password\Implementation\PHPASS;
 
-class Unit_Hash_Implementation_PHPAssTest extends PHPUnit_Framework_TestCase {
+require_once 'Password_TestCase.php';
+
+class Unit_Hash_Implementation_PHPAssTest extends Unit_Password_Implementation_Password_TestCase {
+
+    protected $class = 'PasswordLib\Password\Implementation\PHPASS';
 
     public static function provideTestDetect() {
         return array(

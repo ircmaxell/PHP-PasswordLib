@@ -6,7 +6,11 @@ use PasswordLibTest\Mocks\Hash\Factory as MockFactory;
 use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
 use PasswordLib\Password\Implementation\APR1;
 
-class Unit_Hash_Implementation_APR1Test extends PHPUnit_Framework_TestCase {
+require_once 'Password_TestCase.php';
+
+class Unit_Hash_Implementation_APR1Test extends Unit_Password_Implementation_Password_TestCase {
+
+    protected $class = 'PasswordLib\Password\Implementation\APR1';
 
     public static function provideTestCreate() {
         return array(

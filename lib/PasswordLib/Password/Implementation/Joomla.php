@@ -90,9 +90,11 @@ class Joomla extends \PasswordLib\Password\AbstractPassword {
      * @return string The formatted password hash
      */
     public function create($password) {
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $salt  = $this->generator->generateString(32, $chars);
-        $hash  = md5($password . $salt);
+        $password = $this->checkPassword($password);
+        $chars    = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            . '0123456789';
+        $salt     = $this->generator->generateString(32, $chars);
+        $hash     = md5($password . $salt);
         return $hash . ':' . $salt;
     }
 
@@ -105,6 +107,7 @@ class Joomla extends \PasswordLib\Password\AbstractPassword {
      * @return boolean Does the password validate against the hash
      */
     public function verify($password, $hash) {
+        $password = $this->checkPassword($password);
         if (!static::detect($hash)) {
             throw new \InvalidArgumentException(
                 'The hash was not created here, we cannot verify it'

@@ -6,7 +6,11 @@ use PasswordLibTest\Mocks\Key\Derivation\PBKDF as MockPBKDF;
 use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
 use PasswordLib\Password\Implementation\PBKDF;
 
-class Unit_Hash_Implementation_PBKDFTest extends PHPUnit_Framework_TestCase {
+require_once 'Password_TestCase.php';
+
+class Unit_Hash_Implementation_PBKDFTest extends Unit_Password_Implementation_Password_TestCase {
+
+    protected $class = 'PasswordLib\Password\Implementation\PBKDF';
 
     public static function provideTestDetect() {
         return array(

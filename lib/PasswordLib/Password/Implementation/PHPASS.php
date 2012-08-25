@@ -152,8 +152,9 @@ class PHPASS extends \PasswordLib\Password\AbstractPassword {
      * @return string The formatted password hash
      */
     public function create($password) {
-        $salt   = $this->to64($this->generator->generate(6));
-        $prefix = static::encodeIterations($this->iterations) . $salt;
+        $password = $this->checkPassword($password);
+        $salt     = $this->to64($this->generator->generate(6));
+        $prefix   = static::encodeIterations($this->iterations) . $salt;
         return static::$prefix . $prefix . $this->hash($password, $salt);
     }
 
@@ -166,6 +167,7 @@ class PHPASS extends \PasswordLib\Password\AbstractPassword {
      * @return boolean Does the password validate against the hash
      */
     public function verify($password, $hash) {
+        $password = $this->checkPassword($password);
         if (!static::detect($hash)) {
             throw new \InvalidArgumentException(
                 'The hash was not created here, we cannot verify it'

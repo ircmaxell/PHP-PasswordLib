@@ -129,7 +129,8 @@ class Hash extends \PasswordLib\Password\AbstractPassword {
      * @return boolean Does the password validate against the hash
      */
     public function verify($password, $hash) {
-        $test = hash($this->hash, $password);
+        $password = $this->checkPassword($password);
+        $test     = hash($this->hash, $password);
         return $this->compareStrings($test, $hash);
     }
 

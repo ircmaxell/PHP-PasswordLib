@@ -123,6 +123,7 @@ class PBKDF extends \PasswordLib\Password\AbstractPassword {
      * @return string The formatted password hash
      */
     public function create($password) {
+        $password = $this->checkPassword($password);
         $size     = $this->size - 8; // remove size of stored bits
         $saltSize = floor($size / 5);  //Use 20% of the size for the salt
         $hashSize = $size - $saltSize;
@@ -139,6 +140,7 @@ class PBKDF extends \PasswordLib\Password\AbstractPassword {
      * @return boolean Does the password validate against the hash
      */
     public function verify($password, $hash) {
+        $password = $this->checkPassword($password);
         if (strlen($hash) <= 16 || strpos($hash, '$') === false) {
             return false;
         }

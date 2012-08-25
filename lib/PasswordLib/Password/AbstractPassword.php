@@ -16,6 +16,9 @@
 
 namespace PasswordLib\Password;
 
+use PasswordLib\Random\Factory as RandomFactory;
+use DomainException;
+
 /**
  * The base abstract password hashing implementation
  *
@@ -26,6 +29,11 @@ namespace PasswordLib\Password;
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  */
 abstract class AbstractPassword implements \PasswordLib\Password\Password {
+
+    /**
+     * @var Generator The random generator to use for seeds
+     */
+    protected $generator = null;
 
     /**
      * @var string The prefix for the generated hash
@@ -54,6 +62,19 @@ abstract class AbstractPassword implements \PasswordLib\Password\Password {
     }
 
     /**
+     * Set the random number generator to use
+     *
+     * @param Generator $generator  The random generator to use for seeds
+     *
+     * @return void     
+     */
+    public function setGenerator(
+        \PasswordLib\Random\Generator $generator = null
+    ) {
+        $this->generator = $generator;
+    }
+
+    /**
      * Perform a constant time comparison between two hash strings
      * 
      * This is done to prevent remote timing attacks from giving an attacker
@@ -61,6 +82,10 @@ abstract class AbstractPassword implements \PasswordLib\Password\Password {
      * equality check between two strings of the same length. This should be used
      * any time sensitive information is compared, as === can leak information
      * about the position of the difference to an attacker.
+     *
+     * Additionally, for added protection we're hashing each hash again with the 
+     * same random key, to further protect against any form of timing attacks if
+     * the two hashes are of different length
      *
      * @param string $hash1 The first hash to compare
      * @param string $hash2 The second hash to compare
@@ -70,6 +95,14 @@ abstract class AbstractPassword implements \PasswordLib\Password\Password {
      * @return boolean True if the strings are identical
      */
     protected function compareStrings($hash1, $hash2) {
+        if (!$this->generator) {
+            $random = new RandomFactory();
+            $this->setGenerator($random->getMediumStrengthGenerator());
+        }
+        $key   = $this->generator->generate(1024);
+        $hash1 = hash_hmac('sha512', $hash1, $key, true);
+        $hash2 = hash_hmac('sha512', $hash2, $key, true);
+
         if (strlen($hash1) != strlen($hash2)) {
             return false;
         }
@@ -81,4 +114,28 @@ abstract class AbstractPassword implements \PasswordLib\Password\Password {
         return $result === 0;
     }
 
+    /**
+     * Validates the password for type constraints
+     *
+     * @param string $password The password to validate
+     * 
+     * @return string The validated password (casted if needed)
+     */
+    protected function checkPassword($password) {
+        switch (gettype($password)) {
+            case 'string':
+            case 'integer':
+            case 'double':
+                return (string) $password;
+            case 'object':
+                if (method_exists($password, '__tostring')) {
+                    return (string) $password;
+                }
+                // Fall through intentional
+            default:
+                throw new DomainException(
+                    'Invalid password type provided is invalid'
+                );
+        }
+    }
 }

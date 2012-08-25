@@ -4,7 +4,11 @@ use PasswordLib\Core\Strength\Medium as MediumStrength;
 use PasswordLibTest\Mocks\Random\Generator as MockGenerator;
 use PasswordLib\Password\Implementation\PHPBB;
 
-class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
+require_once 'Password_TestCase.php';
+
+class Unit_Password_Implementation_PHPBBTest extends Unit_Password_Implementation_Password_TestCase {
+
+    protected $class = 'PasswordLib\Password\Implementation\PHPBB';
 
     public static function provideTestDetect() {
         return array(
@@ -89,7 +93,7 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
     public function testConstructFailFail() {
         $hash = new PHPBB(40);
     }
-
+    
     public function testGetPrefix() {
         $this->assertEquals('$H$', PHPBB::getPrefix());
     }
@@ -102,8 +106,6 @@ class Unit_Hash_Implementation_PHPBBTest extends PHPUnit_Framework_TestCase {
         $apr = $this->getPHPBBMockInstance($iterations);
         $this->assertEquals($expect, $apr->create($pass));
     }
-
-
 
     /**
      * @covers PasswordLib\Password\Implementation\PHPBB

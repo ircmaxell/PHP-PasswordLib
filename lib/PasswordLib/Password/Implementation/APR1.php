@@ -92,7 +92,11 @@ class APR1 extends \PasswordLib\Password\AbstractPassword {
      * @return string The formatted password hash
      */
     public function create($password) {
-        $salt = $this->to64($this->generator->generateInt(0, PHP_INT_MAX), 8);
+        $password = $this->checkPassword($password);
+        $salt     = $this->to64(
+            $this->generator->generateInt(0, PHP_INT_MAX),
+            8
+        );
         return $this->hash($password, $salt, $this->iterations);
     }
 
@@ -105,7 +109,8 @@ class APR1 extends \PasswordLib\Password\AbstractPassword {
      * @return boolean Does the password validate against the hash
      */
     public function verify($password, $hash) {
-        $bits = explode('$', $hash);
+        $password = $this->checkPassword($password);
+        $bits     = explode('$', $hash);
         if (!isset($bits[3]) || $bits[1] != 'apr1') {
             return false;
         }
