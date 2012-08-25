@@ -43,7 +43,7 @@ class SHA512 extends Crypt {
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash) {
-        $regex = '#^\$6\$(rounds=\d{4,9}\$)?[a-zA-Z0-9./]{16}\$[a-zA-Z0-9./]{56}$#';
+        $regex = '#^\$6\$(rounds=\d{4,9}\$)?[a-zA-Z0-9./]{16}\$[a-zA-Z0-9./]{86}$#';
         return 1 == preg_match($regex, $hash);
     }
 

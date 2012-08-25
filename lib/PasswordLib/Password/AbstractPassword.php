@@ -103,9 +103,6 @@ abstract class AbstractPassword implements \PasswordLib\Password\Password {
         $hash1 = hash_hmac('sha512', $hash1, $key, true);
         $hash2 = hash_hmac('sha512', $hash2, $key, true);
 
-        if (strlen($hash1) != strlen($hash2)) {
-            return false;
-        }
         $len    = strlen($hash1);
         $result = 0;
         for ($i = 0; $i < $len; $i++) {

@@ -162,7 +162,11 @@ class Crypt extends \PasswordLib\Password\AbstractPassword {
             $cval1 |= $cval2 >> 4;
             $output .= $itoa[$cval1];
             $cval1   = ($cval2 & 0x0f) << 2;
-            $cval2   = ord($input[$ictr++]);
+            if ($ictr >= $size) {
+                $output .= $itoa[$cval1];
+                break;
+            }
+            $cval2 = ord($input[$ictr++]);
             $cval1 |= $cval2 >> 6;
             $output .= $itoa[$cval1];
             $output .= $itoa[$cval2 & 0x3f];
