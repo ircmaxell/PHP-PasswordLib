@@ -1,6 +1,7 @@
 {
     "name": "PasswordLib/PasswordLib",
     "type": "library",
+	"version": "1.0.0-beta1",
     "description": "A Password Hashing Library",
     "keywords": ["password", "hash", "hashing", "random", "salt", "crypt"],
     "homepage": "https://github.com/ircmaxell/PHP-PasswordLib",
