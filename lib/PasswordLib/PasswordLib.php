@@ -46,6 +46,9 @@ class PasswordLib {
      * @return string The generated password hash
      */
     public function createPasswordHash($password, $prefix = '$2a$') {
+        // if we're in a later version of PHP, we need to change this
+        $prefix = (version_compare(PHP_VERSION, '5.3.7') >= 0 && $prefix == '$2a$') ? '$2y$' : $prefix;
+
         $factory = new PasswordFactory();
         return $factory->createHash($password, $prefix);
     }
