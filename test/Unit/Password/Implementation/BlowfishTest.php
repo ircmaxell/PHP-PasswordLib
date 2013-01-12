@@ -152,6 +152,14 @@ class Unit_Password_Implementation_BlowfishTest extends Unit_Password_Implementa
         $apr->verify($pass, $expect);
     }
 
+    public function testGetSetCost() {
+        $cost = 1234;
+        $apr = $this->getBlowfishMockInstance(10);
+        $apr->setCost($cost);
+
+        $this->assertEquals($cost, $apr->getCost());
+    }
+
     protected function getBlowfishMockInstance($iterations) {
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
@@ -169,5 +177,4 @@ class Unit_Password_Implementation_BlowfishTest extends Unit_Password_Implementa
             'generate' => $generate
         ));
     }
-
 }
