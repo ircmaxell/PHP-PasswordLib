@@ -31,12 +31,80 @@ class Factory extends \PasswordLib\Core\AbstractFactory {
     protected $implementations = array();
 
     /**
+     * Current implementation
+     * @var \PasswordLib\Password\Implementation
+     */
+    protected $implementation = null;
+
+    /**
+     * Current hash prefix
+     * @var string
+     */
+    protected $prefix = null;
+
+    /**
      * Build a new instance of the factory, loading core implementations
      *
      * @return void
      */
     public function __construct() {
         $this->loadImplementations();
+    }
+
+    /**
+     * Get the current implementation
+     * 
+     * @return \PasswordLib\Password\Implementation
+     */
+    public function getImplementation() {
+        return $this->implementation;
+    }
+
+    /**
+     * Set the hash prefix
+     * 
+     * @param string $prefix Prefix value
+     * 
+     * @return Factory $this The current factory instance
+     */
+    public function setPrefix($prefix) {
+        if ($prefix === false) {
+            throw new \DomainException('Unsupported Prefix Supplied');
+        }
+        $this->prefix = $prefix;
+        return $this;
+    }
+
+    /**
+     * Get the current prefix value
+     * 
+     * @return integer Hash prefix value
+     */
+    public function getPrefix() {
+        return $this->prefix;
+    }
+
+    /**
+     * Set the implementation for the Factory instance
+     * 
+     * @param \PasswordLib\Password\Implementation $impl Implementation object [optional]
+     * 
+     * @return Factory $this The current factory instance
+     */
+    public function setImplementation($impl = null) {
+        if ($impl !== null && is_object($impl)) {
+            $this->implementation = $impl;
+        } else {
+            foreach ($this->implementations as $impl) {
+                if ($impl::getPrefix() == $this->getPrefix()) {
+                    $this->implementation = new $impl;
+                }
+            }
+            if ($this->implementation == null) {
+                throw new \DomainException('Cannot Set Implementation, Invalid Prefix');
+            }
+        }
+        return $this;
     }
 
     /**
@@ -51,16 +119,15 @@ class Factory extends \PasswordLib\Core\AbstractFactory {
      * @throws DomainException if the supplied prefix is not supported
      */
     public function createHash($password, $prefix = '$2a$') {
-        if ($prefix === false) {
-            throw new \DomainException('Unsupported Prefix Supplied');
+        if ($prefix == false) {
+            throw new \DomainException('Invalid Prefix Provided');
         }
-        foreach ($this->implementations as $impl) {
-            if ($impl::getPrefix() == $prefix) {
-                $instance = new $impl;
-                return $instance->create($password);
-            }
+
+        $impl = $this->getImplementation();
+        if ($impl == null) {
+            $this->setPrefix($prefix)->setImplementation();
         }
-        throw new \DomainException('Unsupported Prefix Supplied');
+        return $this->getImplementation()->create($password);
     }
 
     /**

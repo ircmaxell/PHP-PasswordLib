@@ -40,16 +40,24 @@ class PasswordLib {
     /**
      * Create a password hash from the supplied password and generator prefix
      *
-     * @param string $password The password to hash
-     * @param string $prefix   The prefix of the hashing function
+     * @param string  $password The password to hash
+     * @param string  $prefix   The prefix of the hashing function
+     * @param integer $cost     The cost of the hash generation (bcrypt only)
      *
      * @return string The generated password hash
      */
-    public function createPasswordHash($password, $prefix = '$2a$') {
+    public function createPasswordHash($password, $prefix = '$2a$', $cost = null) {
         // if we're in a later version of PHP, we need to change this
         $prefix = (version_compare(PHP_VERSION, '5.3.7') >= 0 && $prefix == '$2a$') ? '$2y$' : $prefix;
 
         $factory = new PasswordFactory();
+        $ret = $factory->setPrefix($prefix)->setImplementation();
+
+        $impl = &$factory->getImplementation();
+        if ($cost !== null && $impl instanceof \PasswordLib\Password\Implementation\Blowfish) {
+            $impl->setCost($cost);
+        }
+
         return $factory->createHash($password, $prefix);
     }
 

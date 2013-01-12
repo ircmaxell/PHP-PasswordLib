@@ -36,8 +36,16 @@ class Crypt extends \PasswordLib\Password\AbstractPassword {
      */
     protected $generator = null;
 
+    /**
+     * Number of iterations to use for computation
+     * @var integer
+     */
     protected $iterations = 10;
 
+    /**
+     * Length of salt to generate
+     * @var integer
+     */
     protected $saltLen = 2;
 
     /**
@@ -68,17 +76,44 @@ class Crypt extends \PasswordLib\Password\AbstractPassword {
     }
 
     /**
+     * Set the "cost" of the calculation
+     * 
+     * @param integer $cost Cost value
+     * 
+     * @return void
+     * @throws \InvalidArgumentException If cost is not numeric
+     */
+    public function setCost($cost) {
+        if (!is_numeric($cost)) {
+            throw new \InvalidArgumentException('Cost Must Be Numeric');
+        }
+        $this->iterations = $cost;
+    }
+
+    /**
+     * Get the current "cost" of the calculation
+     * 
+     * @return integer Cost value
+     */
+    public function getCost() {
+        return $this->iterations;
+    }
+
+    /**
      * Build a new instance
      *
      * @param int       $iterations The number of times to iterate the hash
      * @param Generator $generator  The random generator to use for seeds
      *
      * @return void
+     * @throws \InvalidArgumentException Iteration count is >31 or <4
      */
     public function __construct(
-        $iterations = 8,
+        $iterations = null,
         \PasswordLib\Random\Generator $generator = null
     ) {
+        $iterations = ($iterations == null) ? $this->getCost() : $iterations;
+
         if ($iterations > 31 || $iterations < 4) {
             throw new \InvalidArgumentException('Invalid Iteration Count Supplied');
         }
