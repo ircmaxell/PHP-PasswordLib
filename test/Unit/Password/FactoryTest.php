@@ -81,4 +81,40 @@ class Unit_Password_FactoryTest extends PHPUnit_Framework_TestCase {
         $factory = new Factory;
         $this->assertTrue($factory->verifyHash('foo', hash('sha512', 'foo')));
     }
+
+    public function testGetNullImplementation() {
+        $factory = new Factory;
+        $this->assertNull($factory->getImplementation());
+    }
+
+    public function testGetValidImplementation() {
+        $factory = new Factory;
+        $factory->setPrefix(Blowfish::getPrefix())->setImplementation();
+        $impl = $factory->getImplementation();
+
+        $this->assertInstanceOf('\PasswordLib\Password\Implementation\Blowfish', $impl);
+    }
+
+    /**
+     * @expectedException DomainException
+     */
+    public function testSetInvalidPrefix() {
+        $factory = new Factory;
+        $factory->setPrefix(false);
+    }
+
+    public function testGetSetPrefix() {
+        $factory = new Factory;
+        $factory->setPrefix(Blowfish::getPrefix());
+
+        $this->assertEquals($factory->getPrefix(), Blowfish::getPrefix());
+    }
+
+    public function testGetSetImplemntation() {
+        $factory = new Factory;
+        $impl = new \PasswordLib\Password\Implementation\Blowfish();
+        $factory->setImplementation($impl);
+
+        $this->assertEquals($impl, $factory->getImplementation());
+    }
 }
