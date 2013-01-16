@@ -82,7 +82,7 @@ class Unit_Password_Implementation_PHPBBTest extends Unit_Password_Implementatio
     public function testConstructArgs() {
         $iterations = 10;
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new PHPBB($iterations, $gen);
+        $apr = new PHPBB(array('cost' => $iterations), $gen);
         $this->assertTrue($apr instanceof PHPBB);
     }
 
@@ -91,7 +91,7 @@ class Unit_Password_Implementation_PHPBBTest extends Unit_Password_Implementatio
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
-        $hash = new PHPBB(40);
+        $hash = new PHPBB(array('cost' => 40));
     }
     
     public function testGetPrefix() {
@@ -111,7 +111,7 @@ class Unit_Password_Implementation_PHPBBTest extends Unit_Password_Implementatio
      * @covers PasswordLib\Password\Implementation\PHPBB
      */
     public function testCreateAndVerify() {
-        $hash = new PHPBB(10);
+        $hash = new PHPBB(array('cost' => 10));
         $test = $hash->create('Foobar');
         $this->assertTrue($hash->verify('Foobar', $test));
     }
@@ -148,12 +148,12 @@ class Unit_Password_Implementation_PHPBBTest extends Unit_Password_Implementatio
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
         });
-        return new PHPBB($iterations, $gen);
+        return new PHPBB(array('cost' => $iterations), $gen);
     }
 
     protected function getPHPBBInstance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new PHPBB($generator);
+        return new PHPBB(array(), $generator);
     }
 
     protected function getRandomGenerator($generate) {

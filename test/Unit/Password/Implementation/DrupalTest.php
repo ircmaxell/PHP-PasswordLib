@@ -91,7 +91,7 @@ class Unit_Hash_Implementation_DrupalTest extends Unit_Password_Implementation_P
     public function testConstructArgs() {
         $iterations = 10;
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new Drupal($iterations, $gen);
+        $apr = new Drupal(array('cost' => $iterations), $gen);
         $this->assertTrue($apr instanceof Drupal);
     }
 
@@ -100,14 +100,14 @@ class Unit_Hash_Implementation_DrupalTest extends Unit_Password_Implementation_P
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
-        $hash = new Drupal(40);
+        $hash = new Drupal(array('cost' => 40));
     }
 
     /**
      * @covers PasswordLib\Password\Implementation\Drupal
      */
     public function testCreateAndVerify() {
-        $hash = new Drupal(10);
+        $hash = new Drupal(array('cost' => 10));
         $test = $hash->create('Foobar');
         $this->assertTrue($hash->verify('Foobar', $test));
     }
@@ -153,12 +153,12 @@ class Unit_Hash_Implementation_DrupalTest extends Unit_Password_Implementation_P
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
         });
-        return new Drupal($iterations, $gen);
+        return new Drupal(array('cost' => $iterations), $gen);
     }
 
     protected function getDrupalInstance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new Drupal($generator);
+        return new Drupal(array(), $generator);
     }
 
     protected function getRandomGenerator($generate) {

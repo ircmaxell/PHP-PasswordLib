@@ -26,25 +26,25 @@ class Unit_Password_Implementation_SHA256Test extends Unit_Password_Implementati
 
     public static function provideTestCreate() {
         return array(
-            array(4, 'foo', SHA256::getPrefix() . 'rounds=1000$................$expjG7P4AN4svmCMHxzkAc.s8gNGp0fu4bYVVY8iQo1'),
-            array(6, 'bar', SHA256::getPrefix() . 'rounds=1000$................$NYlBKYVTrvSD1CYbsBDngbAm7kyAJk/D9XX.3528r05'),
-            array(8, 'baz', SHA256::getPrefix() . 'rounds=1000$................$sN32z5PIeyCOerA52tXRmNvbdcwPd/FqWAmZelaX9z6'),
+            array(1000, 'foo', SHA256::getPrefix() . 'rounds=1000$................$expjG7P4AN4svmCMHxzkAc.s8gNGp0fu4bYVVY8iQo1'),
+            array(1000, 'bar', SHA256::getPrefix() . 'rounds=1000$................$NYlBKYVTrvSD1CYbsBDngbAm7kyAJk/D9XX.3528r05'),
+            array(1000, 'baz', SHA256::getPrefix() . 'rounds=1000$................$sN32z5PIeyCOerA52tXRmNvbdcwPd/FqWAmZelaX9z6'),
         );
     }
 
     public static function provideTestVerifyFail() {
         return array(
-            array(10, 'foo', SHA256::getPrefix() . 'rounds=1000$................$dxpjG7P4AN4svmCMHxzkAc.s8gNGp0fu4bYVVY8iQo1'),
-            array(12, 'bar', SHA256::getPrefix() . 'rounds=1001$................$NYlBKYVTrvSD1CYbsBDngbAm7kyAJk/D9XX.3528r05'),
-            array(14, 'baz', SHA256::getPrefix() . 'rounds=1000$...............1$sN32z5PIeyCOerA52tXRmNvbdcwPd/FqWAmZelaX9z6'),
+            array(1000, 'foo', SHA256::getPrefix() . 'rounds=1000$................$dxpjG7P4AN4svmCMHxzkAc.s8gNGp0fu4bYVVY8iQo1'),
+            array(1001, 'bar', SHA256::getPrefix() . 'rounds=1001$................$NYlBKYVTrvSD1CYbsBDngbAm7kyAJk/D9XX.3528r05'),
+            array(1000, 'baz', SHA256::getPrefix() . 'rounds=1000$...............1$sN32z5PIeyCOerA52tXRmNvbdcwPd/FqWAmZelaX9z6'),
         );
     }
 
     public static function provideTestVerifyFailException() {
         return array(
-            array(10, 'foo', SHA256::getPrefix() . 'rounds=1000$................$dxpjG7P4AN4svmCMHxzkAc.s8gNGp0fu4bYVVY'),
-            array(12, 'bar', '$2b$04$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
-            array(14, 'baz', SHA256::getPrefix() . '02$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
+            array(1000, 'foo', SHA256::getPrefix() . 'rounds=1000$................$dxpjG7P4AN4svmCMHxzkAc.s8gNGp0fu4bYVVY'),
+            array(1001, 'bar', '$2b$04$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
+            array(1000, 'baz', SHA256::getPrefix() . '02$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
         );
     }
 
@@ -88,9 +88,8 @@ class Unit_Password_Implementation_SHA256Test extends Unit_Password_Implementati
      * @covers PasswordLib\Password\Implementation\SHA256
      */
     public function testConstructArgs() {
-        $iterations = 10;
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new SHA256($iterations, $gen);
+        $apr = new SHA256(array('rounds' => 1000), $gen);
         $this->assertTrue($apr instanceof SHA256);
     }
 
@@ -99,14 +98,14 @@ class Unit_Password_Implementation_SHA256Test extends Unit_Password_Implementati
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
-        $hash = new SHA256(40);
+        $hash = new SHA256(array('rounds' => 100));
     }
 
     /**
      * @covers PasswordLib\Password\Implementation\SHA256
      */
     public function testCreateAndVerify() {
-        $hash = new SHA256(10);
+        $hash = new SHA256(array('rounds' => 1000));
         $test = $hash->create('Foobar');
         $this->assertTrue($hash->verify('Foobar', $test));
     }
@@ -152,12 +151,12 @@ class Unit_Password_Implementation_SHA256Test extends Unit_Password_Implementati
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
         });
-        return new SHA256($iterations, $gen);
+        return new SHA256(array('rounds' => $iterations), $gen);
     }
 
     protected function getSHA256Instance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new SHA256(10, $generator);
+        return new SHA256(array('rounds' => 1000), $generator);
     }
 
     protected function getRandomGenerator($generate) {

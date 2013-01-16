@@ -36,8 +36,6 @@ class Crypt extends \PasswordLib\Password\AbstractPassword {
      */
     protected $generator = null;
 
-    protected $iterations = 10;
-
     protected $saltLen = 2;
 
     /**
@@ -65,29 +63,6 @@ class Crypt extends \PasswordLib\Password\AbstractPassword {
             throw new \InvalidArgumentException('Hash Not Created Here');
         }
         return new static();
-    }
-
-    /**
-     * Build a new instance
-     *
-     * @param int       $iterations The number of times to iterate the hash
-     * @param Generator $generator  The random generator to use for seeds
-     *
-     * @return void
-     */
-    public function __construct(
-        $iterations = 8,
-        \PasswordLib\Random\Generator $generator = null
-    ) {
-        if ($iterations > 31 || $iterations < 4) {
-            throw new \InvalidArgumentException('Invalid Iteration Count Supplied');
-        }
-        $this->iterations = $iterations;
-        if (is_null($generator)) {
-            $random    = new RandomFactory();
-            $generator = $random->getMediumStrengthGenerator();
-        }
-        $this->generator = $generator;
     }
 
     /**

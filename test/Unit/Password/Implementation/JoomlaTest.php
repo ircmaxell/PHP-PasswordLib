@@ -87,9 +87,8 @@ class Unit_Hash_Implementation_JoomlaTest extends Unit_Password_Implementation_P
      * @covers PasswordLib\Password\Implementation\Joomla
      */
     public function testConstructArgs() {
-        $iterations = 10;
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new Joomla($gen);
+        $apr = new Joomla(array(), $gen);
         $this->assertTrue($apr instanceof Joomla);
     }
 
@@ -143,12 +142,12 @@ class Unit_Hash_Implementation_JoomlaTest extends Unit_Password_Implementation_P
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat('A', $size);
         });
-        return new Joomla($gen);
+        return new Joomla(array(), $gen);
     }
 
     protected function getJoomlaInstance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new Joomla($generator);
+        return new Joomla(array(), $generator);
     }
 
     protected function getRandomGenerator($generate) {

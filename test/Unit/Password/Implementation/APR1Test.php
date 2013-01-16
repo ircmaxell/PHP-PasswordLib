@@ -81,7 +81,7 @@ class Unit_Hash_Implementation_APR1Test extends Unit_Password_Implementation_Pas
      */
     public function testConstructArgs() {
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new APR1($gen);
+        $apr = new APR1(array(), $gen);
         $this->assertTrue($apr instanceof APR1);
     }
 
@@ -124,12 +124,12 @@ class Unit_Hash_Implementation_APR1Test extends Unit_Password_Implementation_Pas
         $gen = $this->getRandomGenerator(function($min, $max) {
             return 1914924168;
         });
-        return new APR1($gen);
+        return new APR1(array(), $gen);
     }
 
     protected function getAPR1Instance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new APR1($generator);
+        return new APR1(array(), $generator);
     }
 
     protected function getRandomGenerator($generate) {

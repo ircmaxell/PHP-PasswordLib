@@ -2,9 +2,9 @@
 
 ##Version
 
-The current version is considered Alpha.  This means that it is *ready enough* to start testing and vetting the library, but not feature complete and not production ready.
+The current version is considered Beta.  This means that it is *ready enough* to test and use, but beware that you should update frequently.
 
-As this software is **ALPHA**, **Use at your own risk**!
+As this software is **BETA**, **Use at your own risk**!
 
 #About
 
@@ -50,13 +50,17 @@ By default, `createPasswordHash` will create a blowfish hash, which is the most 
 
 So, to create a drupal hash:
 
-    $hash = $lib->createPasswordHash($password, "$S$");
+    $hash = $lib->createPasswordHash($password, '$S$');
 
 Or to create a SHA512 hash:
 
-    $hash = $lib->createPasswordHash($password, "$6$");
+    $hash = $lib->createPasswordHash($password, '$6$');
 
 It will automatically create a secure salt, and generate the hash.
+
+You can also specify options for the hash. So to use a bcrypt cost of 12,
+
+    $hash = $lib->createPasswordHash($password, '$2a$', array('cost' => 12));
 
 `verifyPasswordHash` will attempt to determine what type of hash is passed in.  So one API call can verify multiple types of hashes.  This allows for applications to be portable and authenticate against multiple databases with one API.
 

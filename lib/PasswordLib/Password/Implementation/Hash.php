@@ -36,7 +36,9 @@ class Hash extends \PasswordLib\Password\AbstractPassword {
     /**
      * @var Hash The hash function to use (MD5)
      */
-    protected $hash = null;
+    protected $defaultOptions = array(
+        'hash' => 'sha512',
+    );
 
     /**
      * Determine if the hash was made with this method
@@ -78,18 +80,7 @@ class Hash extends \PasswordLib\Password\AbstractPassword {
                 $hashMethod = 'sha512';
                 break;
         }
-        return new static($hashMethod);
-    }
-
-    /**
-     * Build a new instance
-     *
-     * @param string    $hashMethod The hash function to use for hashing
-     *
-     * @return void
-     */
-    public function __construct($hashMethod) {
-        $this->hash = $hashMethod;
+        return new static(array('hash' => $hashMethod));
     }
 
     /**
@@ -115,7 +106,7 @@ class Hash extends \PasswordLib\Password\AbstractPassword {
      */
     public function verify($password, $hash) {
         $password = $this->checkPassword($password);
-        $test     = hash($this->hash, $password);
+        $test     = hash($this->options['hash'], $password);
         return $this->compareStrings($test, $hash);
     }
 

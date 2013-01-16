@@ -39,10 +39,9 @@ class PHPASS extends \PasswordLib\Password\AbstractPassword {
     protected static $itoa = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
                                 abcdefghijklmnopqrstuvwxyz';
 
-    /**
-     * @var Generator The random generator to use for seeds
-     */
-    protected $generator = null;
+    protected $defaultOptions = array(
+        'cost' => 8,
+    );
 
     /**
      * This is the hash function to use.  To be overriden by child classes
@@ -50,11 +49,6 @@ class PHPASS extends \PasswordLib\Password\AbstractPassword {
      * @var string The hash function to use for this instance
      */
     protected $hashFunction = 'md5';
-
-    /**
-     * @var int The number of iterations to perform (base 2)
-     */
-    protected $iterations = 10;
 
     /**
      * @var string The prefix for the generated hash
@@ -95,7 +89,7 @@ class PHPASS extends \PasswordLib\Password\AbstractPassword {
             throw new \InvalidArgumentException('Hash Not Created Here');
         }
         $iterations = static::decodeIterations($hash[3]);
-        return new static($iterations);
+        return new static(array('cost' => $iterations));
     }
 
     /**
@@ -121,27 +115,23 @@ class PHPASS extends \PasswordLib\Password\AbstractPassword {
     }
 
     /**
-     * Build a new instance
+     * Set an option for the instance
      *
-     * @param int       $iterations The number of times to iterate the hash
-     * @param Generator $generator  The random generator to use for seeds
-     * @param Factory   $factory    The hash factory to use for this instance
+     * @param string $option The option to set
+     * @param mixed  $value  The value to set the option to
      *
-     * @return void
+     * @return $this
      */
-    public function __construct(
-        $iterations = 8,
-        \PasswordLib\Random\Generator $generator = null
-    ) {
-        if ($iterations > 30 || $iterations < 7) {
-            throw new \InvalidArgumentException('Invalid Iteration Count Supplied');
+    public function setOption($option, $value) {
+        if ($option == 'cost') {
+            if ($value > 30 || $value < 7) {
+                throw new \InvalidArgumentException(
+                    'Invalid Cost Supplied'
+                );
+            }
         }
-        $this->iterations = $iterations;
-        if (is_null($generator)) {
-            $random    = new RandomFactory();
-            $generator = $random->getMediumStrengthGenerator();
-        }
-        $this->generator = $generator;
+        $this->options[$option] = $value;
+        return $this;
     }
 
     /**
@@ -154,7 +144,7 @@ class PHPASS extends \PasswordLib\Password\AbstractPassword {
     public function create($password) {
         $password = $this->checkPassword($password);
         $salt     = $this->to64($this->generator->generate(6));
-        $prefix   = static::encodeIterations($this->iterations) . $salt;
+        $prefix   = static::encodeIterations($this->options['cost']) . $salt;
         return static::$prefix . $prefix . $this->hash($password, $salt);
     }
 
@@ -174,7 +164,7 @@ class PHPASS extends \PasswordLib\Password\AbstractPassword {
             );
         }
         $iterations = static::decodeIterations($hash[3]);
-        if ($iterations != $this->iterations) {
+        if ($iterations != $this->options['cost']) {
             throw new \InvalidArgumentException(
                 'Iteration Count Mismatch, Bailing'
             );
@@ -194,7 +184,7 @@ class PHPASS extends \PasswordLib\Password\AbstractPassword {
      * @return string The base64 encoded generated hash
      */
     protected function hash($password, $salt) {
-        $count = 1 << $this->iterations;
+        $count = 1 << $this->options['cost'];
         $hash  = hash($this->hashFunction, $salt . $password, true);
         do {
             $hash = hash($this->hashFunction, $hash . $password, true);

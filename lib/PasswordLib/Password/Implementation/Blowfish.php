@@ -35,6 +35,10 @@ class Blowfish extends Crypt {
 
     protected $saltLen = 22;
 
+    protected $defaultOptions = array(
+        'cost' => 10,
+    );
+
     /**
      * Return the prefix used by this hashing method
      *
@@ -73,13 +77,33 @@ class Blowfish extends Crypt {
             throw new \InvalidArgumentException('Hash Not Created Here');
         }
         list(, , $iterations) = explode('$', $hash, 4);
-        return new static((int) $iterations);
+        return new static(array('cost' => $iterations));
+    }
+
+    /**
+     * Set an option for the instance
+     *
+     * @param string $option The option to set
+     * @param mixed  $value  The value to set the option to
+     *
+     * @return $this
+     */
+    public function setOption($option, $value) {
+        if ($option == 'cost') {
+            if ($value < 4 || $value > 31) {
+                throw new \InvalidArgumentException(
+                    'Invalid cost parameter specified, must be between 4 and 31'
+                );
+            }
+        }
+        $this->options[$option] = $value;
+        return $this;
     }
 
     protected function generateSalt() {
         $salt    = parent::generateSalt();
         $prefix  = static::getPrefix();
-        $prefix .= str_pad($this->iterations, 2, '0', STR_PAD_LEFT);
+        $prefix .= str_pad($this->options['cost'], 2, '0', STR_PAD_LEFT);
         return $prefix . '$' . $salt;
     }
 }

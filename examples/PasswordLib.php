@@ -152,3 +152,18 @@ printf("\nHere's a PBKDF2 hashed password: %s\n", $hash);
 $result = $PasswordLib2->verifyPasswordHash($password, $hash);
 
 printf("\nThe result of the PBKDF2 password check was: %s\n", $result ? 'successful' : 'not successful');
+
+
+/**
+ * Let's set the cost of bcrypt off its default:
+ */
+$result = $PasswordLib->createPasswordHash($password, '$2a$', array('cost' => 4));
+
+printf("\nThe result of BCrypt with reduced cost was: %s\n", $result);
+
+/**
+ * Let's set the cost of bcrypt off its default, again:
+ */
+$result = $PasswordLib->createPasswordHash($password, '$2a$', array('cost' => 5));
+
+printf("\nThe result of BCrypt with reduced cost was: %s\n", $result);

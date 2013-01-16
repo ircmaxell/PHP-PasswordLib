@@ -88,7 +88,7 @@ class Unit_Hash_Implementation_PBKDFTest extends Unit_Password_Implementation_Pa
     public function testConstructWithArgs() {
         $mock1 = new MockPBKDF;
         $mock2 = new MockGenerator;
-        $pbkdf = new PBKDF($mock1, 30, 50, $mock2);
+        $pbkdf = new PBKDF(array('kdf' => $mock1, 'size' => 30, 'iterations' => 50), $mock2);
         $this->assertTrue($pbkdf instanceof PBKDF);
     }
 
@@ -117,7 +117,7 @@ class Unit_Hash_Implementation_PBKDFTest extends Unit_Password_Implementation_Pa
                 return $res;
             }
         ));
-        $pbkdf = new PBKDF($mock1, 30, 50, $mock2);
+        $pbkdf = new PBKDF(array('kdf' => $mock1, 'size' => 40, 'iterations' => 50), $mock2);
         $act = $pbkdf->create($password);
         $this->assertEquals($expect, $act);
     }
@@ -147,7 +147,7 @@ class Unit_Hash_Implementation_PBKDFTest extends Unit_Password_Implementation_Pa
                 return $res;
             }
         ));
-        $pbkdf = new PBKDF($mock1, 30, 50, $mock2);
+        $pbkdf = new PBKDF(array('kdf' => $mock1, 'size' => 30, 'iterations' => 50), $mock2);
         $this->assertTrue($pbkdf->verify($password, $expect));
     }
 
@@ -176,7 +176,7 @@ class Unit_Hash_Implementation_PBKDFTest extends Unit_Password_Implementation_Pa
                 return $res;
             }
         ));
-        $pbkdf = new PBKDF($mock1, 30, 50, $mock2);
+        $pbkdf = new PBKDF(array('kdf' => $mock1, 'size' => 30, 'iterations' => 50), $mock2);
         $this->assertFalse($pbkdf->verify($password, $expect));
     }
 

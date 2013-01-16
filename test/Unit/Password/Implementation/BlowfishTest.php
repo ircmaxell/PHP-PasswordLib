@@ -94,7 +94,7 @@ class Unit_Password_Implementation_BlowfishTest extends Unit_Password_Implementa
     public function testConstructArgs() {
         $iterations = 10;
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new Blowfish($iterations, $gen);
+        $apr = new Blowfish(array('cost' => $iterations), $gen);
         $this->assertTrue($apr instanceof Blowfish);
     }
 
@@ -103,14 +103,14 @@ class Unit_Password_Implementation_BlowfishTest extends Unit_Password_Implementa
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
-        $hash = new Blowfish(40);
+        $hash = new Blowfish(array('cost' => 40));
     }
 
     /**
      * @covers PasswordLib\Password\Implementation\Blowfish
      */
     public function testCreateAndVerify() {
-        $hash = new Blowfish(10);
+        $hash = new Blowfish(array('cost' => 10));
         $test = $hash->create('Foobar');
         $this->assertTrue($hash->verify('Foobar', $test));
     }
@@ -156,12 +156,12 @@ class Unit_Password_Implementation_BlowfishTest extends Unit_Password_Implementa
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
         });
-        return new Blowfish($iterations, $gen);
+        return new Blowfish(array('cost' => $iterations), $gen);
     }
 
     protected function getBlowfishInstance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new Blowfish(10, $generator);
+        return new Blowfish(array('cost' => 10), $generator);
     }
 
     protected function getRandomGenerator($generate) {

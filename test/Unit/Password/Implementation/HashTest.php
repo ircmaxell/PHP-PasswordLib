@@ -95,7 +95,7 @@ class Unit_Password_Implementation_HashTest extends Unit_Password_Implementation
      * @covers PasswordLib\Password\Implementation\Hash
      */
     public function testConstruct() {
-        $hash = new Hash('sha256');
+        $hash = new Hash(array('hash' => 'sha256'));
         $this->assertTrue($hash instanceof Hash);
     }
 
@@ -112,7 +112,7 @@ class Unit_Password_Implementation_HashTest extends Unit_Password_Implementation
      */
     public function testConstructArgs() {
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new Hash('md5', $gen);
+        $apr = new Hash(array('hash' => 'md5'), $gen);
         $this->assertTrue($apr instanceof Hash);
     }
 
@@ -121,7 +121,7 @@ class Unit_Password_Implementation_HashTest extends Unit_Password_Implementation
      * @expectedException BadMethodCallException
      */
     public function testCreate() {
-        $hash = new Hash('md5');
+        $hash = new Hash(array('hash' => 'md5'));
         $hash->create('foo');
     }
 
@@ -130,7 +130,7 @@ class Unit_Password_Implementation_HashTest extends Unit_Password_Implementation
      * @dataProvider provideTestVerify
      */
     public function testVerify($func, $pass, $hash) {
-        $apr = new Hash($func);
+        $apr = new Hash(array('hash' => $func));
         $this->assertTrue($apr->verify($pass, $hash));
     }
 
@@ -139,7 +139,7 @@ class Unit_Password_Implementation_HashTest extends Unit_Password_Implementation
      * @dataProvider provideTestVerifyFail
      */
     public function testVerifyFail($func, $pass, $expect) {
-        $apr = new Hash($func);
+        $apr = new Hash(array('hash' => $func));
         $this->assertFalse($apr->verify($pass, $expect));
     }
 
@@ -150,6 +150,6 @@ class Unit_Password_Implementation_HashTest extends Unit_Password_Implementation
     }
 
     protected function getPassword($func = 'md5') {
-        return new Hash($func);
+        return new Hash(array('hash' => $func));
     }
 }

@@ -26,25 +26,25 @@ class Unit_Password_Implementation_SHA512Test extends Unit_Password_Implementati
 
     public static function provideTestCreate() {
         return array(
-            array(4, 'foo', SHA512::getPrefix() . 'rounds=1000$................$DzEAWetj/cXAPD/tGmEgpqyosAIZjLaRQI5DKcZYKSGFbk.mGzvRkDy3skMGqnkS4jRvrFjObXjiv.i5Bnob41'),
-            array(6, 'bar', SHA512::getPrefix() . 'rounds=1000$................$lKPnJbXtGAHAid5g7OPcHO3GZjaKv4osoaSPnNAq./mZ4dyGoq9IbAG8d9fcTJ1cxvEALMPki.mbzmNEHjY9b1'),
-            array(8, 'baz', SHA512::getPrefix() . 'rounds=1000$................$WZTe6NH6a0MA4vcOjJ9nKZP2hLvr9GhPvYqlOargbJNpzQaluc5sEe.Ep/PF2D79haaMPsFRGsnA2YEW3d7wx1'),
+            array(1000, 'foo', SHA512::getPrefix() . 'rounds=1000$................$DzEAWetj/cXAPD/tGmEgpqyosAIZjLaRQI5DKcZYKSGFbk.mGzvRkDy3skMGqnkS4jRvrFjObXjiv.i5Bnob41'),
+            array(1000, 'bar', SHA512::getPrefix() . 'rounds=1000$................$lKPnJbXtGAHAid5g7OPcHO3GZjaKv4osoaSPnNAq./mZ4dyGoq9IbAG8d9fcTJ1cxvEALMPki.mbzmNEHjY9b1'),
+            array(1000, 'baz', SHA512::getPrefix() . 'rounds=1000$................$WZTe6NH6a0MA4vcOjJ9nKZP2hLvr9GhPvYqlOargbJNpzQaluc5sEe.Ep/PF2D79haaMPsFRGsnA2YEW3d7wx1'),
         );
     }
 
     public static function provideTestVerifyFail() {
         return array(
-            array(10, 'foo', SHA512::getPrefix() . 'rounds=1000$................$DzEAWetj/cXAPD/tfmEgpqyosAIZjLaRQI5DKcZYKSGFbk.mGzvRkDy3skMGqnkS4jRvrFjObXjiv.i5Bnob41'),
-            array(12, 'bar', SHA512::getPrefix() . 'rounds=1001$................$lKPnJbXtGAHAid5g7OPcHO3GZjaKv4osoaSPnNAq./mZ4dyGoq9IbAG8d9fcTJ1cxvEALMPki.mbzmNEHjY9b1'),
-            array(14, 'baz', SHA512::getPrefix() . 'rounds=1000$...............1$WZTe6NH6a0MA4vcOjJ9nKZP2hLvr9GhPvYqlOargbJNpzQaluc5sEe.Ep/PF2D79haaMPsFRGsnA2YEW3d7wx1'),
+            array(1000, 'foo', SHA512::getPrefix() . 'rounds=1000$................$DzEAWetj/cXAPD/tfmEgpqyosAIZjLaRQI5DKcZYKSGFbk.mGzvRkDy3skMGqnkS4jRvrFjObXjiv.i5Bnob41'),
+            array(1000, 'bar', SHA512::getPrefix() . 'rounds=1001$................$lKPnJbXtGAHAid5g7OPcHO3GZjaKv4osoaSPnNAq./mZ4dyGoq9IbAG8d9fcTJ1cxvEALMPki.mbzmNEHjY9b1'),
+            array(1001, 'baz', SHA512::getPrefix() . 'rounds=1000$...............1$WZTe6NH6a0MA4vcOjJ9nKZP2hLvr9GhPvYqlOargbJNpzQaluc5sEe.Ep/PF2D79haaMPsFRGsnA2YEW3d7wx1'),
         );
     }
 
     public static function provideTestVerifyFailException() {
         return array(
-            array(10, 'foo', SHA512::getPrefix() . '04$......................wy8 y4IYV94XATD85vz/zPNKyDLSamC'),
-            array(12, 'bar', '$2b$04$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
-            array(14, 'baz', SHA512::getPrefix() . '02$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
+            array(1000, 'foo', SHA512::getPrefix() . '04$......................wy8 y4IYV94XATD85vz/zPNKyDLSamC'),
+            array(1003, 'bar', '$2b$04$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
+            array(1000, 'baz', SHA512::getPrefix() . '02$......................wy8Ny4IYV94XATD85vz/zPNKyDLSamC'),
         );
     }
 
@@ -88,9 +88,9 @@ class Unit_Password_Implementation_SHA512Test extends Unit_Password_Implementati
      * @covers PasswordLib\Password\Implementation\SHA512
      */
     public function testConstructArgs() {
-        $iterations = 10;
+        $iterations = 5000;
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new SHA512($iterations, $gen);
+        $apr = new SHA512(array('rounds' => $iterations), $gen);
         $this->assertTrue($apr instanceof SHA512);
     }
 
@@ -99,14 +99,14 @@ class Unit_Password_Implementation_SHA512Test extends Unit_Password_Implementati
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
-        $hash = new SHA512(40);
+        $hash = new SHA512(array('rounds' => 40));
     }
 
     /**
      * @covers PasswordLib\Password\Implementation\SHA512
      */
     public function testCreateAndVerify() {
-        $hash = new SHA512(10);
+        $hash = new SHA512(array('rounds' => 1000));
         $test = $hash->create('Foobar');
         $this->assertTrue($hash->verify('Foobar', $test));
     }
@@ -152,12 +152,12 @@ class Unit_Password_Implementation_SHA512Test extends Unit_Password_Implementati
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
         });
-        return new SHA512($iterations, $gen);
+        return new SHA512(array('rounds' => $iterations), $gen);
     }
 
     protected function getSHA512Instance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new SHA512(10, $generator);
+        return new SHA512(array('rounds' => 1000), $generator);
     }
 
     protected function getRandomGenerator($generate) {

@@ -31,9 +31,19 @@ use DomainException;
 abstract class AbstractPassword implements \PasswordLib\Password\Password {
 
     /**
+     * @var array Default options for this password instance
+     */
+    protected $defaultOptions = array();
+
+    /**
      * @var Generator The random generator to use for seeds
      */
     protected $generator = null;
+
+    /**
+     * @var array Options for this password instance
+     */
+    protected $options = array();
 
     /**
      * @var string The prefix for the generated hash
@@ -59,6 +69,54 @@ abstract class AbstractPassword implements \PasswordLib\Password\Password {
      */
     public static function getPrefix() {
         return static::$prefix;
+    }
+
+    /**
+     * Build a new instance
+     *
+     * @param array     $options    An array of options for the password isntance
+     * @param Generator $generator  The random generator to use for seeds
+     *
+     * @return void
+     */
+    public function __construct(
+        array $options = array(),
+        \PasswordLib\Random\Generator $generator = null
+    ) {
+        $this->setOptions($this->defaultOptions);
+        $this->setOptions($options);
+        if (is_null($generator)) {
+            $random    = new RandomFactory();
+            $generator = $random->getMediumStrengthGenerator();
+        }
+        $this->generator = $generator;
+    }
+
+    /**
+     * Set an option for the instance
+     *
+     * @param string $option The option to set
+     * @param mixed  $value  The value to set the option to
+     *
+     * @return $this
+     */
+    public function setOption($option, $value) {
+        $this->options[$option] = $value;
+        return $this;
+    }
+
+    /**
+     * Set the options for the instance
+     *
+     * @param array $options The options to set
+     *
+     * @return $this
+     */
+    public function setOptions(array $options) {
+        foreach ($options as $name => $value) {
+            $this->setOption($name, $value);
+        }
+        return $this;
     }
 
     /**
@@ -95,10 +153,6 @@ abstract class AbstractPassword implements \PasswordLib\Password\Password {
      * @return boolean True if the strings are identical
      */
     protected function compareStrings($hash1, $hash2) {
-        if (!$this->generator) {
-            $random = new RandomFactory();
-            $this->setGenerator($random->getMediumStrengthGenerator());
-        }
         $key   = $this->generator->generate(1024);
         $hash1 = hash_hmac('sha512', $hash1, $key, true);
         $hash2 = hash_hmac('sha512', $hash2, $key, true);

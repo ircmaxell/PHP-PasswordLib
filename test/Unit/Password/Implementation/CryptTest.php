@@ -90,23 +90,15 @@ class Unit_Password_Implementation_CryptTest extends Unit_Password_Implementatio
     public function testConstructArgs() {
         $iterations = 10;
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new Crypt($iterations, $gen);
+        $apr = new Crypt(array('cost' => $iterations), $gen);
         $this->assertTrue($apr instanceof Crypt);
-    }
-
-    /**
-     * @covers PasswordLib\Password\Implementation\Crypt
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructFailFail() {
-        $hash = new Crypt(40);
     }
 
     /**
      * @covers PasswordLib\Password\Implementation\Crypt
      */
     public function testCreateAndVerify() {
-        $hash = new Crypt(10);
+        $hash = new Crypt(array('cost' => 10));
         $test = $hash->create('Foobar');
         $this->assertTrue($hash->verify('Foobar', $test));
     }
@@ -152,12 +144,12 @@ class Unit_Password_Implementation_CryptTest extends Unit_Password_Implementatio
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
         });
-        return new Crypt($iterations, $gen);
+        return new Crypt(array('cost' => $iterations), $gen);
     }
 
     protected function getCryptInstance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new Crypt(10, $generator);
+        return new Crypt(array('cost' => 10), $generator);
     }
 
     protected function getRandomGenerator($generate) {

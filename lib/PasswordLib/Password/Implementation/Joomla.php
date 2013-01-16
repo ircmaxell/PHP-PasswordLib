@@ -65,24 +65,6 @@ class Joomla extends \PasswordLib\Password\AbstractPassword {
     }
 
     /**
-     * Build a new instance
-     *
-     * @param Generator $generator  The random generator to use for seeds
-     * @param Factory   $factory    The hash factory to use for this instance
-     *
-     * @return void
-     */
-    public function __construct(
-        \PasswordLib\Random\Generator $generator = null
-    ) {
-        if (is_null($generator)) {
-            $random    = new RandomFactory();
-            $generator = $random->getMediumStrengthGenerator();
-        }
-        $this->generator = $generator;
-    }
-
-    /**
      * Create a password hash for a given plain text password
      *
      * @param string $password The password to hash

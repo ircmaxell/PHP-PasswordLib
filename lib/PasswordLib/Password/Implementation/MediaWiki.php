@@ -47,17 +47,17 @@ class MediaWiki extends Crypt {
     }
 
     public function verify($password, $hash) {
-        $prefix = static::getPrefix();
+        $prefix   = static::getPrefix();
         $password = $this->checkPassword($password);
         if (!static::detect($hash)) {
             throw new \InvalidArgumentException(
                 'The hash was not created here, we cannot verify it'
             );
         }
-        preg_match('/^'.$prefix.'(.+)\./',$hash,$m);
+        preg_match('/^' . $prefix . '(.+)\./', $hash, $match);
         $salt = null;
-        if (isset($m[1])) {
-            $salt = $m[1];
+        if (isset($match[1])) {
+            $salt = $match[1];
         }
         $test = $prefix.$salt.'.'.md5($salt.'-'.md5($password));
         return $this->compareStrings($test, $hash);

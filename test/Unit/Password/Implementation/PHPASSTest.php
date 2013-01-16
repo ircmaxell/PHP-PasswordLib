@@ -82,7 +82,7 @@ class Unit_Hash_Implementation_PHPAssTest extends Unit_Password_Implementation_P
     public function testConstructArgs() {
         $iterations = 10;
         $gen = $this->getRandomGenerator(function($size) {});
-        $apr = new PHPASS($iterations, $gen);
+        $apr = new PHPASS(array('cost' => $iterations), $gen);
         $this->assertTrue($apr instanceof PHPASS);
     }
 
@@ -91,7 +91,7 @@ class Unit_Hash_Implementation_PHPAssTest extends Unit_Password_Implementation_P
      * @expectedException InvalidArgumentException
      */
     public function testConstructFailFail() {
-        $hash = new PHPASS(40);
+        $hash = new PHPASS(array('cost' => 40));
     }
 
     public function testGetPrefix() {
@@ -113,7 +113,7 @@ class Unit_Hash_Implementation_PHPAssTest extends Unit_Password_Implementation_P
      * @covers PasswordLib\Password\Implementation\PHPASS
      */
     public function testCreateAndVerify() {
-        $hash = new PHPASS(10);
+        $hash = new PHPASS(array('cost' => 10));
         $test = $hash->create('Foobar');
         $this->assertTrue($hash->verify('Foobar', $test));
     }
@@ -150,12 +150,12 @@ class Unit_Hash_Implementation_PHPAssTest extends Unit_Password_Implementation_P
         $gen = $this->getRandomGenerator(function($size) {
             return str_repeat(chr(0), $size);
         });
-        return new PHPASS($iterations, $gen);
+        return new PHPASS(array('cost' => $iterations), $gen);
     }
 
     protected function getPHPASSInstance($evaluate, $hmac, $generate) {
         $generator = $this->getRandomGenerator($generate);
-        return new PHPASS($generator);
+        return new PHPASS(array(), $generator);
     }
 
     protected function getRandomGenerator($generate) {

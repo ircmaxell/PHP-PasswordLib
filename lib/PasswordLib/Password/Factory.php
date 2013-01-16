@@ -50,13 +50,17 @@ class Factory extends \PasswordLib\Core\AbstractFactory {
      * @return string The hashed password
      * @throws DomainException if the supplied prefix is not supported
      */
-    public function createHash($password, $prefix = '$2a$') {
+    public function createHash(
+        $password,
+        $prefix = '$2a$',
+        array $options = array()
+    ) {
         if ($prefix === false) {
             throw new \DomainException('Unsupported Prefix Supplied');
         }
         foreach ($this->implementations as $impl) {
             if ($impl::getPrefix() == $prefix) {
-                $instance = new $impl;
+                $instance = new $impl($options);
                 return $instance->create($password);
             }
         }
