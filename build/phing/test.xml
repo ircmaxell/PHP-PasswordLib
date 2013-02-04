@@ -17,7 +17,7 @@
             passthru="true"
             checkreturn="true"
             command="phpunit --log-junit &quot;${path.logs}/vectors.xml&quot;
-                       --configuration &quot;${path.tests}/phpunit.xml.dist&quot;
+                       --configuration &quot;${project.basedir}/phpunit.xml.dist&quot;
                        &quot;${path.tests}/Vectors&quot;"
             />
     </target>
@@ -28,7 +28,7 @@
             passthru="true"
             checkreturn="true"
             command="phpunit --log-junit &quot;${path.logs}/junit.xml&quot;
-                       --configuration &quot;${path.tests}/phpunit.xml.dist&quot;
+                       --configuration &quot;${project.basedir}/phpunit.xml.dist&quot;
                        &quot;${path.tests}/Unit&quot;"
         />
     </target>
@@ -43,7 +43,7 @@
             command="phpunit --log-junit &quot;${path.logs}/junit.xml&quot;
                        --coverage-clover &quot;${path.logs}/clover.xml&quot;
                        --coverage-html &quot;${path.results}/coverage&quot;
-                       --configuration &quot;${path.tests}/phpunit.xml.dist&quot;"
+                       --configuration &quot;${project.basedir}/phpunit.xml.dist&quot;"
         />
         <phingcall target="vectors" />
     </target>
