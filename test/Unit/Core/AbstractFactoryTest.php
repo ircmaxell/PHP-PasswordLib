@@ -1,8 +1,8 @@
 <?php
 
-require_once 'vfsStream/vfsStream.php';
-
 use PasswordLibTest\Mocks\Core\Factory;
+
+use org\bovigo\vfs\vfsStream;
 
 class Unit_Core_AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 

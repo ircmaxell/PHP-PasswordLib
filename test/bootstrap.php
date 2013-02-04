@@ -49,5 +49,5 @@ function getTestDataFile($file) {
     return __DIR__ . '/Data/' . $file;
 }
 
-require_once dirname(__DIR__) . '/lib/PasswordLib/bootstrap.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 

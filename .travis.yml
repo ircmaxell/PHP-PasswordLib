@@ -6,7 +6,6 @@ php:
   - 5.3
 
 before_script:
-  - pear channel-discover pear.php-tools.net
-  - pear install pat/vfsStream
+  - composer install --dev
 
 script: phpunit --configuration phpunit.xml.dist test
