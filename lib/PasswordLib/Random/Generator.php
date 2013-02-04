@@ -108,7 +108,7 @@ class Generator {
             );
         }
 
-        $bits  = (int) floor(log($range, 2) + 1);
+        $bits  = $this->countBits($range) + 1;
         $bytes = (int) max(ceil($bits / 8), 1);
         $mask  = (int) (pow(2, $bits) - 1);
         /**
@@ -154,10 +154,12 @@ class Generator {
                           'ABCDEFGHIJKLMNOPQRSTUVWXYZ./';
         }
         // determine how many bytes to generate
-        // 1.01 is needed here because sometimes PHP thinks 6.0+1 < 7...
-        $bytes = ceil($length * floor(log(strlen($characters), 2) + 1.01) / 8);
+        // This is basically doing floor(log(strlen($characters)))
+        // But it's fixed to work properly for all numbers
+        $len   = strlen($characters);
+        $bytes = ceil($length * ($this->countBits($len) + 1) / 8);
+
         // determine mask for valid characters
-        $len    = strlen($characters);
         $mask   = 255 - (255 % $len);
         $result = '';
         do {
@@ -189,6 +191,24 @@ class Generator {
      */
     public function getSources() {
         return $this->sources;
+    }
+
+    /**
+     * Count the minimum number of bits to represent the provided number
+     *
+     * This is basically floor(log($number, 2))
+     * But avoids float precision issues
+     *
+     * @param int $number The number to count
+     *
+     * @return int The number of bits
+     */
+    protected function countBits($number) {
+        $log2 = 0;
+        while ($number >>= 1) {
+            $log2++;
+        }
+        return $log2;
     }
 
 }
