@@ -1,5 +1,9 @@
 #PHP-PasswordLib
 
+##Build Status
+
+[![Build Status](https://travis-ci.org/ircmaxell/PHP-PasswordLib.png?branch=master)](https://travis-ci.org/ircmaxell/PHP-PasswordLib)
+
 ##Version
 
 The current version is considered Beta.  This means that it is *ready enough* to test and use, but beware that you should update frequently.
