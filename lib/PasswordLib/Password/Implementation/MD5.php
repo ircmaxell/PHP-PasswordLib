@@ -43,7 +43,7 @@ class MD5 extends Crypt {
      * @return boolean Was the hash created by this method
      */
     public static function detect($hash) {
-        static $regex = '/^\$1\$[a-zA-Z0-9.\/]{12}\$[a-zA-Z0-9.\/]{22}/';
+        static $regex = '/^\$1\$[a-zA-Z0-9.\/]{8}\$[a-zA-Z0-9.\/]{22}/';
         return 1 == preg_match($regex, $hash);
     }
 
