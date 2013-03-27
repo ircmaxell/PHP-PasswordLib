@@ -32,10 +32,10 @@ abstract class BigMath {
      */
     public static function createFromServerConfiguration() {
         //@codeCoverageIgnoreStart
-        if (extension_loaded('bcmath')) {
-            return new \PasswordLib\Core\BigMath\BCMath();
-        } elseif (extension_loaded('gmp')) {
+        if (extension_loaded('gmp')) {
             return new \PasswordLib\Core\BigMath\GMP();
+        } elseif (extension_loaded('bcmath')) {
+            return new \PasswordLib\Core\BigMath\BCMath();
         } else {
             return new \PasswordLib\Core\BigMath\PHPMath();
         }
