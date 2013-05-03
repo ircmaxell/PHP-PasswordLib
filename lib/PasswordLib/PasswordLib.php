@@ -64,7 +64,8 @@ class PasswordLib {
      *
      * @param string $password The supplied password to attempt to verify
      * @param string $hash     The valid hash to verify against
-     * @throws \DomainException
+     *
+     * @throws \DomainException If the hash is invalid or impossible to verify
      * @return boolean Is the password valid
      */
     public function verifyPasswordHash($password, $hash) {
