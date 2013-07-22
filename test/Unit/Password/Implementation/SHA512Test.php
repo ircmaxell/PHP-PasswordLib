@@ -20,7 +20,7 @@ class Unit_Password_Implementation_SHA512Test extends Unit_Password_Implementati
             array('$2$07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
             array(SHA512::getPrefix() . '07$usesome illystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
             array(SHA512::getPrefix() . '01$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
-
+            array(SHA512::getPrefix() . "\xC2?<j\x9A\xE0\xC4\xFCK\x8F\xFD\x87csaO\$Oca/TbK.iCdURjqXCnoIyDNggbVF1FWwjxxUYRuYm6HAPPmQSDxWa3fSgzcPsTyVdjBv4JLBlj4c13YLOpP5f/", true),
         );
     }
 
