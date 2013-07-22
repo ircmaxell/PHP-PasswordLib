@@ -20,7 +20,7 @@ class Unit_Password_Implementation_SHA256Test extends Unit_Password_Implementati
             array('$2$07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
             array(SHA256::getPrefix() . '07$usesome illystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
             array(SHA256::getPrefix() . '01$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
-
+            array(SHA256::getPrefix() . "\xE4\"|\xF5|\x08\xC8'\xF054:>\x13\xCB\xED\$6I5JMX./GN9KGHTtvHwvp3mxkNv/Ni7/jomOEBgsiM.", true)
         );
     }
 
