@@ -186,7 +186,7 @@ You can bypass the auto-detection and manually verify:
     - **Crypt SHA256** - Crypt's SHA256 algorithm
     - **Crypt SHA512** - Crypt's SHA512 algorithm
 
- - Supported Random Number Sources
+  - Supported Random Number Sources
     - **CAPICOM**   - A COM object method call available on Windows systems
     - **MTRand**    - Generation based upon the mt_rand() functions
     - **MicroTime** - A low entropy source based upon the server's microtime
