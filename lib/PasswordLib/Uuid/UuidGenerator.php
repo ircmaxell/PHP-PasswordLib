@@ -127,8 +127,8 @@ class UuidGenerator {
 
         $randomString = $this->rng->generate(static::$uuidByteSize);
         $bytes = $this->getBytesOf($randomString);
-        $this->setVersionToUUID($bytes, static::UUID_VERSION_4);
-        $this->setVariantToUUID($bytes);
+        $this->setVersionToUuid($bytes, static::UUID_VERSION_4);
+        $this->setVariantToUuid($bytes);
         $hexString = $this->getHexadecimalOf($bytes);
 
         return $this->formatUuid($hexString);
@@ -210,60 +210,54 @@ class UuidGenerator {
      * Calculates the byte representation of a string.
      *
      * This method uses the PHP [unpack][1] function in order to get the byte
-     * representation of <var>string</var>.
+     * representation of `$string`.
      *
-     * Every character of <var>string</var> is expected to be one byte long. That
-     * goes to say that this method does not support multi-byte strings.
+     * Every character of `$string` is expected to be one byte long. That goes
+     * to say that this method does not support multi-byte strings.
      *
      * Moreover, the format of the array returned is the following:
-     * <code>
-     * array(
-     *     index: int => byte representation: int
-     * )
-     * </code>
      *
-     * The indices start from the number one. So, the first byte is given by
-     * code such as:
-     * <code>
-     * $bytes[1]
-     * </code>
+     *      array(
+     *          index: int => byte representation: int
+     *      )
+     *
+     * The indices start from one. So, the first byte is given by code such as:
+     *
+     *      $bytes[1]
      *
      * Furthermore, the representation is an integer in the space [0, 255].
      *
-     * <h3>Example</h3>
+     * ### Example ###
      *
      * The code below:
-     * <code>
-     * $bytes = getBytesOf("Hello, world!");
-     * print_r($bytes);
-     * </code>
+     *
+     *      $bytes = getBytesOf("Hello, world!");
+     *      print_r($bytes);
      *
      * would result in the following output:
-     * <code>
-     * Array (
-     *     [1] => 72
-     *     [2] => 101
-     *     [3] => 108
-     *     [4] => 108
-     *     [5] => 111
-     *     [6] => 32
-     *     [7] => 119
-     *     [8] => 111
-     *     [9] => 114
-     *     [10] => 108
-     *     [11] => 100
-     *     [12] => 33
-     * )
-     * </code>
+     *
+     *      Array (
+     *          [1] => 72
+     *          [2] => 101
+     *          [3] => 108
+     *          [4] => 108
+     *          [5] => 111
+     *          [6] => 32
+     *          [7] => 119
+     *          [8] => 111
+     *          [9] => 114
+     *          [10] => 108
+     *          [11] => 100
+     *          [12] => 33
+     *      )
      *
      *
      * [1]: http://php.net/manual/en/function.unpack.php "PHP unpack function"
      *
      * @param string $string The string whose byte representation this method
      * calculates.
-     * @return array The array containing the bytes of the <var>string</var>.
-     * Pay attention to the fact that the array's first index is one (and not
-     * zero).
+     * @return array The array containing the bytes of the `$string`. Pay attention
+     * to the fact that the array's first index is one (and not zero).
      * @throws \InvalidArgumentException if `$string` is null.
      */
     protected function getBytesOf($string) {
@@ -282,8 +276,7 @@ class UuidGenerator {
      *
      * @param array $bytes The array of bytes whose hexadecimal string representation
      * this method creates.
-     * @return string The string representation of <var>bytes</var> in hexadecimal
-     * notation.
+     * @return string The string representation of `$bytes` in hexadecimal notation.
      */
     protected function getHexadecimalOf(array $bytes) {
         $binaryString = call_user_func_array(
@@ -302,14 +295,13 @@ class UuidGenerator {
      *
      * The UUID is expected to be given in big-endian byte representation.
      *
-     * The variant is set by manipulating the <var>uuidBytes</var> with bitwise
-     * operations.
+     * The variant is set by manipulating the `$uuidBytes` with bitwise operations.
      *
      * @param array $uuidBytes The byte representation of the UUID.
      * @return void
      * @see http://tinyurl.com/bcd69xo
      */
-    protected function setVariantToUUID(array &$uuidBytes) {
+    protected function setVariantToUuid(array &$uuidBytes) {
         $uuidBytes[self::$variantByteIndex] &= 0x3f;
         $uuidBytes[self::$variantByteIndex] |= 0x80;
     }
@@ -319,20 +311,19 @@ class UuidGenerator {
      *
      * The UUID is expected to be given in big-endian byte representation.
      *
-     * The <var>version</var> is set by manipulating the <var>uuidBytes</var>
-     * with bitwise operations.
+     * `$version` is set by manipulating the `$uuidBytes` with bitwise operations.
      *
-     * It is due to the use of bitwise operators that <var>version</var> is
-     * expected in hexadecimal format. That is, version four should be given
-     * like this:
-     * <code>0x40</code>
+     * It is due to the use of bitwise operators that `$version` is expected in
+     * hexadecimal format. That is, version four should be given like this:
+     *
+     *      0x40
      *
      * @param array $uuidBytes The byte representation of the UUID.
      * @param int $version The integer in hexadecimal notation that denotes the
      * UUID version to be set.
      * @return void
      */
-    protected function setVersionToUUID(array &$uuidBytes, $version) {
+    protected function setVersionToUuid(array &$uuidBytes, $version) {
         $uuidBytes[self::$versionByteIndex] &= 0x0f;
         $uuidBytes[self::$versionByteIndex] |= $version;
     }
