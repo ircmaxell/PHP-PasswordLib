@@ -52,9 +52,26 @@ class UniqID implements \PasswordLib\Random\Source {
      */
     public function generate($size) {
         $result = '';
-        while (strlen($result) < $size) {
-            $result = uniqid($result, true);
+
+        if(defined('HHVM_VERSION')) {
+
+        	while (strlen($result) < $size) {
+
+        			$result = $result . uniqid('', true);
+        	}
+
+        } else {
+
+	        while (strlen($result) < $size) {
+
+	        	if(defined('HHVM_VERSION')) {
+					$result = $result . uniqid('', true);
+	        	} else {
+	            	$result = uniqid($result, true);
+	        	}
+	        }
         }
+
         return substr($result, 0, $size);
     }
 
