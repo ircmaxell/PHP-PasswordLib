@@ -276,3 +276,9 @@ Note: You can install all of them with the following commands:
   [1]: http://us.php.net/manual/en/book.mcrypt.php "MCrypt Book"
   [2]: http://www.ietf.org/rfc/rfc4086.txt "RFC 4086 - Randomness Requirements for Security"
   [3]: http://groups.google.com/group/php-standards/web/psr-0-final-proposal "PSR-0 Autoloading Final Proposal"
+
+
+Security Vulnerabilities
+========================
+
+If you have found a security issue, please contact the author directly at [me@ircmaxell.com](mailto:me@ircmaxell.com).
