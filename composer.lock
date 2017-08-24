@@ -1,5 +1,9 @@
 {
-    "hash": "bc20a38645558f91ae19a28e2e9950d4",
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "66ced95c19f95960857667c11709849a",
     "packages": [
 
     ],
@@ -9,19 +13,18 @@
             "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mikey179/vfsStream",
-                "reference": "v1.1.0"
+                "url": "https://github.com/mikey179/vfsStream.git",
+                "reference": "fc0fe8f4d0b527254a2dc45f0c265567c881d07e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/mikey179/vfsStream/zipball/v1.1.0",
-                "reference": "v1.1.0",
+                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/fc0fe8f4d0b527254a2dc45f0c265567c881d07e",
+                "reference": "fc0fe8f4d0b527254a2dc45f0c265567c881d07e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-08-25 05:49:29",
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -32,7 +35,8 @@
             "license": [
                 "BSD"
             ],
-            "homepage": "http://vfs.bovigo.org/"
+            "homepage": "http://vfs.bovigo.org/",
+            "time": "2012-08-25 12:49:29"
         }
     ],
     "aliases": [
@@ -40,6 +44,12 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": [
+
+    ],
+    "platform": {
+        "php": ">=5.3.2"
+    },
+    "platform-dev": [
 
     ]
 }
