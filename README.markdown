@@ -1,16 +1,16 @@
-#PHP-PasswordLib
+# PHP-PasswordLib
 
-##Build Status
+## Build Status
 
 [![Build Status](https://travis-ci.org/ircmaxell/PHP-PasswordLib.png?branch=master)](https://travis-ci.org/ircmaxell/PHP-PasswordLib)
 
-##Version
+## Version
 
 The current version is considered Beta.  This means that it is *ready enough* to test and use, but beware that you should update frequently.
 
 As this software is **BETA**, **Use at your own risk**!
 
-#About
+# About
 
 PHP-PasswordLib aims to be an all-inclusive cryptographic library for all cryptographic needs.  It is meant to be easy to install and use, yet extensible and powerful enough for even the most experienced developer.
 
@@ -77,7 +77,7 @@ The `PasswordLib` class has other API methods for getting random data.  Two of p
 The library also contains other methods for generating random data and hashing data, so look around!
 
 
-##Design Goals
+## Design Goals
 
  - **100% Portable**
 
@@ -103,9 +103,9 @@ The library also contains other methods for generating random data and hashing d
 
     The library should be very easy to extend and add new functionality.
 
-#Features
+# Features
 
-##Optional Autoloading
+## Optional Autoloading
 
 If you include PasswordLib via a PHAR package, it will automatically autoload all of the classes for you, no extra step necessary.  Simply:
 
@@ -126,7 +126,7 @@ You can also use any [PSR-0] [3] autoloader.  PasswordLib will automatically det
 
 Note that the path you supply is the directory which contains the *PasswordLib* directory.  Not the PasswordLib directory itself.
 
-##Secure Random Number/String Generation
+## Secure Random Number/String Generation
 
 PHP-PasswordLib implements a method specified in [RFC 4086 - Randomness Requirements for Security] [2].  Basically, it generates randomness from a number of pseudo random sources, and "mixes" them together to get better quality random data out.  When you specify the "strength" of random generator, you are actually telling the system which sources you would like to use.  The higher the strength, the slower and potentially more fragile the source it will use.
 
@@ -147,7 +147,7 @@ Or you can use the core generator to get more control:
 
 To generate salts, simple use PasswordLib::getRandomString() or Generator::generate()
 
-##Password Hashing And Validation
+## Password Hashing And Validation
 
 A number of password hashing algorithms are supported.  When creating a new hash, the algorithm is chosen via a prefix (a CRYPT() style prefix).  The library will do the rest (salt generation, etc):
 
@@ -170,7 +170,7 @@ You can bypass the auto-detection and manually verify:
         //Invalid Hash!
     }
 
-#Specifications
+# Specifications
 
   - Supported Password Storage Functions
     - **APR1**         - Apache's internal password function
@@ -194,24 +194,24 @@ You can bypass the auto-detection and manually verify:
     - **URandom**   - Generation from the system's /dev/urandom source
     - **UniqID**    - A low entropy source based upon uniqid()
 
-#Library Dependencies:
+# Library Dependencies:
 
 The only dependency PHP-PasswordLib has to use as a library is the PHP version.  It is made to be completely indepedent of extensions, implementing functionality natively where possible.
 
-##Required
+## Required
 
  - PHP >= 5.3.2
 
-##Optional
+## Optional
 
  - [MCrypt] [1] Support Compiled In
 
 
-#Build (Testing) Dependencies:
+# Build (Testing) Dependencies:
 
 These dependencies are necessary to build the project for your environment (including running unit tests, packaging and code-quality checks)
 
-##Pear Dependencies
+## Pear Dependencies
 
  - PDepend Channel (pear.pdepend.org)
    - pdepend/PHP_Depend >= 0.10.0
@@ -258,7 +258,7 @@ Note: You can install all of them with the following commands:
     pear install phing/Phing
 
 
-##PHP Dependencies
+## PHP Dependencies
 
  - PHP >= 5.3.2
    - `php.ini` Settings:
