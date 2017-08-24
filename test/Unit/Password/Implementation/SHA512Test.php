@@ -20,15 +20,15 @@ class Unit_Password_Implementation_SHA512Test extends Unit_Password_Implementati
             array('$2$07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
             array(SHA512::getPrefix() . '07$usesome illystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
             array(SHA512::getPrefix() . '01$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi', false),
-
+            array(SHA512::getPrefix() . "\xC2?<j\x9A\xE0\xC4\xFCK\x8F\xFD\x87csaO\$Oca/TbK.iCdURjqXCnoIyDNggbVF1FWwjxxUYRuYm6HAPPmQSDxWa3fSgzcPsTyVdjBv4JLBlj4c13YLOpP5f/", true),
         );
     }
 
     public static function provideTestCreate() {
         return array(
-            array(1000, 'foo', SHA512::getPrefix() . 'rounds=1000$................$DzEAWetj/cXAPD/tGmEgpqyosAIZjLaRQI5DKcZYKSGFbk.mGzvRkDy3skMGqnkS4jRvrFjObXjiv.i5Bnob41'),
-            array(1000, 'bar', SHA512::getPrefix() . 'rounds=1000$................$lKPnJbXtGAHAid5g7OPcHO3GZjaKv4osoaSPnNAq./mZ4dyGoq9IbAG8d9fcTJ1cxvEALMPki.mbzmNEHjY9b1'),
-            array(1000, 'baz', SHA512::getPrefix() . 'rounds=1000$................$WZTe6NH6a0MA4vcOjJ9nKZP2hLvr9GhPvYqlOargbJNpzQaluc5sEe.Ep/PF2D79haaMPsFRGsnA2YEW3d7wx1'),
+            array(1000, 'foo', SHA512::getPrefix() . "rounds=1000\$\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\$5yUq/cJAngIZ0sWBdbZ50jTCUDrMwA08nvnCWUiaCsi6PEuPaUoY8K7MS8IbLj8uE640rjnIF84x1ayZ5UDbq/"),
+            array(1000, 'bar', SHA512::getPrefix() . "rounds=1000\$\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\$CtKbNszU3gfdh4/aF/V5RNT2a8qljIs9JTINsFConxEvFO3ubFxUqojuOzxCPtqNtdkko/CYO3IGaiAn7ZxE20"),
+            array(1000, 'baz', SHA512::getPrefix() . "rounds=1000\$\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\$O6m4HWAD6AJo9oSPerzqDlBtGYQytvvtdz98lDwjxOmnlmZodLgtntMYN5l45qfWX54CqDJeS6AGQwXRh2/Ap."),
         );
     }
 
@@ -150,7 +150,7 @@ class Unit_Password_Implementation_SHA512Test extends Unit_Password_Implementati
 
     protected function getSHA512MockInstance($iterations) {
         $gen = $this->getRandomGenerator(function($size) {
-            return str_repeat(chr(0), $size);
+            return str_repeat(chr(1), $size);
         });
         return new SHA512(array('rounds' => $iterations), $gen);
     }
