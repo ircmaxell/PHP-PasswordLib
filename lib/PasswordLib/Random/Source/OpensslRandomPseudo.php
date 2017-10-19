@@ -66,10 +66,12 @@ class OpensslRandomPseudo implements \PasswordLib\Random\Source {
      * @return Strength An instance of one of the strength classes
      */
     public static function getStrength() {
-        if ( preg_match('/^LibreSSL/i', OPENSSL_VERSION_TEXT) !== 1 ) {
+        if (!defined('OPENSSL_VERSION_TEXT')) {
+            return new Strength(Strength::VERYLOW);
+        }
+        if (!preg_match('/^LibreSSL/i', OPENSSL_VERSION_TEXT)) {
             return new Strength(Strength::LOW);
         }
-
         return new Strength(Strength::MEDIUM);
     }
 
@@ -81,6 +83,9 @@ class OpensslRandomPseudo implements \PasswordLib\Random\Source {
      * @return string A string of the requested size
      */
     public function generate($size) {
+        if (!defined('OPENSSL_VERSION_TEXT')) {
+            return str_repeat(chr(0), $size);
+        }
         return openssl_random_pseudo_bytes($size);
     }
 
