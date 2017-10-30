@@ -153,26 +153,15 @@ class Generator {
             $characters = '0123456789abcdefghijklmnopqrstuvwxyz' .
                           'ABCDEFGHIJKLMNOPQRSTUVWXYZ./';
         }
-        // determine how many bytes to generate
-        // This is basically doing floor(log(strlen($characters)))
-        // But it's fixed to work properly for all numbers
-        $len   = strlen($characters);
-        $bytes = ceil($length * ($this->countBits($len) + 1) / 8);
 
-        // determine mask for valid characters
-        $mask   = 255 - (255 % $len);
-        $result = '';
-        do {
-            $rand = $this->generate($bytes);
-            for ($i = 0; $i < $bytes; $i++) {
-                if (ord($rand[$i]) > $mask) {
-                    continue;
-                }
-                $result .= $characters[ord($rand[$i]) % $len];
-            }
-        } while (strlen($result) < $length);
-        // We may over-generate, since we always use the entire buffer
-        return substr($result, 0, $length);
+        $result = str_repeat('D', $length);
+        $range = len($characters) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $j = $this->generateInt(0, $range);
+            $result{$i} = $characters{$j};
+        }
+
+        return $result;
     }
 
     /**
